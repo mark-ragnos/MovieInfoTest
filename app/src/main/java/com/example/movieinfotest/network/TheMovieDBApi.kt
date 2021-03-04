@@ -3,6 +3,7 @@ package com.example.movieinfotest.network
 import Genres
 import MovieDetails
 import PopularFilms
+import com.example.movieinfotest.network.response_classes.actors.FilmActors
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -39,6 +40,11 @@ interface TheMovieDBApi {
     //Получение списка жанров
     @GET("genre/movie/list?api_key=393a66787ff4b601eae377e5ec8b4d36")
     suspend fun getGenreList(): Response<List<Genres>>
+
+
+    //Получения списка актеров у фильма
+    @GET("movie/{movie_id}/credits?api_key=393a66787ff4b601eae377e5ec8b4d36")
+    suspend fun getCredits(@Path("movie_id") movieId: String): Response<FilmActors>
 
     companion object {
         private const val BASE_URL = "https://api.themoviedb.org/3/"

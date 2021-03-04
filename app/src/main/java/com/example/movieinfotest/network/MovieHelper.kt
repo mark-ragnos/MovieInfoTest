@@ -27,7 +27,7 @@ class MovieHelper {
     }
 
 
-    suspend fun getPopularList(page:Int): List<Results>? {
+    suspend fun getPopularList(page: Int): List<Results>? {
         val response = apiThe.getPopular(page)
         return response.body()?.results
     }

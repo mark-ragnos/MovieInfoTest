@@ -9,7 +9,11 @@
         android:id="@+id/favoriteList"
         android:name="com.example.movieinfotest.FavoriteList"
         android:label="fragment_favorite_list"
-        tools:layout="@layout/fragment_favorite_list" />
+        tools:layout="@layout/fragment_favorite_list" >
+        <action
+            android:id="@+id/action_favoriteList_to_movieInfo"
+            app:destination="@id/movieInfo" />
+    </fragment>
     <fragment
         android:id="@+id/generateMovie"
         android:name="com.example.movieinfotest.GenerateMovie"
@@ -19,7 +23,11 @@
         android:id="@+id/popularMovieList"
         android:name="com.example.movieinfotest.PopularMovieList"
         android:label="fragment_popular_movie_list"
-        tools:layout="@layout/fragment_popular_movie_list" />
+        tools:layout="@layout/fragment_popular_movie_list" >
+        <action
+            android:id="@+id/action_popularMovieList_to_movieInfo"
+            app:destination="@id/movieInfo" />
+    </fragment>
     <fragment
         android:id="@+id/movieInfo"
         android:name="com.example.movieinfotest.MovieInfo"
