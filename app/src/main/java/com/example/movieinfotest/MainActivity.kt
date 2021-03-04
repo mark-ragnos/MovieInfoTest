@@ -27,10 +27,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun print(message: String) {
-        Log.d(TEST, message)
-    }
-
 }
 
 /*
