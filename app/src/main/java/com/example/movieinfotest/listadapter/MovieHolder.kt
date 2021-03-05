@@ -1,19 +1,22 @@
 package com.example.movieinfotest.listadapter
 
-import android.view.TextureView
+
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movieinfotest.R
-import com.example.movieinfotest.databinding.ActivityMainBinding
 
 class MovieHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    private val name = itemView.findViewById<TextureView>(R.id.item_name)
-    private val rating = itemView.findViewById<TextureView>(R.id.item_rating)
-    private val image = itemView.findViewById<ImageView>(R.id.item_image)
+    var name: TextView
+    var rating: TextView
+    var image: ImageView
+
 
 
     init {
-
+        name = itemView.findViewById(R.id.item_name)
+        rating = itemView.findViewById(R.id.item_rating)
+        image = itemView.findViewById(R.id.item_image)
     }
 }

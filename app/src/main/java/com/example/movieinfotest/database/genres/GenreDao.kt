@@ -1,4 +1,4 @@
-package com.example.movieinfotest.database
+package com.example.movieinfotest.database.genres
 
 import Genres
 import androidx.room.Insert

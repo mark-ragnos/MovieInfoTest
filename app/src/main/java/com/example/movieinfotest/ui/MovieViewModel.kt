@@ -1,4 +1,4 @@
-package com.example.movieinfotest.database
+package com.example.movieinfotest.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

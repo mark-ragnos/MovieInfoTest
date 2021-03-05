@@ -3,34 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_main"
-    app:startDestination="@id/favoriteList">
+    app:startDestination="@id/movieInfo">
 
     <fragment
         android:id="@+id/favoriteList"
-        android:name="com.example.movieinfotest.FavoriteList"
+        android:name="com.example.movieinfotest.ui.favourite.FavoriteList"
         android:label="fragment_favorite_list"
-        tools:layout="@layout/fragment_favorite_list" >
-        <action
-            android:id="@+id/action_favoriteList_to_movieInfo"
-            app:destination="@id/movieInfo" />
-    </fragment>
+        tools:layout="@layout/fragment_favorite_list" />
     <fragment
         android:id="@+id/generateMovie"
-        android:name="com.example.movieinfotest.GenerateMovie"
+        android:name="com.example.movieinfotest.ui.random.GenerateMovie"
         android:label="fragment_generate_movie"
         tools:layout="@layout/fragment_generate_movie" />
     <fragment
         android:id="@+id/popularMovieList"
-        android:name="com.example.movieinfotest.PopularMovieList"
+        android:name="com.example.movieinfotest.ui.popular.PopularMovieList"
         android:label="fragment_popular_movie_list"
-        tools:layout="@layout/fragment_popular_movie_list" >
-        <action
-            android:id="@+id/action_popularMovieList_to_movieInfo"
-            app:destination="@id/movieInfo" />
-    </fragment>
+        tools:layout="@layout/fragment_popular_movie_list" />
     <fragment
         android:id="@+id/movieInfo"
-        android:name="com.example.movieinfotest.MovieInfo"
+        android:name="com.example.movieinfotest.ui.details.MovieInfo"
         android:label="fragment_movie_info"
         tools:layout="@layout/fragment_movie_info" />
 </navigation>

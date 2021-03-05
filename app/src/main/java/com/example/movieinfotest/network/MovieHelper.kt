@@ -3,6 +3,7 @@ package com.example.movieinfotest.network
 import Genres
 import MovieDetails
 import Results
+import com.example.movieinfotest.network.response_classes.actors.Actors
 import kotlin.random.Random
 import kotlin.random.nextInt
 
@@ -45,5 +46,10 @@ class MovieHelper {
     suspend fun getGenresList(): List<Genres>? {
         val response = apiThe.getGenreList()
         return response.body()
+    }
+
+    suspend fun getActorsList(id: String): List<Actors>? {
+        val response = apiThe.getCredits(id)
+        return response.body()?.cast
     }
 }
