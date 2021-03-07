@@ -1,9 +1,9 @@
 package com.example.movieinfotest.network
 
-import Genres
+import Genre
 import MovieDetails
 import PopularFilms
-import com.example.movieinfotest.network.response_classes.actors.FilmActors
+import com.example.movieinfotest.network.responses.actors.FilmActors
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -39,7 +39,7 @@ interface TheMovieDBApi {
 
     //Получение списка жанров
     @GET("genre/movie/list?api_key=393a66787ff4b601eae377e5ec8b4d36")
-    suspend fun getGenreList(): Response<List<Genres>>
+    suspend fun getGenreList(): Response<List<Genre>>
 
 
     //Получения списка актеров у фильма

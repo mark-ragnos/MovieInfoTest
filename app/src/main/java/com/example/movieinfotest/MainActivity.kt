@@ -1,5 +1,6 @@
 package com.example.movieinfotest
 
+import MovieDetails
 import Results
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -28,9 +29,8 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-
-
     }
+
 
     fun testList(){
         val movieAdapter = MovieAdapter()

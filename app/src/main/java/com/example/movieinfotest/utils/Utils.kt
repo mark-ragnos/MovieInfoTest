@@ -1,6 +1,8 @@
 package com.example.movieinfotest.utils
 
-import Genres
+import Genre
+import android.widget.ImageView
+import com.squareup.picasso.Picasso
 import kotlin.text.StringBuilder
 
 fun String.getYear():String{
@@ -8,7 +10,7 @@ fun String.getYear():String{
 }
 
 
-fun getGenreList(list: List<Genres>):String{
+fun getGenreList(list: List<Genre>):String{
     var result = StringBuilder()
     list.forEach {
         result.append(it.name)
@@ -18,6 +20,14 @@ fun getGenreList(list: List<Genres>):String{
     result.deleteCharAt(result.lastIndex)
 
     return result.toString()
+}
+
+fun ImageView.registerImage(path: String, x:Int=100, y:Int=150){
+    Picasso.get()
+        .load("https://www.themoviedb.org/t/p/w1280${path}")
+        .resize(x, y)
+        .centerCrop()
+        .into(this)
 }
 
 

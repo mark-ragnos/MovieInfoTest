@@ -1,9 +1,9 @@
 package com.example.movieinfotest.network
 
-import Genres
+import Genre
 import MovieDetails
 import Results
-import com.example.movieinfotest.network.response_classes.actors.Actors
+import com.example.movieinfotest.network.responses.actors.Actor
 import kotlin.random.Random
 import kotlin.random.nextInt
 
@@ -43,12 +43,12 @@ class MovieHelper {
         return response.body()?.results?.get(Random.nextInt(1..20))
     }
 
-    suspend fun getGenresList(): List<Genres>? {
+    suspend fun getGenresList(): List<Genre>? {
         val response = apiThe.getGenreList()
         return response.body()
     }
 
-    suspend fun getActorsList(id: String): List<Actors>? {
+    suspend fun getActorsList(id: String): List<Actor>? {
         val response = apiThe.getCredits(id)
         return response.body()?.cast
     }

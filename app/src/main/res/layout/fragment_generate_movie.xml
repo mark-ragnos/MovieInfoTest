@@ -1,13 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.random.GenerateMovie">
+    tools:context=".ui.random.RandomMovieFragment"
+    android:layout_margin="16dp">
 
-    <TextView
+
+    <Spinner
+        android:id="@+id/gen_genre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        app:layout_constraintStart_toEndOf="@+id/gen_tv_genre"
+        app:layout_constraintTop_toTopOf="@+id/gen_tv_genre" />
+
+    <Button
+        android:id="@+id/gen_btn_random"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="GENERATE"/>
+        android:layout_marginTop="24dp"
+        android:text="GET RANDOM"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gen_tv_genre" />
 
-</FrameLayout>
+    <ImageView
+        android:id="@+id/gen_poster"
+        android:layout_width="150dp"
+        android:layout_height="225dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gen_btn_random" />
+
+    <TextView
+        android:id="@+id/gen_name"
+        android:layout_width="74dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        app:layout_constraintStart_toEndOf="@+id/gen_poster"
+        app:layout_constraintTop_toTopOf="@+id/gen_poster" />
+
+    <TextView
+        android:id="@+id/gen_rating"
+        android:layout_width="78dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@+id/gen_name"
+        app:layout_constraintTop_toBottomOf="@+id/gen_name" />
+
+    <TextView
+        android:id="@+id/gen_tv_year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:viewBindingIgnore="true"/>
+
+    <TextView
+        android:id="@+id/gen_tv_genre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gen_tv_year"
+        tools:viewBindingIgnore="true"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

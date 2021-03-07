@@ -1,16 +1,15 @@
 package com.example.movieinfotest.database.genres
 
-import Genres
+import Genre
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import kotlinx.coroutines.flow.Flow
 
 interface GenreDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(genres: Genres)
+    fun save(genre: Genre)
 
     @Query("SELECT * FROM genres")
-    fun loadList():List<Genres>
+    fun loadList():List<Genre>
 
 }

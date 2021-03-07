@@ -1,6 +1,6 @@
-package com.example.movieinfotest.network.response_classes.actors
+package com.example.movieinfotest.network.responses.actors
 
-data class Actors(
+data class Actor(
     val id: Int,
     val gender: Int,
     val name: String,
