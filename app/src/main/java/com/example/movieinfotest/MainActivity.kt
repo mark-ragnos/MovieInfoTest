@@ -35,25 +35,25 @@ class MainActivity : AppCompatActivity() {
     fun testList(){
         val movieAdapter = MovieAdapter()
 
+        //settings Recycler View
         binding.rvTest.apply {
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(false)
             adapter = movieAdapter
         }
 
-        val helper = MovieHelper()
-
+        //Get data from paging
         val movies: Flow<PagingData<Results>> = Pager(PagingConfig(pageSize = 1)) {
-            MoviePagingSource(helper)
+            MoviePagingSource(Repository.create())
         }.flow
 
+        //Display data
         GlobalScope.launch {
             movies.collectLatest {
                 movieAdapter.submitData(it)
             }
         }
     }
-
 }
 
 /*

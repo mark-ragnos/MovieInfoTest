@@ -8,9 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentMovieInfoBinding
 import com.example.movieinfotest.network.MovieHelper
+import com.example.movieinfotest.ui.AppViewModelFactory
 import com.example.movieinfotest.utils.getGenreList
 import com.example.movieinfotest.utils.getYear
 import com.squareup.picasso.Picasso
@@ -20,6 +23,8 @@ import kotlinx.coroutines.launch
 
 class DetailsFragment : Fragment() {
     private lateinit var binding: FragmentMovieInfoBinding
+    private lateinit var viewModel: DetailsViewModel
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,7 +32,25 @@ class DetailsFragment : Fragment() {
     ): View? {
         binding = FragmentMovieInfoBinding.inflate(inflater, container, false)
 
+        viewModel = ViewModelProviders.of(
+            this,
+            AppViewModelFactory()
+        ).get(DetailsViewModel::class.java)
+        setupReadLifeData()
+
+        val saved = savedInstanceState?.getInt("ID")?:0
+        CoroutineScope(Dispatchers.Main).launch {
+            viewModel.sendID(saved!!)
+        }
+
         return binding.root
+    }
+
+    private fun setupReadLifeData(){
+        val detailObserver = Observer<MovieDetails>{
+            setMovie(it)
+        }
+        viewModel.getDetails().observe(viewLifecycleOwner, detailObserver)
     }
 
     private fun setMovie(details: MovieDetails){

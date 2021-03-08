@@ -14,7 +14,7 @@ class MovieAdapter : PagingDataAdapter<Results, MovieHolder>(MovieDiffCallback) 
         holder.name.text =
             getItem(position)?.title + " (${getItem(position)?.release_date?.getYear()})"
         holder.rating.text = getItem(position)?.vote_average.toString()
-
+        holder.id.text = getItem(position)?.id.toString()
         //Разница между шириной и высотой 1.5
         holder.image.registerImage(getItem(position)!!.poster_path)
 //        Picasso.get()
