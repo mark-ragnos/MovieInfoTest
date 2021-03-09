@@ -1,3 +1,6 @@
+package com.example.movieinfotest.network.responses.popular
+
+
 import com.google.gson.annotations.SerializedName
 
 

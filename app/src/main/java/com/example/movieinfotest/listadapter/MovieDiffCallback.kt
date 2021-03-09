@@ -1,7 +1,7 @@
 package com.example.movieinfotest.listadapter
 
-import Results
 import androidx.recyclerview.widget.DiffUtil
+import com.example.movieinfotest.network.responses.popular.Results
 
 object MovieDiffCallback : DiffUtil.ItemCallback<Results>() {
     override fun areItemsTheSame(oldItem: Results, newItem: Results): Boolean {

@@ -1,11 +1,11 @@
 package com.example.movieinfotest
 
-import Genre
-import MovieDetails
-import Results
 import com.example.movieinfotest.database.DatabaseHelper
 import com.example.movieinfotest.network.MovieHelper
 import com.example.movieinfotest.network.responses.actors.Actor
+import com.example.movieinfotest.network.responses.details.Genre
+import com.example.movieinfotest.network.responses.details.MovieDetails
+import com.example.movieinfotest.network.responses.popular.Results
 
 class Repository(
     private val apiHelper: MovieHelper,

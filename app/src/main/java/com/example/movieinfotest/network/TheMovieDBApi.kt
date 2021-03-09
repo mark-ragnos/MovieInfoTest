@@ -1,9 +1,9 @@
 package com.example.movieinfotest.network
 
-import Genre
-import MovieDetails
-import PopularFilms
 import com.example.movieinfotest.network.responses.actors.FilmActors
+import com.example.movieinfotest.network.responses.details.Genre
+import com.example.movieinfotest.network.responses.details.MovieDetails
+import com.example.movieinfotest.network.responses.popular.PopularFilms
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

@@ -1,4 +1,4 @@
-package com.example.movieinfotest.ui.favourite.actors
+package com.example.movieinfotest.ui.details.actors
 
 import android.view.LayoutInflater
 import android.view.View

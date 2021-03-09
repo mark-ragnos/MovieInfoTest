@@ -1,6 +1,5 @@
 package com.example.movieinfotest.ui.random
 
-import Results
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentGenerateMovieBinding
+import com.example.movieinfotest.network.responses.popular.Results
 import com.example.movieinfotest.ui.AppViewModelFactory
 import com.example.movieinfotest.ui.popular.PopularMovieListFragmentDirections
 import com.example.movieinfotest.utils.registerImage

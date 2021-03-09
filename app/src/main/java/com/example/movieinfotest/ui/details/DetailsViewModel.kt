@@ -1,12 +1,12 @@
 package com.example.movieinfotest.ui.details
 
 
-import MovieDetails
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.movieinfotest.Repository
 import com.example.movieinfotest.network.responses.actors.Actor
+import com.example.movieinfotest.network.responses.details.MovieDetails
 
 class DetailsViewModel(private val repository: Repository):ViewModel() {
 

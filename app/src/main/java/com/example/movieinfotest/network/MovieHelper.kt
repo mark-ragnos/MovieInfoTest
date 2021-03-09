@@ -1,10 +1,10 @@
 package com.example.movieinfotest.network
 
-import Genre
-import MovieDetails
-import Results
 import android.util.Log
 import com.example.movieinfotest.network.responses.actors.Actor
+import com.example.movieinfotest.network.responses.details.Genre
+import com.example.movieinfotest.network.responses.details.MovieDetails
+import com.example.movieinfotest.network.responses.popular.Results
 import kotlin.random.Random
 import kotlin.random.nextInt
 

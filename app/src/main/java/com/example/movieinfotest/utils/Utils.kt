@@ -1,7 +1,7 @@
 package com.example.movieinfotest.utils
 
-import Genre
 import android.widget.ImageView
+import com.example.movieinfotest.network.responses.details.Genre
 import com.squareup.picasso.Picasso
 import kotlin.text.StringBuilder
 

@@ -1,3 +1,7 @@
+package com.example.movieinfotest.network.responses.details
+
+
+import com.example.movieinfotest.network.responses.details.Genre
 import com.google.gson.annotations.SerializedName
 
 

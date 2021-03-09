@@ -1,6 +1,5 @@
 package com.example.movieinfotest.ui.details
 
-import MovieDetails
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,8 +10,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieinfotest.databinding.FragmentMovieInfoBinding
 import com.example.movieinfotest.network.responses.actors.Actor
+import com.example.movieinfotest.network.responses.details.MovieDetails
 import com.example.movieinfotest.ui.AppViewModelFactory
-import com.example.movieinfotest.ui.favourite.actors.ActorAdapter
+import com.example.movieinfotest.ui.details.actors.ActorAdapter
 import com.example.movieinfotest.utils.getGenreList
 import com.example.movieinfotest.utils.getYear
 import com.example.movieinfotest.utils.registerImage
@@ -41,7 +41,7 @@ class DetailsFragment : Fragment() {
         val saved = DetailsFragmentArgs.fromBundle(requireArguments()).id
 
         CoroutineScope(Dispatchers.Main).launch {
-            viewModel.sendID(saved!!)
+            viewModel.sendID(saved)
         }
 
 

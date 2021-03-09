@@ -1,6 +1,5 @@
 package com.example.movieinfotest.listadapter
 
-import Results
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,6 +8,7 @@ import androidx.navigation.NavHost
 import androidx.navigation.fragment.NavHostFragment
 import androidx.paging.PagingDataAdapter
 import com.example.movieinfotest.R
+import com.example.movieinfotest.network.responses.popular.Results
 import com.example.movieinfotest.utils.getYear
 import com.example.movieinfotest.utils.registerImage
 import com.squareup.picasso.Picasso
