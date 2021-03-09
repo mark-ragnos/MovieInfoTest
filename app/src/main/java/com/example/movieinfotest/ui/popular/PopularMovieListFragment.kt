@@ -1,11 +1,11 @@
 package com.example.movieinfotest.ui.popular
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -44,13 +44,17 @@ class PopularMovieListFragment : Fragment() {
     private fun setupUI() {
         //Adapter settings
         binding.rvPopularList.layoutManager = LinearLayoutManager(context)
-        binding.rvPopularList.adapter = MovieAdapter()
 
-        binding.rvPopularList.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putInt("ID", it.findViewById<TextView>(R.id.item_id).text.toString().toInt())
-            NavHostFragment.findNavController(this).navigate(R.id.action_popularMovieList_to_movieInfo, bundle)
+
+        val listener = object : MovieAdapter.MovieClickListener{
+            override fun OnClick(id: Int) {
+
+                val action = PopularMovieListFragmentDirections.actionPopularMovieListToMovieInfo(id)
+                NavHostFragment.findNavController(this@PopularMovieListFragment).navigate(action)
+            }
         }
+
+        binding.rvPopularList.adapter = MovieAdapter(listener)
 
         CoroutineScope(Dispatchers.Main).launch {
             viewModel.getFavorite().collectLatest {

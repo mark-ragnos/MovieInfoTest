@@ -1,25 +1,20 @@
 package com.example.movieinfotest
 
-import MovieDetails
-import Results
+
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import androidx.recyclerview.widget.LinearLayoutManager
+import android.util.Log
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.example.movieinfotest.databinding.ActivityMainBinding
-import com.example.movieinfotest.listadapter.MovieAdapter
-import com.example.movieinfotest.listadapter.MoviePagingSource
-import com.example.movieinfotest.network.MovieHelper
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collectLatest
+import java.lang.IllegalArgumentException
 
 //64561f5c70d6ee91504935b9f83a94a07455e910
 
 class MainActivity : AppCompatActivity() {
-    val TEST = "TEST"
 
     lateinit var binding: ActivityMainBinding
 
@@ -28,32 +23,11 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+        val navController = findNavController(R.id.fragment)
 
+        binding.bottomNavigation.setupWithNavController(navController)
     }
 
-
-    fun testList(){
-        val movieAdapter = MovieAdapter()
-
-        //settings Recycler View
-        binding.rvTest.apply {
-            layoutManager = LinearLayoutManager(context)
-            setHasFixedSize(false)
-            adapter = movieAdapter
-        }
-
-        //Get data from paging
-        val movies: Flow<PagingData<Results>> = Pager(PagingConfig(pageSize = 1)) {
-            MoviePagingSource(Repository.create())
-        }.flow
-
-        //Display data
-        GlobalScope.launch {
-            movies.collectLatest {
-                movieAdapter.submitData(it)
-            }
-        }
-    }
 }
 
 /*
@@ -70,7 +44,4 @@ class MainActivity : AppCompatActivity() {
 4. Список сохраненных фильмов (как у популярных + возможность сохранения)
 
 
-ВОПРОСЫ:
-1 - Парсинг лишних данных
-2 - OkHttp
  */

@@ -9,7 +9,7 @@
 
 
     <Spinner
-        android:id="@+id/gen_genre"
+        android:id="@+id/gen_in_genre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -27,7 +27,7 @@
         app:layout_constraintTop_toBottomOf="@+id/gen_tv_genre" />
 
     <ImageView
-        android:id="@+id/gen_poster"
+        android:id="@+id/gen_out_poster"
         android:layout_width="150dp"
         android:layout_height="225dp"
         android:layout_marginTop="24dp"
@@ -35,20 +35,20 @@
         app:layout_constraintTop_toBottomOf="@+id/gen_btn_random" />
 
     <TextView
-        android:id="@+id/gen_name"
+        android:id="@+id/gen_out_name"
         android:layout_width="74dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        app:layout_constraintStart_toEndOf="@+id/gen_poster"
-        app:layout_constraintTop_toTopOf="@+id/gen_poster" />
+        app:layout_constraintStart_toEndOf="@+id/gen_out_poster"
+        app:layout_constraintTop_toTopOf="@+id/gen_out_poster" />
 
     <TextView
-        android:id="@+id/gen_rating"
+        android:id="@+id/gen_out_rating"
         android:layout_width="78dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="@+id/gen_name"
-        app:layout_constraintTop_toBottomOf="@+id/gen_name" />
+        app:layout_constraintStart_toStartOf="@+id/gen_out_name"
+        app:layout_constraintTop_toBottomOf="@+id/gen_out_name" />
 
     <TextView
         android:id="@+id/gen_tv_year"

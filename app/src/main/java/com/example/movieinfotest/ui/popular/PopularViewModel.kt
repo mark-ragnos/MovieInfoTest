@@ -20,8 +20,4 @@ class PopularViewModel(private val repository: Repository) : ViewModel() {
     fun getFavorite(): Flow<PagingData<Results>> {
         return movies
     }
-
-    init {
-        Log.d("TAG", "Create")
-    }
 }

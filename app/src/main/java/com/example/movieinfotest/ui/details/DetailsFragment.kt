@@ -2,6 +2,7 @@ package com.example.movieinfotest.ui.details
 
 import MovieDetails
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,7 @@ import com.example.movieinfotest.network.MovieHelper
 import com.example.movieinfotest.ui.AppViewModelFactory
 import com.example.movieinfotest.utils.getGenreList
 import com.example.movieinfotest.utils.getYear
+import com.example.movieinfotest.utils.registerImage
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -38,7 +40,8 @@ class DetailsFragment : Fragment() {
         ).get(DetailsViewModel::class.java)
         setupReadLifeData()
 
-        val saved = savedInstanceState?.getInt("ID")?:0
+        val saved=  DetailsFragmentArgs.fromBundle(requireArguments()).id
+
         CoroutineScope(Dispatchers.Main).launch {
             viewModel.sendID(saved!!)
         }
@@ -59,12 +62,7 @@ class DetailsFragment : Fragment() {
         binding.infoGenres.text = getGenreList(details.genres)
         binding.infoName.text = details.title
         binding.infoRating.text = details.vote_average.toString()
-
-        Picasso.get()
-            .load("https://www.themoviedb.org/t/p/w1280${details.poster_path}")
-            .resize(200, 300)
-            .centerCrop()
-            .into(binding.infoPoster)
+        binding.infoPoster.registerImage(details.poster_path, x = 150, y = 225)
     }
 
 }

@@ -3,6 +3,7 @@ package com.example.movieinfotest.network
 import Genre
 import MovieDetails
 import Results
+import android.util.Log
 import com.example.movieinfotest.network.responses.actors.Actor
 import kotlin.random.Random
 import kotlin.random.nextInt
@@ -39,8 +40,9 @@ class MovieHelper {
     }
 
     suspend fun getRandomMovie(year: String, genre: String): Results? {
-        val response = apiThe.getRandomFilm(year, genre, Random.nextInt(1..1000))
-        return response.body()?.results?.get(Random.nextInt(1..20))
+        Log.d("TEST", "i'm here")
+        val response = apiThe.getRandomFilm(year, genre, Random.nextInt(0..100))
+        return response.body()?.results?.get(Random.nextInt(0..19))
     }
 
     suspend fun getGenresList(): List<Genre>? {

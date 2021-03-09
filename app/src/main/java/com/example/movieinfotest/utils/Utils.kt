@@ -22,6 +22,9 @@ fun getGenreList(list: List<Genre>):String{
     return result.toString()
 }
 
+/**
+ * Соотношение постеров у = х * 1.5
+ */
 fun ImageView.registerImage(path: String, x:Int=100, y:Int=150){
     Picasso.get()
         .load("https://www.themoviedb.org/t/p/w1280${path}")
