@@ -8,8 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieinfotest.databinding.FragmentMovieInfoBinding
+import com.example.movieinfotest.network.responses.actors.Actor
 import com.example.movieinfotest.ui.AppViewModelFactory
+import com.example.movieinfotest.ui.favourite.actors.ActorAdapter
 import com.example.movieinfotest.utils.getGenreList
 import com.example.movieinfotest.utils.getYear
 import com.example.movieinfotest.utils.registerImage
@@ -32,6 +35,7 @@ class DetailsFragment : Fragment() {
             this,
             AppViewModelFactory()
         ).get(DetailsViewModel::class.java)
+
         setupReadLifeData()
 
         val saved = DetailsFragmentArgs.fromBundle(requireArguments()).id
@@ -39,6 +43,7 @@ class DetailsFragment : Fragment() {
         CoroutineScope(Dispatchers.Main).launch {
             viewModel.sendID(saved!!)
         }
+
 
         return binding.root
     }
@@ -48,6 +53,11 @@ class DetailsFragment : Fragment() {
             setMovie(it)
         }
         viewModel.getDetails().observe(viewLifecycleOwner, detailObserver)
+
+        val actorObserver = Observer<List<Actor>>{
+            setActors(it)
+        }
+        viewModel.getActors().observe(viewLifecycleOwner, actorObserver)
     }
 
     private fun setMovie(details: MovieDetails) {
@@ -59,4 +69,11 @@ class DetailsFragment : Fragment() {
         binding.infoPoster.registerImage(details.poster_path, x = 150, y = 225)
     }
 
+    private fun setActors(list: List<Actor>){
+        val manager = LinearLayoutManager(context)
+        manager.orientation = LinearLayoutManager.HORIZONTAL
+
+        binding.lvActors.layoutManager = manager
+        binding.lvActors.adapter = ActorAdapter(list)
+    }
 }

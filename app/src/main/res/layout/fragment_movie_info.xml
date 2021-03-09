@@ -72,7 +72,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lv_actors"
         android:layout_width="match_parent"
-        android:layout_height="460dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/info_genres"
         tools:listitem="@layout/item_actor_list"
