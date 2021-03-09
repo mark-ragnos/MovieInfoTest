@@ -13,7 +13,8 @@ import com.example.movieinfotest.utils.getYear
 import com.example.movieinfotest.utils.registerImage
 import com.squareup.picasso.Picasso
 
-class MovieAdapter(val listener: MovieClickListener) : PagingDataAdapter<Results, MovieHolder>(MovieDiffCallback) {
+class MovieAdapter(val listener: MovieClickListener) :
+    PagingDataAdapter<Results, MovieHolder>(MovieDiffCallback) {
     override fun onBindViewHolder(holder: MovieHolder, position: Int) {
         holder.name.text =
             getItem(position)?.title + " (${getItem(position)?.release_date?.getYear()})"
@@ -26,7 +27,7 @@ class MovieAdapter(val listener: MovieClickListener) : PagingDataAdapter<Results
         }
     }
 
-    interface MovieClickListener{
+    interface MovieClickListener {
         fun OnClick(id: Int)
     }
 

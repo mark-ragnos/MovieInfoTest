@@ -9,7 +9,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import androidx.room.Room
+import com.example.movieinfotest.database.MovieDatabase
 import com.example.movieinfotest.databinding.ActivityMainBinding
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 
 //64561f5c70d6ee91504935b9f83a94a07455e910
@@ -24,8 +28,26 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
         val navController = findNavController(R.id.fragment)
-
+        //test()
         binding.bottomNavigation.setupWithNavController(navController)
+    }
+
+    fun test() {
+        val db = Room.databaseBuilder(applicationContext, MovieDatabase::class.java, "db_movie.db")
+            .build()
+        val repository = Repository.create()
+
+        GlobalScope.launch {
+            db.genreDao().saveAll(repository.getAllGenres())
+
+            Log.d("TEST", "All genres added")
+
+            val res = db.genreDao().loadAll()
+
+            res.forEach {
+                Log.d("TEST", "ID: ${it.id}, NAME: ${it.name}")
+            }
+        }
     }
 
 }

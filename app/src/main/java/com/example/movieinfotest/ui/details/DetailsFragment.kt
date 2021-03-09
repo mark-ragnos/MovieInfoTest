@@ -2,23 +2,17 @@ package com.example.movieinfotest.ui.details
 
 import MovieDetails
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentMovieInfoBinding
-import com.example.movieinfotest.network.MovieHelper
 import com.example.movieinfotest.ui.AppViewModelFactory
 import com.example.movieinfotest.utils.getGenreList
 import com.example.movieinfotest.utils.getYear
 import com.example.movieinfotest.utils.registerImage
-import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -40,7 +34,7 @@ class DetailsFragment : Fragment() {
         ).get(DetailsViewModel::class.java)
         setupReadLifeData()
 
-        val saved=  DetailsFragmentArgs.fromBundle(requireArguments()).id
+        val saved = DetailsFragmentArgs.fromBundle(requireArguments()).id
 
         CoroutineScope(Dispatchers.Main).launch {
             viewModel.sendID(saved!!)
@@ -49,14 +43,14 @@ class DetailsFragment : Fragment() {
         return binding.root
     }
 
-    private fun setupReadLifeData(){
-        val detailObserver = Observer<MovieDetails>{
+    private fun setupReadLifeData() {
+        val detailObserver = Observer<MovieDetails> {
             setMovie(it)
         }
         viewModel.getDetails().observe(viewLifecycleOwner, detailObserver)
     }
 
-    private fun setMovie(details: MovieDetails){
+    private fun setMovie(details: MovieDetails) {
         binding.infoDate.text = details.release_date.getYear()
         binding.infoDescription.text = details.overview
         binding.infoGenres.text = getGenreList(details.genres)

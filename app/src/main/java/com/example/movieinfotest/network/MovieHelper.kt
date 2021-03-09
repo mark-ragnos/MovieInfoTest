@@ -19,15 +19,6 @@ class MovieHelper {
         apiThe = TheMovieDBApi.create()
     }
 
-    suspend fun test(): String {
-        var c = apiThe.getRandomFilm("2000", "12", 2)
-        var res = c.body()
-        if (res != null) {
-            return res.results.size.toString()
-        }
-        return "ERROR"
-    }
-
 
     suspend fun getPopularList(page: Int): List<Results>? {
         val response = apiThe.getPopular(page)
@@ -40,9 +31,10 @@ class MovieHelper {
     }
 
     suspend fun getRandomMovie(year: String, genre: String): Results? {
-        Log.d("TEST", "i'm here")
-        val response = apiThe.getRandomFilm(year, genre, Random.nextInt(0..100))
-        return response.body()?.results?.get(Random.nextInt(0..19))
+        val pages = apiThe.getRandomFilm(year, genre, 1).body()!!.total_pages
+        val response = apiThe.getRandomFilm(year, genre, Random.nextInt(1..pages)).body()
+        if (response == null) Log.d("TEST", "TIME")
+        return response!!.results.get(Random.nextInt(response!!.results.indices))
     }
 
     suspend fun getGenresList(): List<Genre>? {

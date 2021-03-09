@@ -8,9 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.NavHostFragment
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentGenerateMovieBinding
 import com.example.movieinfotest.ui.AppViewModelFactory
+import com.example.movieinfotest.ui.popular.PopularMovieListFragmentDirections
 import com.example.movieinfotest.utils.registerImage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -40,10 +42,22 @@ class RandomMovieFragment : Fragment() {
         return binding.root
     }
 
+    private var accessToMove = false
+
     private fun setupUI() {
         binding.genBtnRandom.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
-                viewModel.generateRandom("12", "2000")
+                viewModel.generateRandom("12", "2020")
+                accessToMove = true
+            }
+        }
+
+        binding.genResult.setOnClickListener {
+            if (accessToMove) {
+                val action = RandomMovieFragmentDirections.actionGenerateMovieToMovieInfo(
+                    binding.genOutId.text.toString().toInt()
+                )
+                NavHostFragment.findNavController(this).navigate(action)
             }
         }
     }
@@ -59,6 +73,7 @@ class RandomMovieFragment : Fragment() {
         binding.genOutPoster.registerImage(movie.poster_path, x = 150, y = 225)
         binding.genOutRating.text = movie.vote_average.toString()
         binding.genOutName.text = movie.title
+        binding.genOutId.text = movie.id.toString()
     }
 
 }

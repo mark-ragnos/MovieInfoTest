@@ -46,10 +46,11 @@ class PopularMovieListFragment : Fragment() {
         binding.rvPopularList.layoutManager = LinearLayoutManager(context)
 
 
-        val listener = object : MovieAdapter.MovieClickListener{
+        val listener = object : MovieAdapter.MovieClickListener {
             override fun OnClick(id: Int) {
 
-                val action = PopularMovieListFragmentDirections.actionPopularMovieListToMovieInfo(id)
+                val action =
+                    PopularMovieListFragmentDirections.actionPopularMovieListToMovieInfo(id)
                 NavHostFragment.findNavController(this@PopularMovieListFragment).navigate(action)
             }
         }

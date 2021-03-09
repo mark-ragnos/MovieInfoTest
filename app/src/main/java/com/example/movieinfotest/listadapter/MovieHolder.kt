@@ -11,7 +11,7 @@ class MovieHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     var name: TextView
     var rating: TextView
     var image: ImageView
-    var id:TextView
+    var id: TextView
 
 
     init {
