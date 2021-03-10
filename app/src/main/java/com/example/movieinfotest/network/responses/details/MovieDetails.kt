@@ -1,18 +1,20 @@
 package com.example.movieinfotest.network.responses.details
 
 
-import com.example.movieinfotest.network.responses.details.Genre
-import com.google.gson.annotations.SerializedName
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.Relation
+import com.example.movieinfotest.network.responses.genre.Genre
 
-
+@Entity
 data class MovieDetails(
 
-
-    @SerializedName("id") val id: Int,
-    @SerializedName("title") val title: String,
-    @SerializedName("vote_average") val vote_average: Double,
-    @SerializedName("overview") val overview: String,
-    @SerializedName("release_date") val release_date: String,
-    @SerializedName("genres") val genres: List<Genre>,
+    @PrimaryKey
+    val id: Int,
+    val title: String,
+    val vote_average: Double,
+    val overview: String,
+    val release_date: String,
+    val genres: List<Genre>,
     val poster_path: String
 )

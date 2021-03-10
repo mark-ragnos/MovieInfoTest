@@ -1,8 +1,9 @@
 package com.example.movieinfotest.network
 
 import com.example.movieinfotest.network.responses.actors.FilmActors
-import com.example.movieinfotest.network.responses.details.Genre
+import com.example.movieinfotest.network.responses.genre.Genre
 import com.example.movieinfotest.network.responses.details.MovieDetails
+import com.example.movieinfotest.network.responses.genre.GenreCollection
 import com.example.movieinfotest.network.responses.popular.PopularFilms
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -39,7 +40,7 @@ interface TheMovieDBApi {
 
     //Получение списка жанров
     @GET("genre/movie/list?api_key=393a66787ff4b601eae377e5ec8b4d36")
-    suspend fun getGenreList(): Response<List<Genre>>
+    suspend fun getGenreList(): Response<GenreCollection>
 
 
     //Получения списка актеров у фильма

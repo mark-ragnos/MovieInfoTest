@@ -8,11 +8,9 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
-import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentGenerateMovieBinding
-import com.example.movieinfotest.network.responses.popular.Results
+import com.example.movieinfotest.network.responses.popular.Movie
 import com.example.movieinfotest.ui.AppViewModelFactory
-import com.example.movieinfotest.ui.popular.PopularMovieListFragmentDirections
 import com.example.movieinfotest.utils.registerImage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -47,7 +45,8 @@ class RandomMovieFragment : Fragment() {
     private fun setupUI() {
         binding.genBtnRandom.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
-                viewModel.generateRandom("12", "2020")
+                accessToMove = false
+                viewModel.generateRandom("10752", "2020")
                 accessToMove = true
             }
         }
@@ -63,13 +62,13 @@ class RandomMovieFragment : Fragment() {
     }
 
     private fun setupReadLifeData() {
-        val detailObserver = Observer<Results> {
+        val detailObserver = Observer<Movie> {
             setMovie(it)
         }
         viewModel.getRandom().observe(viewLifecycleOwner, detailObserver)
     }
 
-    private fun setMovie(movie: Results) {
+    private fun setMovie(movie: Movie) {
         binding.genOutPoster.registerImage(movie.poster_path, x = 150, y = 225)
         binding.genOutRating.text = movie.vote_average.toString()
         binding.genOutName.text = movie.title

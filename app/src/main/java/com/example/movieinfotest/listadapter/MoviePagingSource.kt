@@ -3,20 +3,20 @@ package com.example.movieinfotest.listadapter
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.movieinfotest.Repository
-import com.example.movieinfotest.network.responses.popular.Results
+import com.example.movieinfotest.network.responses.popular.Movie
 import java.lang.Exception
 
-class MoviePagingSource(var repository: Repository) : PagingSource<Int, Results>() {
+class MoviePagingSource(var repository: Repository) : PagingSource<Int, Movie>() {
 
-    override fun getRefreshKey(state: PagingState<Int, Results>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, Movie>): Int? {
         TODO("Not yet implemented")
     }
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Results> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {
         try {
             val currencyPage = params.key ?: 1
             val response = repository.getPopular(currencyPage)
-            val respdata = mutableListOf<Results>()
+            val respdata = mutableListOf<Movie>()
             if (response != null) {
                 respdata.addAll(response)
             }

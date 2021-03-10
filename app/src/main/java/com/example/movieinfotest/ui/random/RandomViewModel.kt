@@ -4,14 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.movieinfotest.Repository
-import com.example.movieinfotest.network.responses.popular.Results
+import com.example.movieinfotest.network.responses.popular.Movie
 
 class RandomViewModel(private val repository: Repository) : ViewModel() {
-    private val movieDetails: MutableLiveData<Results> by lazy {
-        MutableLiveData<Results>()
+    private val movieDetails: MutableLiveData<Movie> by lazy {
+        MutableLiveData<Movie>()
     }
 
-    fun getRandom(): LiveData<Results> {
+    fun getRandom(): LiveData<Movie> {
         return movieDetails
     }
 

@@ -33,8 +33,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun test() {
-        val db = Room.databaseBuilder(applicationContext, MovieDatabase::class.java, "db_movie.db")
-            .build()
+        val db = MovieApp.getInstance().getDatabase()
         val repository = Repository.create()
 
         GlobalScope.launch {
@@ -47,6 +46,12 @@ class MainActivity : AppCompatActivity() {
             res.forEach {
                 Log.d("TEST", "ID: ${it.id}, NAME: ${it.name}")
             }
+        }
+    }
+
+    companion object{
+        fun makeRepository(){
+            Repository.create()
         }
     }
 
