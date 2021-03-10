@@ -1,7 +1,6 @@
 package com.example.movieinfotest.ui.popular
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,9 +8,8 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentFavoriteListBinding
-import com.example.movieinfotest.listadapter.MovieAdapter
+import com.example.movieinfotest.ui.popular.adapter.MovieAdapter
 import com.example.movieinfotest.ui.AppViewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

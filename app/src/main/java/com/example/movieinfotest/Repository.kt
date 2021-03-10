@@ -31,7 +31,12 @@ class Repository(
     }
 
     suspend fun getAllGenres(): List<Genre> {
-        return apiHelper.getGenresList()!!
+        if(databaseHelper.getAllGenres().isEmpty())
+            addAllGenres()
+        return databaseHelper.getAllGenres()
+    }
+    private suspend fun addAllGenres(){
+        databaseHelper.addAllGenres(apiHelper.getGenresList()!!)
     }
 
     suspend fun getFavorite(): List<Movie> {

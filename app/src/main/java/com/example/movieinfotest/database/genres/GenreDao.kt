@@ -10,9 +10,9 @@ import com.example.movieinfotest.network.responses.genre.Genre
 @Dao
 interface GenreDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun saveAll(genres: List<Genre>)
+    suspend fun saveAll(genres: List<Genre>)
 
     @Query("SELECT * FROM genre")
-    fun loadAll():List<Genre>
+    suspend fun loadAll():List<Genre>
 
 }

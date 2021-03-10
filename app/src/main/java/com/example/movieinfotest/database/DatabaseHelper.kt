@@ -2,6 +2,7 @@ package com.example.movieinfotest.database
 
 import com.example.movieinfotest.MovieApp
 import com.example.movieinfotest.network.responses.genre.Genre
+import com.example.movieinfotest.network.responses.popular.Movie
 
 class DatabaseHelper() {
     private val database: MovieDatabase = MovieApp.getInstance().getDatabase()
@@ -19,5 +20,11 @@ class DatabaseHelper() {
     //Сохранение в избранное
 
     //Сохранение в избранное списком
+
+
+    suspend fun addMovieList(movies: List<Movie>){
+        database.movieDao().saveMovieList(movies)
+    }
+
 
 }

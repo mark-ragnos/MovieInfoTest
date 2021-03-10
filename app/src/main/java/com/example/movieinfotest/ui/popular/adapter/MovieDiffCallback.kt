@@ -1,4 +1,4 @@
-package com.example.movieinfotest.listadapter
+package com.example.movieinfotest.ui.popular.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 import com.example.movieinfotest.network.responses.popular.Movie
