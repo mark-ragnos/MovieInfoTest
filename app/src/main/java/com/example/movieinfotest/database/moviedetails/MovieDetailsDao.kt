@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.movieinfotest.network.responses.details.MovieDetails
+import com.example.movieinfotest.models.details.MovieDetails
 
 
 @Dao

@@ -1,11 +1,16 @@
-package com.example.movieinfotest
+package com.example.movieinfotest.repositories
 
+import androidx.paging.*
+import com.example.movieinfotest.MovieApp
 import com.example.movieinfotest.database.DatabaseHelper
 import com.example.movieinfotest.network.MovieHelper
-import com.example.movieinfotest.network.responses.actors.Actor
-import com.example.movieinfotest.network.responses.genre.Genre
-import com.example.movieinfotest.network.responses.details.MovieDetails
-import com.example.movieinfotest.network.responses.popular.Movie
+import com.example.movieinfotest.models.actors.Actor
+import com.example.movieinfotest.models.genre.Genre
+import com.example.movieinfotest.models.details.MovieDetails
+import com.example.movieinfotest.models.popular.Movie
+import com.example.movieinfotest.models.popular.PopularFilms
+import com.example.movieinfotest.network.TheMovieDBApi
+import kotlinx.coroutines.flow.Flow
 
 class Repository(
     private val apiHelper: MovieHelper,
@@ -31,11 +36,12 @@ class Repository(
     }
 
     suspend fun getAllGenres(): List<Genre> {
-        if(databaseHelper.getAllGenres().isEmpty())
+        if (databaseHelper.getAllGenres().isEmpty())
             addAllGenres()
         return databaseHelper.getAllGenres()
     }
-    private suspend fun addAllGenres(){
+
+    private suspend fun addAllGenres() {
         databaseHelper.addAllGenres(apiHelper.getGenresList()!!)
     }
 

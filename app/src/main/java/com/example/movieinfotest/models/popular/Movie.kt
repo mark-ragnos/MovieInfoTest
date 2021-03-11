@@ -1,9 +1,8 @@
-package com.example.movieinfotest.network.responses.popular
+package com.example.movieinfotest.models.popular
 
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.google.gson.annotations.SerializedName
 
 @Entity
 data class Movie(

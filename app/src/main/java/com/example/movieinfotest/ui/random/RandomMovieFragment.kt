@@ -9,7 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
 import com.example.movieinfotest.databinding.FragmentGenerateMovieBinding
-import com.example.movieinfotest.network.responses.popular.Movie
+import com.example.movieinfotest.models.popular.Movie
 import com.example.movieinfotest.ui.AppViewModelFactory
 import com.example.movieinfotest.utils.registerImage
 import kotlinx.coroutines.CoroutineScope

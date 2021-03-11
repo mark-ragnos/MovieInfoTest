@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movieinfotest.R
-import com.example.movieinfotest.network.responses.actors.Actor
+import com.example.movieinfotest.models.actors.Actor
 import com.example.movieinfotest.utils.registerImage
 
 class ActorAdapter(private val list: List<Actor> ):RecyclerView.Adapter<ActorAdapter.ActorHolder>() {

@@ -19,9 +19,15 @@ class MovieLoadingStateAdapter(private val adapter: MovieAdapter) :
     ) :
         RecyclerView.ViewHolder(binding.root) {
 
+        init {
+            binding.retryButton.setOnClickListener {
+                retryCallback.invoke()
+            }
+        }
+
         fun bind(loadState: LoadState) {
             with(binding) {
-                if(loadState is LoadState.Error){
+                if (loadState is LoadState.Error) {
                     errorMsg.text = loadState.error.localizedMessage
                 }
                 progressBar.isVisible = loadState is LoadState.Loading

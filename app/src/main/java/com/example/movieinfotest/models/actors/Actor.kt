@@ -1,4 +1,4 @@
-package com.example.movieinfotest.network.responses.actors
+package com.example.movieinfotest.models.actors
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

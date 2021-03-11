@@ -2,7 +2,7 @@ package com.example.movieinfotest.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.movieinfotest.Repository
+import com.example.movieinfotest.repositories.Repository
 import com.example.movieinfotest.ui.details.DetailsViewModel
 import com.example.movieinfotest.ui.favourite.FavoriteViewModel
 import com.example.movieinfotest.ui.popular.PopularViewModel

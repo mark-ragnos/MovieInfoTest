@@ -1,8 +1,8 @@
 package com.example.movieinfotest.database
 
 import com.example.movieinfotest.MovieApp
-import com.example.movieinfotest.network.responses.genre.Genre
-import com.example.movieinfotest.network.responses.popular.Movie
+import com.example.movieinfotest.models.genre.Genre
+import com.example.movieinfotest.models.popular.Movie
 
 class DatabaseHelper() {
     private val database: MovieDatabase = MovieApp.getInstance().getDatabase()

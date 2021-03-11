@@ -4,17 +4,12 @@ package com.example.movieinfotest
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import androidx.room.Room
-import com.example.movieinfotest.database.MovieDatabase
 import com.example.movieinfotest.databinding.ActivityMainBinding
+import com.example.movieinfotest.repositories.Repository
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import java.lang.IllegalArgumentException
 
 //64561f5c70d6ee91504935b9f83a94a07455e910
 

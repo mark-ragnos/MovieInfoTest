@@ -9,8 +9,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieinfotest.databinding.FragmentMovieInfoBinding
-import com.example.movieinfotest.network.responses.actors.Actor
-import com.example.movieinfotest.network.responses.details.MovieDetails
+import com.example.movieinfotest.models.actors.Actor
+import com.example.movieinfotest.models.details.MovieDetails
 import com.example.movieinfotest.ui.AppViewModelFactory
 import com.example.movieinfotest.ui.details.actors.ActorAdapter
 import com.example.movieinfotest.utils.getGenreList

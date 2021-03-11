@@ -4,9 +4,9 @@ package com.example.movieinfotest.ui.details
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.movieinfotest.Repository
-import com.example.movieinfotest.network.responses.actors.Actor
-import com.example.movieinfotest.network.responses.details.MovieDetails
+import com.example.movieinfotest.repositories.Repository
+import com.example.movieinfotest.models.actors.Actor
+import com.example.movieinfotest.models.details.MovieDetails
 
 class DetailsViewModel(private val repository: Repository):ViewModel() {
 

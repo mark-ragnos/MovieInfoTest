@@ -1,9 +1,9 @@
-package com.example.movieinfotest.listadapter
+package com.example.movieinfotest.repositories
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.movieinfotest.Repository
-import com.example.movieinfotest.network.responses.popular.Movie
+import com.example.movieinfotest.repositories.Repository
+import com.example.movieinfotest.models.popular.Movie
 import java.lang.Exception
 
 class MoviePagingSource(var repository: Repository) : PagingSource<Int, Movie>() {

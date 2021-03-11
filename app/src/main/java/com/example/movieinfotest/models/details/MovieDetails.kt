@@ -1,10 +1,9 @@
-package com.example.movieinfotest.network.responses.details
+package com.example.movieinfotest.models.details
 
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.Relation
-import com.example.movieinfotest.network.responses.genre.Genre
+import com.example.movieinfotest.models.genre.Genre
 
 @Entity
 data class MovieDetails(

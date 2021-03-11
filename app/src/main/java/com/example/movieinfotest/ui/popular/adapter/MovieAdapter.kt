@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import com.example.movieinfotest.R
-import com.example.movieinfotest.network.responses.popular.Movie
+import com.example.movieinfotest.models.popular.Movie
 import com.example.movieinfotest.utils.getYear
 import com.example.movieinfotest.utils.registerImage
 

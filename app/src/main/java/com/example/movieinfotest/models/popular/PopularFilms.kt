@@ -1,4 +1,4 @@
-package com.example.movieinfotest.network.responses.popular
+package com.example.movieinfotest.models.popular
 
 
 

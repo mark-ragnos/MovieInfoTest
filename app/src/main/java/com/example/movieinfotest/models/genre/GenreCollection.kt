@@ -1,4 +1,4 @@
-package com.example.movieinfotest.network.responses.genre
+package com.example.movieinfotest.models.genre
 
 data class GenreCollection(
     val genres: List<Genre>
