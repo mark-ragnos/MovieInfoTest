@@ -21,6 +21,19 @@ class Repository(
         return apiHelper.getPopularList(page)
     }
 
+
+    @OptIn(ExperimentalPagingApi::class)
+    fun getPopularNew(): Flow<PagingData<Movie>> {
+        val database = MovieApp.getInstance().getDatabase()
+
+        val pagingSourceFactory = { database.movieDao().loadMovies() }
+        return Pager(
+            config = PagingConfig(20, enablePlaceholders = true),
+            remoteMediator = MovieRemoteMediator(apiHelper, database),
+            pagingSourceFactory = pagingSourceFactory
+        ).flow
+    }
+
     suspend fun getRandom(year: String, genre: String): Movie? {
         return apiHelper.getRandomMovie(year, genre)
     }

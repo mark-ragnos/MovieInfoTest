@@ -14,7 +14,6 @@ class PopularViewModel(private val repository: Repository) : ViewModel() {
     }.flow
 
     fun getFavorite(): Flow<PagingData<Movie>> {
-        //return movies
-        return  movies
+        return repository.getPopularNew()
     }
 }

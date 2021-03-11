@@ -9,16 +9,14 @@ import com.example.movieinfotest.models.popular.Movie
 
 @Dao
 interface MovieDao {
-    @Insert
-    suspend fun saveMovie(movie: Movie)
-
-    @Query("SELECT * FROM movie WHERE id = :id")
-    suspend fun loadMovieById(id:Int):Movie
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveMovieList(movie: List<Movie>)
 
-    @Query("SELECT * FROM movie")
-    fun loadMovies():PagingSource<Int, Movie>
+    @Query("SELECT * FROM movie ORDER BY popularity DESC ")
+    fun loadMovies(): PagingSource<Int, Movie>
+
+    @Query("DELETE FROM movie")
+    fun clear(): Int
 
 }

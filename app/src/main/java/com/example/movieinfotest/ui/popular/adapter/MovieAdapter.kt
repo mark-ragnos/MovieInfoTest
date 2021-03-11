@@ -16,7 +16,7 @@ class MovieAdapter(val listener: MovieClickListener) :
         holder.rating.text = getItem(position)?.vote_average.toString()
         holder.id.text = getItem(position)?.id.toString()
 
-        holder.image.registerImage(getItem(position)!!.poster_path)
+        holder.image.registerImage(getItem(position)?.poster_path)
         holder.itemView.setOnClickListener {
             listener.OnClick(holder.id.text.toString().toInt())
         }
