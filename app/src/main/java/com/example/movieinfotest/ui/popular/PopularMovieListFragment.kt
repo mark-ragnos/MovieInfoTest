@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 class PopularMovieListFragment : Fragment() {
     private lateinit var binding: FragmentFavoriteListBinding
     private lateinit var viewModel: PopularViewModel
-    private lateinit var movieAdapter:MovieAdapter
+    private lateinit var movieAdapter: MovieAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,13 +42,14 @@ class PopularMovieListFragment : Fragment() {
         return binding.root
     }
 
-    private fun fetchMovies(){
+    private fun fetchMovies() {
         CoroutineScope(Dispatchers.Main).launch {
             viewModel.getFavorite().collectLatest { pagingData ->
                 movieAdapter.submitData(pagingData)
             }
         }
     }
+
     private fun setupUI() {
         binding.rvPopularList.layoutManager = LinearLayoutManager(context)
         val listener = object : MovieAdapter.MovieClickListener {

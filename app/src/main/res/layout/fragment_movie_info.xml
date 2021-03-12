@@ -38,11 +38,13 @@
 
         <TextView
             android:id="@+id/info_name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
+            android:layout_marginEnd="8dp"
             android:text="TextView"
             android:textSize="@dimen/def_item_size"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/det_title"
             app:layout_constraintTop_toTopOf="@+id/det_title" />
 
@@ -72,19 +74,23 @@
 
         <TextView
             android:id="@+id/info_date"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:text="TextView"
             android:textSize="@dimen/def_item_size"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/info_name"
             app:layout_constraintTop_toTopOf="@+id/det_date" />
 
         <TextView
             android:id="@+id/info_rating"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:text="TextView"
             android:textSize="@dimen/def_item_size"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/info_date"
             app:layout_constraintTop_toTopOf="@+id/det_rating" />
 

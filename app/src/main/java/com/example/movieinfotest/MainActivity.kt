@@ -37,11 +37,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.tool_menu, menu)
 
-        if(viewModel.getDarkMode())
+        if (viewModel.getDarkMode())
             menu?.getItem(0)?.icon = getDrawable(R.drawable.ic_light_mode)
-        else{
+        else
             menu?.getItem(0)?.icon = getDrawable(R.drawable.ic_dark_mode)
-        }
+
 
         return super.onCreateOptionsMenu(menu)
 
@@ -49,12 +49,11 @@ class MainActivity : AppCompatActivity() {
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            R.id.dark_mode_btn->{
-                if(!viewModel.getDarkMode()){
+        when (item.itemId) {
+            R.id.dark_mode_btn -> {
+                if (!viewModel.getDarkMode()) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                }
-                else{
+                } else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                 }
                 viewModel.changeMode()
@@ -66,19 +65,3 @@ class MainActivity : AppCompatActivity() {
     }
 
 }
-
-/*
-Требуемые макеты:
-1. Макет инфы о фильме
-- Содержит: постер, название, дата выхода, рейтинг, жанр, описание, список актеров
-
-2. Макет генерации случайного фильма
-- Содержит: 2 поля ввода (год и жанр), кнопка для генерации. Выводит: постер, название, рейтинг
-
-3. Макет популярных фильмов
-- Содержит: список, состоящий из постер, название, рейтинг, год
-
-4. Список сохраненных фильмов (как у популярных + возможность сохранения)
-
-
- */

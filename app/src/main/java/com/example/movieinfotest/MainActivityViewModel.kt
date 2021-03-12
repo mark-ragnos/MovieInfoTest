@@ -15,8 +15,4 @@ class MainActivityViewModel:ViewModel() {
     fun getDarkMode():Boolean{
         return isDarkMode
     }
-
-    init {
-        Log.d("TEST", "VIEWMODEL")
-    }
 }
