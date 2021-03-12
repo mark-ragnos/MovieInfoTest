@@ -41,7 +41,6 @@ class MovieRemoteMediator(
                     remoteKeys.nextKey ?: return MediatorResult.Success(true)
                 }
             }
-            Log.e("TEST", page.toString())
             val movies = api.getPopularList(page)!!
 
             val endOfPaginationReached = movies.size < state.config.pageSize
@@ -60,21 +59,16 @@ class MovieRemoteMediator(
 
                 db.remoteDao().insertAll(keys)
                 db.movieDao().saveMovieList(movies)
-                Log.d("TEST", "END TRANSACTION")
             }
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (e: Exception) {
-            Log.e("TEST", e.toString())
             MediatorResult.Error(e)
         }
-
-        TODO()
     }
 
     private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, Movie>): RemoteKeys? {
         return state.lastItemOrNull()?.let { it ->
             db.withTransaction {
-                Log.d("TEST", "REMOTE KEY IS ${db.remoteDao().remoteKeysById(it.id)}")
                 db.remoteDao().remoteKeysById(it.id)
             }
         }
