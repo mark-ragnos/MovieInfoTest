@@ -1,17 +1,21 @@
 package com.example.movieinfotest.utils
 
 import android.widget.ImageView
+import com.example.movieinfotest.R
 import com.example.movieinfotest.models.genre.Genre
 import com.squareup.picasso.Picasso
 import kotlin.text.StringBuilder
 
-fun String.getYear():String{
+fun String?.getYear():String{
+    if(this==null){
+        return "Unknown Year"
+    }
     return this.substring(0,4)
 }
 
 
 fun getGenreList(list: List<Genre>):String{
-    var result = StringBuilder()
+    val result = StringBuilder()
     list.forEach {
         result.append(it.name)
         result.append(", ")

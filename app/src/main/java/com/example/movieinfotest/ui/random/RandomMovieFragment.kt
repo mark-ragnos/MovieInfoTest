@@ -45,9 +45,12 @@ class RandomMovieFragment : Fragment() {
     private fun setupUI() {
         binding.genBtnRandom.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
+                binding.genResult.visibility = View.INVISIBLE
                 accessToMove = false
                 viewModel.generateRandom("10752", "2020")
                 accessToMove = true
+                binding.genResult.visibility = View.VISIBLE
+
             }
         }
 

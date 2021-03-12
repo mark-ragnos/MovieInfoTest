@@ -23,31 +23,9 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
         val navController = findNavController(R.id.fragment)
-        //test()
+
+
         binding.bottomNavigation.setupWithNavController(navController)
-    }
-
-    fun test() {
-        val db = MovieApp.getInstance().getDatabase()
-        val repository = Repository.create()
-
-        GlobalScope.launch {
-            db.genreDao().saveAll(repository.getAllGenres())
-
-            Log.d("TEST", "All genres added")
-
-            val res = db.genreDao().loadAll()
-
-            res.forEach {
-                Log.d("TEST", "ID: ${it.id}, NAME: ${it.name}")
-            }
-        }
-    }
-
-    companion object{
-        fun makeRepository(){
-            Repository.create()
-        }
     }
 
 }

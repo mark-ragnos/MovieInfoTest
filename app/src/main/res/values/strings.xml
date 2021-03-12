@@ -2,5 +2,15 @@
     <string name="app_name">MovieInfoTest</string>
     <string name="in_role">in role</string>
     <string name="retry">Retry</string>
+    <string name="gen_year">Year:</string>
+    <string name="gen_genre">Genre</string>
+    <string name="title">Title:</string>
+    <string name="description">Description: </string>
+    <string name="genres">Genres: </string>
+    <string name="film_release">Film release: </string>
+    <string name="rating">Rating:</string>
+    <string name="favorite">Favorite</string>
+    <string name="random">Random</string>
+    <string name="popular">Popular</string>
 
 </resources>
