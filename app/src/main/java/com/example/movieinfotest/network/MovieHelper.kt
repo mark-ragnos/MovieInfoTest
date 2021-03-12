@@ -26,8 +26,7 @@ class MovieHelper {
     suspend fun getRandomMovie(year: String, genre: String): Movie? {
         val pages = api.getRandomFilm(year, genre, 1).body()!!.total_pages
         val response = api.getRandomFilm(year, genre, Random.nextInt(1..pages)).body()
-        if (response == null) Log.d("TEST", "TIME")
-        return response!!.results.get(Random.nextInt(response!!.results.indices))
+        return response?.results?.get(Random.nextInt(response.results.indices))
     }
 
     suspend fun getGenresList(): List<Genre>? {

@@ -1,20 +1,26 @@
 package com.example.movieinfotest.ui.random
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
+import com.example.movieinfotest.MovieApp
 import com.example.movieinfotest.databinding.FragmentGenerateMovieBinding
+import com.example.movieinfotest.models.genre.Genre
 import com.example.movieinfotest.models.popular.Movie
 import com.example.movieinfotest.ui.AppViewModelFactory
+import com.example.movieinfotest.ui.random.adapter.GenreAdapter
 import com.example.movieinfotest.utils.registerImage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
 
 
 class RandomMovieFragment : Fragment() {
@@ -47,10 +53,11 @@ class RandomMovieFragment : Fragment() {
             CoroutineScope(Dispatchers.Main).launch {
                 binding.genResult.visibility = View.INVISIBLE
                 accessToMove = false
-                viewModel.generateRandom("10752", "2020")
-                accessToMove = true
-                binding.genResult.visibility = View.VISIBLE
-
+                if (startRandom()) {
+                    accessToMove = true
+                    binding.genResult.visibility = View.VISIBLE
+                } else Toast.makeText(MovieApp.getInstance(), "Incorrect or empty year", Toast.LENGTH_LONG)
+                    .show()
             }
         }
 
@@ -62,6 +69,10 @@ class RandomMovieFragment : Fragment() {
                 NavHostFragment.findNavController(this).navigate(action)
             }
         }
+
+        CoroutineScope(Dispatchers.Main).launch {
+            binding.genInGenre.adapter = GenreAdapter(MovieApp.getInstance(), viewModel.getGenres())
+        }
     }
 
     private fun setupReadLifeData() {
@@ -69,6 +80,7 @@ class RandomMovieFragment : Fragment() {
             setMovie(it)
         }
         viewModel.getRandom().observe(viewLifecycleOwner, detailObserver)
+
     }
 
     private fun setMovie(movie: Movie) {
@@ -78,4 +90,20 @@ class RandomMovieFragment : Fragment() {
         binding.genOutId.text = movie.id.toString()
     }
 
+    private suspend fun startRandom(): Boolean {
+        val today = Calendar.getInstance().get(Calendar.YEAR)
+        val year = binding.genInYear.text.toString()
+
+        if (year == "")
+            return false
+
+        if (year.toInt() in 1895..today) {
+            viewModel.generateRandom(
+                (binding.genInGenre.selectedItem as Genre).id.toString(),
+                binding.genInYear.text.toString()
+            )
+        } else return false
+
+        return true
+    }
 }

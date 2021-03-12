@@ -14,7 +14,9 @@ fun String?.getYear():String{
 }
 
 
-fun getGenreList(list: List<Genre>):String{
+fun getGenreList(list: List<Genre>?):String{
+    if(list?.size==0||(list == null))
+        return "Don't find any genres"
     val result = StringBuilder()
     list.forEach {
         result.append(it.name)

@@ -9,7 +9,7 @@ import com.example.movieinfotest.models.genre.Genre
 
 @Dao
 interface GenreDao {
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveAll(genres: List<Genre>)
 
     @Query("SELECT * FROM genre")

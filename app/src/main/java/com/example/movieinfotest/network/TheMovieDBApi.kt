@@ -18,7 +18,7 @@ interface TheMovieDBApi {
     @GET("discover/movie?api_key=393a66787ff4b601eae377e5ec8b4d36&sort_by=popularity.desc")
     suspend fun getRandomFilm(
         @Query("year") year: String,
-        @Query("genre") genre: String,
+        @Query("with_genres") genre: String,
         @Query("page") page: Int
     ): Response<PopularFilms>
 

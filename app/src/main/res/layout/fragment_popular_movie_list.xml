@@ -3,13 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.popular.PopularMovieListFragment"
-    android:layout_margin="8dp">
+    android:layout_margin="8dp"
+    tools:context=".ui.popular.PopularMovieListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_popular_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/rv_popular_list"
-        tools:listitem="@layout/item_list"/>
+        tools:listitem="@layout/item_list" />
 
 </FrameLayout>

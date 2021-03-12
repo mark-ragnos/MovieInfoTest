@@ -14,12 +14,25 @@
         <!--    Содержит: постер, название, дата выхода, рейтинг, жанр, описание, список актеров-->
 
 
+        <TextView
+            android:id="@+id/det_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/gen_year"
+            android:textSize="@dimen/def_item_size"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/det_title"
+            app:layout_constraintTop_toBottomOf="@+id/info_name"
+            tools:viewBindingIgnore="true" />
+
         <ImageView
             android:id="@+id/info_poster"
             android:layout_width="100dp"
             android:layout_height="150dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:textSize="@dimen/def_item_size"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,10 +40,11 @@
             android:id="@+id/info_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="24dp"
             android:text="TextView"
-            app:layout_constraintStart_toEndOf="@+id/info_poster"
-            app:layout_constraintTop_toTopOf="@+id/info_poster" />
+            android:textSize="@dimen/def_item_size"
+            app:layout_constraintStart_toEndOf="@+id/det_title"
+            app:layout_constraintTop_toTopOf="@+id/det_title" />
 
         <TextView
             android:id="@+id/info_description"
@@ -40,39 +54,39 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:text="TextView"
+            android:textSize="@dimen/def_item_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/info_poster" />
 
         <TextView
             android:id="@+id/info_genres"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
             android:text="TextView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/info_description" />
+            android:textSize="@dimen/def_item_size"
+            app:layout_constraintEnd_toEndOf="@+id/info_description"
+            app:layout_constraintStart_toEndOf="@+id/textView9"
+            app:layout_constraintTop_toTopOf="@+id/textView9" />
 
         <TextView
             android:id="@+id/info_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:text="TextView"
+            android:textSize="@dimen/def_item_size"
             app:layout_constraintStart_toStartOf="@+id/info_name"
-            app:layout_constraintTop_toBottomOf="@+id/info_name" />
+            app:layout_constraintTop_toTopOf="@+id/det_date" />
 
         <TextView
             android:id="@+id/info_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:text="TextView"
+            android:textSize="@dimen/def_item_size"
             app:layout_constraintStart_toStartOf="@+id/info_date"
-            app:layout_constraintTop_toBottomOf="@+id/info_date" />
+            app:layout_constraintTop_toTopOf="@+id/det_rating" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/lv_actors"
@@ -80,8 +94,59 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/info_genres"
+            app:layout_constraintTop_toBottomOf="@+id/textView8"
+            app:layout_constraintVertical_bias="1.0"
+            tools:layout_editor_absoluteX="16dp"
             tools:listitem="@layout/item_actor_list" />
+
+        <TextView
+            android:id="@+id/det_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/title"
+            android:textSize="@dimen/def_item_size"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/info_poster"
+            app:layout_constraintTop_toTopOf="@+id/info_poster"
+            tools:viewBindingIgnore="true" />
+
+        <TextView
+            android:id="@+id/det_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/rating"
+            android:textSize="@dimen/def_item_size"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/det_date"
+            app:layout_constraintTop_toBottomOf="@+id/info_date"
+            tools:viewBindingIgnore="true" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/actor_list"
+            android:textSize="@dimen/def_item_size"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/info_genres"
+            tools:viewBindingIgnore="true" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/genres"
+            android:textSize="@dimen/def_item_size"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/info_description"
+            app:layout_constraintTop_toBottomOf="@+id/info_description"
+            tools:viewBindingIgnore="true" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
