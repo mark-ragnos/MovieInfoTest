@@ -17,6 +17,6 @@ interface MovieDao {
     fun loadMovies(): PagingSource<Int, Movie>
 
     @Query("DELETE FROM movie")
-    fun clear(): Int
+    suspend fun clear(): Int
 
 }

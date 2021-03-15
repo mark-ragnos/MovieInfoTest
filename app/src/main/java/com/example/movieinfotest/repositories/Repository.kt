@@ -1,5 +1,6 @@
 package com.example.movieinfotest.repositories
 
+import android.util.Log
 import androidx.paging.*
 import com.example.movieinfotest.MovieApp
 import com.example.movieinfotest.database.DatabaseHelper
@@ -24,10 +25,9 @@ class Repository(
 
     @OptIn(ExperimentalPagingApi::class)
     fun getPopularNew(): Flow<PagingData<Movie>> {
-
         val pagingSourceFactory = { databaseHelper.getDatabase().movieDao().loadMovies() }
         return Pager(
-            config = PagingConfig(20, enablePlaceholders = false),
+            config = PagingConfig(20, enablePlaceholders = false, initialLoadSize = 10),
             remoteMediator = MovieRemoteMediator(apiHelper, databaseHelper.getDatabase()),
             pagingSourceFactory = pagingSourceFactory
         ).flow

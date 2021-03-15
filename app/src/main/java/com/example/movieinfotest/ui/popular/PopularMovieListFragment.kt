@@ -6,8 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
+import androidx.paging.LoadState
+import androidx.paging.PagingDataAdapter
+import androidx.paging.map
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieinfotest.MainActivity
@@ -55,6 +60,7 @@ class PopularMovieListFragment : Fragment() {
     private fun setupUI() {
         (activity as MainActivity).supportActionBar?.title = (activity as MainActivity).resources.getString(R.string.popular_title)
         binding.rvPopularList.layoutManager = LinearLayoutManager(context)
+
         val listener = object : MovieAdapter.MovieClickListener {
             override fun OnClick(id: Int) {
                 val action =
@@ -64,11 +70,10 @@ class PopularMovieListFragment : Fragment() {
         }
         movieAdapter = MovieAdapter(listener)
 
-        binding.rvPopularList.adapter = movieAdapter
-        binding.rvPopularList.adapter = movieAdapter.withLoadStateHeaderAndFooter(
-            MovieLoadingStateAdapter(movieAdapter),
-            MovieLoadingStateAdapter(movieAdapter)
+        binding.rvPopularList.adapter = movieAdapter.withLoadStateFooter(
+           footer = MovieLoadingStateAdapter(movieAdapter)
         )
+
     }
 
 

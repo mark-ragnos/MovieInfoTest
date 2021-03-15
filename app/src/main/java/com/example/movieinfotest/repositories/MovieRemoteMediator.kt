@@ -26,7 +26,7 @@ class MovieRemoteMediator(
 
 
     override suspend fun load(loadType: LoadType, state: PagingState<Int, Movie>): MediatorResult {
-        return try {
+        try {
             val page = when (loadType) {
                 LoadType.REFRESH -> {
                     val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
@@ -42,9 +42,10 @@ class MovieRemoteMediator(
                 }
             }
             val movies = api.getPopularList(page)
+            Log.d("TEST", "IN MEDIATOR: ${page}, ${movies?.size}")
 
 
-            val endOfPaginationReached = movies == null
+             val endOfPaginationReached = movies == null
 
             db.withTransaction {
                 if (loadType == LoadType.REFRESH) {
@@ -62,9 +63,10 @@ class MovieRemoteMediator(
                     db.movieDao().saveMovieList(movies)
                 }
             }
-            MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
-        } catch (e: Exception) {
-            MediatorResult.Error(e)
+            return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
+        } catch (e:Exception){
+            Log.e("TEST", e.message!!)
+            return MediatorResult.Error(e)
         }
     }
 

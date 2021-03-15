@@ -8,10 +8,6 @@ import java.lang.Exception
 
 class MoviePagingSource(var repository: Repository) : PagingSource<Int, Movie>() {
 
-    override fun getRefreshKey(state: PagingState<Int, Movie>): Int? {
-        TODO("Not yet implemented")
-    }
-
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {
         try {
             val currencyPage = params.key ?: 1
@@ -32,5 +28,9 @@ class MoviePagingSource(var repository: Repository) : PagingSource<Int, Movie>()
         ) {
             return LoadResult.Error(e)
         }
+    }
+
+    override fun getRefreshKey(state: PagingState<Int, Movie>): Int? {
+        return state.anchorPosition
     }
 }
