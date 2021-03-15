@@ -30,6 +30,9 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.fragment)
 
         viewModel = ViewModelProviders.of(this).get(MainActivityViewModel::class.java)
+        setupDarkMode()
+
+        setSupportActionBar(binding.toolbar)
 
         binding.bottomNavigation.setupWithNavController(navController)
     }
@@ -41,7 +44,6 @@ class MainActivity : AppCompatActivity() {
             menu?.getItem(0)?.icon = getDrawable(R.drawable.ic_light_mode)
         else
             menu?.getItem(0)?.icon = getDrawable(R.drawable.ic_dark_mode)
-
 
         return super.onCreateOptionsMenu(menu)
 
@@ -58,10 +60,25 @@ class MainActivity : AppCompatActivity() {
                 }
                 viewModel.changeMode()
             }
+            android.R.id.home->{
+                onBackPressed()
+            }
         }
 
 
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun setupDarkMode(){
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+            if (viewModel.getDarkMode() == resources.configuration.isNightModeActive) {
+            } else {
+                viewModel.changeMode()
+            }
+
+        } else {
+            TODO("VERSION.SDK_INT < R")
+        }
     }
 
 }

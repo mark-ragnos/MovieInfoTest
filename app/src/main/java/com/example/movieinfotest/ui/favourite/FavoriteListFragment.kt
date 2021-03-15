@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
+import com.example.movieinfotest.MainActivity
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentFavoriteListBinding
 import com.example.movieinfotest.ui.AppViewModelFactory
@@ -25,6 +26,7 @@ class FavoriteListFragment : Fragment() {
             this,
             AppViewModelFactory()
         ).get(FavoriteViewModel::class.java)
+        (activity as MainActivity).supportActionBar?.title = (activity as MainActivity).resources.getString(R.string.favorite_title)
 
         return binding.root
     }

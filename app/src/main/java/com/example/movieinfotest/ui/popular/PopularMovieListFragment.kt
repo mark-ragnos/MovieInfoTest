@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.movieinfotest.MainActivity
+import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentFavoriteListBinding
 import com.example.movieinfotest.ui.popular.adapter.MovieAdapter
 import com.example.movieinfotest.ui.AppViewModelFactory
@@ -51,6 +53,7 @@ class PopularMovieListFragment : Fragment() {
     }
 
     private fun setupUI() {
+        (activity as MainActivity).supportActionBar?.title = (activity as MainActivity).resources.getString(R.string.popular_title)
         binding.rvPopularList.layoutManager = LinearLayoutManager(context)
         val listener = object : MovieAdapter.MovieClickListener {
             override fun OnClick(id: Int) {

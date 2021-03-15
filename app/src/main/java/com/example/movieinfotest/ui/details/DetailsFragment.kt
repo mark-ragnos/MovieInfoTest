@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.movieinfotest.MainActivity
+import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentMovieInfoBinding
 import com.example.movieinfotest.models.actors.Actor
 import com.example.movieinfotest.models.details.MovieDetails
@@ -39,10 +41,12 @@ class DetailsFragment : Fragment() {
         setupReadLifeData()
 
         val saved = DetailsFragmentArgs.fromBundle(requireArguments()).id
-
         CoroutineScope(Dispatchers.Main).launch {
             viewModel.sendID(saved)
         }
+        (activity as MainActivity).supportActionBar?.title = (activity as MainActivity).resources.getString(
+            R.string.details_title)
+        (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
 
         return binding.root
@@ -75,5 +79,11 @@ class DetailsFragment : Fragment() {
 
         binding.lvActors.layoutManager = manager
         binding.lvActors.adapter = ActorAdapter(list)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 }

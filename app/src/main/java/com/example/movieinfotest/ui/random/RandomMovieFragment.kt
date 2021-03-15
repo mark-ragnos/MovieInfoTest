@@ -10,7 +10,9 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
+import com.example.movieinfotest.MainActivity
 import com.example.movieinfotest.MovieApp
+import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentGenerateMovieBinding
 import com.example.movieinfotest.models.genre.Genre
 import com.example.movieinfotest.models.popular.Movie
@@ -49,6 +51,8 @@ class RandomMovieFragment : Fragment() {
     private var accessToMove = false
 
     private fun setupUI() {
+        (activity as MainActivity).supportActionBar?.title = (activity as MainActivity).resources.getString(
+            R.string.random_title)
         binding.genBtnRandom.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
                 binding.genResult.visibility = View.INVISIBLE
