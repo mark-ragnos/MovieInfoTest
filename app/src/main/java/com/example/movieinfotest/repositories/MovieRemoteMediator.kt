@@ -42,7 +42,6 @@ class MovieRemoteMediator(
                 }
             }
             val movies = api.getPopularList(page)
-            Log.d("TEST", "IN MEDIATOR: ${page}, ${movies?.size}")
 
 
              val endOfPaginationReached = movies == null
@@ -65,7 +64,6 @@ class MovieRemoteMediator(
             }
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (e:Exception){
-            Log.e("TEST", e.message!!)
             return MediatorResult.Error(e)
         }
     }
