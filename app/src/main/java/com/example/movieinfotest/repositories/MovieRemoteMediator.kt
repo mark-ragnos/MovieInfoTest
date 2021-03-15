@@ -41,9 +41,10 @@ class MovieRemoteMediator(
                     remoteKeys.nextKey ?: return MediatorResult.Success(true)
                 }
             }
-            val movies = api.getPopularList(page)!!
+            val movies = api.getPopularList(page)
 
-            val endOfPaginationReached = movies.size < state.config.pageSize
+
+            val endOfPaginationReached = movies == null
 
             db.withTransaction {
                 if (loadType == LoadType.REFRESH) {
@@ -53,12 +54,13 @@ class MovieRemoteMediator(
 
                 val prevKey = if (page == startPage) null else page - 1
                 val nextKey = if (endOfPaginationReached) null else page + 1
-                val keys = movies.map {
+                val keys = movies?.map {
                     RemoteKeys(it.id, prevKey, nextKey)
                 }
-
-                db.remoteDao().insertAll(keys)
-                db.movieDao().saveMovieList(movies)
+                if(!endOfPaginationReached){
+                    db.remoteDao().insertAll(keys!!)
+                    db.movieDao().saveMovieList(movies)
+                }
             }
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (e: Exception) {

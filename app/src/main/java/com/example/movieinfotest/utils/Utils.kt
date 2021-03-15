@@ -1,15 +1,18 @@
 package com.example.movieinfotest.utils
 
 import android.widget.ImageView
+import androidx.lifecycle.MutableLiveData
 import com.example.movieinfotest.R
 import com.example.movieinfotest.models.genre.Genre
 import com.squareup.picasso.Picasso
 import kotlin.text.StringBuilder
 
 fun String?.getYear():String{
-    if(this==null){
+    if(this == null)
         return "Unknown Year"
-    }
+    if(this.length<4)
+        return "Unknown Year"
+
     return this.substring(0,4)
 }
 
@@ -40,5 +43,3 @@ fun ImageView.registerImage(path: String?, x:Int=100, y:Int=150){
         .centerCrop()
         .into(this)
 }
-
-

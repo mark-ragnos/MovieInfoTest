@@ -1,7 +1,6 @@
 package com.example.movieinfotest.ui.random
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -44,7 +43,6 @@ class RandomMovieFragment : Fragment() {
         setupUI()
         setupReadLifeData()
 
-
         return binding.root
     }
 
@@ -59,7 +57,6 @@ class RandomMovieFragment : Fragment() {
                 accessToMove = false
                 if (startRandom()) {
                     accessToMove = true
-                    binding.genResult.visibility = View.VISIBLE
                 } else Toast.makeText(MovieApp.getInstance(), "Incorrect or empty year", Toast.LENGTH_LONG)
                     .show()
             }
@@ -84,7 +81,6 @@ class RandomMovieFragment : Fragment() {
             setMovie(it)
         }
         viewModel.getRandom().observe(viewLifecycleOwner, detailObserver)
-
     }
 
     private fun setMovie(movie: Movie) {
@@ -92,6 +88,7 @@ class RandomMovieFragment : Fragment() {
         binding.genOutRating.text = movie.vote_average.toString()
         binding.genOutName.text = movie.title
         binding.genOutId.text = movie.id.toString()
+        binding.genResult.visibility = View.VISIBLE
     }
 
     private suspend fun startRandom(): Boolean {

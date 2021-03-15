@@ -24,12 +24,11 @@ class Repository(
 
     @OptIn(ExperimentalPagingApi::class)
     fun getPopularNew(): Flow<PagingData<Movie>> {
-        val database = MovieApp.getInstance().getDatabase()
 
-        val pagingSourceFactory = { database.movieDao().loadMovies() }
+        val pagingSourceFactory = { databaseHelper.getDatabase().movieDao().loadMovies() }
         return Pager(
-            config = PagingConfig(20, enablePlaceholders = true),
-            remoteMediator = MovieRemoteMediator(apiHelper, database),
+            config = PagingConfig(20, enablePlaceholders = false),
+            remoteMediator = MovieRemoteMediator(apiHelper, databaseHelper.getDatabase()),
             pagingSourceFactory = pagingSourceFactory
         ).flow
     }

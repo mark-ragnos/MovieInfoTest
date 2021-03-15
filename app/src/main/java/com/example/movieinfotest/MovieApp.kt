@@ -8,7 +8,7 @@ class MovieApp : Application() {
     override fun onCreate() {
         super.onCreate()
         instance = this
-        database = Room.databaseBuilder(instance, MovieDatabase::class.java, "db_movie33.db").build()
+        database = Room.databaseBuilder(instance, MovieDatabase::class.java, "db_movie.db").build()
     }
 
     fun getDatabase(): MovieDatabase {

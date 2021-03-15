@@ -7,6 +7,10 @@ import com.example.movieinfotest.models.popular.Movie
 class DatabaseHelper() {
     private val database: MovieDatabase = MovieApp.getInstance().getDatabase()
 
+    fun getDatabase():MovieDatabase{
+        return database
+    }
+
     //Получение списка жанров
     suspend fun getAllGenres():List<Genre>{
         return database.genreDao().loadAll()
