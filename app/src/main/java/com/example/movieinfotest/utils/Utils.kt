@@ -1,9 +1,11 @@
 package com.example.movieinfotest.utils
 
 import android.widget.ImageView
-import androidx.lifecycle.MutableLiveData
-import com.example.movieinfotest.R
+import com.example.movieinfotest.models.details.MovieDetails
+import com.example.movieinfotest.models.details.MovieDetailsDB
+import com.example.movieinfotest.models.genre.GenreDB
 import com.example.movieinfotest.models.genre.Genre
+import com.example.movieinfotest.models.popular.Movie
 import com.squareup.picasso.Picasso
 import kotlin.text.StringBuilder
 
@@ -42,4 +44,24 @@ fun ImageView.registerImage(path: String?, x:Int=100, y:Int=150){
         .resize(x, y)
         .centerCrop()
         .into(this)
+}
+
+fun MovieDetails.toMovieDetailsDB(): MovieDetailsDB{
+    return MovieDetailsDB(id, title, vote_average, overview, release_date, poster_path)
+}
+
+fun MovieDetailsDB.toMovieDetails(genres:List<Genre>?):MovieDetails{
+    return MovieDetails(id, title, vote_average, overview, release_date, genres = genres, poster_path)
+}
+
+fun Genre.toGenreDB(movie_id: Int):GenreDB{
+    return GenreDB(movie_id , id, name, null)
+}
+
+fun GenreDB.toGenre():Genre{
+    return Genre(id, name)
+}
+
+fun Movie.toMovieDetails(): MovieDetails{
+    return MovieDetails(id, title, vote_average, "", release_date, null, poster_path)
 }

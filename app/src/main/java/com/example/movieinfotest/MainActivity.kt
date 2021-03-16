@@ -1,11 +1,17 @@
 package com.example.movieinfotest
 
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.net.NetworkInfo
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -31,7 +37,6 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = ViewModelProviders.of(this).get(MainActivityViewModel::class.java)
         setupDarkMode()
-
         setSupportActionBar(binding.toolbar)
 
         binding.bottomNavigation.setupWithNavController(navController)
@@ -60,7 +65,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 viewModel.changeMode()
             }
-            android.R.id.home->{
+            android.R.id.home -> {
                 onBackPressed()
             }
         }
@@ -69,16 +74,46 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun setupDarkMode(){
+    private fun setupDarkMode() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
             if (viewModel.getDarkMode() == resources.configuration.isNightModeActive) {
             } else {
                 viewModel.changeMode()
             }
 
-        } else {
-            TODO("VERSION.SDK_INT < R")
         }
     }
 
+
+    companion object {
+
+        fun isOnline(context: Context): Boolean {
+            if ((android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M)) {
+                val connectivityManager =
+                    context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+                if (connectivityManager != null) {
+                    val capabilities =
+                        connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+                    if (capabilities != null) {
+                        if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                            Log.i("TEST", "NetworkCapabilities.TRANSPORT_CELLULAR")
+                            return true
+                        } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                            Log.i("TEST", "NetworkCapabilities.TRANSPORT_WIFI")
+                            return true
+                        } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
+                            Log.i("TEST", "NetworkCapabilities.TRANSPORT_ETHERNET")
+                            return true
+                        }
+                    }
+                }
+                return false
+            } else {
+                val cm =
+                    context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+                val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
+                return activeNetwork?.isConnectedOrConnecting == true
+            }
+        }
+    }
 }

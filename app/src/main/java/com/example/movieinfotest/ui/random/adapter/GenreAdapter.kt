@@ -11,9 +11,16 @@ import android.widget.TextView
 import com.example.movieinfotest.R
 import com.example.movieinfotest.models.genre.Genre
 
-class GenreAdapter(val context: Context, val genres:List<Genre>):BaseAdapter() {
+class GenreAdapter(val context: Context, var genres:List<Genre>):BaseAdapter() {
     override fun getCount(): Int {
         return genres.size
+    }
+
+    init {
+        val res = ArrayList<Genre>()
+        res.add(Genre(0, ""))
+        res.addAll(genres)
+        genres = res
     }
 
     override fun getItem(position: Int): Any {
