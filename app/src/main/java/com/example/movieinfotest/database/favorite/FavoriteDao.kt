@@ -5,6 +5,8 @@ import com.example.movieinfotest.models.actors.Actor
 import com.example.movieinfotest.models.details.MovieDetails
 import com.example.movieinfotest.models.details.MovieDetailsDB
 import com.example.movieinfotest.models.genre.GenreDB
+import com.example.movieinfotest.utils.toGenreDB
+import com.example.movieinfotest.utils.toMovieDetailsDB
 
 @Dao
 interface FavoriteDao {
@@ -16,26 +18,26 @@ interface FavoriteDao {
     suspend fun addGenres(genreDBS: List<GenreDB>)
 
     @Query("SELECT * FROM actor WHERE movie_id LIKE :movie_id")
-    suspend fun getActors(movie_id: Int):List<Actor>?
+    suspend fun getActors(movie_id: Int): List<Actor>?
 
     @Query("SELECT * FROM genredb WHERE movie_id LIKE :movie_id")
-    suspend fun getGenres(movie_id: Int):List<GenreDB>?
+    suspend fun getGenres(movie_id: Int): List<GenreDB>?
 
     @Transaction
     suspend fun saveInFavorite(movieDetails: MovieDetails, actors: List<Actor>?) {
         val genres = movieDetails.genres?.map {
-            GenreDB(movieDetails.id, it.id, it.name, null)
+            it.toGenreDB(movieDetails.id)
         }
         val finActors = actors?.map {
-            Actor(movieDetails.id, it.id, it.name, it.character, it.profile_path, it.db_id)
+            Actor(movieDetails.id, it.id, it.name, it.character, it.profile_path)
         }
 
-        val details = MovieDetailsDB(movieDetails.id, movieDetails.title, movieDetails.vote_average, movieDetails.overview, movieDetails.release_date, movieDetails.poster_path)
+        val details = movieDetails.toMovieDetailsDB()
 
         addMovieDetails(details)
-        if(finActors!= null)
+        if (finActors != null)
             addActors(finActors)
-        if(genres != null)
+        if (genres != null)
             addGenres(genres)
     }
 
@@ -46,5 +48,5 @@ interface FavoriteDao {
     suspend fun getFavoriteList(): List<MovieDetailsDB>?
 
     @Query("SELECT * FROM moviedetailsdb WHERE id LIKE :id")
-    suspend fun getFavoriteById(id: Int):MovieDetailsDB?
+    suspend fun getFavoriteById(id: Int): MovieDetailsDB?
 }

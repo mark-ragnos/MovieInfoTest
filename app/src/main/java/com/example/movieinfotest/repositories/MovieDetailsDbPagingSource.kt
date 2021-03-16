@@ -2,17 +2,18 @@ package com.example.movieinfotest.repositories
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.example.movieinfotest.models.details.MovieDetailsDB
 import com.example.movieinfotest.repositories.Repository
 import com.example.movieinfotest.models.popular.Movie
 import java.lang.Exception
 
-class MoviePagingSource(var repository: Repository) : PagingSource<Int, Movie>() {
+class MovieDetailsDbPagingSource(var repository: Repository) : PagingSource<Int, MovieDetailsDB>() {
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MovieDetailsDB> {
         try {
             val currencyPage = params.key ?: 1
-            val response = repository.getPopular(currencyPage)
-            val respdata = mutableListOf<Movie>()
+            val response = repository.getFavorite() // add selector
+            val respdata = mutableListOf<MovieDetailsDB>()
             if (response != null) {
                 respdata.addAll(response)
             }
@@ -30,7 +31,7 @@ class MoviePagingSource(var repository: Repository) : PagingSource<Int, Movie>()
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, Movie>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, MovieDetailsDB>): Int? {
         return state.anchorPosition
     }
 }

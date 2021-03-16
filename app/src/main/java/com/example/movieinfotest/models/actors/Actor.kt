@@ -4,14 +4,11 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 
-@Entity
+@Entity(primaryKeys = ["movie_id", "id"])
 data class Actor(
     val movie_id:Int,
     val id: Int,
     val name: String,
     val character: String,
-    val profile_path: String?,
-
-    @PrimaryKey(autoGenerate = true)
-    val db_id: Int?
+    val profile_path: String?
 )

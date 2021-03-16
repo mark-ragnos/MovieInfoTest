@@ -20,6 +20,6 @@ import com.example.movieinfotest.models.popular.Movie
 abstract class MovieDatabase : RoomDatabase() {
     abstract fun genreDao(): GenreDao
     abstract fun movieDao(): MovieDao
-    abstract fun remoteDao():RemoteKeysDao
-    abstract fun favoriteDao():FavoriteDao
+    abstract fun remoteDao(): RemoteKeysDao
+    abstract fun favoriteDao(): FavoriteDao
 }

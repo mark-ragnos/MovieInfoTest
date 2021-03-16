@@ -13,6 +13,6 @@ interface GenreDao {
     suspend fun saveAll(genres: List<Genre>)
 
     @Query("SELECT * FROM genre")
-    suspend fun loadAll():List<Genre>
+    suspend fun loadAll():List<Genre>?
 
 }

@@ -5,10 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieinfotest.MainActivity
+import com.example.movieinfotest.MovieApp
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentMovieInfoBinding
 import com.example.movieinfotest.models.actors.Actor
@@ -39,13 +41,16 @@ class DetailsFragment : Fragment() {
         ).get(DetailsViewModel::class.java)
 
         setupReadLifeData()
+        setupFavoriteBtn()
 
         val saved = DetailsFragmentArgs.fromBundle(requireArguments()).id
         CoroutineScope(Dispatchers.Main).launch {
             viewModel.sendID(saved)
         }
-        (activity as MainActivity).supportActionBar?.title = (activity as MainActivity).resources.getString(
-            R.string.details_title)
+        (activity as MainActivity).supportActionBar?.title =
+            (activity as MainActivity).resources.getString(
+                R.string.details_title
+            )
         (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
 
@@ -58,7 +63,7 @@ class DetailsFragment : Fragment() {
         }
         viewModel.getDetails().observe(viewLifecycleOwner, detailObserver)
 
-        val actorObserver = Observer<List<Actor>>{
+        val actorObserver = Observer<List<Actor>> {
             setActors(it)
         }
         viewModel.getActors().observe(viewLifecycleOwner, actorObserver)
@@ -73,13 +78,32 @@ class DetailsFragment : Fragment() {
         binding.infoPoster.registerImage(details.poster_path, x = 150, y = 225)
     }
 
-    private fun setActors(list: List<Actor>){
-        val manager = LinearLayoutManager(context)
-        manager.orientation = LinearLayoutManager.HORIZONTAL
+    private fun setActors(list: List<Actor>?) {
+        if (list != null) {
+            val manager = LinearLayoutManager(context)
+            manager.orientation = LinearLayoutManager.HORIZONTAL
 
-        binding.lvActors.layoutManager = manager
-        binding.lvActors.adapter = ActorAdapter(list)
+            binding.lvActors.layoutManager = manager
+            binding.lvActors.adapter = ActorAdapter(list)
+        } else {
+            binding.lvActors.visibility = View.INVISIBLE
+            binding.infoTextActors.visibility = View.INVISIBLE
+            binding.infoTextGenres.visibility = View.INVISIBLE
+            binding.infoGenres.visibility = View.INVISIBLE
+        }
     }
+
+    private fun setupFavoriteBtn() {
+        binding.infoAddToFavorite.setOnClickListener {
+            Toast.makeText(
+                MovieApp.getInstance(),
+                "Movie was added in favorite list",
+                Toast.LENGTH_SHORT
+            ).show()
+            viewModel.saveInFavorite()
+        }
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()

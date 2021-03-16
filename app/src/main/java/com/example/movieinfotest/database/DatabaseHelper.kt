@@ -18,7 +18,7 @@ class DatabaseHelper() {
     }
 
     //Получение списка жанров
-    suspend fun getAllGenres(): List<Genre> {
+    suspend fun getAllGenres(): List<Genre>? {
         return database.genreDao().loadAll()
     }
 
@@ -38,16 +38,17 @@ class DatabaseHelper() {
         return movies
     }
 
-    //Загрузка из избранного по ИД
-    suspend fun getDetailsById(id: Int): MovieDetails? {
+    suspend fun getDetailsFromFavorite(id: Int): MovieDetails? {
         val movieDB = database.favoriteDao().getFavoriteById(id)
-
         val genres = database.favoriteDao().getGenres(id)?.map {
             it.toGenre()
         }
+        return movieDB?.toMovieDetails(genres)
+    }
 
-        val movie = movieDB?.toMovieDetails(genres) ?: getFromList(id)
-
+    //Загрузка из избранного по ИД
+    suspend fun getDetailsById(id: Int): MovieDetails? {
+        val movie = getFromList(id)
         return movie
     }
 
@@ -55,7 +56,7 @@ class DatabaseHelper() {
         return database.movieDao().getMovieById(id)?.toMovieDetails()
     }
 
-    suspend fun getActorsById(id:Int):List<Actor>?{
+    suspend fun getActorsById(id: Int): List<Actor>? {
         return database.favoriteDao().getActors(id)
     }
 }

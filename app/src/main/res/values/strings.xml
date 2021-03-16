@@ -19,5 +19,6 @@
     <string name="random_title">Generator</string>
     <string name="favorite_title">Favorites</string>
     <string name="details_title">Movie details</string>
+    <string name="save_as_favorite">Save in favorite</string>
 
 </resources>

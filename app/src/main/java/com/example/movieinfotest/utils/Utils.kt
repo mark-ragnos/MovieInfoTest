@@ -9,18 +9,18 @@ import com.example.movieinfotest.models.popular.Movie
 import com.squareup.picasso.Picasso
 import kotlin.text.StringBuilder
 
-fun String?.getYear():String{
-    if(this == null)
+fun String?.getYear(): String {
+    if (this == null)
         return "Unknown Year"
-    if(this.length<4)
+    if (this.length < 4)
         return "Unknown Year"
 
-    return this.substring(0,4)
+    return this.substring(0, 4)
 }
 
 
-fun getGenreList(list: List<Genre>?):String{
-    if(list?.size==0||(list == null))
+fun getGenreList(list: List<Genre>?): String {
+    if (list?.size == 0 || (list == null))
         return "Don't find any genres"
     val result = StringBuilder()
     list.forEach {
@@ -36,7 +36,7 @@ fun getGenreList(list: List<Genre>?):String{
 /**
  * Соотношение постеров у = х * 1.5
  */
-fun ImageView.registerImage(path: String?, x:Int=100, y:Int=150){
+fun ImageView.registerImage(path: String?, x: Int = 100, y: Int = 150) {
     if (path == null)
         return
     Picasso.get()
@@ -46,22 +46,30 @@ fun ImageView.registerImage(path: String?, x:Int=100, y:Int=150){
         .into(this)
 }
 
-fun MovieDetails.toMovieDetailsDB(): MovieDetailsDB{
+fun MovieDetails.toMovieDetailsDB(): MovieDetailsDB {
     return MovieDetailsDB(id, title, vote_average, overview, release_date, poster_path)
 }
 
-fun MovieDetailsDB.toMovieDetails(genres:List<Genre>?):MovieDetails{
-    return MovieDetails(id, title, vote_average, overview, release_date, genres = genres, poster_path)
+fun MovieDetailsDB.toMovieDetails(genres: List<Genre>?): MovieDetails {
+    return MovieDetails(
+        id,
+        title,
+        vote_average,
+        overview,
+        release_date,
+        genres = genres,
+        poster_path
+    )
 }
 
-fun Genre.toGenreDB(movie_id: Int):GenreDB{
-    return GenreDB(movie_id , id, name, null)
+fun Genre.toGenreDB(movie_id: Int): GenreDB {
+    return GenreDB(movie_id, id, name)
 }
 
-fun GenreDB.toGenre():Genre{
+fun GenreDB.toGenre(): Genre {
     return Genre(id, name)
 }
 
-fun Movie.toMovieDetails(): MovieDetails{
-    return MovieDetails(id, title, vote_average, "", release_date, null, poster_path)
+fun Movie.toMovieDetails(): MovieDetails {
+    return MovieDetails(id, title, vote_average, overview, release_date, null, poster_path)
 }

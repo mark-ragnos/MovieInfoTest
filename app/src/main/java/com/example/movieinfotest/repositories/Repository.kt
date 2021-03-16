@@ -29,45 +29,65 @@ class Repository(
     fun getPopularNew(): Flow<PagingData<Movie>> {
         val pagingSourceFactory = { databaseHelper.getDatabase().movieDao().loadMovies() }
         return Pager(
-            config = PagingConfig(20, enablePlaceholders = false, initialLoadSize = 10),
+            config = PagingConfig(20, enablePlaceholders = true),
             remoteMediator = MovieRemoteMediator(apiHelper, databaseHelper.getDatabase()),
             pagingSourceFactory = pagingSourceFactory
         ).flow
     }
 
     suspend fun getRandom(year: String, genre: String): Movie? {
+
+        val isOnline = MainActivity.isOnline(MovieApp.getInstance())
+        if (!isOnline)
+            TODO()
+
         return apiHelper.getRandomMovie(year, genre)
     }
 
     //Совместить с БД
 
     suspend fun getDetails(id: String): MovieDetails? {
-        val isOnline = MainActivity.isOnline(MovieApp.getInstance())
 
-        if(!isOnline)
+        val favoriteDetails = databaseHelper.getDetailsFromFavorite(id.toInt())
+        if (favoriteDetails != null)
+            return favoriteDetails
+
+        val isOnline = MainActivity.isOnline(MovieApp.getInstance())
+        if (!isOnline)
             return databaseHelper.getDetailsById(id.toInt())
 
         return apiHelper.getDetailsInformation(id)
     }
 
     suspend fun getActors(filmId: String): List<Actor>? {
-        var isOnline = MainActivity.isOnline(MovieApp.getInstance())
 
-        if(!isOnline){
-            return databaseHelper.getActorsById(filmId.toInt())
-        }
+        val actors = databaseHelper.getActorsById(filmId.toInt())
+        if (actors != null)
+            return actors
 
-        return apiHelper.getActorsList(filmId)
+        val isOnline = MainActivity.isOnline(MovieApp.getInstance())
+        if (!isOnline)
+            return apiHelper.getActorsList(filmId)
+
+        return null
     }
 
     suspend fun getAllGenres(): List<Genre>? {
-        if(MainActivity.isOnline(MovieApp.getInstance()))
+        if (MainActivity.isOnline(MovieApp.getInstance()))
             databaseHelper.addAllGenres(apiHelper.getGenresList()!!)
         return databaseHelper.getAllGenres()
     }
 
     suspend fun getFavorite(): List<MovieDetailsDB>? {
         return databaseHelper.getGetFavoriteList()
+    }
+
+    suspend fun saveInFavorite(movieDetails: MovieDetails?, actors: List<Actor>?) {
+        if (movieDetails != null)
+            databaseHelper.saveInFavorite(
+                movieDetails,
+                actors ?: apiHelper.getActorsList(movieDetails.id.toString())
+            )
     }
 
 
