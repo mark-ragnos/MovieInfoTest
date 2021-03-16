@@ -20,11 +20,6 @@ class Repository(
     private val databaseHelper: DatabaseHelper
 ) {
 
-    suspend fun getPopular(page: Int): List<Movie>? {
-        return apiHelper.getPopularList(page)
-    }
-
-
     @OptIn(ExperimentalPagingApi::class)
     fun getPopularNew(): Flow<PagingData<Movie>> {
         val pagingSourceFactory = { databaseHelper.getDatabase().movieDao().loadMovies() }
@@ -43,8 +38,6 @@ class Repository(
 
         return apiHelper.getRandomMovie(year, genre)
     }
-
-    //Совместить с БД
 
     suspend fun getDetails(id: String): MovieDetails? {
 
