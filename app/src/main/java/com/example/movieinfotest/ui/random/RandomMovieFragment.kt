@@ -95,6 +95,7 @@ class RandomMovieFragment : Fragment() {
         binding.genOutName.text = movie.title
         binding.genOutId.text = movie.id.toString()
         binding.genResult.visibility = View.VISIBLE
+        accessToMove = true
     }
 
     private suspend fun startRandom(): Boolean {

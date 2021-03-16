@@ -40,12 +40,17 @@ class Repository(
     }
 
     suspend fun getDetails(id: String): MovieDetails? {
+        val isOnline = MainActivity.isOnline(MovieApp.getInstance())
 
         val favoriteDetails = databaseHelper.getDetailsFromFavorite(id.toInt())
-        if (favoriteDetails != null)
+        if (favoriteDetails != null) {
+            if (favoriteDetails.genres!!.isEmpty() && isOnline) {
+                val movie = apiHelper.getDetailsInformation(id)
+                saveInFavorite(movie, null)
+                return movie
+            }
             return favoriteDetails
-
-        val isOnline = MainActivity.isOnline(MovieApp.getInstance())
+        }
         if (!isOnline)
             return databaseHelper.getDetailsById(id.toInt())
 
