@@ -44,7 +44,7 @@ class MovieRemoteMediator(
             val movies = api.getPopularList(page)
 
 
-             val endOfPaginationReached = movies == null
+            val endOfPaginationReached = movies == null
 
             db.withTransaction {
                 if (loadType == LoadType.REFRESH) {
@@ -57,13 +57,13 @@ class MovieRemoteMediator(
                 val keys = movies?.map {
                     RemoteKeys(it.id, prevKey, nextKey)
                 }
-                if(!endOfPaginationReached){
+                if (!endOfPaginationReached) {
                     db.remoteDao().insertAll(keys!!)
                     db.movieDao().saveMovieList(movies)
                 }
             }
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
-        } catch (e:Exception){
+        } catch (e: Exception) {
             return MediatorResult.Error(e)
         }
     }

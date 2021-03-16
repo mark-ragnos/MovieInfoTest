@@ -5,14 +5,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class MainActivityViewModel:ViewModel() {
+class MainActivityViewModel : ViewModel() {
     private var isDarkMode: Boolean = false
 
-    fun changeMode(){
+    fun changeMode() {
         isDarkMode = !isDarkMode
     }
 
-    fun getDarkMode():Boolean{
+    fun getDarkMode(): Boolean {
         return isDarkMode
     }
 }

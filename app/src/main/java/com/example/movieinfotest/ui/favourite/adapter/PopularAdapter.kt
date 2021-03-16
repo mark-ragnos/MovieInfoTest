@@ -13,17 +13,18 @@ import com.example.movieinfotest.models.details.MovieDetailsDB
 import com.example.movieinfotest.utils.getYear
 import com.example.movieinfotest.utils.registerImage
 
-class MovieDetailDbAdapter(val listener: MovieDetailClickListener) :
-    PagingDataAdapter<MovieDetailsDB, MovieDetailDbAdapter.MovieDetailsDbHolder>(
-        MovieDetailsDbDiffCallback
-    ) {
-    override fun onBindViewHolder(holder: MovieDetailsDbHolder, position: Int) {
-        holder.name.text =
-            getItem(position)?.title + " (${getItem(position)?.release_date?.getYear()})"
-        holder.rating.text = getItem(position)?.vote_average.toString()
-        holder.id.text = getItem(position)?.id.toString()
+class PopularAdapter(
+    val list: List<MovieDetailsDB>,
+    val listener: MovieDetailClickListener
+) : RecyclerView.Adapter<PopularAdapter.MovieDetailsDbHolder>() {
 
-        holder.image.registerImage(getItem(position)?.poster_path)
+
+    override fun onBindViewHolder(holder: MovieDetailsDbHolder, position: Int) {
+        holder.name.text = list[position].title
+        holder.rating.text = list[position].vote_average.toString()
+        holder.id.text = list[position].id.toString()
+
+        holder.image.registerImage(list[position].poster_path)
         holder.itemView.setOnClickListener {
             listener.onClick(holder.id.text.toString().toInt())
         }
@@ -46,14 +47,8 @@ class MovieDetailDbAdapter(val listener: MovieDetailClickListener) :
         var image: ImageView = itemView.findViewById(R.id.item_image)
         var id: TextView = itemView.findViewById(R.id.item_id)
     }
-}
 
-object MovieDetailsDbDiffCallback : DiffUtil.ItemCallback<MovieDetailsDB>() {
-    override fun areItemsTheSame(oldItem: MovieDetailsDB, newItem: MovieDetailsDB): Boolean {
-        return oldItem.id == newItem.id
-    }
-
-    override fun areContentsTheSame(oldItem: MovieDetailsDB, newItem: MovieDetailsDB): Boolean {
-        return oldItem == newItem
+    override fun getItemCount(): Int {
+        return list.size
     }
 }

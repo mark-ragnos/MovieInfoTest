@@ -20,6 +20,6 @@ interface MovieDao {
     suspend fun clear(): Int
 
     @Query("SELECT * FROM movie WHERE id = :id")
-    suspend fun getMovieById(id:Int): Movie?
+    suspend fun getMovieById(id: Int): Movie?
 
 }

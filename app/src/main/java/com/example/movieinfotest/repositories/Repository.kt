@@ -55,11 +55,11 @@ class Repository(
     suspend fun getActors(filmId: String): List<Actor>? {
 
         val actors = databaseHelper.getActorsById(filmId.toInt())
-        if (actors != null)
+        if (actors.isNotEmpty())
             return actors
 
         val isOnline = MainActivity.isOnline(MovieApp.getInstance())
-        if (!isOnline)
+        if (isOnline)
             return apiHelper.getActorsList(filmId)
 
         return null
@@ -76,11 +76,20 @@ class Repository(
     }
 
     suspend fun saveInFavorite(movieDetails: MovieDetails?, actors: List<Actor>?) {
-        if (movieDetails != null)
-            databaseHelper.saveInFavorite(
-                movieDetails,
-                actors ?: apiHelper.getActorsList(movieDetails.id.toString())
-            )
+        if (movieDetails != null) {
+            val isOnline = MainActivity.isOnline(MovieApp.getInstance())
+            if (isOnline) {
+                databaseHelper.saveInFavorite(
+                    movieDetails,
+                    actors ?: apiHelper.getActorsList(movieDetails.id.toString())
+                )
+            } else {
+                databaseHelper.saveInFavorite(
+                    movieDetails,
+                    null
+                )
+            }
+        }
     }
 
 

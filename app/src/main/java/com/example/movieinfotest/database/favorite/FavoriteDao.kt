@@ -18,10 +18,10 @@ interface FavoriteDao {
     suspend fun addGenres(genreDBS: List<GenreDB>)
 
     @Query("SELECT * FROM actor WHERE movie_id LIKE :movie_id")
-    suspend fun getActors(movie_id: Int): List<Actor>?
+    suspend fun getActors(movie_id: Int): List<Actor>
 
     @Query("SELECT * FROM genredb WHERE movie_id LIKE :movie_id")
-    suspend fun getGenres(movie_id: Int): List<GenreDB>?
+    suspend fun getGenres(movie_id: Int): List<GenreDB>
 
     @Transaction
     suspend fun saveInFavorite(movieDetails: MovieDetails, actors: List<Actor>?) {

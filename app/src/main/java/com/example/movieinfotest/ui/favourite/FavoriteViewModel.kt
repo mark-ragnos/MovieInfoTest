@@ -11,7 +11,11 @@ import com.example.movieinfotest.repositories.Repository
 import kotlinx.coroutines.flow.Flow
 
 class FavoriteViewModel(private val repository: Repository) : ViewModel() {
+    private var favoriteList: List<MovieDetailsDB>? = null
 
-
-
+    suspend fun getFavoirte(): List<MovieDetailsDB>? {
+        if (favoriteList == null)
+            favoriteList = repository.getFavorite()
+        return favoriteList
+    }
 }

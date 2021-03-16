@@ -40,7 +40,7 @@ class DatabaseHelper() {
 
     suspend fun getDetailsFromFavorite(id: Int): MovieDetails? {
         val movieDB = database.favoriteDao().getFavoriteById(id)
-        val genres = database.favoriteDao().getGenres(id)?.map {
+        val genres = database.favoriteDao().getGenres(id).map {
             it.toGenre()
         }
         return movieDB?.toMovieDetails(genres)
@@ -56,7 +56,7 @@ class DatabaseHelper() {
         return database.movieDao().getMovieById(id)?.toMovieDetails()
     }
 
-    suspend fun getActorsById(id: Int): List<Actor>? {
+    suspend fun getActorsById(id: Int): List<Actor> {
         return database.favoriteDao().getActors(id)
     }
 }

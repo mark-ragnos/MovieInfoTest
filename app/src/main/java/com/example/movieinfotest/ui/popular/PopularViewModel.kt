@@ -9,7 +9,8 @@ import com.example.movieinfotest.models.popular.Movie
 import kotlinx.coroutines.flow.Flow
 
 class PopularViewModel(private val repository: Repository) : ViewModel() {
-    private val movies: Flow<PagingData<Movie>> = repository.getPopularNew().cachedIn(viewModelScope)
+    private val movies: Flow<PagingData<Movie>> =
+        repository.getPopularNew().cachedIn(viewModelScope)
 
     fun getFavorite(): Flow<PagingData<Movie>> {
         return movies

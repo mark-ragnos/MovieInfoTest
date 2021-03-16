@@ -58,7 +58,8 @@ class PopularMovieListFragment : Fragment() {
     }
 
     private fun setupUI() {
-        (activity as MainActivity).supportActionBar?.title = (activity as MainActivity).resources.getString(R.string.popular_title)
+        (activity as MainActivity).supportActionBar?.title =
+            (activity as MainActivity).resources.getString(R.string.popular_title)
         binding.rvPopularList.layoutManager = LinearLayoutManager(context)
 
         val listener = object : MovieAdapter.MovieClickListener {
@@ -71,7 +72,7 @@ class PopularMovieListFragment : Fragment() {
         movieAdapter = MovieAdapter(listener)
 
         binding.rvPopularList.adapter = movieAdapter.withLoadStateFooter(
-           footer = MovieLoadingStateAdapter(movieAdapter)
+            footer = MovieLoadingStateAdapter(movieAdapter)
         )
 
     }

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,17 +13,16 @@ import com.example.movieinfotest.MainActivity
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentFavoriteListBinding
 import com.example.movieinfotest.ui.AppViewModelFactory
-import com.example.movieinfotest.ui.favourite.adapter.MovieDetailDbAdapter
+import com.example.movieinfotest.ui.favourite.adapter.PopularAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 
 class FavoriteListFragment : Fragment() {
     private lateinit var binding: FragmentFavoriteListBinding
     private lateinit var viewModel: FavoriteViewModel
-    private lateinit var adapter: MovieDetailDbAdapter
+    private lateinit var adapter: PopularAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,30 +34,30 @@ class FavoriteListFragment : Fragment() {
             this,
             AppViewModelFactory()
         ).get(FavoriteViewModel::class.java)
-        (activity as MainActivity).supportActionBar?.title = (activity as MainActivity).resources.getString(R.string.favorite_title)
+        (activity as MainActivity).supportActionBar?.title =
+            (activity as MainActivity).resources.getString(R.string.favorite_title)
 
         setupUI()
 
         return binding.root
     }
 
-    private fun setupUI(){
-        val listener = object : MovieDetailDbAdapter.MovieDetailClickListener{
+    private fun setupUI() {
+        val listener = object : PopularAdapter.MovieDetailClickListener {
             override fun onClick(id: Int) {
                 val action = FavoriteListFragmentDirections.actionFavoriteListToMovieInfo(id)
                 NavHostFragment.findNavController(this@FavoriteListFragment).navigate(action)
             }
         }
         binding.rvPopularList.layoutManager = LinearLayoutManager(context)
-        adapter = MovieDetailDbAdapter(listener)
-        binding.rvPopularList.adapter = adapter
+        CoroutineScope(Dispatchers.Main).launch {
+            if (viewModel.getFavoirte() != null) {
+                adapter = PopularAdapter(viewModel.getFavoirte()!!, listener)
+                binding.rvPopularList.adapter = adapter
+            } else {
+                Toast.makeText(context, "Empty favorite list", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
-//    private fun fetchMovies() {
-//        CoroutineScope(Dispatchers.Main).launch {
-//            viewModel.getFavorite().collectLatest { pagingData ->
-//                movieAdapter.submitData(pagingData)
-//            }
-//        }
-//    }
 }
