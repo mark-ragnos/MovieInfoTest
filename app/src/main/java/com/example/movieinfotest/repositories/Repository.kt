@@ -13,6 +13,7 @@ import com.example.movieinfotest.models.details.MovieDetailsDB
 import com.example.movieinfotest.models.popular.Movie
 import com.example.movieinfotest.models.popular.PopularFilms
 import com.example.movieinfotest.network.TheMovieDBApi
+import com.example.movieinfotest.utils.MovieFrom
 import kotlinx.coroutines.flow.Flow
 
 class Repository(
@@ -39,7 +40,7 @@ class Repository(
         return apiHelper.getRandomMovie(year, genre)
     }
 
-    suspend fun getDetails(id: String): MovieDetails? {
+    suspend fun getDetails(id: String): MovieFrom {
         val isOnline = MainActivity.isOnline(MovieApp.getInstance())
 
         val favoriteDetails = databaseHelper.getDetailsFromFavorite(id.toInt())
@@ -47,14 +48,14 @@ class Repository(
             if (favoriteDetails.genres!!.isEmpty() && isOnline) {
                 val movie = apiHelper.getDetailsInformation(id)
                 saveInFavorite(movie, null)
-                return movie
+                return MovieFrom(movie, true)
             }
-            return favoriteDetails
+            return MovieFrom(favoriteDetails, true)
         }
         if (!isOnline)
-            return databaseHelper.getDetailsById(id.toInt())
+            return MovieFrom(databaseHelper.getDetailsById(id.toInt()), false)
 
-        return apiHelper.getDetailsInformation(id)
+        return MovieFrom(apiHelper.getDetailsInformation(id), false)
     }
 
     suspend fun getActors(filmId: String): List<Actor>? {
@@ -95,6 +96,10 @@ class Repository(
                 )
             }
         }
+    }
+
+    suspend fun deleteFromFavorite(id: Int) {
+        databaseHelper.removeFromFavorite(id)
     }
 
 

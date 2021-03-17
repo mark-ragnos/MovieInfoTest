@@ -1,6 +1,7 @@
 package com.example.movieinfotest.ui.details
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,7 @@ import com.example.movieinfotest.models.actors.Actor
 import com.example.movieinfotest.models.details.MovieDetails
 import com.example.movieinfotest.ui.AppViewModelFactory
 import com.example.movieinfotest.ui.details.actors.ActorAdapter
+import com.example.movieinfotest.utils.MovieFrom
 import com.example.movieinfotest.utils.getGenreList
 import com.example.movieinfotest.utils.getYear
 import com.example.movieinfotest.utils.registerImage
@@ -58,10 +60,13 @@ class DetailsFragment : Fragment() {
     }
 
     private fun setupReadLifeData() {
-        val detailObserver = Observer<MovieDetails> {
-            setMovie(it)
+        val detailObserver = Observer<MovieFrom> {
+            if (it.movie != null)
+                setMovie(it.movie)
+            changeFavoriteBnt()
         }
         viewModel.getDetails().observe(viewLifecycleOwner, detailObserver)
+
 
         val actorObserver = Observer<List<Actor>> {
             setActors(it)
@@ -95,19 +100,35 @@ class DetailsFragment : Fragment() {
 
     private fun setupFavoriteBtn() {
         binding.infoAddToFavorite.setOnClickListener {
-            Toast.makeText(
-                MovieApp.getInstance(),
-                "Movie was added in favorite list",
-                Toast.LENGTH_SHORT
-            ).show()
-            viewModel.saveInFavorite()
+            if (!viewModel.isFavorite()) {
+                makeToast(resources.getString(R.string.movie_added_to_favorite))
+                viewModel.saveInFavorite()
+            } else {
+                makeToast(resources.getString(R.string.movie_deleted_from_favorite))
+                viewModel.deleteFromFavorite()
+            }
+
+            viewModel.changeIsFavorite()
+            changeFavoriteBnt()
         }
+
+    }
+
+    private fun changeFavoriteBnt() {
+        if (viewModel.isFavorite()) {
+            binding.infoAddToFavorite.text = resources.getText(R.string.delete_from_favorite)
+        } else {
+            binding.infoAddToFavorite.text = resources.getText(R.string.save_as_favorite)
+        }
+    }
+
+    private fun makeToast(text: String) {
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
     }
 
 
     override fun onDestroy() {
         super.onDestroy()
-
         (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 }

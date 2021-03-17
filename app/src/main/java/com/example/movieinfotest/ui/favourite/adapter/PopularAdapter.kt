@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.lifecycle.LiveData
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -14,17 +15,17 @@ import com.example.movieinfotest.utils.getYear
 import com.example.movieinfotest.utils.registerImage
 
 class PopularAdapter(
-    val list: List<MovieDetailsDB>,
+    val list: LiveData<List<MovieDetailsDB>>,
     val listener: MovieDetailClickListener
 ) : RecyclerView.Adapter<PopularAdapter.MovieDetailsDbHolder>() {
 
 
     override fun onBindViewHolder(holder: MovieDetailsDbHolder, position: Int) {
-        holder.name.text = list[position].title
-        holder.rating.text = list[position].vote_average.toString()
-        holder.id.text = list[position].id.toString()
+        holder.name.text = list.value!![position].title
+        holder.rating.text = list.value!![position].vote_average.toString()
+        holder.id.text = list.value!![position].id.toString()
 
-        holder.image.registerImage(list[position].poster_path)
+        holder.image.registerImage(list.value!![position].poster_path)
         holder.itemView.setOnClickListener {
             listener.onClick(holder.id.text.toString().toInt())
         }
@@ -49,6 +50,6 @@ class PopularAdapter(
     }
 
     override fun getItemCount(): Int {
-        return list.size
+        return list.value!!.size
     }
 }

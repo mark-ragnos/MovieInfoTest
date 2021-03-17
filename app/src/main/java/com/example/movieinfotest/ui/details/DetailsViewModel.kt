@@ -8,20 +8,21 @@ import androidx.lifecycle.ViewModel
 import com.example.movieinfotest.repositories.Repository
 import com.example.movieinfotest.models.actors.Actor
 import com.example.movieinfotest.models.details.MovieDetails
+import com.example.movieinfotest.utils.MovieFrom
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class DetailsViewModel(private val repository: Repository) : ViewModel() {
 
-    private val movieDetails: MutableLiveData<MovieDetails> by lazy {
-        MutableLiveData<MovieDetails>()
+    private val movieDetails: MutableLiveData<MovieFrom> by lazy {
+        MutableLiveData<MovieFrom>()
     }
     private val actorsList: MutableLiveData<List<Actor>> by lazy {
         MutableLiveData<List<Actor>>()
     }
 
-    fun getDetails(): LiveData<MovieDetails> {
+    fun getDetails(): LiveData<MovieFrom> {
         return movieDetails
     }
 
@@ -30,14 +31,30 @@ class DetailsViewModel(private val repository: Repository) : ViewModel() {
     }
 
     suspend fun sendID(id: Int) {
-        movieDetails.value = repository.getDetails(id.toString())
-        actorsList.value = repository.getActors(id.toString())
+        if(movieDetails.value?.movie?.genres == null)
+            movieDetails.value = repository.getDetails(id.toString())
+        if(actorsList.value == null)
+            actorsList.value = repository.getActors(id.toString())
     }
 
     fun saveInFavorite() {
         CoroutineScope(Dispatchers.IO).launch {
-            repository.saveInFavorite(movieDetails.value, actorsList.value)
+            repository.saveInFavorite(movieDetails.value?.movie, actorsList.value)
         }
+    }
+
+    fun deleteFromFavorite() {
+        CoroutineScope(Dispatchers.IO).launch {
+            repository.deleteFromFavorite(movieDetails.value!!.movie!!.id)
+        }
+    }
+
+    fun changeIsFavorite(){
+        movieDetails.value!!.isFromFavorite = !movieDetails.value!!.isFromFavorite
+    }
+
+    fun isFavorite():Boolean{
+        return movieDetails.value!!.isFromFavorite
     }
 
 }

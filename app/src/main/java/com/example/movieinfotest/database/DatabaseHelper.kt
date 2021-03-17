@@ -59,4 +59,8 @@ class DatabaseHelper() {
     suspend fun getActorsById(id: Int): List<Actor> {
         return database.favoriteDao().getActors(id)
     }
+
+    suspend fun removeFromFavorite(id: Int) {
+        database.favoriteDao().removeFromFavorite(id)
+    }
 }

@@ -49,4 +49,20 @@ interface FavoriteDao {
 
     @Query("SELECT * FROM moviedetailsdb WHERE id LIKE :id")
     suspend fun getFavoriteById(id: Int): MovieDetailsDB?
+
+    @Transaction
+    suspend fun removeFromFavorite(id: Int){
+        deleteFavorite(id)
+        deleteGenres(id)
+        deleteActors(id)
+    }
+
+    @Query("DELETE FROM moviedetailsdb WHERE id LIKE :id")
+    suspend fun deleteFavorite(id: Int)
+
+    @Query("DELETE FROM actor WHERE movie_id LIKE :movie_id")
+    suspend fun deleteActors(movie_id:Int)
+
+    @Query("DELETE FROM genredb WHERE movie_id LIKE :movie_id")
+    suspend fun deleteGenres(movie_id: Int)
 }
