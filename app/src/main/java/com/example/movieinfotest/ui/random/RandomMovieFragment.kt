@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -94,26 +93,24 @@ class RandomMovieFragment : Fragment() {
         binding.genOutRating.text = movie.vote_average.toString()
         binding.genOutName.text = movie.title
         binding.genOutId.text = movie.id.toString()
+        binding.genOutDesc.text = movie.overview
         binding.genResult.visibility = View.VISIBLE
         accessToMove = true
     }
 
-    private suspend fun startRandom(): Boolean {
+    private fun startRandom(): Boolean {
         if(!MainActivity.isOnline(MovieApp.getInstance()))
             return false
 
-        val today = Calendar.getInstance().get(Calendar.YEAR)
-        val year = binding.genInYear.text.toString()
+        val currentYear = Calendar.getInstance().get(Calendar.YEAR)
+        val inputYear = binding.genInYear.text.toString()
 
-        if (year == "")
+        if (inputYear == "")
             return true
 
-        if (year.toInt() in 1895..today) {
-            viewModel.generateRandom(
-                (binding.genInGenre.selectedItem as Genre).id.toString(),
-                binding.genInYear.text.toString()
-            )
-        } else return false
+        if (inputYear.toInt() !in 1895..currentYear) {
+            return false
+        }
 
         return true
     }

@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieinfotest.MainActivity
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentFavoriteListBinding
+import com.example.movieinfotest.databinding.FragmentPopularMovieListBinding
 import com.example.movieinfotest.models.popular.Movie
 import com.example.movieinfotest.repositories.Repository
 import com.example.movieinfotest.ui.popular.adapter.MovieAdapter
@@ -30,7 +31,7 @@ import kotlinx.coroutines.launch
 
 
 class PopularMovieListFragment : Fragment() {
-    private lateinit var binding: FragmentFavoriteListBinding
+    private lateinit var binding: FragmentPopularMovieListBinding
     private lateinit var viewModel: PopularViewModel
     private lateinit var movieAdapter: MovieAdapter
 
@@ -39,7 +40,7 @@ class PopularMovieListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentFavoriteListBinding.inflate(inflater, container, false)
+        binding = FragmentPopularMovieListBinding.inflate(inflater, container, false)
         viewModel = ViewModelProviders.of(
             this,
             AppViewModelFactory()

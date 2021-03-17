@@ -12,23 +12,10 @@ import com.example.movieinfotest.repositories.Repository
 import kotlinx.coroutines.flow.Flow
 
 class FavoriteViewModel(private val repository: Repository) : ViewModel() {
-    private var favoriteList: List<MovieDetailsDB>? = null
+    private val movies: Flow<PagingData<MovieDetailsDB>> =
+        repository.getFavoriteNew()
 
-    private val mutableLiveData:MutableLiveData<List<MovieDetailsDB>> by lazy {
-        MutableLiveData<List<MovieDetailsDB>>()
-    }
-
-    suspend fun getFavoirte(): List<MovieDetailsDB>? {
-        if (favoriteList == null)
-            favoriteList = repository.getFavorite()
-        return favoriteList
-    }
-
-    suspend fun loadMovies(){
-        mutableLiveData.value = repository.getFavorite()
-    }
-
-    fun getMovies():LiveData<List<MovieDetailsDB>>{
-        return mutableLiveData
+    fun getPopular(): Flow<PagingData<MovieDetailsDB>> {
+        return movies
     }
 }

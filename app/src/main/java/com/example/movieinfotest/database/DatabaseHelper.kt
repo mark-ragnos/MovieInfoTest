@@ -1,6 +1,7 @@
 package com.example.movieinfotest.database
 
 import android.util.Log
+import androidx.paging.PagingSource
 import com.example.movieinfotest.MovieApp
 import com.example.movieinfotest.models.actors.Actor
 import com.example.movieinfotest.models.details.MovieDetails
@@ -39,7 +40,7 @@ class DatabaseHelper() {
     }
 
     //Загрузка из избранного списка
-    suspend fun getGetFavoriteList(): List<MovieDetailsDB>? {
+    fun getGetFavoriteList(): PagingSource<Int, MovieDetailsDB> {
         val movies = database.favoriteDao().getFavoriteList()
         return movies
     }

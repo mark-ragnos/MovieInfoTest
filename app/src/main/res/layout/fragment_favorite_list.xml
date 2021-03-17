@@ -7,7 +7,7 @@
     tools:context=".ui.favourite.FavoriteListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_popular_list"
+        android:id="@+id/rv_favorite_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/item_list" />

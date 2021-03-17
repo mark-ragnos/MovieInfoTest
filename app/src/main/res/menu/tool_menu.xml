@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:icon="@drawable/ic_dark_mode"
-        android:title="DarkMode"
         android:id="@+id/dark_mode_btn"
-        app:showAsAction="always"/>
+        android:icon="@drawable/ic_dark_mode"
+        android:title="@string/dark_mode"
+        app:showAsAction="always" />
 </menu>

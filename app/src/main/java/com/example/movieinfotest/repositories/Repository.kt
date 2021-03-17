@@ -80,8 +80,12 @@ class Repository(
         return databaseHelper.getAllGenres()
     }
 
-    suspend fun getFavorite(): List<MovieDetailsDB>? {
-        return databaseHelper.getGetFavoriteList()
+    fun getFavoriteNew():Flow<PagingData<MovieDetailsDB>>{
+        val pagingSourceFactory = { databaseHelper.getGetFavoriteList() }
+        return Pager(
+            config = PagingConfig(20, enablePlaceholders = true),
+            pagingSourceFactory = pagingSourceFactory
+        ).flow
     }
 
     suspend fun saveInFavorite(movieDetails: MovieDetails?, actors: List<Actor>?) {

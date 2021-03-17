@@ -88,9 +88,9 @@ class MainActivity : AppCompatActivity() {
     companion object {
 
         fun isOnline(context: Context): Boolean {
-            if ((android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M)) {
-                val connectivityManager =
-                    context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                val connectivityManager: ConnectivityManager? =
+                    context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
                 if (connectivityManager != null) {
                     val capabilities =
                         connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)

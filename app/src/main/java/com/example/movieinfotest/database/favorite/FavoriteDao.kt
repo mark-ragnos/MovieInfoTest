@@ -1,5 +1,7 @@
 package com.example.movieinfotest.database.favorite
 
+import androidx.paging.PagingData
+import androidx.paging.PagingSource
 import androidx.room.*
 import com.example.movieinfotest.models.actors.Actor
 import com.example.movieinfotest.models.details.MovieDetails
@@ -45,7 +47,7 @@ interface FavoriteDao {
     suspend fun addMovieDetails(movieDetails: MovieDetailsDB)
 
     @Query("SELECT * FROM moviedetailsdb")
-    suspend fun getFavoriteList(): List<MovieDetailsDB>?
+    fun getFavoriteList(): PagingSource<Int, MovieDetailsDB>
 
     @Query("SELECT * FROM moviedetailsdb WHERE id LIKE :id")
     suspend fun getFavoriteById(id: Int): MovieDetailsDB?

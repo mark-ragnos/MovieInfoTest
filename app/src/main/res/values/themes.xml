@@ -17,4 +17,9 @@
 
 
     </style>
+
+    <style name="ToolbarColoredBackArrow" parent="Widget.MaterialComponents.Toolbar.Primary">
+
+    </style>
+
 </resources>

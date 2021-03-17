@@ -23,5 +23,7 @@
     <string name="delete_from_favorite">Delete from favorite</string>
     <string name="movie_deleted_from_favorite">Movie was deleted from favorite</string>
     <string name="movie_added_to_favorite">Movie was added to favorite</string>
+    <string name="select_genre">Select genre</string>
+    <string name="dark_mode">DarkMode</string>
 
 </resources>

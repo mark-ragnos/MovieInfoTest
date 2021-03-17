@@ -2,6 +2,7 @@ package com.example.movieinfotest.ui.random.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -36,7 +37,7 @@ class GenreAdapter(val context: Context, var genres: List<Genre>) : BaseAdapter(
     override fun getItemId(position: Int): Long {
         return position.toLong()
     }
-
+    //почта? пароль
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -50,8 +51,13 @@ class GenreAdapter(val context: Context, var genres: List<Genre>) : BaseAdapter(
             view = convertView
             vh = view.tag as ItemHolder
         }
-        vh.id?.text = genres.get(position).id.toString()
+        vh.id?.text = genres[position].id.toString()
         vh.genre?.text = genres[position].name
+
+        if(position == 0){
+            vh.genre?.text = context.resources.getText(R.string.select_genre)
+            vh.genre?.setTextColor(Color.GRAY)
+        }
         return view
     }
 

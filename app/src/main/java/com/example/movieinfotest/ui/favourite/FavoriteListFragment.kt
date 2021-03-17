@@ -14,10 +14,15 @@ import com.example.movieinfotest.MainActivity
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentFavoriteListBinding
 import com.example.movieinfotest.models.details.MovieDetailsDB
+import com.example.movieinfotest.models.popular.Movie
+import com.example.movieinfotest.repositories.Repository
 import com.example.movieinfotest.ui.AppViewModelFactory
 import com.example.movieinfotest.ui.favourite.adapter.FavoriteAdapter
+import com.example.movieinfotest.ui.popular.PopularMovieListFragmentDirections
+import com.example.movieinfotest.ui.popular.adapter.MovieAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 
@@ -41,36 +46,33 @@ class FavoriteListFragment : Fragment() {
             resources.getString(R.string.favorite_title)
 
         setupUI()
+        fetchMovies()
+
 
         return binding.root
     }
 
-    private fun setupReadLifeData(){
-        val detailObserver = Observer<List<MovieDetailsDB>> {
-            adapter.notifyDataSetChanged()
+    private fun fetchMovies() {
+        CoroutineScope(Dispatchers.Main).launch {
+            viewModel.getPopular().collectLatest { pagingData ->
+                adapter.submitData(pagingData)
+            }
         }
-        viewModel.getMovies().observe(viewLifecycleOwner, detailObserver)
     }
 
     private fun setupUI() {
+        binding.rvFavoriteList.layoutManager = LinearLayoutManager(context)
         val listener = object : FavoriteAdapter.MovieDetailClickListener {
             override fun onClick(id: Int) {
-                val action = FavoriteListFragmentDirections.actionFavoriteListToMovieInfo(id)
+                val action =
+                    FavoriteListFragmentDirections.actionFavoriteListToMovieInfo(id)
                 NavHostFragment.findNavController(this@FavoriteListFragment).navigate(action)
             }
         }
-        binding.rvPopularList.layoutManager = LinearLayoutManager(context)
 
-        CoroutineScope(Dispatchers.Main).launch {
-            if (viewModel.getFavoirte() != null) {
-                viewModel.loadMovies()
-                adapter = FavoriteAdapter(viewModel.getMovies(), listener)
-                binding.rvPopularList.adapter = adapter
-                setupReadLifeData()
-            } else {
-                Toast.makeText(context, "Empty favorite list", Toast.LENGTH_SHORT).show()
-            }
-        }
+        adapter = FavoriteAdapter(Repository.create(), listener)
+
+        binding.rvFavoriteList.adapter = adapter
+
     }
-
 }
