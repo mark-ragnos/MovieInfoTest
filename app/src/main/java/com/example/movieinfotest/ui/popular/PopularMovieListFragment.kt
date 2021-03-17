@@ -19,6 +19,7 @@ import com.example.movieinfotest.MainActivity
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentFavoriteListBinding
 import com.example.movieinfotest.models.popular.Movie
+import com.example.movieinfotest.repositories.Repository
 import com.example.movieinfotest.ui.popular.adapter.MovieAdapter
 import com.example.movieinfotest.ui.AppViewModelFactory
 import com.example.movieinfotest.ui.popular.adapter.MovieLoadingStateAdapter
@@ -70,12 +71,15 @@ class PopularMovieListFragment : Fragment() {
                 NavHostFragment.findNavController(this@PopularMovieListFragment).navigate(action)
             }
 
-            override fun onFavorite(movie: Movie?): Boolean {
-
-                return true
+            override fun onFavorite(movie: Movie?, isFavorite: Boolean) {
+                if (movie != null)
+                    if (isFavorite)
+                        viewModel.removeFromFavorite(movie)
+                    else
+                        viewModel.saveInFavorite(movie)
             }
         }
-        movieAdapter = MovieAdapter(listener)
+        movieAdapter = MovieAdapter(listener, Repository.create())
 
         binding.rvPopularList.adapter = movieAdapter.withLoadStateFooter(
             footer = MovieLoadingStateAdapter(movieAdapter)

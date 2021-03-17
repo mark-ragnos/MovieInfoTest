@@ -13,6 +13,12 @@ import com.example.movieinfotest.utils.toMovieDetails
 class DatabaseHelper() {
     private val database: MovieDatabase = MovieApp.getInstance().getDatabase()
 
+    suspend fun isFavorite(id: Int): Boolean {
+        if (database.favoriteDao().getFavoriteById(id) != null)
+            return true
+        return false
+    }
+
     fun getDatabase(): MovieDatabase {
         return database
     }

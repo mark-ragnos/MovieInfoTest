@@ -1,15 +1,22 @@
 package com.example.movieinfotest.ui.popular.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
+import com.example.movieinfotest.MovieApp
 import com.example.movieinfotest.R
 import com.example.movieinfotest.models.popular.Movie
+import com.example.movieinfotest.repositories.Repository
 import com.example.movieinfotest.utils.getYear
 import com.example.movieinfotest.utils.registerImage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
-class MovieAdapter(val listener: MovieClickListener) :
+class MovieAdapter(val listener: MovieClickListener, val repository: Repository) :
     PagingDataAdapter<Movie, MovieHolder>(MovieDiffCallback) {
     override fun onBindViewHolder(holder: MovieHolder, position: Int) {
         holder.name.text =
@@ -22,16 +29,24 @@ class MovieAdapter(val listener: MovieClickListener) :
             listener.onClick(holder.id.text.toString().toInt())
         }
         holder.favorite.visibility = View.VISIBLE
+
         holder.favorite.setOnClickListener {
-            listener.onFavorite(getItem(position))
+            CoroutineScope(Dispatchers.IO).launch {
+                val isFavorite = isFavorite(position)
+                listener.onFavorite(getItem(position), isFavorite)
+                settingImage(holder, position, !isFavorite)
+            }
+        }
 
-
+        CoroutineScope(Dispatchers.IO).launch {
+            val isFavorite = isFavorite(position)
+            settingImage(holder, position, isFavorite)
         }
     }
 
     interface MovieClickListener {
         fun onClick(id: Int)
-        fun onFavorite(movie: Movie?): Boolean
+        fun onFavorite(movie: Movie?, isFavorite: Boolean)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieHolder {
@@ -39,5 +54,21 @@ class MovieAdapter(val listener: MovieClickListener) :
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_list, parent, false)
         )
+    }
+
+    private suspend fun isFavorite(position: Int): Boolean {
+        return repository.isFavorite(getItem(position)!!.id)
+
+    }
+
+    private suspend fun settingImage(
+        holder: MovieHolder,
+        position: Int,
+        isFavorite: Boolean = false
+    ) {
+        if (isFavorite) {
+            holder.favorite.setImageResource(R.drawable.ic_favorite)
+        } else
+            holder.favorite.setImageResource(R.drawable.ic_favorite_not)
     }
 }

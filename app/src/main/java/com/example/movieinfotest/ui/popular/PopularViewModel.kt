@@ -20,9 +20,15 @@ class PopularViewModel(private val repository: Repository) : ViewModel() {
         return movies
     }
 
-    fun saveInFavorite(movie: Movie){
-        CoroutineScope(Dispatchers.IO).launch{
+    fun saveInFavorite(movie: Movie) {
+        CoroutineScope(Dispatchers.IO).launch {
             repository.saveInFavorite(movie.toMovieDetails(), null)
+        }
+    }
+
+    fun removeFromFavorite(movie: Movie) {
+        CoroutineScope(Dispatchers.IO).launch {
+            repository.deleteFromFavorite(movie.id)
         }
     }
 }

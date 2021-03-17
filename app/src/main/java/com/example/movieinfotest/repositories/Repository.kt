@@ -20,6 +20,9 @@ class Repository(
     private val apiHelper: MovieHelper,
     private val databaseHelper: DatabaseHelper
 ) {
+    suspend fun isFavorite(id: Int): Boolean {
+        return databaseHelper.isFavorite(id)
+    }
 
     @OptIn(ExperimentalPagingApi::class)
     fun getPopularNew(): Flow<PagingData<Movie>> {
@@ -98,7 +101,7 @@ class Repository(
         }
     }
 
-    suspend fun saveInFavorite(id: Int){
+    suspend fun saveInFavorite(id: Int) {
 
     }
 
