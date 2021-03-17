@@ -15,14 +15,14 @@ import kotlinx.coroutines.launch
 
 class DetailsViewModel(private val repository: Repository) : ViewModel() {
 
-    private val movieDetails: MutableLiveData<MovieFrom> by lazy {
-        MutableLiveData<MovieFrom>()
+    private val movieDetails: MutableLiveData<MovieFrom<MovieDetails?>> by lazy {
+        MutableLiveData<MovieFrom<MovieDetails?>>()
     }
     private val actorsList: MutableLiveData<List<Actor>> by lazy {
         MutableLiveData<List<Actor>>()
     }
 
-    fun getDetails(): LiveData<MovieFrom> {
+    fun getDetails(): LiveData<MovieFrom<MovieDetails?>> {
         return movieDetails
     }
 

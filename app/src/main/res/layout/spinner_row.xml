@@ -19,7 +19,8 @@
         android:textSize="@dimen/def_item_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/mdb_tertiary"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

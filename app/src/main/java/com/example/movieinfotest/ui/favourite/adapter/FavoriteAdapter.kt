@@ -6,18 +6,15 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.LiveData
-import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movieinfotest.R
 import com.example.movieinfotest.models.details.MovieDetailsDB
-import com.example.movieinfotest.utils.getYear
 import com.example.movieinfotest.utils.registerImage
 
-class PopularAdapter(
+class FavoriteAdapter(
     val list: LiveData<List<MovieDetailsDB>>,
     val listener: MovieDetailClickListener
-) : RecyclerView.Adapter<PopularAdapter.MovieDetailsDbHolder>() {
+) : RecyclerView.Adapter<FavoriteAdapter.MovieDetailsDbHolder>() {
 
 
     override fun onBindViewHolder(holder: MovieDetailsDbHolder, position: Int) {

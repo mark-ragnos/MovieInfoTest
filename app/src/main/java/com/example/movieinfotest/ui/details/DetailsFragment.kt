@@ -60,7 +60,7 @@ class DetailsFragment : Fragment() {
     }
 
     private fun setupReadLifeData() {
-        val detailObserver = Observer<MovieFrom> {
+        val detailObserver = Observer<MovieFrom<MovieDetails?>> {
             if (it.movie != null)
                 setMovie(it.movie)
             changeFavoriteBnt()

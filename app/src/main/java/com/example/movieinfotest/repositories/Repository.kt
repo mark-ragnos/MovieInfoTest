@@ -40,7 +40,7 @@ class Repository(
         return apiHelper.getRandomMovie(year, genre)
     }
 
-    suspend fun getDetails(id: String): MovieFrom {
+    suspend fun getDetails(id: String): MovieFrom<MovieDetails?> {
         val isOnline = MainActivity.isOnline(MovieApp.getInstance())
 
         val favoriteDetails = databaseHelper.getDetailsFromFavorite(id.toInt())
@@ -96,6 +96,10 @@ class Repository(
                 )
             }
         }
+    }
+
+    suspend fun saveInFavorite(id: Int){
+
     }
 
     suspend fun deleteFromFavorite(id: Int) {

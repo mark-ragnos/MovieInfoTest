@@ -15,8 +15,7 @@ import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentFavoriteListBinding
 import com.example.movieinfotest.models.details.MovieDetailsDB
 import com.example.movieinfotest.ui.AppViewModelFactory
-import com.example.movieinfotest.ui.favourite.adapter.PopularAdapter
-import com.example.movieinfotest.utils.MovieFrom
+import com.example.movieinfotest.ui.favourite.adapter.FavoriteAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,7 +24,7 @@ import kotlinx.coroutines.launch
 class FavoriteListFragment : Fragment() {
     private lateinit var binding: FragmentFavoriteListBinding
     private lateinit var viewModel: FavoriteViewModel
-    private lateinit var adapter: PopularAdapter
+    private lateinit var adapter: FavoriteAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,7 +53,7 @@ class FavoriteListFragment : Fragment() {
     }
 
     private fun setupUI() {
-        val listener = object : PopularAdapter.MovieDetailClickListener {
+        val listener = object : FavoriteAdapter.MovieDetailClickListener {
             override fun onClick(id: Int) {
                 val action = FavoriteListFragmentDirections.actionFavoriteListToMovieInfo(id)
                 NavHostFragment.findNavController(this@FavoriteListFragment).navigate(action)
@@ -65,7 +64,7 @@ class FavoriteListFragment : Fragment() {
         CoroutineScope(Dispatchers.Main).launch {
             if (viewModel.getFavoirte() != null) {
                 viewModel.loadMovies()
-                adapter = PopularAdapter(viewModel.getMovies(), listener)
+                adapter = FavoriteAdapter(viewModel.getMovies(), listener)
                 binding.rvPopularList.adapter = adapter
                 setupReadLifeData()
             } else {

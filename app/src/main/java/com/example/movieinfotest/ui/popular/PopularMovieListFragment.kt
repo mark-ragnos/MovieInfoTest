@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieinfotest.MainActivity
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentFavoriteListBinding
+import com.example.movieinfotest.models.popular.Movie
 import com.example.movieinfotest.ui.popular.adapter.MovieAdapter
 import com.example.movieinfotest.ui.AppViewModelFactory
 import com.example.movieinfotest.ui.popular.adapter.MovieLoadingStateAdapter
@@ -63,10 +64,15 @@ class PopularMovieListFragment : Fragment() {
         binding.rvPopularList.layoutManager = LinearLayoutManager(context)
 
         val listener = object : MovieAdapter.MovieClickListener {
-            override fun OnClick(id: Int) {
+            override fun onClick(id: Int) {
                 val action =
                     PopularMovieListFragmentDirections.actionPopularMovieListToMovieInfo(id)
                 NavHostFragment.findNavController(this@PopularMovieListFragment).navigate(action)
+            }
+
+            override fun onFavorite(movie: Movie?): Boolean {
+
+                return true
             }
         }
         movieAdapter = MovieAdapter(listener)

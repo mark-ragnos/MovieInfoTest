@@ -1,6 +1,7 @@
 package com.example.movieinfotest.ui.popular.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import com.example.movieinfotest.R
@@ -18,12 +19,19 @@ class MovieAdapter(val listener: MovieClickListener) :
 
         holder.image.registerImage(getItem(position)?.poster_path)
         holder.itemView.setOnClickListener {
-            listener.OnClick(holder.id.text.toString().toInt())
+            listener.onClick(holder.id.text.toString().toInt())
+        }
+        holder.favorite.visibility = View.VISIBLE
+        holder.favorite.setOnClickListener {
+            listener.onFavorite(getItem(position))
+
+
         }
     }
 
     interface MovieClickListener {
-        fun OnClick(id: Int)
+        fun onClick(id: Int)
+        fun onFavorite(movie: Movie?): Boolean
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieHolder {
