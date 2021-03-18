@@ -2,9 +2,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
+    <item
+        android:id="@+id/login"
+        android:icon="@drawable/ic_login"
+        android:title="@string/login"
+        app:showAsAction="ifRoom"
+        android:visible="false"/>
+    <item
+        android:id="@+id/logout"
+        android:icon="@drawable/ic_logout"
+        android:title="@string/logout"
+        app:showAsAction="ifRoom"
+        android:visible="false"/>
     <item
         android:id="@+id/dark_mode_btn"
         android:icon="@drawable/ic_dark_mode"
         android:title="@string/dark_mode"
         app:showAsAction="always" />
+
 </menu>

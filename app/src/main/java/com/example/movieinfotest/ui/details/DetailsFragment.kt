@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieinfotest.MainActivity
 import com.example.movieinfotest.MovieApp
@@ -100,6 +101,13 @@ class DetailsFragment : Fragment() {
 
     private fun setupFavoriteBtn() {
         binding.infoAddToFavorite.setOnClickListener {
+            val login = (activity as MainActivity).isLogin()
+
+            if(!login){
+                NavHostFragment.findNavController(this).navigate(R.id.action_movieInfo_to_loginFragment)
+                return@setOnClickListener
+            }
+
             if (!viewModel.isFavorite()) {
                 makeToast(resources.getString(R.string.movie_added_to_favorite))
                 viewModel.saveInFavorite()

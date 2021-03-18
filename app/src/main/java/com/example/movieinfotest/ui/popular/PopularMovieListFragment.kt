@@ -85,8 +85,6 @@ class PopularMovieListFragment : Fragment() {
         binding.rvPopularList.adapter = movieAdapter.withLoadStateFooter(
             footer = MovieLoadingStateAdapter(movieAdapter)
         )
-
     }
-
 
 }

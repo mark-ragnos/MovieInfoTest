@@ -66,12 +66,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
+            android:ellipsize="end"
+            android:maxLines="2"
             android:textSize="@dimen/def_item_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView3"
-            app:layout_constraintTop_toTopOf="@+id/textView3"
-            android:ellipsize="end"
-            android:maxLines="2"/>
+            app:layout_constraintTop_toTopOf="@+id/textView3" />
 
         <TextView
             android:id="@+id/gen_out_rating"
@@ -79,10 +79,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
+            android:textSize="@dimen/def_item_size"
             app:layout_constraintBottom_toBottomOf="@+id/textView4"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView4"
-            android:textSize="@dimen/def_item_size" />
+            app:layout_constraintStart_toEndOf="@+id/textView4" />
 
         <TextView
             android:id="@+id/textView3"
@@ -109,11 +109,13 @@
         <TextView
             android:id="@+id/gen_out_desc"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"
             android:ellipsize="end"
-            android:lines="6"
-            android:text="TextView"
+            android:text=""
+            android:textSize="@dimen/def_item_sub"
+            app:layout_constraintBottom_toBottomOf="@+id/gen_out_poster"
             app:layout_constraintEnd_toEndOf="@+id/gen_out_rating"
             app:layout_constraintStart_toStartOf="@+id/textView4"
             app:layout_constraintTop_toBottomOf="@+id/textView4" />

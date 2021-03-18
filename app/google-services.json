@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "230569229140",
+    "project_id": "movie-info-test",
+    "storage_bucket": "movie-info-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:230569229140:android:0f519e77e12b7890f266c1",
+        "android_client_info": {
+          "package_name": "com.example.movieinfotest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "230569229140-9o26g4jts4nokuclvk36v3bp7i42qaa9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAJNIkN0OHiHGfCE9nuvBWol3cAj4DQsM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "230569229140-9o26g4jts4nokuclvk36v3bp7i42qaa9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

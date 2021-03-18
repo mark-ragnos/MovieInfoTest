@@ -61,6 +61,7 @@ class FavoriteListFragment : Fragment() {
     }
 
     private fun setupUI() {
+
         binding.rvFavoriteList.layoutManager = LinearLayoutManager(context)
         val listener = object : FavoriteAdapter.MovieDetailClickListener {
             override fun onClick(id: Int) {
@@ -70,9 +71,23 @@ class FavoriteListFragment : Fragment() {
             }
         }
 
+        binding.favoriteTextLogin.setOnClickListener {
+            NavHostFragment.findNavController(this).navigate(R.id.action_favoriteList_to_loginFragment)
+        }
+
         adapter = FavoriteAdapter(Repository.create(), listener)
 
         binding.rvFavoriteList.adapter = adapter
 
+    }
+
+    override fun onStart() {
+
+
+        if(!(activity as MainActivity).isLogin()){
+            binding.rvFavoriteList.visibility = View.GONE
+            binding.favoriteTextLogin.visibility = View.VISIBLE
+        }
+        super.onStart()
     }
 }

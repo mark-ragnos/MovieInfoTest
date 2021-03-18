@@ -11,15 +11,24 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavController
+import androidx.navigation.NavGraph
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.movieinfotest.databinding.ActivityMainBinding
 import com.example.movieinfotest.repositories.Repository
+import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.ktx.initialize
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -28,12 +37,15 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MainActivityViewModel
     private lateinit var binding: ActivityMainBinding
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        FirebaseApp.initializeApp(this)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val navController = findNavController(R.id.fragment)
+        auth = Firebase.auth
 
         viewModel = ViewModelProviders.of(this).get(MainActivityViewModel::class.java)
         setupDarkMode()
@@ -46,9 +58,12 @@ class MainActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.tool_menu, menu)
 
         if (viewModel.getDarkMode())
-            menu?.getItem(0)?.icon = getDrawable(R.drawable.ic_light_mode)
+            menu?.getItem(2)?.icon = getDrawable(R.drawable.ic_light_mode)
         else
-            menu?.getItem(0)?.icon = getDrawable(R.drawable.ic_dark_mode)
+            menu?.getItem(2)?.icon = getDrawable(R.drawable.ic_dark_mode)
+
+        if(auth.currentUser != null)
+            menu?.getItem(1)?.isVisible = true
 
         return super.onCreateOptionsMenu(menu)
 
@@ -68,6 +83,12 @@ class MainActivity : AppCompatActivity() {
             android.R.id.home -> {
                 onBackPressed()
             }
+            R.id.login -> {
+                binding.bottomNavigation.visibility = View.GONE
+            }
+            R.id.logout -> {
+                auth.signOut()
+            }
         }
 
 
@@ -82,6 +103,10 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
+    }
+
+    fun isLogin(): Boolean {
+        return auth.currentUser != null
     }
 
 

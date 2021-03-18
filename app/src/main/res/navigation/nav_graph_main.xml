@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_favoriteList_to_movieInfo"
             app:destination="@id/movieInfo" />
+        <action
+            android:id="@+id/action_favoriteList_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/generateMovie"
@@ -31,6 +34,9 @@
         <action
             android:id="@+id/action_popularMovieList_to_movieInfo"
             app:destination="@id/movieInfo" />
+        <action
+            android:id="@+id/action_popularMovieList_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/movieInfo"
@@ -41,6 +47,22 @@
             android:name="id"
             android:defaultValue="0"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_movieInfo_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.movieinfotest.ui.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
+    </fragment><fragment
+        android:id="@+id/registrationFragment"
+        android:name="com.example.movieinfotest.ui.register.RegistrationFragment"
+        android:label="fragment_registration"
+        tools:layout="@layout/fragment_registration" />
 
 </navigation>
