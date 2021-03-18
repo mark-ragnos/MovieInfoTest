@@ -11,6 +11,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.example.movieinfotest.MainActivity
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentLoginBinding
+import com.example.movieinfotest.utils.isCorrectUserData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -25,8 +26,8 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
-        setupUI()
         auth = Firebase.auth
+        setupUI()
 
         (activity as MainActivity).supportActionBar?.title =
             (activity as MainActivity).resources.getString(
@@ -37,21 +38,36 @@ class LoginFragment : Fragment() {
     }
 
     private fun setupUI() {
+        if (auth.currentUser != null){
+            (activity as MainActivity).onBackPressed()
+        }
         binding.logTextLoginHelp.setOnClickListener {
             NavHostFragment.findNavController(this)
                 .navigate(R.id.action_loginFragment_to_registrationFragment)
         }
 
         binding.logBtnLogin.setOnClickListener {
-            val email = "example@example.com"
-            val password = "ASInidso6dsa"
-            auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
-                if(it.isSuccessful){
-                    (activity as MainActivity).onBackPressed()
-                }else{
-                    Toast.makeText(context, resources.getText(R.string.autentification_failed), Toast.LENGTH_SHORT).show()
+            val email = binding.logEmail.text.toString()
+            val password = binding.logPassword.text.toString()
+            if (isCorrectUserData(email, password))
+                auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        (activity as MainActivity).onBackPressed()
+                        activity?.recreate()
+                    } else {
+                        Toast.makeText(
+                            context,
+                            resources.getText(R.string.autentification_failed),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
-            }
+            else
+                Toast.makeText(
+                    context,
+                    resources.getText(R.string.incorrect_user_data),
+                    Toast.LENGTH_SHORT
+                ).show()
 
         }
     }

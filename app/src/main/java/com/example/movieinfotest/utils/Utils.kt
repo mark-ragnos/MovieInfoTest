@@ -73,3 +73,16 @@ fun GenreDB.toGenre(): Genre {
 fun Movie.toMovieDetails(): MovieDetails {
     return MovieDetails(id, title, vote_average, overview, release_date, null, poster_path)
 }
+
+fun isCorrectUserData(email: String, password: String):Boolean{
+
+    if (password == "" || email == "")
+        return false
+
+    if (password.length < 8)
+        return false
+
+
+
+    return true
+}

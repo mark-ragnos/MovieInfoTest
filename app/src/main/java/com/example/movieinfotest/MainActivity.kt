@@ -1,6 +1,7 @@
 package com.example.movieinfotest
 
 
+import android.app.Activity
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
@@ -64,7 +65,6 @@ class MainActivity : AppCompatActivity() {
 
         if(auth.currentUser != null)
             menu?.getItem(1)?.isVisible = true
-
         return super.onCreateOptionsMenu(menu)
 
     }
@@ -88,6 +88,7 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.logout -> {
                 auth.signOut()
+                this.recreate()
             }
         }
 
@@ -111,6 +112,9 @@ class MainActivity : AppCompatActivity() {
 
 
     companion object {
+        fun isLogin():Boolean{
+            return Firebase.auth.currentUser == null
+        }
 
         fun isOnline(context: Context): Boolean {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

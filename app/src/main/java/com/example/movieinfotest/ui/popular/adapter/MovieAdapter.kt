@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
+import com.example.movieinfotest.MainActivity
 import com.example.movieinfotest.MovieApp
 import com.example.movieinfotest.R
 import com.example.movieinfotest.models.popular.Movie
@@ -28,7 +29,8 @@ class MovieAdapter(val listener: MovieClickListener, val repository: Repository)
         holder.itemView.setOnClickListener {
             listener.onClick(holder.id.text.toString().toInt())
         }
-        holder.favorite.visibility = View.VISIBLE
+        if(!MainActivity.isLogin())
+            holder.favorite.visibility = View.VISIBLE
 
         holder.favorite.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {

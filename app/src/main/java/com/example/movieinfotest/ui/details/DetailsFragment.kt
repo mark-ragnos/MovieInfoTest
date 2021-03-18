@@ -103,18 +103,20 @@ class DetailsFragment : Fragment() {
         binding.infoAddToFavorite.setOnClickListener {
             val login = (activity as MainActivity).isLogin()
 
-            if(!login){
-                NavHostFragment.findNavController(this).navigate(R.id.action_movieInfo_to_loginFragment)
+            if (!login) {
+                NavHostFragment.findNavController(this)
+                    .navigate(R.id.action_movieInfo_to_loginFragment)
                 return@setOnClickListener
             }
 
-            if (!viewModel.isFavorite()) {
-                makeToast(resources.getString(R.string.movie_added_to_favorite))
-                viewModel.saveInFavorite()
-            } else {
-                makeToast(resources.getString(R.string.movie_deleted_from_favorite))
-                viewModel.deleteFromFavorite()
-            }
+            if (!MainActivity.isLogin())
+                if (!viewModel.isFavorite()) {
+                    makeToast(resources.getString(R.string.movie_added_to_favorite))
+                    viewModel.saveInFavorite()
+                } else {
+                    makeToast(resources.getString(R.string.movie_deleted_from_favorite))
+                    viewModel.deleteFromFavorite()
+                }
 
             viewModel.changeIsFavorite()
             changeFavoriteBnt()
@@ -123,11 +125,12 @@ class DetailsFragment : Fragment() {
     }
 
     private fun changeFavoriteBnt() {
-        if (viewModel.isFavorite()) {
-            binding.infoAddToFavorite.text = resources.getText(R.string.delete_from_favorite)
-        } else {
-            binding.infoAddToFavorite.text = resources.getText(R.string.save_as_favorite)
-        }
+        if (!MainActivity.isLogin())
+            if (viewModel.isFavorite()) {
+                binding.infoAddToFavorite.text = resources.getText(R.string.delete_from_favorite)
+            } else {
+                binding.infoAddToFavorite.text = resources.getText(R.string.save_as_favorite)
+            }
     }
 
     private fun makeToast(text: String) {
