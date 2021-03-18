@@ -28,7 +28,9 @@ class RegistrationFragment : Fragment() {
     ): View? {
         binding = FragmentRegistrationBinding.inflate(inflater, container, false)
 
+        init()
         setupUI()
+
         return binding.root
     }
 

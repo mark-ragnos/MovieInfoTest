@@ -3,11 +3,10 @@ package com.example.movieinfotest.utils
 import android.widget.ImageView
 import com.example.movieinfotest.models.details.MovieDetails
 import com.example.movieinfotest.models.details.MovieDetailsDB
-import com.example.movieinfotest.models.genre.GenreDB
 import com.example.movieinfotest.models.genre.Genre
+import com.example.movieinfotest.models.genre.GenreDB
 import com.example.movieinfotest.models.popular.Movie
 import com.squareup.picasso.Picasso
-import kotlin.text.StringBuilder
 
 fun String?.getYear(): String {
     if (this == null)
@@ -79,9 +78,5 @@ fun isCorrectUserData(email: String, password: String):Boolean{
     if (password.length < 8 || email == "")
         return false
 
-
-
-
-
-    return true
+    return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
 }
