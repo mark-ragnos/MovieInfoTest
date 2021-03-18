@@ -26,21 +26,34 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
-        auth = Firebase.auth
+
+        init()
         setupUI()
+
+        return binding.root
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+    }
+
+    private fun init(){
+        auth = Firebase.auth
+        if (auth.currentUser != null){
+            (activity as MainActivity).onBackPressed()
+        }
+
 
         (activity as MainActivity).supportActionBar?.title =
             (activity as MainActivity).resources.getString(
                 R.string.login
             )
         (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        return binding.root
+
     }
 
     private fun setupUI() {
-        if (auth.currentUser != null){
-            (activity as MainActivity).onBackPressed()
-        }
         binding.logTextLoginHelp.setOnClickListener {
             NavHostFragment.findNavController(this)
                 .navigate(R.id.action_loginFragment_to_registrationFragment)

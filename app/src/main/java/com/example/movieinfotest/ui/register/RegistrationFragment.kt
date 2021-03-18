@@ -27,15 +27,23 @@ class RegistrationFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentRegistrationBinding.inflate(inflater, container, false)
-        auth = Firebase.auth
 
         setupUI()
-        (activity as MainActivity).supportActionBar?.title =
-            (activity as MainActivity).resources.getString(
-                R.string.register
-            )
-        (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
         return binding.root
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+    }
+
+    private fun init() {
+        auth = Firebase.auth
+
+        (activity as MainActivity).supportActionBar?.title =
+            resources.getString(R.string.register)
+        (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
     }
 
     private fun setupUI() {

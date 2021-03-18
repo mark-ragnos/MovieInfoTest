@@ -38,26 +38,33 @@ class DetailsFragment : Fragment() {
     ): View? {
         binding = FragmentMovieInfoBinding.inflate(inflater, container, false)
 
+        init()
+        setupReadLifeData()
+        setupFavoriteBtn()
+
+        return binding.root
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+    }
+
+    private fun init() {
+        //get ID
+        val saved = DetailsFragmentArgs.fromBundle(requireArguments()).id
+        CoroutineScope(Dispatchers.Main).launch {
+            viewModel.sendID(saved)
+        }
+
         viewModel = ViewModelProviders.of(
             this,
             AppViewModelFactory()
         ).get(DetailsViewModel::class.java)
 
-        setupReadLifeData()
-        setupFavoriteBtn()
-
-        val saved = DetailsFragmentArgs.fromBundle(requireArguments()).id
-        CoroutineScope(Dispatchers.Main).launch {
-            viewModel.sendID(saved)
-        }
         (activity as MainActivity).supportActionBar?.title =
-            (activity as MainActivity).resources.getString(
-                R.string.details_title
-            )
+            resources.getString(R.string.details_title)
         (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-
-        return binding.root
     }
 
     private fun setupReadLifeData() {
@@ -73,30 +80,6 @@ class DetailsFragment : Fragment() {
             setActors(it)
         }
         viewModel.getActors().observe(viewLifecycleOwner, actorObserver)
-    }
-
-    private fun setMovie(details: MovieDetails) {
-        binding.infoDate.text = details.release_date.getYear()
-        binding.infoDescription.text = details.overview
-        binding.infoGenres.text = getGenreList(details.genres)
-        binding.infoName.text = details.title
-        binding.infoRating.text = details.vote_average.toString()
-        binding.infoPoster.registerImage(details.poster_path, x = 150, y = 225)
-    }
-
-    private fun setActors(list: List<Actor>?) {
-        if (list != null) {
-            val manager = LinearLayoutManager(context)
-            manager.orientation = LinearLayoutManager.HORIZONTAL
-
-            binding.lvActors.layoutManager = manager
-            binding.lvActors.adapter = ActorAdapter(list)
-        } else {
-            binding.lvActors.visibility = View.INVISIBLE
-            binding.infoTextActors.visibility = View.INVISIBLE
-            binding.infoTextGenres.visibility = View.INVISIBLE
-            binding.infoGenres.visibility = View.INVISIBLE
-        }
     }
 
     private fun setupFavoriteBtn() {
@@ -133,13 +116,31 @@ class DetailsFragment : Fragment() {
             }
     }
 
-    private fun makeToast(text: String) {
-        Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+    private fun setMovie(details: MovieDetails) {
+        binding.infoDate.text = details.release_date.getYear()
+        binding.infoDescription.text = details.overview
+        binding.infoGenres.text = getGenreList(details.genres)
+        binding.infoName.text = details.title
+        binding.infoRating.text = details.vote_average.toString()
+        binding.infoPoster.registerImage(details.poster_path, x = 150, y = 225)
     }
 
+    private fun setActors(list: List<Actor>?) {
+        if (list != null) {
+            val manager = LinearLayoutManager(context)
+            manager.orientation = LinearLayoutManager.HORIZONTAL
 
-    override fun onDestroy() {
-        super.onDestroy()
-        (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+            binding.lvActors.layoutManager = manager
+            binding.lvActors.adapter = ActorAdapter(list)
+        } else {
+            binding.lvActors.visibility = View.INVISIBLE
+            binding.infoTextActors.visibility = View.INVISIBLE
+            binding.infoTextGenres.visibility = View.INVISIBLE
+            binding.infoGenres.visibility = View.INVISIBLE
+        }
+    }
+
+    private fun makeToast(text: String) {
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
     }
 }

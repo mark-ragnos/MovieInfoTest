@@ -41,15 +41,22 @@ class PopularMovieListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentPopularMovieListBinding.inflate(inflater, container, false)
+
+        init()
+        setupUI()
+        fetchMovies()
+
+        return binding.root
+    }
+
+    private fun init() {
         viewModel = ViewModelProviders.of(
             this,
             AppViewModelFactory()
         ).get(PopularViewModel::class.java)
 
-        setupUI()
-        fetchMovies()
-
-        return binding.root
+        (activity as MainActivity).supportActionBar?.title =
+            (activity as MainActivity).resources.getString(R.string.popular_title)
     }
 
     private fun fetchMovies() {
@@ -61,8 +68,6 @@ class PopularMovieListFragment : Fragment() {
     }
 
     private fun setupUI() {
-        (activity as MainActivity).supportActionBar?.title =
-            (activity as MainActivity).resources.getString(R.string.popular_title)
         binding.rvPopularList.layoutManager = LinearLayoutManager(context)
 
         val listener = object : MovieAdapter.MovieClickListener {

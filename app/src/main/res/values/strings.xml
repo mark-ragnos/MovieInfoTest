@@ -46,5 +46,7 @@
     <string name="you_not_reg">You are not authorized. Please <u>log in</u> to access add and view in your favorite list</string>
     <string name="autentification_failed">Authentication failed.</string>
     <string name="incorrect_user_data">Incorrect input values</string>
+    <string name="internet_not_found">Please turn on the Interner</string>
+    <string name="year_incorrect">Incorrect year.</string>
 
 </resources>

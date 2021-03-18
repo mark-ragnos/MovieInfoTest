@@ -76,11 +76,10 @@ fun Movie.toMovieDetails(): MovieDetails {
 
 fun isCorrectUserData(email: String, password: String):Boolean{
 
-    if (password == "" || email == "")
+    if (password.length < 8 || email == "")
         return false
 
-    if (password.length < 8)
-        return false
+
 
 
 

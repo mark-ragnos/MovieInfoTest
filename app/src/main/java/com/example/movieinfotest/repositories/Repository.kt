@@ -20,12 +20,9 @@ class Repository(
     private val apiHelper: MovieHelper,
     private val databaseHelper: DatabaseHelper
 ) {
-    suspend fun isFavorite(id: Int): Boolean {
-        return databaseHelper.isFavorite(id)
-    }
 
     @OptIn(ExperimentalPagingApi::class)
-    fun getPopularNew(): Flow<PagingData<Movie>> {
+    fun getPopular(): Flow<PagingData<Movie>> {
         val pagingSourceFactory = { databaseHelper.getDatabase().movieDao().loadMovies() }
         return Pager(
             config = PagingConfig(20, enablePlaceholders = true),
@@ -35,11 +32,6 @@ class Repository(
     }
 
     suspend fun getRandom(year: String, genre: String): Movie? {
-
-        val isOnline = MainActivity.isOnline(MovieApp.getInstance())
-        if (!isOnline)
-            TODO()
-
         return apiHelper.getRandomMovie(year, genre)
     }
 
@@ -80,7 +72,8 @@ class Repository(
         return databaseHelper.getAllGenres()
     }
 
-    fun getFavoriteNew():Flow<PagingData<MovieDetailsDB>>{
+    //FAVORITE
+    fun getFavorite():Flow<PagingData<MovieDetailsDB>>{
         val pagingSourceFactory = { databaseHelper.getGetFavoriteList() }
         return Pager(
             config = PagingConfig(20, enablePlaceholders = true),
@@ -105,8 +98,8 @@ class Repository(
         }
     }
 
-    suspend fun saveInFavorite(id: Int) {
-
+    suspend fun isFavorite(id: Int): Boolean {
+        return databaseHelper.isFavorite(id)
     }
 
     suspend fun deleteFromFavorite(id: Int) {

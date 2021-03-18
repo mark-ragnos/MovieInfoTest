@@ -37,6 +37,15 @@ class FavoriteListFragment : Fragment() {
     ): View? {
         binding = FragmentFavoriteListBinding.inflate(inflater, container, false)
 
+        init()
+        setupUI()
+        fetchMovies()
+
+
+        return binding.root
+    }
+
+    private fun init(){
         viewModel = ViewModelProviders.of(
             this,
             AppViewModelFactory()
@@ -45,14 +54,10 @@ class FavoriteListFragment : Fragment() {
         (activity as MainActivity).supportActionBar?.title =
             resources.getString(R.string.favorite_title)
 
-        setupUI()
-        fetchMovies()
-
-
-        return binding.root
     }
 
     private fun fetchMovies() {
+
         CoroutineScope(Dispatchers.Main).launch {
             viewModel.getPopular().collectLatest { pagingData ->
                 adapter.submitData(pagingData)

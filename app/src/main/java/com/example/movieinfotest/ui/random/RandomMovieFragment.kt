@@ -27,6 +27,7 @@ import java.util.*
 class RandomMovieFragment : Fragment() {
     private lateinit var binding: FragmentGenerateMovieBinding
     private lateinit var viewModel: RandomViewModel
+    private var accessToMove = false
 
 
     override fun onCreateView(
@@ -35,31 +36,38 @@ class RandomMovieFragment : Fragment() {
     ): View? {
         binding = FragmentGenerateMovieBinding.inflate(inflater, container, false)
 
-        viewModel = ViewModelProviders.of(
-            this,
-            AppViewModelFactory()
-        ).get(RandomViewModel::class.java)
-
+        init()
         setupUI()
         setupReadLifeData()
 
         return binding.root
     }
 
-    private var accessToMove = false
+    private fun init() {
+        viewModel = ViewModelProviders.of(
+            this,
+            AppViewModelFactory()
+        ).get(RandomViewModel::class.java)
+
+        (activity as MainActivity).supportActionBar?.title =
+            (activity as MainActivity).resources.getString(
+                R.string.random_title
+            )
+    }
+
 
     private fun setupUI() {
-        (activity as MainActivity).supportActionBar?.title = (activity as MainActivity).resources.getString(
-            R.string.random_title)
         binding.genBtnRandom.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
                 binding.genResult.visibility = View.INVISIBLE
                 accessToMove = false
                 if (startRandom()) {
-                    viewModel.generateRandom((binding.genInGenre.selectedItem as Genre).id.toString(), binding.genInYear.text.toString())
+                    viewModel.generateRandom(
+                        (binding.genInGenre.selectedItem as Genre).id.toString(),
+                        binding.genInYear.text.toString()
+                    )
                     accessToMove = true
-                } else Toast.makeText(MovieApp.getInstance(), "Incorrect format of year", Toast.LENGTH_LONG)
-                    .show()
+                }
             }
         }
 
@@ -73,10 +81,15 @@ class RandomMovieFragment : Fragment() {
         }
 
         CoroutineScope(Dispatchers.Main).launch {
-            if(viewModel.getGenres()!=null)
-                binding.genInGenre.adapter = GenreAdapter(MovieApp.getInstance(), viewModel.getGenres()!!)
-            else{
-                Toast.makeText(MovieApp.getInstance(), "Your database don't have any objects. Please set ON Internet and reopen this view", Toast.LENGTH_LONG).show()
+            if (viewModel.getGenres() != null)
+                binding.genInGenre.adapter =
+                    GenreAdapter(MovieApp.getInstance(), viewModel.getGenres()!!)
+            else {
+                Toast.makeText(
+                    MovieApp.getInstance(),
+                    "Your database don't have any objects. Please set ON Internet and reopen this view",
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
     }
@@ -99,9 +112,10 @@ class RandomMovieFragment : Fragment() {
     }
 
     private fun startRandom(): Boolean {
-        if(!MainActivity.isOnline(MovieApp.getInstance()))
+        if (!MainActivity.isOnline(MovieApp.getInstance())) {
+            Toast.makeText(context, resources.getText(R.string.internet_not_found), Toast.LENGTH_SHORT)
             return false
-
+        }
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
         val inputYear = binding.genInYear.text.toString()
 
@@ -109,6 +123,7 @@ class RandomMovieFragment : Fragment() {
             return true
 
         if (inputYear.toInt() !in 1895..currentYear) {
+            Toast.makeText(context, resources.getText(R.string.year_incorrect), Toast.LENGTH_SHORT)
             return false
         }
 
