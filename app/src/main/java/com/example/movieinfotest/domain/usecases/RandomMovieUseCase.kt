@@ -14,7 +14,7 @@ class RandomMovieUseCase(
         return genreRepository.getGenres()
     }
 
-    suspend fun getRandomMovie(genre: Int, year: Int): Movie{
+    suspend fun getRandomMovie(genre: String, year: String): Movie{
         return movieRepository.getRandomMovie(genre, year)
     }
 }

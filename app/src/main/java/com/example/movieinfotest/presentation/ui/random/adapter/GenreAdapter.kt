@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 import com.example.movieinfotest.R
-import com.example.movieinfotest.data.entities.genre.Genre
+import com.example.movieinfotest.domain.entities.genre.Genre
 
 class GenreAdapter(val context: Context, var genres: List<Genre>) : BaseAdapter() {
     override fun getCount(): Int {

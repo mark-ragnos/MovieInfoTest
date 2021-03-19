@@ -7,15 +7,10 @@ import com.example.movieinfotest.domain.repositories.IMovieRepository
 import kotlinx.coroutines.flow.Flow
 
 class PopularMovieUseCase(
-    private val movieRepository: IMovieRepository<Movie>,
-    private val favoriteRepository: IFavoriteRepository<Movie>
+    private val movieRepository: IMovieRepository<Movie>
 ) {
 
-    suspend fun getPopularList(): Flow<PagingData<Movie>>{
+    fun getPopularList(): Flow<PagingData<Movie>>{
         return movieRepository.getMovies()
-    }
-
-    suspend fun isFavorite(movie_id: Int): Boolean{
-        return favoriteRepository.getFavorite(movie_id) != null
     }
 }

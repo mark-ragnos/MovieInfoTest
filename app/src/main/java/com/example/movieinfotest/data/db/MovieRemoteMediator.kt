@@ -1,5 +1,6 @@
 package com.example.movieinfotest.data.db
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -37,8 +38,6 @@ class MovieRemoteMediator(
                 }
             }
             val movies = api.getPopularList(page)
-
-
             val endOfPaginationReached = movies == null
 
             db.withTransaction {

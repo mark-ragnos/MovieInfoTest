@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieinfotest.MainActivity
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentPopularMovieListBinding
-import com.example.movieinfotest.data.entities.popular.Movie
-import com.example.movieinfotest.repositories.Repository
+import com.example.movieinfotest.domain.entities.movie.Movie
+import com.example.movieinfotest.old.Repository
 import com.example.movieinfotest.presentation.ui.popular.adapter.MovieAdapter
 import com.example.movieinfotest.presentation.di.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.popular.adapter.MovieLoadingStateAdapter
@@ -77,7 +77,7 @@ class PopularMovieListFragment : Fragment() {
                         viewModel.saveInFavorite(movie)
             }
         }
-        movieAdapter = MovieAdapter(listener, Repository.create())
+        movieAdapter = MovieAdapter(listener, viewModel.favoriteMovieUseCase)
 
         binding.rvPopularList.adapter = movieAdapter.withLoadStateFooter(
             footer = MovieLoadingStateAdapter(movieAdapter)

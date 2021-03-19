@@ -13,8 +13,8 @@ import com.example.movieinfotest.MainActivity
 import com.example.movieinfotest.MovieApp
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentGenerateMovieBinding
-import com.example.movieinfotest.data.entities.genre.Genre
-import com.example.movieinfotest.data.entities.popular.Movie
+import com.example.movieinfotest.domain.entities.genre.Genre
+import com.example.movieinfotest.domain.entities.movie.Movie
 import com.example.movieinfotest.presentation.di.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.random.adapter.GenreAdapter
 import com.example.movieinfotest.utils.registerImage

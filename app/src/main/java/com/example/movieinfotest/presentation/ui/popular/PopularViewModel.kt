@@ -4,17 +4,22 @@ package com.example.movieinfotest.presentation.ui.popular
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.*
-import com.example.movieinfotest.repositories.Repository
-import com.example.movieinfotest.data.entities.popular.Movie
+import com.example.movieinfotest.old.Repository
+import com.example.movieinfotest.domain.entities.movie.Movie
+import com.example.movieinfotest.domain.usecases.FavoriteMovieUseCase
+import com.example.movieinfotest.domain.usecases.PopularMovieUseCase
 import com.example.movieinfotest.utils.toMovieDetails
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
-class PopularViewModel(private val repository: Repository) : ViewModel() {
+class PopularViewModel(
+    private val popularMovieUseCase: PopularMovieUseCase,
+    val favoriteMovieUseCase: FavoriteMovieUseCase
+    ) : ViewModel() {
     private val movies: Flow<PagingData<Movie>> =
-        repository.getPopular().cachedIn(viewModelScope)
+        popularMovieUseCase.getPopularList().cachedIn(viewModelScope)
 
     fun getFavorite(): Flow<PagingData<Movie>> {
         return movies
@@ -22,13 +27,13 @@ class PopularViewModel(private val repository: Repository) : ViewModel() {
 
     fun saveInFavorite(movie: Movie) {
         CoroutineScope(Dispatchers.IO).launch {
-            repository.saveInFavorite(movie.toMovieDetails(), null)
+             favoriteMovieUseCase.saveInFavorite(movie)
         }
     }
 
     fun removeFromFavorite(movie: Movie) {
         CoroutineScope(Dispatchers.IO).launch {
-            repository.deleteFromFavorite(movie.id)
+            favoriteMovieUseCase.deleteFromFavorite(movie.id)
         }
     }
 }

@@ -6,9 +6,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface IMovieRepository<T : Any> {
 
-    suspend fun getMovies(): Flow<PagingData<T>>
+    fun getMovies(): Flow<PagingData<T>>
 
-    suspend fun getRandomMovie(genre: Int, year: Int): T
+    suspend fun getRandomMovie(genre: String, year: String): T
 
     suspend fun getMovieInfoLocal(movie_id: Int): Movie?
 

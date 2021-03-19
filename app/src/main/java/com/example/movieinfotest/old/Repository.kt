@@ -1,4 +1,4 @@
-package com.example.movieinfotest.repositories
+package com.example.movieinfotest.old
 
 import androidx.paging.*
 import com.example.movieinfotest.MainActivity
@@ -11,7 +11,6 @@ import com.example.movieinfotest.data.entities.genre.Genre
 import com.example.movieinfotest.data.entities.details.MovieDetails
 import com.example.movieinfotest.data.entities.details.MovieDetailsDB
 import com.example.movieinfotest.data.entities.popular.Movie
-import com.example.movieinfotest.utils.MovieFrom
 import kotlinx.coroutines.flow.Flow
 
 class Repository(

@@ -16,7 +16,7 @@ class MovieRepository(
     val db: DatabaseHelper
 ) : IMovieRepository<Movie> {
     @OptIn(ExperimentalPagingApi::class)
-    override suspend fun getMovies(): Flow<PagingData<Movie>> {
+    override fun getMovies(): Flow<PagingData<Movie>> {
 
         val pagingSourceFactory = { db.getDatabase().movieDao().loadMovies() }
         return Pager(
@@ -39,8 +39,8 @@ class MovieRepository(
         }
     }
 
-    override suspend fun getRandomMovie(genre: Int, year: Int): Movie {
-        return api.getRandomMovie(year.toString(), genre.toString())!!.toMovieDomain()
+    override suspend fun getRandomMovie(genre: String, year: String): Movie {
+        return api.getRandomMovie(year, genre)!!.toMovieDomain()
     }
 
     override suspend fun getMovieInfoLocal(movie_id: Int): Movie? {
@@ -59,7 +59,7 @@ class MovieRepository(
             return favorite.toMovieDomain(actors)
         }
         return api.getDetailsInformation(movie_id.toString())
-            ?.toMovieDomain(db.getActorsById(movie_id).toActorDomain())
+            ?.toMovieDomain(api.getActorsList(movie_id.toString())?.toActorDomain())
     }
 
 }

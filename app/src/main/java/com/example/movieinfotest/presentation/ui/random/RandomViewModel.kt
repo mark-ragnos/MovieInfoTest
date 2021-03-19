@@ -3,11 +3,14 @@ package com.example.movieinfotest.presentation.ui.random
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.movieinfotest.data.entities.genre.Genre
-import com.example.movieinfotest.repositories.Repository
-import com.example.movieinfotest.data.entities.popular.Movie
+import com.example.movieinfotest.domain.entities.genre.Genre
+import com.example.movieinfotest.old.Repository
+import com.example.movieinfotest.domain.entities.movie.Movie
+import com.example.movieinfotest.domain.usecases.RandomMovieUseCase
 
-class RandomViewModel(private val repository: Repository) : ViewModel() {
+class RandomViewModel(
+    private val randomMovieUseCase: RandomMovieUseCase
+    ) : ViewModel() {
     private val movieDetails: MutableLiveData<Movie> by lazy {
         MutableLiveData<Movie>()
     }
@@ -19,12 +22,12 @@ class RandomViewModel(private val repository: Repository) : ViewModel() {
 
     suspend fun generateRandom(genre: String, year: String) {
         val genreRes = if(genre != "0") genre else ""
-        movieDetails.value = repository.getRandom(genre = genreRes, year = year)
+        movieDetails.value = randomMovieUseCase.getRandomMovie(genre = genreRes, year = year)
     }
 
     suspend fun getGenres(): List<Genre>? {
         if(genres == null)
-            genres = repository.getAllGenres()
+            genres = randomMovieUseCase.getGenres()
         return genres
     }
 }

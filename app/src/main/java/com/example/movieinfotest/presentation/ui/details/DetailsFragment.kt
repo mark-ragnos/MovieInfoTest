@@ -70,12 +70,6 @@ class DetailsFragment : Fragment() {
             changeFavoriteBnt()
         }
         viewModel.getDetails().observe(viewLifecycleOwner, detailObserver)
-
-
-        val actorObserver = Observer<List<Actor>> {
-            setActors(it)
-        }
-        viewModel.getActors().observe(viewLifecycleOwner, actorObserver)
     }
 
     private fun setupFavoriteBtn() {
@@ -89,24 +83,24 @@ class DetailsFragment : Fragment() {
             }
 
             if (!MainActivity.isLogin())
-                CoroutineScope(Dispatchers.IO).launch {
-                if (!viewModel.isFavorite()) {
-                    makeToast(resources.getString(R.string.movie_added_to_favorite))
-                    viewModel.saveInFavorite()
-                } else {
-                    makeToast(resources.getString(R.string.movie_deleted_from_favorite))
-                    viewModel.deleteFromFavorite()
+                CoroutineScope(Dispatchers.Main).launch {
+                    if (!viewModel.isFavorite()) {
+                        makeToast(resources.getString(R.string.movie_added_to_favorite))
+                        viewModel.saveInFavorite()
+                    } else {
+                        makeToast(resources.getString(R.string.movie_deleted_from_favorite))
+                        viewModel.deleteFromFavorite()
+                    }
+                    viewModel.changeFavorite()
+                    changeFavoriteBnt()
                 }
-
-            changeFavoriteBnt()
-            }
         }
 
     }
 
     private fun changeFavoriteBnt() {
         if (!MainActivity.isLogin())
-            CoroutineScope(Dispatchers.IO).launch {
+            CoroutineScope(Dispatchers.Main).launch {
                 if (viewModel.isFavorite()) {
                     binding.infoAddToFavorite.text =
                         resources.getText(R.string.delete_from_favorite)
@@ -123,6 +117,7 @@ class DetailsFragment : Fragment() {
         binding.infoName.text = details.title
         binding.infoRating.text = details.vote_average.toString()
         binding.infoPoster.registerImage(details.poster_path, x = 150, y = 225)
+        setActors(details.actors)
     }
 
     private fun setActors(list: List<Actor>?) {

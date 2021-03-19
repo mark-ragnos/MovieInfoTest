@@ -9,12 +9,12 @@ class FavoriteMovieUseCase(
     private val favoriteRepository: IFavoriteRepository<Movie>
 ) {
 
-    suspend fun saveInFavorite(movie: Movie){
-        favoriteRepository.saveInFavorite(movie)
+    suspend fun isFavorite(movie_id: Int):Boolean{
+        return favoriteRepository.getFavorite(movie_id) != null
     }
 
-    suspend fun getFavoriteMovie(movie_id: Int): Movie?{
-        return favoriteRepository.getFavorite(movie_id)
+    suspend fun saveInFavorite(movie: Movie){
+        favoriteRepository.saveInFavorite(movie)
     }
 
     fun getFavoriteList(): Flow<PagingData<Movie>> {

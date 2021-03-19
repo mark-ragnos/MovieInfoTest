@@ -1,4 +1,4 @@
-package com.example.movieinfotest.utils
+package com.example.movieinfotest.old
 
 
 data class MovieFrom<T>(val movie: T, var isFromFavorite: Boolean) {

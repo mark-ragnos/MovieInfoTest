@@ -1,10 +1,10 @@
 package com.example.movieinfotest.presentation.ui.details
 
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.movieinfotest.repositories.Repository
 import com.example.movieinfotest.domain.entities.actor.Actor
 import com.example.movieinfotest.domain.entities.movie.Movie
 import com.example.movieinfotest.domain.usecases.FavoriteMovieUseCase
@@ -18,24 +18,18 @@ class DetailsViewModel(
     private val movieInfoUseCase: MovieInfoUseCase,
     private val favoriteUseCase: FavoriteMovieUseCase
 ) : ViewModel() {
+    private var isFavorite = false
 
     private val movieDetails: MutableLiveData<Movie?> by lazy {
-        MutableLiveData<Movie?>()
-    }
-    private val actorsList: MutableLiveData<List<Actor>> by lazy {
-        MutableLiveData<List<Actor>>()
-    }
+        MutableLiveData<Movie?>()}
 
     fun getDetails(): LiveData<Movie?> {
         return movieDetails
     }
 
-    fun getActors(): LiveData<List<Actor>> {
-        return actorsList
-    }
-
     suspend fun sendID(id: Int) {
         movieDetails.value = movieInfoUseCase.getMovieInfo(id, DataSourceMode.ONLINE)
+        isFavorite = favoriteUseCase.isFavorite(movieDetails.value!!.id)
     }
 
     fun saveInFavorite() {
@@ -51,7 +45,12 @@ class DetailsViewModel(
     }
 
     suspend fun isFavorite(): Boolean {
-        return movieInfoUseCase.isFavorite(movieDetails.value!!.id)
+        Log.d("TEST", isFavorite.toString())
+        return isFavorite
+    }
+
+    fun changeFavorite(){
+        isFavorite = !isFavorite
     }
 
 }

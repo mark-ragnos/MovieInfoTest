@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieinfotest.MainActivity
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentFavoriteListBinding
-import com.example.movieinfotest.repositories.Repository
+import com.example.movieinfotest.old.Repository
 import com.example.movieinfotest.presentation.di.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.favourite.adapter.FavoriteAdapter
 import kotlinx.coroutines.CoroutineScope
@@ -74,7 +74,7 @@ class FavoriteListFragment : Fragment() {
             NavHostFragment.findNavController(this).navigate(R.id.action_favoriteList_to_loginFragment)
         }
 
-        adapter = FavoriteAdapter(Repository.create(), listener)
+        adapter = FavoriteAdapter(listener)
 
         binding.rvFavoriteList.adapter = adapter
 

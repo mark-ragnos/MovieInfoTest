@@ -10,11 +10,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movieinfotest.R
 import com.example.movieinfotest.domain.entities.movie.Movie
-import com.example.movieinfotest.repositories.Repository
 import com.example.movieinfotest.utils.registerImage
 
 class FavoriteAdapter(
-    val repository: Repository,
     val listener: MovieDetailClickListener
 ) : PagingDataAdapter<Movie, FavoriteAdapter.MovieDetailsDbHolder>(MovieDetailsDiffCallback) {
 
