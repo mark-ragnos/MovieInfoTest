@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/favoriteList"
-        android:name="com.example.movieinfotest.ui.favourite.FavoriteListFragment"
+        android:name="com.example.movieinfotest.presentation.ui.favourite.FavoriteListFragment"
         android:label="fragment_favorite_list"
         tools:layout="@layout/fragment_favorite_list">
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/generateMovie"
-        android:name="com.example.movieinfotest.ui.random.RandomMovieFragment"
+        android:name="com.example.movieinfotest.presentation.ui.random.RandomMovieFragment"
         android:label="fragment_generate_movie"
         tools:layout="@layout/fragment_generate_movie">
         <action
@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/popularMovieList"
-        android:name="com.example.movieinfotest.ui.popular.PopularMovieListFragment"
+        android:name="com.example.movieinfotest.presentation.ui.popular.PopularMovieListFragment"
         android:label="fragment_popular_movie_list"
         tools:layout="@layout/fragment_popular_movie_list">
         <action
@@ -40,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/movieInfo"
-        android:name="com.example.movieinfotest.ui.details.DetailsFragment"
+        android:name="com.example.movieinfotest.presentation.ui.details.DetailsFragment"
         android:label="fragment_movie_info"
         tools:layout="@layout/fragment_movie_info">
         <argument
@@ -53,7 +53,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.movieinfotest.ui.login.LoginFragment"
+        android:name="com.example.movieinfotest.presentation.ui.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -61,7 +61,7 @@
             app:destination="@id/registrationFragment" />
     </fragment><fragment
         android:id="@+id/registrationFragment"
-        android:name="com.example.movieinfotest.ui.register.RegistrationFragment"
+        android:name="com.example.movieinfotest.presentation.ui.register.RegistrationFragment"
         android:label="fragment_registration"
         tools:layout="@layout/fragment_registration" />
 

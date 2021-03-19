@@ -1,18 +1,16 @@
 package com.example.movieinfotest.repositories
 
-import android.util.Log
 import androidx.paging.*
 import com.example.movieinfotest.MainActivity
 import com.example.movieinfotest.MovieApp
-import com.example.movieinfotest.database.DatabaseHelper
-import com.example.movieinfotest.network.MovieHelper
-import com.example.movieinfotest.models.actors.Actor
-import com.example.movieinfotest.models.genre.Genre
-import com.example.movieinfotest.models.details.MovieDetails
-import com.example.movieinfotest.models.details.MovieDetailsDB
-import com.example.movieinfotest.models.popular.Movie
-import com.example.movieinfotest.models.popular.PopularFilms
-import com.example.movieinfotest.network.TheMovieDBApi
+import com.example.movieinfotest.data.db.DatabaseHelper
+import com.example.movieinfotest.data.api.MovieHelper
+import com.example.movieinfotest.data.db.MovieRemoteMediator
+import com.example.movieinfotest.data.entities.actors.Actor
+import com.example.movieinfotest.data.entities.genre.Genre
+import com.example.movieinfotest.data.entities.details.MovieDetails
+import com.example.movieinfotest.data.entities.details.MovieDetailsDB
+import com.example.movieinfotest.data.entities.popular.Movie
 import com.example.movieinfotest.utils.MovieFrom
 import kotlinx.coroutines.flow.Flow
 

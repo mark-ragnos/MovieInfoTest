@@ -2,7 +2,7 @@ package com.example.movieinfotest
 
 import android.app.Application
 import androidx.room.Room
-import com.example.movieinfotest.database.MovieDatabase
+import com.example.movieinfotest.data.db.MovieDatabase
 
 class MovieApp : Application() {
     override fun onCreate() {
