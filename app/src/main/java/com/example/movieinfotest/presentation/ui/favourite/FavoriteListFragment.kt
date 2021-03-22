@@ -5,13 +5,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieinfotest.MainActivity
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentFavoriteListBinding
 import com.example.movieinfotest.presentation.di.DaggerMovieComponent
+import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.favourite.adapter.FavoriteAdapter
+import com.example.movieinfotest.presentation.ui.random.RandomViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
@@ -38,7 +41,10 @@ class FavoriteListFragment : Fragment() {
     }
 
     private fun init(){
-        viewModel = DaggerMovieComponent.builder().build().getFavoriteMovieUseCase()
+        viewModel = ViewModelProviders.of(
+            this,
+            AppViewModelFactory()
+        ).get(FavoriteViewModel::class.java)
 
         (activity as MainActivity).supportActionBar?.title =
             resources.getString(R.string.favorite_title)

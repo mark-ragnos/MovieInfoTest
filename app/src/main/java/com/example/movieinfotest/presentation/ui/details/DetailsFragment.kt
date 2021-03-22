@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieinfotest.MainActivity
@@ -16,7 +17,9 @@ import com.example.movieinfotest.databinding.FragmentMovieInfoBinding
 import com.example.movieinfotest.domain.entities.actor.Actor
 import com.example.movieinfotest.domain.entities.movie.Movie
 import com.example.movieinfotest.presentation.di.DaggerMovieComponent
+import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.details.actors.ActorAdapter
+import com.example.movieinfotest.presentation.ui.random.RandomViewModel
 import com.example.movieinfotest.utils.getGenreList
 import com.example.movieinfotest.utils.getYear
 import com.example.movieinfotest.utils.registerImage
@@ -55,7 +58,10 @@ class DetailsFragment : Fragment() {
             viewModel.sendID(saved, MainActivity.isOnline(MovieApp.getInstance()))
         }
 
-        viewModel = DaggerMovieComponent.builder().build().getMovieInfoUseCase()
+        viewModel = ViewModelProviders.of(
+            this,
+            AppViewModelFactory()
+        ).get(DetailsViewModel::class.java)
 
         (activity as MainActivity).supportActionBar?.title =
             resources.getString(R.string.details_title)
