@@ -1,6 +1,7 @@
 package com.example.movieinfotest.utils
 
 import android.widget.ImageView
+import com.example.movieinfotest.R
 import com.example.movieinfotest.data.entities.details.MovieDetails
 import com.example.movieinfotest.data.entities.details.MovieDetailsDB
 import com.example.movieinfotest.data.entities.genre.Genre
@@ -40,6 +41,7 @@ fun ImageView.registerImage(path: String?, x: Int = 100, y: Int = 150) {
         return
     Picasso.get()
         .load("https://www.themoviedb.org/t/p/w1280${path}")
+        .placeholder(R.drawable.placeholder)
         .resize(x, y)
         .centerCrop()
         .into(this)
