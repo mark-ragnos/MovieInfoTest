@@ -12,6 +12,7 @@ import com.example.movieinfotest.domain.usecases.MovieInfoUseCase
 import com.example.movieinfotest.utils.DataSourceMode
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class DetailsViewModel(
@@ -21,15 +22,15 @@ class DetailsViewModel(
     private var isFavorite = false
 
     private val movieDetails: MutableLiveData<Movie?> by lazy {
-        MutableLiveData<Movie?>()}
+        MutableLiveData<Movie?>()
+    }
 
     fun getDetails(): LiveData<Movie?> {
         return movieDetails
     }
 
-    suspend fun sendID(id: Int) {
-        movieDetails.value = movieInfoUseCase.getMovieInfo(id, DataSourceMode.ONLINE)
-        isFavorite = favoriteUseCase.isFavorite(movieDetails.value!!.id)
+    suspend fun sendID(id: Int, dataSourceMode: DataSourceMode) {
+        movieDetails.value = movieInfoUseCase.getMovieInfo(id, dataSourceMode)
     }
 
     fun saveInFavorite() {
@@ -45,12 +46,11 @@ class DetailsViewModel(
     }
 
     suspend fun isFavorite(): Boolean {
-        Log.d("TEST", isFavorite.toString())
+        CoroutineScope(Dispatchers.IO).async {
+            isFavorite = favoriteUseCase.isFavorite(movieDetails.value!!.id)
+        }.await()
+        Log.d("TEST",  isFavorite.toString())
         return isFavorite
-    }
-
-    fun changeFavorite(){
-        isFavorite = !isFavorite
     }
 
 }

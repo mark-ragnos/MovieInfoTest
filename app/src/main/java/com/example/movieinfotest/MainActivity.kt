@@ -17,6 +17,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.movieinfotest.databinding.ActivityMainBinding
 import com.example.movieinfotest.presentation.di.DaggerMovieComponent
+import com.example.movieinfotest.utils.DataSourceMode
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -104,7 +105,7 @@ class MainActivity : AppCompatActivity() {
             return Firebase.auth.currentUser == null
         }
 
-        fun isOnline(context: Context): Boolean {
+        fun isOnline(context: Context): DataSourceMode {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 val connectivityManager: ConnectivityManager? =
                     context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
@@ -113,20 +114,20 @@ class MainActivity : AppCompatActivity() {
                         connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
                     if (capabilities != null) {
                         if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
-                            return true
+                            return DataSourceMode.ONLINE
                         } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
-                            return true
+                            return DataSourceMode.ONLINE
                         } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
-                            return true
+                            return DataSourceMode.ONLINE
                         }
                     }
                 }
-                return false
+                return DataSourceMode.OFFLINE
             } else {
                 val cm =
                     context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
                 val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
-                return activeNetwork?.isConnectedOrConnecting == true
+                return if(activeNetwork?.isConnectedOrConnecting == true) DataSourceMode.ONLINE else DataSourceMode.OFFLINE
             }
         }
     }

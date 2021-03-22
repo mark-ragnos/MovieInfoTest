@@ -17,6 +17,7 @@ import com.example.movieinfotest.domain.entities.genre.Genre
 import com.example.movieinfotest.domain.entities.movie.Movie
 import com.example.movieinfotest.presentation.di.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.random.adapter.GenreAdapter
+import com.example.movieinfotest.utils.DataSourceMode
 import com.example.movieinfotest.utils.registerImage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -112,7 +113,7 @@ class RandomMovieFragment : Fragment() {
     }
 
     private fun startRandom(): Boolean {
-        if (!MainActivity.isOnline(MovieApp.getInstance())) {
+        if (MainActivity.isOnline(MovieApp.getInstance()) == DataSourceMode.OFFLINE) {
             Toast.makeText(context, resources.getText(R.string.internet_not_found), Toast.LENGTH_SHORT)
             return false
         }

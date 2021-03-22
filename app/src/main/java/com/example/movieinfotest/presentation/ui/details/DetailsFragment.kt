@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieinfotest.MainActivity
+import com.example.movieinfotest.MovieApp
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentMovieInfoBinding
 import com.example.movieinfotest.domain.entities.actor.Actor
@@ -22,6 +23,7 @@ import com.example.movieinfotest.utils.getYear
 import com.example.movieinfotest.utils.registerImage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class DetailsFragment : Fragment() {
@@ -51,7 +53,7 @@ class DetailsFragment : Fragment() {
         //get ID
         val saved = DetailsFragmentArgs.fromBundle(requireArguments()).id
         CoroutineScope(Dispatchers.Main).launch {
-            viewModel.sendID(saved)
+            viewModel.sendID(saved, MainActivity.isOnline(MovieApp.getInstance()))
         }
 
         viewModel = ViewModelProviders.of(
@@ -67,9 +69,10 @@ class DetailsFragment : Fragment() {
     private fun setupReadLifeData() {
         val detailObserver = Observer<Movie?> {
             setMovie(it)
-            changeFavoriteBnt()
         }
         viewModel.getDetails().observe(viewLifecycleOwner, detailObserver)
+
+
     }
 
     private fun setupFavoriteBtn() {
@@ -83,31 +86,30 @@ class DetailsFragment : Fragment() {
             }
 
             if (!MainActivity.isLogin())
-                CoroutineScope(Dispatchers.Main).launch {
+                CoroutineScope(Dispatchers.Main).async {
                     if (!viewModel.isFavorite()) {
                         makeToast(resources.getString(R.string.movie_added_to_favorite))
                         viewModel.saveInFavorite()
+                        changeFavoriteBnt(true)
                     } else {
                         makeToast(resources.getString(R.string.movie_deleted_from_favorite))
                         viewModel.deleteFromFavorite()
+                        changeFavoriteBnt(false)
                     }
-                    viewModel.changeFavorite()
-                    changeFavoriteBnt()
                 }
         }
 
     }
 
-    private fun changeFavoriteBnt() {
+    private fun changeFavoriteBnt(isFavorite: Boolean) {
         if (!MainActivity.isLogin())
-            CoroutineScope(Dispatchers.Main).launch {
-                if (viewModel.isFavorite()) {
-                    binding.infoAddToFavorite.text =
-                        resources.getText(R.string.delete_from_favorite)
-                } else {
-                    binding.infoAddToFavorite.text = resources.getText(R.string.save_as_favorite)
-                }
+            if (isFavorite) {
+                binding.infoAddToFavorite.text =
+                    resources.getText(R.string.delete_from_favorite)
+            } else {
+                binding.infoAddToFavorite.text = resources.getText(R.string.save_as_favorite)
             }
+
     }
 
     private fun setMovie(details: Movie) {
@@ -118,6 +120,9 @@ class DetailsFragment : Fragment() {
         binding.infoRating.text = details.vote_average.toString()
         binding.infoPoster.registerImage(details.poster_path, x = 150, y = 225)
         setActors(details.actors)
+        CoroutineScope(Dispatchers.Main).async {
+            changeFavoriteBnt(viewModel.isFavorite())
+        }
     }
 
     private fun setActors(list: List<Actor>?) {
