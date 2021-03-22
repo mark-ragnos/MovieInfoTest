@@ -18,8 +18,10 @@
 
     </style>
 
-    <style name="ToolbarColoredBackArrow" parent="Widget.MaterialComponents.Toolbar.Primary">
-
+    <style name="ToolbarColoredBackArrow">
+        <item name="android:textColorSecondary">@color/white</item>
+        <item name="colorOnPrimary">@color/white</item>
     </style>
+
 
 </resources>

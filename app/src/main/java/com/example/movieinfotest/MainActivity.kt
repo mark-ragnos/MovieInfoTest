@@ -2,6 +2,9 @@ package com.example.movieinfotest
 
 
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.ColorFilter
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.NetworkInfo
@@ -52,7 +55,9 @@ class MainActivity : AppCompatActivity() {
             menu?.getItem(2)?.icon = getDrawable(R.drawable.ic_light_mode)
         else
             menu?.getItem(2)?.icon = getDrawable(R.drawable.ic_dark_mode)
-
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            menu?.getItem(2)?.setIconTintList(ColorStateList.valueOf(Color.WHITE))
+        }
         if(auth.currentUser != null)
             menu?.getItem(1)?.isVisible = true
         return super.onCreateOptionsMenu(menu)

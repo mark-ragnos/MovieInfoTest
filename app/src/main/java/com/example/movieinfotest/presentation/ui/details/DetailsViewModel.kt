@@ -5,6 +5,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.movieinfotest.MainActivity
+import com.example.movieinfotest.MovieApp
 import com.example.movieinfotest.domain.entities.actor.Actor
 import com.example.movieinfotest.domain.entities.movie.Movie
 import com.example.movieinfotest.domain.usecases.FavoriteMovieUseCase
@@ -33,9 +35,9 @@ class DetailsViewModel(
         movieDetails.value = movieInfoUseCase.getMovieInfo(id, dataSourceMode)
     }
 
-    fun saveInFavorite() {
+    fun saveInFavorite(sourceMode: DataSourceMode) {
         CoroutineScope(Dispatchers.IO).launch {
-            movieDetails.value?.let { favoriteUseCase.saveInFavorite(it) }
+            movieDetails.value?.let { favoriteUseCase.saveInFavorite(it, sourceMode) }
         }
     }
 
@@ -49,7 +51,6 @@ class DetailsViewModel(
         CoroutineScope(Dispatchers.IO).async {
             isFavorite = favoriteUseCase.isFavorite(movieDetails.value!!.id)
         }.await()
-        Log.d("TEST",  isFavorite.toString())
         return isFavorite
     }
 

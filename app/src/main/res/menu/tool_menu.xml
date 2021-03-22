@@ -19,6 +19,6 @@
         android:id="@+id/dark_mode_btn"
         android:icon="@drawable/ic_dark_mode"
         android:title="@string/dark_mode"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 
 </menu>

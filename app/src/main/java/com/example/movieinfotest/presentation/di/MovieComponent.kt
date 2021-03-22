@@ -1,13 +1,6 @@
 package com.example.movieinfotest.presentation.di
 
-import com.example.movieinfotest.domain.usecases.FavoriteMovieUseCase
-import com.example.movieinfotest.domain.usecases.MovieInfoUseCase
-import com.example.movieinfotest.domain.usecases.PopularMovieUseCase
-import com.example.movieinfotest.domain.usecases.RandomMovieUseCase
-import com.example.movieinfotest.presentation.di.usecases.FavoriteModule
-import com.example.movieinfotest.presentation.di.usecases.MovieInfoModule
-import com.example.movieinfotest.presentation.di.usecases.PopularModule
-import com.example.movieinfotest.presentation.di.usecases.RandomModule
+
 import com.example.movieinfotest.presentation.di.viewmodels.FavoriteVmModule
 import com.example.movieinfotest.presentation.di.viewmodels.MovieInfoVmModule
 import com.example.movieinfotest.presentation.di.viewmodels.PopularVmModule

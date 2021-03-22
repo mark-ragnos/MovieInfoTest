@@ -91,7 +91,7 @@ class DetailsFragment : Fragment() {
                 CoroutineScope(Dispatchers.Main).async {
                     if (!viewModel.isFavorite()) {
                         makeToast(resources.getString(R.string.movie_added_to_favorite))
-                        viewModel.saveInFavorite()
+                        viewModel.saveInFavorite(MainActivity.isOnline(MovieApp.getInstance()))
                         changeFavoriteBnt(true)
                     } else {
                         makeToast(resources.getString(R.string.movie_deleted_from_favorite))
@@ -128,10 +128,9 @@ class DetailsFragment : Fragment() {
     }
 
     private fun setActors(list: List<Actor>?) {
-        if (list != null) {
+        if (!list.isNullOrEmpty()) {
             val manager = LinearLayoutManager(context)
             manager.orientation = LinearLayoutManager.HORIZONTAL
-
             binding.lvActors.layoutManager = manager
             binding.lvActors.adapter = ActorAdapter(list)
         } else {

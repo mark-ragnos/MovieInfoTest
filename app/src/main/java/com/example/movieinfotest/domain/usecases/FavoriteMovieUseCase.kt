@@ -3,6 +3,7 @@ package com.example.movieinfotest.domain.usecases
 import androidx.paging.PagingData
 import com.example.movieinfotest.domain.entities.movie.Movie
 import com.example.movieinfotest.domain.repositories.IFavoriteRepository
+import com.example.movieinfotest.utils.DataSourceMode
 import kotlinx.coroutines.flow.Flow
 
 class FavoriteMovieUseCase(
@@ -13,8 +14,8 @@ class FavoriteMovieUseCase(
         return favoriteRepository.getFavorite(movie_id) != null
     }
 
-    suspend fun saveInFavorite(movie: Movie){
-        favoriteRepository.saveInFavorite(movie)
+    suspend fun saveInFavorite(movie: Movie, sourceMode: DataSourceMode){
+        favoriteRepository.saveInFavorite(movie, sourceMode)
     }
 
     fun getFavoriteList(): Flow<PagingData<Movie>> {

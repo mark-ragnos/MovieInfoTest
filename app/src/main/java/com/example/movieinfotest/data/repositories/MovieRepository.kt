@@ -56,10 +56,23 @@ class MovieRepository(
         val favorite = db.getDetailsFromFavorite(movie_id)
         if (favorite != null) {
             val actors = db.getActorsById(movie_id).toActorDomain()
+            if(actors.isEmpty()){
+                return updateMovie(movie_id)
+            }
             return favorite.toMovieDomain(actors)
         }
         return api.getDetailsInformation(movie_id.toString())
             ?.toMovieDomain(api.getActorsList(movie_id.toString())?.toActorDomain())
+    }
+
+    private suspend fun updateMovie(movie_id: Int):Movie{
+        val movieInfo = api.getDetailsInformation(movie_id.toString())
+        val actors = api.getActorsList(movie_id.toString())
+        if (movieInfo != null) {
+            db.saveInFavorite(movieInfo, actors)
+        }
+
+        return movieInfo!!.toMovieDomain(actors!!.toActorDomain())
     }
 
 }

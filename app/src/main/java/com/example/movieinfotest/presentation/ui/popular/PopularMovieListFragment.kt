@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieinfotest.MainActivity
+import com.example.movieinfotest.MovieApp
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentPopularMovieListBinding
 import com.example.movieinfotest.domain.entities.movie.Movie
@@ -75,7 +76,7 @@ class PopularMovieListFragment : Fragment() {
                     if (isFavorite)
                         viewModel.removeFromFavorite(movie)
                     else
-                        viewModel.saveInFavorite(movie)
+                        viewModel.saveInFavorite(movie, MainActivity.isOnline(MovieApp.getInstance()))
             }
         }
         movieAdapter = MovieAdapter(listener, viewModel.favoriteMovieUseCase)

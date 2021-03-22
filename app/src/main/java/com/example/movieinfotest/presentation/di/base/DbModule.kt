@@ -3,7 +3,6 @@ package com.example.movieinfotest.presentation.di.base
 import android.content.Context
 import com.example.movieinfotest.data.db.DbHelper
 import com.example.movieinfotest.data.db.MovieDatabase
-import com.example.movieinfotest.presentation.di.base.ContextModule
 import dagger.Module
 import dagger.Provides
 
