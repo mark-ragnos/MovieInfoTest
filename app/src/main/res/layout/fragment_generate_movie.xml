@@ -111,12 +111,12 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="5dp"
             android:ellipsize="end"
             android:text=""
             android:textSize="@dimen/def_item_sub"
             app:layout_constraintBottom_toBottomOf="@+id/gen_out_poster"
-            app:layout_constraintEnd_toEndOf="@+id/gen_out_rating"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/textView4"
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
     </androidx.constraintlayout.widget.ConstraintLayout>
