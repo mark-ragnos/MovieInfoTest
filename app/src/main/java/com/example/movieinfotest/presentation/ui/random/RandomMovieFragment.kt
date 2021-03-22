@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
 import com.example.movieinfotest.MainActivity
 import com.example.movieinfotest.MovieApp
@@ -15,7 +14,7 @@ import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentGenerateMovieBinding
 import com.example.movieinfotest.domain.entities.genre.Genre
 import com.example.movieinfotest.domain.entities.movie.Movie
-import com.example.movieinfotest.presentation.di.AppViewModelFactory
+import com.example.movieinfotest.presentation.di.DaggerMovieComponent
 import com.example.movieinfotest.presentation.ui.random.adapter.GenreAdapter
 import com.example.movieinfotest.utils.DataSourceMode
 import com.example.movieinfotest.utils.registerImage
@@ -45,10 +44,7 @@ class RandomMovieFragment : Fragment() {
     }
 
     private fun init() {
-        viewModel = ViewModelProviders.of(
-            this,
-            AppViewModelFactory()
-        ).get(RandomViewModel::class.java)
+        viewModel = DaggerMovieComponent.builder().build().getRandomMovieUseCase()
 
         (activity as MainActivity).supportActionBar?.title =
             (activity as MainActivity).resources.getString(

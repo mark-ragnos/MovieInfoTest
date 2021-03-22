@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieinfotest.MainActivity
@@ -13,7 +12,7 @@ import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentPopularMovieListBinding
 import com.example.movieinfotest.domain.entities.movie.Movie
 import com.example.movieinfotest.presentation.ui.popular.adapter.MovieAdapter
-import com.example.movieinfotest.presentation.di.AppViewModelFactory
+import com.example.movieinfotest.presentation.di.DaggerMovieComponent
 import com.example.movieinfotest.presentation.ui.popular.adapter.MovieLoadingStateAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -41,10 +40,7 @@ class PopularMovieListFragment : Fragment() {
     }
 
     private fun init() {
-        viewModel = ViewModelProviders.of(
-            this,
-            AppViewModelFactory()
-        ).get(PopularViewModel::class.java)
+        viewModel = DaggerMovieComponent.builder().build().getPopularMovieUseCase()
 
         (activity as MainActivity).supportActionBar?.title =
             (activity as MainActivity).resources.getString(R.string.popular_title)

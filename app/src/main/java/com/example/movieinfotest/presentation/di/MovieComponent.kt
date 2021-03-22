@@ -8,23 +8,30 @@ import com.example.movieinfotest.presentation.di.usecases.FavoriteModule
 import com.example.movieinfotest.presentation.di.usecases.MovieInfoModule
 import com.example.movieinfotest.presentation.di.usecases.PopularModule
 import com.example.movieinfotest.presentation.di.usecases.RandomModule
+import com.example.movieinfotest.presentation.di.viewmodels.FavoriteVmModule
+import com.example.movieinfotest.presentation.di.viewmodels.MovieInfoVmModule
+import com.example.movieinfotest.presentation.di.viewmodels.PopularVmModule
+import com.example.movieinfotest.presentation.di.viewmodels.RandomVmModule
+import com.example.movieinfotest.presentation.ui.details.DetailsViewModel
+import com.example.movieinfotest.presentation.ui.favourite.FavoriteViewModel
+import com.example.movieinfotest.presentation.ui.popular.PopularViewModel
+import com.example.movieinfotest.presentation.ui.random.RandomViewModel
 import dagger.Component
 import javax.inject.Singleton
 
 
-
-@Component(modules = [FavoriteModule::class, MovieInfoModule::class, PopularModule::class, RandomModule::class])
+@Component(modules = [FavoriteVmModule::class, RandomVmModule::class, PopularVmModule::class, MovieInfoVmModule::class])
 interface MovieComponent {
 
     @Singleton
-    fun getFavoriteMovieUseCase(): FavoriteMovieUseCase
+    fun getFavoriteMovieUseCase(): FavoriteViewModel
 
     @Singleton
-    fun getMovieInfoUseCase(): MovieInfoUseCase
+    fun getMovieInfoUseCase(): DetailsViewModel
 
     @Singleton
-    fun getPopularMovieUseCase(): PopularMovieUseCase
+    fun getPopularMovieUseCase(): PopularViewModel
 
     @Singleton
-    fun getRandomMovieUseCase(): RandomMovieUseCase
+    fun getRandomMovieUseCase(): RandomViewModel
 }
