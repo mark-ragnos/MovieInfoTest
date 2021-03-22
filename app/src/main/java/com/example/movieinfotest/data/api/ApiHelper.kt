@@ -7,8 +7,9 @@ import com.example.movieinfotest.data.entities.popular.Movie
 import kotlin.random.Random
 import kotlin.random.nextInt
 
-class MovieHelper {
-    val api: TheMovieDBApi = TheMovieDBApi.create()
+class ApiHelper(
+    private val api: TheMovieDBApi
+) {
 
     suspend fun getPopularList(page: Int): List<Movie>? {
         val response = api.getPopular(page)

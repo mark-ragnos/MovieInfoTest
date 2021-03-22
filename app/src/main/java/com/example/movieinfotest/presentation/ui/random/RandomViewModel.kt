@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.movieinfotest.domain.entities.genre.Genre
-import com.example.movieinfotest.old.Repository
 import com.example.movieinfotest.domain.entities.movie.Movie
 import com.example.movieinfotest.domain.usecases.RandomMovieUseCase
 

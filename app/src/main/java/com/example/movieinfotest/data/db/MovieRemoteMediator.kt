@@ -1,6 +1,5 @@
 package com.example.movieinfotest.data.db
 
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -8,14 +7,14 @@ import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.example.movieinfotest.data.entities.remotekeys.RemoteKeys
 import com.example.movieinfotest.data.entities.popular.Movie
-import com.example.movieinfotest.data.api.MovieHelper
+import com.example.movieinfotest.data.api.ApiHelper
 import java.io.InvalidObjectException
 import java.lang.Exception
 
 
 @OptIn(ExperimentalPagingApi::class)
 class MovieRemoteMediator(
-    private val api: MovieHelper,
+    private val api: ApiHelper,
     private val db: MovieDatabase
 ) : RemoteMediator<Int, Movie>() {
     private val startPage: Int = 1

@@ -1,8 +1,8 @@
 package com.example.movieinfotest.data.repositories
 
 import androidx.paging.*
-import com.example.movieinfotest.data.api.MovieHelper
-import com.example.movieinfotest.data.db.DatabaseHelper
+import com.example.movieinfotest.data.api.ApiHelper
+import com.example.movieinfotest.data.db.DbHelper
 import com.example.movieinfotest.data.db.MovieRemoteMediator
 import com.example.movieinfotest.domain.entities.movie.Movie
 import com.example.movieinfotest.domain.repositories.IMovieRepository
@@ -12,8 +12,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class MovieRepository(
-    val api: MovieHelper,
-    val db: DatabaseHelper
+    val api: ApiHelper,
+    val db: DbHelper
 ) : IMovieRepository<Movie> {
     @OptIn(ExperimentalPagingApi::class)
     override fun getMovies(): Flow<PagingData<Movie>> {

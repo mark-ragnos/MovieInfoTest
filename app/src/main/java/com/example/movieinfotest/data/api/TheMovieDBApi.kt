@@ -46,6 +46,7 @@ interface TheMovieDBApi {
     @GET("movie/{movie_id}/credits?api_key=393a66787ff4b601eae377e5ec8b4d36")
     suspend fun getCredits(@Path("movie_id") movieId: String): Response<FilmActors>
 
+
     companion object {
         private const val BASE_URL = "https://api.themoviedb.org/3/"
 

@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieinfotest.MainActivity
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentFavoriteListBinding
-import com.example.movieinfotest.old.Repository
 import com.example.movieinfotest.presentation.di.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.favourite.adapter.FavoriteAdapter
 import kotlinx.coroutines.CoroutineScope

@@ -2,8 +2,10 @@ package com.example.movieinfotest.presentation.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.movieinfotest.data.api.MovieHelper
-import com.example.movieinfotest.data.db.DatabaseHelper
+import com.example.movieinfotest.MovieApp
+import com.example.movieinfotest.data.api.ApiHelper
+import com.example.movieinfotest.data.api.TheMovieDBApi
+import com.example.movieinfotest.data.db.DbHelper
 import com.example.movieinfotest.data.repositories.FavoriteRepository
 import com.example.movieinfotest.data.repositories.GenreRepository
 import com.example.movieinfotest.data.repositories.MovieRepository
@@ -11,7 +13,6 @@ import com.example.movieinfotest.domain.usecases.FavoriteMovieUseCase
 import com.example.movieinfotest.domain.usecases.MovieInfoUseCase
 import com.example.movieinfotest.domain.usecases.PopularMovieUseCase
 import com.example.movieinfotest.domain.usecases.RandomMovieUseCase
-import com.example.movieinfotest.old.Repository
 import com.example.movieinfotest.presentation.ui.details.DetailsViewModel
 import com.example.movieinfotest.presentation.ui.favourite.FavoriteViewModel
 import com.example.movieinfotest.presentation.ui.popular.PopularViewModel
@@ -21,40 +22,21 @@ class AppViewModelFactory : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(PopularViewModel::class.java))
             return PopularViewModel(
-                PopularMovieUseCase(
-                    MovieRepository(MovieHelper(), DatabaseHelper())
-                ),
-                FavoriteMovieUseCase(
-                    FavoriteRepository(
-                        MovieHelper(),
-                        DatabaseHelper()
-                    )
-                )
+                DaggerMovieComponent.builder().build().getPopularMovieUseCase(),
+                DaggerMovieComponent.builder().build().getFavoriteMovieUseCase()
             ) as T
         if (modelClass.isAssignableFrom(DetailsViewModel::class.java))
             return DetailsViewModel(
-                MovieInfoUseCase(
-                    MovieRepository(MovieHelper(), DatabaseHelper())
-                ),
-                FavoriteMovieUseCase(
-                    FavoriteRepository(MovieHelper(), DatabaseHelper())
-                )
+                DaggerMovieComponent.builder().build().getMovieInfoUseCase(),
+                DaggerMovieComponent.builder().build().getFavoriteMovieUseCase()
             ) as T
         if (modelClass.isAssignableFrom(FavoriteViewModel::class.java))
             return FavoriteViewModel(
-                FavoriteMovieUseCase(
-                    FavoriteRepository(
-                        MovieHelper(),
-                        DatabaseHelper()
-                    )
-                )
+                DaggerMovieComponent.builder().build().getFavoriteMovieUseCase()
             ) as T
         if (modelClass.isAssignableFrom(RandomViewModel::class.java))
             return RandomViewModel(
-                RandomMovieUseCase(
-                    GenreRepository(MovieHelper(), DatabaseHelper()),
-                    MovieRepository(MovieHelper(), DatabaseHelper())
-                )
+                DaggerMovieComponent.builder().build().getRandomMovieUseCase()
             ) as T
 
         throw IllegalArgumentException("Incorrect ViewModel class")

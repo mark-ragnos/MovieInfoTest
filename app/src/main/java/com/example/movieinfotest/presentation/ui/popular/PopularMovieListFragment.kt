@@ -12,7 +12,6 @@ import com.example.movieinfotest.MainActivity
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentPopularMovieListBinding
 import com.example.movieinfotest.domain.entities.movie.Movie
-import com.example.movieinfotest.old.Repository
 import com.example.movieinfotest.presentation.ui.popular.adapter.MovieAdapter
 import com.example.movieinfotest.presentation.di.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.popular.adapter.MovieLoadingStateAdapter

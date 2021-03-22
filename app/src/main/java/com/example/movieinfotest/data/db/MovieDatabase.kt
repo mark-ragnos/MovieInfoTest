@@ -1,6 +1,8 @@
 package com.example.movieinfotest.data.db
 
+import android.content.Context
 import androidx.room.Database
+import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.movieinfotest.data.db.favorite.FavoriteDao
 import com.example.movieinfotest.data.db.genres.GenreDao
@@ -22,4 +24,11 @@ abstract class MovieDatabase : RoomDatabase() {
     abstract fun movieDao(): MovieDao
     abstract fun remoteDao(): RemoteKeysDao
     abstract fun favoriteDao(): FavoriteDao
+
+    companion object{
+        fun create(context: Context): MovieDatabase {
+            return Room.databaseBuilder(context, MovieDatabase::class.java, "db_movie.db").build()
+        }
+
+    }
 }

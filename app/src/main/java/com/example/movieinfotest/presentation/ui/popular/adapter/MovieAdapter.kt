@@ -8,8 +8,6 @@ import com.example.movieinfotest.MainActivity
 import com.example.movieinfotest.R
 import com.example.movieinfotest.domain.entities.movie.Movie
 import com.example.movieinfotest.domain.usecases.FavoriteMovieUseCase
-import com.example.movieinfotest.domain.usecases.PopularMovieUseCase
-import com.example.movieinfotest.old.Repository
 import com.example.movieinfotest.utils.getYear
 import com.example.movieinfotest.utils.registerImage
 import kotlinx.coroutines.CoroutineScope

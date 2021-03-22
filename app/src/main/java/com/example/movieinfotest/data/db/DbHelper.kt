@@ -9,14 +9,9 @@ import com.example.movieinfotest.data.entities.genre.Genre
 import com.example.movieinfotest.utils.toGenre
 import com.example.movieinfotest.utils.toMovieDetails
 
-class DatabaseHelper() {
-    private val database: MovieDatabase = MovieApp.getInstance().getDatabase()
-
-    suspend fun isFavorite(id: Int): Boolean {
-        if (database.favoriteDao().getFavoriteById(id) != null)
-            return true
-        return false
-    }
+class DbHelper(
+    private val database: MovieDatabase
+) {
 
     fun getDatabase(): MovieDatabase {
         return database

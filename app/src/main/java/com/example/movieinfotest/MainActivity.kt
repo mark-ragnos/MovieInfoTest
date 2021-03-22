@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.movieinfotest.databinding.ActivityMainBinding
+import com.example.movieinfotest.presentation.di.DaggerMovieComponent
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -90,7 +91,6 @@ class MainActivity : AppCompatActivity() {
             } else {
                 viewModel.changeMode()
             }
-
         }
     }
 

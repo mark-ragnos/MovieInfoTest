@@ -1,9 +1,8 @@
 package com.example.movieinfotest.data.repositories
 
 import androidx.paging.*
-import com.example.movieinfotest.data.api.MovieHelper
-import com.example.movieinfotest.data.db.DatabaseHelper
-import com.example.movieinfotest.data.entities.actors.Actor
+import com.example.movieinfotest.data.api.ApiHelper
+import com.example.movieinfotest.data.db.DbHelper
 import com.example.movieinfotest.domain.entities.movie.Movie
 import com.example.movieinfotest.domain.repositories.IFavoriteRepository
 import com.example.movieinfotest.utils.converters.toActorData
@@ -14,8 +13,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class FavoriteRepository(
-    val api: MovieHelper,
-    val db: DatabaseHelper
+    val api: ApiHelper,
+    val db: DbHelper
 ) : IFavoriteRepository<Movie> {
 
     override suspend fun getFavorite(movie_id: Int): Movie? {
