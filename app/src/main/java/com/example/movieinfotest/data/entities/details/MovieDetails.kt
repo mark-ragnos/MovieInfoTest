@@ -24,5 +24,7 @@ data class MovieDetailsDB(
     val vote_average: Double,
     val overview: String,
     val release_date: String?,
-    val poster_path: String?
+    val poster_path: String?,
+
+    var add_date: Long?
 )

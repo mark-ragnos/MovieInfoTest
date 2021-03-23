@@ -48,7 +48,7 @@ fun ImageView.registerImage(path: String?, x: Int = 100, y: Int = 150) {
 }
 
 fun MovieDetails.toMovieDetailsDB(): MovieDetailsDB {
-    return MovieDetailsDB(id, title, vote_average, overview, release_date, poster_path)
+    return MovieDetailsDB(id, title, vote_average, overview, release_date, poster_path, null)
 }
 
 fun MovieDetailsDB.toMovieDetails(genres: List<Genre>?): MovieDetails {

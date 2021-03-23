@@ -8,6 +8,8 @@ import com.example.movieinfotest.data.entities.details.MovieDetailsDB
 import com.example.movieinfotest.data.entities.genre.GenreDB
 import com.example.movieinfotest.utils.toGenreDB
 import com.example.movieinfotest.utils.toMovieDetailsDB
+import java.sql.Date
+import java.util.*
 
 @Dao
 interface FavoriteDao {
@@ -34,6 +36,7 @@ interface FavoriteDao {
         }
 
         val details = movieDetails.toMovieDetailsDB()
+        details.add_date = Calendar.getInstance().time.time
 
         addMovieDetails(details)
         if (finActors != null)
@@ -45,7 +48,7 @@ interface FavoriteDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addMovieDetails(movieDetails: MovieDetailsDB)
 
-    @Query("SELECT * FROM moviedetailsdb")
+    @Query("SELECT * FROM moviedetailsdb ORDER BY add_date DESC")
     fun getFavoriteList(): PagingSource<Int, MovieDetailsDB>
 
     @Query("SELECT * FROM moviedetailsdb WHERE id LIKE :id")
