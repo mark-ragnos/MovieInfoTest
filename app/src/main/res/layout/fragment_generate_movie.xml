@@ -39,7 +39,8 @@
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gen_btn_random">
+        app:layout_constraintTop_toBottomOf="@+id/gen_btn_random"
+        android:backgroundTint="?attr/colorSurface">
 
         <TextView
             android:id="@+id/gen_out_id"
@@ -58,7 +59,8 @@
             android:textSize="@dimen/def_item_size"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="?attr/colorOnSurface" />
 
         <TextView
             android:id="@+id/gen_out_name"
@@ -71,7 +73,8 @@
             android:textSize="@dimen/def_item_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView3"
-            app:layout_constraintTop_toTopOf="@+id/textView3" />
+            app:layout_constraintTop_toTopOf="@+id/textView3"
+            android:textColor="?attr/colorOnSurface" />
 
         <TextView
             android:id="@+id/gen_out_rating"
@@ -82,7 +85,8 @@
             android:textSize="@dimen/def_item_size"
             app:layout_constraintBottom_toBottomOf="@+id/textView4"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView4" />
+            app:layout_constraintStart_toEndOf="@+id/textView4"
+            android:textColor="?attr/colorOnSurface" />
 
         <TextView
             android:id="@+id/textView3"
@@ -93,7 +97,8 @@
             android:textSize="@dimen/def_item_size"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/gen_out_poster"
-            app:layout_constraintTop_toTopOf="@+id/gen_out_poster" />
+            app:layout_constraintTop_toTopOf="@+id/gen_out_poster"
+            android:textColor="?attr/colorOnSurface" />
 
         <TextView
             android:id="@+id/textView4"
@@ -104,7 +109,8 @@
             android:textSize="@dimen/def_item_size"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/textView3"
-            app:layout_constraintTop_toBottomOf="@+id/gen_out_name" />
+            app:layout_constraintTop_toBottomOf="@+id/gen_out_name"
+            android:textColor="?attr/colorOnSurface" />
 
         <TextView
             android:id="@+id/gen_out_desc"
@@ -118,7 +124,8 @@
             app:layout_constraintBottom_toBottomOf="@+id/gen_out_poster"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/textView4"
-            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+            app:layout_constraintTop_toBottomOf="@+id/textView4"
+            android:textColor="?attr/colorOnSurface" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
@@ -131,7 +138,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/gen_in_year"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:viewBindingIgnore="true" />
+        tools:viewBindingIgnore="true"
+        android:textColor="?attr/colorOnBackground"/>
 
     <TextView
         android:id="@+id/gen_tv_genre"
@@ -143,7 +151,8 @@
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gen_tv_year"
-        tools:viewBindingIgnore="true" />
+        tools:viewBindingIgnore="true"
+        android:textColor="?attr/colorOnBackground" />
 
     <EditText
         android:id="@+id/gen_in_year"
@@ -153,7 +162,7 @@
         android:ems="10"
         android:hint="@string/enter_year"
         android:inputType="number"
-        android:textColor="?attr/colorOnSecondary"
+        android:textColor="?attr/colorOnBackground"
         android:textSize="@dimen/def_item_size"
         app:layout_constraintStart_toEndOf="@+id/gen_tv_year"
         app:layout_constraintTop_toTopOf="parent" />

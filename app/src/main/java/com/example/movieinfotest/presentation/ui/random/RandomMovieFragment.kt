@@ -85,8 +85,7 @@ class RandomMovieFragment : Fragment() {
         CoroutineScope(Dispatchers.Main).launch {
             if (viewModel.getGenres() != null) {
                 val adapter = context?.let { GenreAdapter(it, viewModel.getGenres()!!) }
-                binding.genInGenre.adapter =
-                    adapter
+                binding.genInGenre.adapter = adapter
             } else {
                 Toast.makeText(
                     MovieApp.getInstance(),
@@ -120,7 +119,7 @@ class RandomMovieFragment : Fragment() {
                 context,
                 resources.getText(R.string.internet_not_found),
                 Toast.LENGTH_SHORT
-            )
+            ).show()
             return false
         }
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
@@ -131,6 +130,7 @@ class RandomMovieFragment : Fragment() {
 
         if (inputYear.toInt() !in 1895..currentYear) {
             Toast.makeText(context, resources.getText(R.string.year_incorrect), Toast.LENGTH_SHORT)
+                .show()
             return false
         }
 
