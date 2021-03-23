@@ -2,11 +2,13 @@ package com.example.movieinfotest.presentation.ui.random.adapter
 
 import android.content.Context
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
+import androidx.appcompat.view.ContextThemeWrapper
 import com.example.movieinfotest.R
 import com.example.movieinfotest.domain.entities.genre.Genre
 
@@ -29,12 +31,12 @@ class GenreAdapter(val context: Context, var genres: List<Genre>) : BaseAdapter(
     override fun getItemId(position: Int): Long {
         return position.toLong()
     }
-    //почта? пароль
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val view: View
         val vh: ItemHolder
+
         if (convertView == null) {
             view = inflater.inflate(R.layout.spinner_row, parent, false)
             vh = ItemHolder(view)

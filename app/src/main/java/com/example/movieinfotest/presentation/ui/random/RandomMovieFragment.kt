@@ -83,10 +83,11 @@ class RandomMovieFragment : Fragment() {
         }
 
         CoroutineScope(Dispatchers.Main).launch {
-            if (viewModel.getGenres() != null)
+            if (viewModel.getGenres() != null) {
+                val adapter = context?.let { GenreAdapter(it, viewModel.getGenres()!!) }
                 binding.genInGenre.adapter =
-                    GenreAdapter(MovieApp.getInstance(), viewModel.getGenres()!!)
-            else {
+                    adapter
+            } else {
                 Toast.makeText(
                     MovieApp.getInstance(),
                     "Your database don't have any objects. Please set ON Internet and reopen this view",
@@ -115,7 +116,11 @@ class RandomMovieFragment : Fragment() {
 
     private fun startRandom(): Boolean {
         if (MainActivity.isOnline(MovieApp.getInstance()) == DataSourceMode.OFFLINE) {
-            Toast.makeText(context, resources.getText(R.string.internet_not_found), Toast.LENGTH_SHORT)
+            Toast.makeText(
+                context,
+                resources.getText(R.string.internet_not_found),
+                Toast.LENGTH_SHORT
+            )
             return false
         }
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)

@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="24dp"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:theme="@style/Theme.MovieInfoTest">
 
     <TextView
         android:id="@+id/sp_id"
@@ -20,7 +21,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:textColor="@color/mdb_tertiary"/>
+        android:textColor="?attr/colorOnSecondary"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
