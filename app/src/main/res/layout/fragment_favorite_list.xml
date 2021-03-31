@@ -18,7 +18,7 @@
         tools:listitem="@layout/item_list" />
 
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/favorite_text_login"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

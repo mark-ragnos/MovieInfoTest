@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         tools:context=".presentation.ui.details.DetailsFragment">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/det_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/info_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
             app:layout_constraintStart_toEndOf="@+id/det_title"
             app:layout_constraintTop_toTopOf="@+id/det_title" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/info_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/info_add_to_favorite" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/info_genres"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
             app:layout_constraintStart_toEndOf="@+id/info_text_genres"
             app:layout_constraintTop_toTopOf="@+id/info_text_genres" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/info_date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -80,7 +80,7 @@
             app:layout_constraintStart_toStartOf="@+id/info_name"
             app:layout_constraintTop_toTopOf="@+id/det_date" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/info_rating"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -102,7 +102,7 @@
             tools:layout_editor_absoluteX="16dp"
             tools:listitem="@layout/item_actor_list" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/det_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -114,7 +114,7 @@
             app:layout_constraintTop_toTopOf="@+id/info_poster"
             tools:viewBindingIgnore="true" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/det_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -126,7 +126,7 @@
             app:layout_constraintTop_toBottomOf="@+id/info_date"
             tools:viewBindingIgnore="true" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/info_text_actors"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -138,7 +138,7 @@
             app:layout_constraintTop_toBottomOf="@+id/info_genres"
             tools:viewBindingIgnore="true" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/info_text_genres"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -150,7 +150,7 @@
             app:layout_constraintTop_toBottomOf="@+id/info_description"
             tools:viewBindingIgnore="true" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/info_add_to_favorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

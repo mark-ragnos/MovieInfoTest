@@ -15,6 +15,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -26,7 +27,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
-//64561f5c70d6ee91504935b9f83a94a07455e910
 
 class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MainActivityViewModel
@@ -52,11 +52,11 @@ class MainActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.tool_menu, menu)
 
         if (viewModel.getDarkMode())
-            menu?.getItem(2)?.icon = getDrawable(R.drawable.ic_light_mode)
+            menu?.getItem(2)?.icon =ContextCompat.getDrawable(applicationContext, R.drawable.ic_light_mode)
         else
-            menu?.getItem(2)?.icon = getDrawable(R.drawable.ic_dark_mode)
+            menu?.getItem(2)?.icon = ContextCompat.getDrawable(applicationContext, R.drawable.ic_dark_mode)
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            menu?.getItem(2)?.setIconTintList(ColorStateList.valueOf(Color.WHITE))
+            menu?.getItem(2)?.iconTintList = ColorStateList.valueOf(Color.WHITE)
         }
         if(auth.currentUser != null)
             menu?.getItem(1)?.isVisible = true

@@ -14,7 +14,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MovieAdapter(val listener: MovieClickListener, val favoriteMovieUseCase: FavoriteMovieUseCase) :
+class MovieAdapter(
+    val listener: MovieClickListener,
+    val favoriteMovieUseCase: FavoriteMovieUseCase
+) :
     PagingDataAdapter<Movie, MovieHolder>(MovieDiffCallback) {
     override fun onBindViewHolder(holder: MovieHolder, position: Int) {
         holder.name.text =
@@ -26,20 +29,20 @@ class MovieAdapter(val listener: MovieClickListener, val favoriteMovieUseCase: F
         holder.itemView.setOnClickListener {
             listener.onClick(holder.id.text.toString().toInt())
         }
-        if(!MainActivity.isLogin())
+        if (!MainActivity.isLogin())
             holder.favorite.visibility = View.VISIBLE
 
         holder.favorite.setOnClickListener {
-            CoroutineScope(Dispatchers.IO).launch {
+            CoroutineScope(Dispatchers.Main).launch {
                 val isFavorite = isFavorite(position)
                 listener.onFavorite(getItem(position), isFavorite)
-                settingImage(holder, position, !isFavorite)
+                settingImage(holder, !isFavorite)
             }
         }
 
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.Main).launch {
             val isFavorite = isFavorite(position)
-            settingImage(holder, position, isFavorite)
+            settingImage(holder, isFavorite)
         }
     }
 
@@ -60,9 +63,8 @@ class MovieAdapter(val listener: MovieClickListener, val favoriteMovieUseCase: F
 
     }
 
-    private suspend fun settingImage(
+    private fun settingImage(
         holder: MovieHolder,
-        position: Int,
         isFavorite: Boolean = false
     ) {
         if (isFavorite) {

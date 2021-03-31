@@ -85,6 +85,8 @@ dependencies {
     //firebase
     implementation platform('com.google.firebase:firebase-bom:26.7.0')
     implementation 'com.google.firebase:firebase-auth-ktx'
+    implementation 'com.google.firebase:firebase-messaging'
+
 
     //dagger 2
     implementation 'com.google.dagger:dagger:2.15'

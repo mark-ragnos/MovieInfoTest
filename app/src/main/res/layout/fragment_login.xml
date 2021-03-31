@@ -7,7 +7,7 @@
     tools:context=".presentation.ui.login.LoginFragment">
 
 
-    <EditText
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/log_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,7 +20,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/log_password"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
         app:layout_constraintStart_toStartOf="@+id/log_email"
         app:layout_constraintTop_toBottomOf="@+id/log_email" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/log_btn_login"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
         app:layout_constraintStart_toStartOf="@+id/log_password"
         app:layout_constraintTop_toBottomOf="@+id/log_password" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/log_text_login_help"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

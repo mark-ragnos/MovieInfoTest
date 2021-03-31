@@ -18,7 +18,7 @@
         app:popupTheme="@style/Theme.MovieInfoTest"
         app:theme="@style/Theme.MovieInfoTest" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/gen_btn_random"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
             app:layout_constraintTop_toTopOf="parent"
             android:textColor="?attr/colorOnSurface" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/gen_out_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
             app:layout_constraintTop_toTopOf="@+id/textView3"
             android:textColor="?attr/colorOnSurface" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/gen_out_rating"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -88,7 +88,7 @@
             app:layout_constraintStart_toEndOf="@+id/textView4"
             android:textColor="?attr/colorOnSurface" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -100,7 +100,7 @@
             app:layout_constraintTop_toTopOf="@+id/gen_out_poster"
             android:textColor="?attr/colorOnSurface" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -112,7 +112,7 @@
             app:layout_constraintTop_toBottomOf="@+id/gen_out_name"
             android:textColor="?attr/colorOnSurface" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/gen_out_desc"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -128,7 +128,7 @@
             android:textColor="?attr/colorOnSurface" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/gen_tv_year"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -141,7 +141,7 @@
         tools:viewBindingIgnore="true"
         android:textColor="?attr/colorOnBackground"/>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/gen_tv_genre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -154,7 +154,7 @@
         tools:viewBindingIgnore="true"
         android:textColor="?attr/colorOnBackground" />
 
-    <EditText
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/gen_in_year"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
