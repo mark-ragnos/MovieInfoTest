@@ -9,6 +9,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movieinfotest.R
+import com.example.movieinfotest.databinding.ItemListBinding
 import com.example.movieinfotest.domain.entities.movie.Movie
 import com.example.movieinfotest.utils.registerImage
 
@@ -30,28 +31,28 @@ class FavoriteAdapter(
         }
     }
 
-    class MovieDetailsDbHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var name: TextView = itemView.findViewById(R.id.item_name)
-        var rating: TextView = itemView.findViewById(R.id.item_rating)
-        var image: ImageView = itemView.findViewById(R.id.item_image)
-        var id: TextView = itemView.findViewById(R.id.item_id)
+    class MovieDetailsDbHolder(val binding: ItemListBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(movie: Movie?){
+            movie?.let {
+                binding.itemName.text = movie.title
+                binding.itemId.text = movie.id.toString()
+                binding.itemRating.text = movie.vote_average.toString()
+                binding.itemImage.registerImage(movie.poster_path)
+            }
+        }
     }
 
     override fun onBindViewHolder(holder: MovieDetailsDbHolder, position: Int) {
-        holder.name.text = getItem(position)?.title
-        holder.id.text = getItem(position)?.id.toString()
-        holder.rating.text = getItem(position)?.vote_average.toString()
-        holder.image.registerImage(getItem(position)?.poster_path)
-
+        holder.bind(getItem(position))
         holder.itemView.setOnClickListener {
-            listener.onClick(holder.id.text.toString().toInt())
+            getItem(position)?.id?.let {
+                listener.onClick(it)
+            }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieDetailsDbHolder {
-        return MovieDetailsDbHolder(
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_list, parent, false)
-        )
+        val binding = ItemListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return MovieDetailsDbHolder(binding)
     }
 }
