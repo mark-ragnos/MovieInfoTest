@@ -1,11 +1,15 @@
 package com.example.movieinfotest.presentation.ui.login
 
 import android.os.Bundle
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.fragment.NavHostFragment
 import com.example.movieinfotest.MainActivity
 import com.example.movieinfotest.R
@@ -37,9 +41,9 @@ class LoginFragment : Fragment() {
         (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 
-    private fun init(){
+    private fun init() {
         auth = Firebase.auth
-        if (auth.currentUser != null){
+        if (auth.currentUser != null) {
             (activity as MainActivity).onBackPressed()
         }
 
@@ -58,31 +62,39 @@ class LoginFragment : Fragment() {
                 .navigate(R.id.action_loginFragment_to_registrationFragment)
         }
 
+        firebase()
+    }
+
+    fun firebase() {
         binding.logBtnLogin.setOnClickListener {
             val email = binding.logEmail.text.toString()
             val password = binding.logPassword.text.toString()
-            if (isCorrectUserData(email, password))
+            if (isCorrectUserData(email, password)) {
+                showProgressBar(true)
                 auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
                     if (it.isSuccessful) {
                         (activity as MainActivity).onBackPressed()
                         activity?.recreate()
                     } else {
-                        Toast.makeText(
-                            context,
-                            resources.getText(R.string.autentification_failed),
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        makeToast(resources.getText(R.string.autentification_failed))
                     }
+                    showProgressBar(false)
                 }
-            else
-                Toast.makeText(
-                    context,
-                    resources.getText(R.string.incorrect_user_data),
-                    Toast.LENGTH_SHORT
-                ).show()
+            } else
+                makeToast(resources.getText(R.string.incorrect_user_data))
 
         }
     }
 
+    private fun makeToast(message: CharSequence) {
+        Toast.makeText(
+            context,
+            message,
+            Toast.LENGTH_SHORT
+        ).show()
+    }
 
+    private fun showProgressBar(isProgress: Boolean) {
+        binding.progressBar.visibility = if (isProgress) View.VISIBLE else View.INVISIBLE
+    }
 }

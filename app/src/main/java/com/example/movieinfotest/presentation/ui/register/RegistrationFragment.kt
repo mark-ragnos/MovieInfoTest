@@ -47,34 +47,43 @@ class RegistrationFragment : Fragment() {
     }
 
     private fun setupUI() {
-
         binding.regTextLoginHelp.setOnClickListener {
             activity?.onBackPressed()
         }
 
+        firebase()
+    }
+
+    private fun firebase(){
         binding.regBtnRegistration.setOnClickListener {
             val email = binding.regEmail.text.toString()
             val password = binding.regPassword.text.toString()
-            if (isCorrectUserData(email, password))
+            if (isCorrectUserData(email, password)) {
+                showProgressBar(true)
                 auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
                     if (it.isSuccessful) {
                         (activity as MainActivity).onBackPressed()
                         activity?.recreate()
                     } else {
-                        Toast.makeText(
-                            context,
-                            resources.getText(R.string.autentification_failed),
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        makeToast(resources.getText(R.string.autentification_failed))
                     }
+                    showProgressBar(false)
                 }
+            }
             else
-                Toast.makeText(
-                    context,
-                    resources.getText(R.string.incorrect_user_data),
-                    Toast.LENGTH_SHORT
-                ).show()
-
+                makeToast(resources.getText(R.string.incorrect_user_data))
         }
+    }
+
+    private fun makeToast(message: CharSequence){
+        Toast.makeText(
+            context,
+            message,
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    private fun showProgressBar(isProgress: Boolean) {
+        binding.progressBar.visibility = if (isProgress) View.VISIBLE else View.INVISIBLE
     }
 }
