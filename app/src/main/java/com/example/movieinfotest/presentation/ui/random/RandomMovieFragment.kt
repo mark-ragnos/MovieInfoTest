@@ -61,6 +61,7 @@ class RandomMovieFragment : Fragment() {
     private fun setupUI() {
         binding.genBtnRandom.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
+                changeProgressBarVisible(true)
                 binding.genResult.visibility = View.INVISIBLE
                 accessToMove = false
                 if (startRandom()) {
@@ -111,6 +112,7 @@ class RandomMovieFragment : Fragment() {
         binding.genOutDesc.text = movie.overview
         binding.genResult.visibility = View.VISIBLE
         accessToMove = true
+        changeProgressBarVisible(false)
     }
 
     private fun startRandom(): Boolean {
@@ -135,5 +137,11 @@ class RandomMovieFragment : Fragment() {
         }
 
         return true
+    }
+
+
+    fun changeProgressBarVisible(isVisible: Boolean){
+        binding.progressBar.visibility = if(isVisible) View.VISIBLE else View.GONE
+        binding.genResult.visibility = if(!isVisible) View.VISIBLE else View.INVISIBLE
     }
 }

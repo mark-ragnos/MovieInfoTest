@@ -38,7 +38,7 @@ class DetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentMovieInfoBinding.inflate(inflater, container, false)
-
+        changeProgressBarVisible(true)
         init()
         setupReadLifeData()
         setupFavoriteBtn()
@@ -125,6 +125,7 @@ class DetailsFragment : Fragment() {
         CoroutineScope(Dispatchers.Main).async {
             changeFavoriteBnt(viewModel.isFavorite())
         }
+        changeProgressBarVisible(false)
     }
 
     private fun setActors(list: List<Actor>?) {
@@ -143,5 +144,10 @@ class DetailsFragment : Fragment() {
 
     private fun makeToast(text: String) {
         Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+    }
+
+    fun changeProgressBarVisible(isVisible: Boolean){
+        binding.progressBar.visibility = if(isVisible) View.VISIBLE else View.GONE
+        binding.infoRootElement.visibility = if(!isVisible) View.VISIBLE else View.INVISIBLE
     }
 }
