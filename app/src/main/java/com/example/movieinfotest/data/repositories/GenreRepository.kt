@@ -13,6 +13,9 @@ class GenreRepository(
 ) : IGenreRepository<Genre> {
     override suspend fun getGenres(dataSourceMode: DataSourceMode): List<Genre>? {
         if (dataSourceMode == DataSourceMode.ONLINE) {
+            val genreDb = db.getAllGenres()
+            if(genreDb.isNullOrEmpty())
+                return genreDb?.toGenreDomain()
             val genres = api.getGenresList()
             if (!genres.isNullOrEmpty())
                 db.addAllGenres(genres)

@@ -15,7 +15,6 @@ import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentGenerateMovieBinding
 import com.example.movieinfotest.domain.entities.genre.Genre
 import com.example.movieinfotest.domain.entities.movie.Movie
-import com.example.movieinfotest.presentation.di.DaggerMovieComponent
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.random.adapter.GenreAdapter
 import com.example.movieinfotest.utils.DataSourceMode
@@ -61,10 +60,9 @@ class RandomMovieFragment : Fragment() {
     private fun setupUI() {
         binding.genBtnRandom.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
-                changeProgressBarVisible(true)
-                binding.genResult.visibility = View.INVISIBLE
                 accessToMove = false
                 if (startRandom()) {
+                    onProgress(true)
                     viewModel.generateRandom(
                         (binding.genInGenre.selectedItem as Genre).id.toString(),
                         binding.genInYear.text.toString()
@@ -83,6 +81,10 @@ class RandomMovieFragment : Fragment() {
             }
         }
 
+        initGenreList()
+    }
+
+    private fun initGenreList(){
         CoroutineScope(Dispatchers.Main).launch {
             if (viewModel.getGenres() != null) {
                 val adapter = context?.let { GenreAdapter(it, viewModel.getGenres()!!) }
@@ -110,9 +112,8 @@ class RandomMovieFragment : Fragment() {
         binding.genOutName.text = movie.title
         binding.genOutId.text = movie.id.toString()
         binding.genOutDesc.text = movie.overview
-        binding.genResult.visibility = View.VISIBLE
         accessToMove = true
-        changeProgressBarVisible(false)
+        onProgress(false)
     }
 
     private fun startRandom(): Boolean {
@@ -140,8 +141,8 @@ class RandomMovieFragment : Fragment() {
     }
 
 
-    fun changeProgressBarVisible(isVisible: Boolean){
-        binding.progressBar.visibility = if(isVisible) View.VISIBLE else View.GONE
-        binding.genResult.visibility = if(!isVisible) View.VISIBLE else View.INVISIBLE
+    private fun onProgress(isProgress: Boolean){
+        binding.progressBar.visibility = if(isProgress) View.VISIBLE else View.GONE
+        binding.genResult.visibility = if(!isProgress) View.VISIBLE else View.INVISIBLE
     }
 }

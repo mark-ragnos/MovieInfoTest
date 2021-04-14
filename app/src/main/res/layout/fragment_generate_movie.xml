@@ -20,9 +20,10 @@
 
     <Spinner
         android:id="@+id/gen_in_genre"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textSize="@dimen/def_item_size"
+        app:layout_constraintEnd_toEndOf="@+id/gen_in_year"
         app:layout_constraintStart_toStartOf="@+id/gen_in_year"
         app:layout_constraintTop_toTopOf="@+id/gen_tv_genre"
         app:popupTheme="@style/Theme.MovieInfoTest"
