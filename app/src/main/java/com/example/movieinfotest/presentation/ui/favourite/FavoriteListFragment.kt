@@ -7,12 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieinfotest.MainActivity
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentFavoriteListBinding
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.favourite.adapter.FavoriteAdapter
+import com.example.movieinfotest.presentation.ui.favourite.adapter.FavoriteItemTouchCallback
 import com.example.movieinfotest.utils.FirebaseLogin
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -70,8 +72,16 @@ class FavoriteListFragment : Fragment() {
                     FavoriteListFragmentDirections.actionFavoriteListToMovieInfo(id)
                 NavHostFragment.findNavController(this@FavoriteListFragment).navigate(action)
             }
+
+            override fun onSwipe(id: Int) {
+                viewModel.removeFromFavorite(id)
+            }
         }
         adapter = FavoriteAdapter(listener)
+
+        val touchHelper = ItemTouchHelper(FavoriteItemTouchCallback(adapter))
+        touchHelper.attachToRecyclerView(binding.rvFavoriteList)
+
         binding.rvFavoriteList.adapter = adapter
     }
 

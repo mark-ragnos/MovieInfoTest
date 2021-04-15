@@ -1,24 +1,22 @@
 package com.example.movieinfotest.presentation.ui.favourite.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.ItemListBinding
 import com.example.movieinfotest.domain.entities.movie.Movie
 import com.example.movieinfotest.utils.registerImage
 
 class FavoriteAdapter(
     private val listener: MovieDetailClickListener
-) : PagingDataAdapter<Movie, FavoriteAdapter.MovieDetailsDbHolder>(MovieDetailsDiffCallback) {
+) : PagingDataAdapter<Movie, FavoriteAdapter.MovieDetailsDbHolder>(MovieDetailsDiffCallback), FavoriteItemTouchListener {
 
     interface MovieDetailClickListener {
         fun onClick(id: Int)
+
+        fun onSwipe(id: Int)
     }
 
     object MovieDetailsDiffCallback : DiffUtil.ItemCallback<Movie>() {
@@ -54,5 +52,9 @@ class FavoriteAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieDetailsDbHolder {
         val binding = ItemListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MovieDetailsDbHolder(binding)
+    }
+
+    override fun onItemDismiss(position: Int) {
+        listener.onSwipe((getItem(position) as Movie).id)
     }
 }
