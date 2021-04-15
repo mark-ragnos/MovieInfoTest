@@ -32,11 +32,6 @@ class RegistrationFragment : Fragment() {
         return binding.root
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
-    }
-
     private fun init() {
         auth = Firebase.auth
 

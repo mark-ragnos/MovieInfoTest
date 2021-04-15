@@ -1,6 +1,7 @@
 package com.example.movieinfotest.presentation.ui.login
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -36,11 +37,6 @@ class LoginFragment : Fragment() {
         return binding.root
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
-    }
-
     private fun init() {
         auth = Firebase.auth
         if (auth.currentUser != null) {
@@ -65,7 +61,7 @@ class LoginFragment : Fragment() {
         firebase()
     }
 
-    fun firebase() {
+    private fun firebase() {
         binding.logBtnLogin.setOnClickListener {
             val email = binding.logEmail.text.toString()
             val password = binding.logPassword.text.toString()

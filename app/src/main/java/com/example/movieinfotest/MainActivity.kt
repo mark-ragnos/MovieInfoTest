@@ -91,15 +91,4 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
-    fun isLogin(): Boolean {
-        return auth.currentUser != null
-    }
-
-
-    companion object {
-        fun isLogin():Boolean{
-            return Firebase.auth.currentUser == null
-        }
-    }
 }

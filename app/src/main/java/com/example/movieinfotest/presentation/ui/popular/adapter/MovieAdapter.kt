@@ -9,6 +9,7 @@ import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.ItemListBinding
 import com.example.movieinfotest.domain.entities.movie.Movie
 import com.example.movieinfotest.domain.usecases.FavoriteMovieUseCase
+import com.example.movieinfotest.utils.FirebaseLogin
 import com.example.movieinfotest.utils.getYear
 import com.example.movieinfotest.utils.registerImage
 import kotlinx.coroutines.CoroutineScope
@@ -24,7 +25,7 @@ class MovieAdapter(
     override fun onBindViewHolder(holder: MovieHolder, position: Int) {
         holder.bind(movie = getItem(position), listener)
 
-        if (!MainActivity.isLogin())
+        if (FirebaseLogin.isLogin())
             holder.favorite.visibility = View.VISIBLE
 
         holder.favorite.setOnClickListener {

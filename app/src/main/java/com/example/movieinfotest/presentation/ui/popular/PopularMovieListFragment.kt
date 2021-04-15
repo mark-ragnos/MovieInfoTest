@@ -36,7 +36,7 @@ class PopularMovieListFragment : Fragment() {
         binding = FragmentPopularMovieListBinding.inflate(inflater, container, false)
 
         init()
-        setupUI()
+        setupPopularList()
         fetchMovies()
 
         return binding.root
@@ -60,7 +60,7 @@ class PopularMovieListFragment : Fragment() {
         }
     }
 
-    private fun setupUI() {
+    private fun setupPopularList() {
         binding.rvPopularList.layoutManager = LinearLayoutManager(context)
 
         val listener = object : MovieAdapter.MovieClickListener {

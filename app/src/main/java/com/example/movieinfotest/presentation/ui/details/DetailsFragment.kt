@@ -73,15 +73,8 @@ class DetailsFragment : Fragment() {
 
     private fun setupFavoriteBtn() {
         binding.infoAddToFavorite.setOnClickListener {
-            val login = (activity as MainActivity).isLogin()
 
-            if (!login) {
-                NavHostFragment.findNavController(this)
-                    .navigate(R.id.action_movieInfo_to_loginFragment)
-                return@setOnClickListener
-            }
-
-            if (!MainActivity.isLogin())
+            if (FirebaseLogin.isLogin())
                 CoroutineScope(Dispatchers.Main).launch {
                     if (!viewModel.isFavorite()) {
                         makeToast(resources.getString(R.string.movie_added_to_favorite))
@@ -93,12 +86,17 @@ class DetailsFragment : Fragment() {
                         changeFavoriteBnt(false)
                     }
                 }
+            else{
+                NavHostFragment.findNavController(this)
+                    .navigate(R.id.action_movieInfo_to_loginFragment)
+                return@setOnClickListener
+            }
         }
 
     }
 
     private fun changeFavoriteBnt(isFavorite: Boolean) {
-        if (!MainActivity.isLogin())
+        if (FirebaseLogin.isLogin())
             if (isFavorite) {
                 binding.infoAddToFavorite.text =
                     resources.getText(R.string.delete_from_favorite)

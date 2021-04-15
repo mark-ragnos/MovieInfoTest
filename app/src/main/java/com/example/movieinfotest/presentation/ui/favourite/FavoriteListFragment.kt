@@ -13,6 +13,7 @@ import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentFavoriteListBinding
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.favourite.adapter.FavoriteAdapter
+import com.example.movieinfotest.utils.FirebaseLogin
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
@@ -75,10 +76,15 @@ class FavoriteListFragment : Fragment() {
     }
 
     override fun onStart() {
-        if(!(activity as MainActivity).isLogin()){
+        if(!FirebaseLogin.isLogin()){
             binding.rvFavoriteList.visibility = View.GONE
             binding.favoriteTextLogin.visibility = View.VISIBLE
         }
         super.onStart()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 }
