@@ -1,17 +1,13 @@
 package com.example.movieinfotest.presentation.ui.details
 
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.movieinfotest.MainActivity
-import com.example.movieinfotest.MovieApp
-import com.example.movieinfotest.domain.entities.actor.Actor
 import com.example.movieinfotest.domain.entities.movie.Movie
 import com.example.movieinfotest.domain.usecases.FavoriteMovieUseCase
 import com.example.movieinfotest.domain.usecases.MovieInfoUseCase
-import com.example.movieinfotest.utils.DataSourceMode
+import com.example.movieinfotest.utils.network.NetworkStatus
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -31,11 +27,11 @@ class DetailsViewModel(
         return movieDetails
     }
 
-    suspend fun sendID(id: Int, dataSourceMode: DataSourceMode) {
-        movieDetails.value = movieInfoUseCase.getMovieInfo(id, dataSourceMode)
+    suspend fun sendID(id: Int, networkStatus: NetworkStatus) {
+        movieDetails.value = movieInfoUseCase.getMovieInfo(id, networkStatus)
     }
 
-    fun saveInFavorite(sourceMode: DataSourceMode) {
+    fun saveInFavorite(sourceMode: NetworkStatus) {
         CoroutineScope(Dispatchers.IO).launch {
             movieDetails.value?.let { favoriteUseCase.saveInFavorite(it, sourceMode) }
         }

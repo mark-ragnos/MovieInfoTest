@@ -1,14 +1,8 @@
 package com.example.movieinfotest
 
 
-import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.graphics.ColorFilter
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.net.NetworkInfo
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -20,8 +14,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.movieinfotest.databinding.ActivityMainBinding
-import com.example.movieinfotest.presentation.di.DaggerMovieComponent
-import com.example.movieinfotest.utils.DataSourceMode
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -108,32 +100,6 @@ class MainActivity : AppCompatActivity() {
     companion object {
         fun isLogin():Boolean{
             return Firebase.auth.currentUser == null
-        }
-
-        fun isOnline(context: Context): DataSourceMode {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                val connectivityManager: ConnectivityManager? =
-                    context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
-                if (connectivityManager != null) {
-                    val capabilities =
-                        connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-                    if (capabilities != null) {
-                        if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
-                            return DataSourceMode.ONLINE
-                        } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
-                            return DataSourceMode.ONLINE
-                        } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
-                            return DataSourceMode.ONLINE
-                        }
-                    }
-                }
-                return DataSourceMode.OFFLINE
-            } else {
-                val cm =
-                    context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-                val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
-                return if(activeNetwork?.isConnectedOrConnecting == true) DataSourceMode.ONLINE else DataSourceMode.OFFLINE
-            }
         }
     }
 }

@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
@@ -17,7 +16,9 @@ import com.example.movieinfotest.domain.entities.genre.Genre
 import com.example.movieinfotest.domain.entities.movie.Movie
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.random.adapter.GenreAdapter
-import com.example.movieinfotest.utils.DataSourceMode
+import com.example.movieinfotest.utils.network.NetworkStatus
+import com.example.movieinfotest.utils.network.NetworkConnection
+import com.example.movieinfotest.utils.ToastUtils
 import com.example.movieinfotest.utils.registerImage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -61,7 +62,7 @@ class RandomMovieFragment : Fragment() {
         binding.genBtnRandom.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
                 accessToMove = false
-                if (startRandom()) {
+                if (isGenerateAccess()) {
                     onProgress(true)
                     viewModel.generateRandom(
                         (binding.genInGenre.selectedItem as Genre).id.toString(),
@@ -89,12 +90,6 @@ class RandomMovieFragment : Fragment() {
             if (viewModel.getGenres() != null) {
                 val adapter = context?.let { GenreAdapter(it, viewModel.getGenres()!!) }
                 binding.genInGenre.adapter = adapter
-            } else {
-                Toast.makeText(
-                    MovieApp.getInstance(),
-                    "Your database don't have any objects. Please set ON Internet and reopen this view",
-                    Toast.LENGTH_LONG
-                ).show()
             }
         }
     }
@@ -116,13 +111,9 @@ class RandomMovieFragment : Fragment() {
         onProgress(false)
     }
 
-    private fun startRandom(): Boolean {
-        if (MainActivity.isOnline(MovieApp.getInstance()) == DataSourceMode.OFFLINE) {
-            Toast.makeText(
-                context,
-                resources.getText(R.string.internet_not_found),
-                Toast.LENGTH_SHORT
-            ).show()
+    private fun isGenerateAccess(): Boolean {
+        if (NetworkConnection.isOnline(MovieApp.getInstance()) == NetworkStatus.OFFLINE) {
+                makeMessage(resources.getText(R.string.internet_not_found))
             return false
         }
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
@@ -132,15 +123,16 @@ class RandomMovieFragment : Fragment() {
             return true
 
         if (inputYear.toInt() !in 1895..currentYear) {
-            Toast.makeText(context, resources.getText(R.string.year_incorrect), Toast.LENGTH_SHORT)
-                .show()
+            makeMessage(resources.getText(R.string.year_incorrect))
             return false
         }
 
         return true
     }
 
-
+    private fun makeMessage(message: CharSequence){
+        context?.let { ToastUtils.makeShortMessage(it, message.toString()) }
+    }
     private fun onProgress(isProgress: Boolean){
         binding.progressBar.visibility = if(isProgress) View.VISIBLE else View.GONE
         binding.genResult.visibility = if(!isProgress) View.VISIBLE else View.INVISIBLE

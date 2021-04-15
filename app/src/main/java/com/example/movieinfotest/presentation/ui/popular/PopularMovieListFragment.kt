@@ -14,10 +14,9 @@ import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentPopularMovieListBinding
 import com.example.movieinfotest.domain.entities.movie.Movie
 import com.example.movieinfotest.presentation.ui.popular.adapter.MovieAdapter
-import com.example.movieinfotest.presentation.di.DaggerMovieComponent
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.popular.adapter.MovieLoadingStateAdapter
-import com.example.movieinfotest.presentation.ui.random.RandomViewModel
+import com.example.movieinfotest.utils.network.NetworkConnection
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
@@ -76,7 +75,7 @@ class PopularMovieListFragment : Fragment() {
                     if (isFavorite)
                         viewModel.removeFromFavorite(movie)
                     else
-                        viewModel.saveInFavorite(movie, MainActivity.isOnline(MovieApp.getInstance()))
+                        viewModel.saveInFavorite(movie, NetworkConnection.isOnline(MovieApp.getInstance()))
             }
         }
         movieAdapter = MovieAdapter(listener, viewModel.favoriteMovieUseCase)

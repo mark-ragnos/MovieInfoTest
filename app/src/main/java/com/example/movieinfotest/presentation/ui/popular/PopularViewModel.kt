@@ -7,7 +7,7 @@ import androidx.paging.*
 import com.example.movieinfotest.domain.entities.movie.Movie
 import com.example.movieinfotest.domain.usecases.FavoriteMovieUseCase
 import com.example.movieinfotest.domain.usecases.PopularMovieUseCase
-import com.example.movieinfotest.utils.DataSourceMode
+import com.example.movieinfotest.utils.network.NetworkStatus
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -24,7 +24,7 @@ class PopularViewModel(
         return movies
     }
 
-    fun saveInFavorite(movie: Movie, sourceMode: DataSourceMode) {
+    fun saveInFavorite(movie: Movie, sourceMode: NetworkStatus) {
         CoroutineScope(Dispatchers.IO).launch {
              favoriteMovieUseCase.saveInFavorite(movie, sourceMode)
         }

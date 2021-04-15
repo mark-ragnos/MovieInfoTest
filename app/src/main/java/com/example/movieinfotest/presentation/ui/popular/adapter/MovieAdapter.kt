@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import com.example.movieinfotest.MainActivity
 import com.example.movieinfotest.R
+import com.example.movieinfotest.databinding.ItemListBinding
 import com.example.movieinfotest.domain.entities.movie.Movie
 import com.example.movieinfotest.domain.usecases.FavoriteMovieUseCase
 import com.example.movieinfotest.utils.getYear
@@ -13,22 +14,16 @@ import com.example.movieinfotest.utils.registerImage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MovieAdapter(
-    val listener: MovieClickListener,
-    val favoriteMovieUseCase: FavoriteMovieUseCase
+    private val listener: MovieClickListener,
+    private val favoriteMovieUseCase: FavoriteMovieUseCase
 ) :
     PagingDataAdapter<Movie, MovieHolder>(MovieDiffCallback) {
     override fun onBindViewHolder(holder: MovieHolder, position: Int) {
-        holder.name.text =
-            getItem(position)?.title + " (${getItem(position)?.release_date?.getYear()})"
-        holder.rating.text = getItem(position)?.vote_average.toString()
-        holder.id.text = getItem(position)?.id.toString()
+        holder.bind(movie = getItem(position), listener)
 
-        holder.image.registerImage(getItem(position)?.poster_path)
-        holder.itemView.setOnClickListener {
-            listener.onClick(holder.id.text.toString().toInt())
-        }
         if (!MainActivity.isLogin())
             holder.favorite.visibility = View.VISIBLE
 
@@ -36,13 +31,13 @@ class MovieAdapter(
             CoroutineScope(Dispatchers.Main).launch {
                 val isFavorite = isFavorite(position)
                 listener.onFavorite(getItem(position), isFavorite)
-                settingImage(holder, !isFavorite)
+                holder.changeImage(!isFavorite)
             }
         }
 
         CoroutineScope(Dispatchers.Main).launch {
             val isFavorite = isFavorite(position)
-            settingImage(holder, isFavorite)
+            holder.changeImage(isFavorite)
         }
     }
 
@@ -52,24 +47,12 @@ class MovieAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieHolder {
-        return MovieHolder(
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_list, parent, false)
-        )
+        val binding = ItemListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return MovieHolder(binding)
     }
 
-    private suspend fun isFavorite(position: Int): Boolean {
-        return favoriteMovieUseCase.isFavorite(getItem(position)!!.id)
+    private suspend fun isFavorite(position: Int): Boolean = withContext(Dispatchers.IO) {
+        return@withContext favoriteMovieUseCase.isFavorite(getItem(position)!!.id)
 
-    }
-
-    private fun settingImage(
-        holder: MovieHolder,
-        isFavorite: Boolean = false
-    ) {
-        if (isFavorite) {
-            holder.favorite.setImageResource(R.drawable.ic_favorite)
-        } else
-            holder.favorite.setImageResource(R.drawable.ic_favorite_not)
     }
 }
