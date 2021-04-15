@@ -8,10 +8,7 @@ import com.example.movieinfotest.domain.entities.movie.Movie
 import com.example.movieinfotest.domain.usecases.FavoriteMovieUseCase
 import com.example.movieinfotest.domain.usecases.MovieInfoUseCase
 import com.example.movieinfotest.utils.network.NetworkStatus
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class DetailsViewModel(
     private val movieInfoUseCase: MovieInfoUseCase,
@@ -43,11 +40,9 @@ class DetailsViewModel(
         }
     }
 
-    suspend fun isFavorite(): Boolean {
-        CoroutineScope(Dispatchers.IO).async {
-            isFavorite = favoriteUseCase.isFavorite(movieDetails.value!!.id)
-        }.await()
-        return isFavorite
+    suspend fun isFavorite(): Boolean  = withContext(Dispatchers.IO){
+        isFavorite = favoriteUseCase.isFavorite(movieDetails.value!!.id)
+        return@withContext isFavorite
     }
 
 }

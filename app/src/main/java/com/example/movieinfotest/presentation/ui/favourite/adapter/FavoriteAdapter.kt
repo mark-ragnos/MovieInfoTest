@@ -14,7 +14,7 @@ import com.example.movieinfotest.domain.entities.movie.Movie
 import com.example.movieinfotest.utils.registerImage
 
 class FavoriteAdapter(
-    val listener: MovieDetailClickListener
+    private val listener: MovieDetailClickListener
 ) : PagingDataAdapter<Movie, FavoriteAdapter.MovieDetailsDbHolder>(MovieDetailsDiffCallback) {
 
     interface MovieDetailClickListener {

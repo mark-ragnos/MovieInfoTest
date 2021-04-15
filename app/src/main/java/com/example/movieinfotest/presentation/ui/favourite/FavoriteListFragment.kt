@@ -11,10 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieinfotest.MainActivity
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentFavoriteListBinding
-import com.example.movieinfotest.presentation.di.DaggerMovieComponent
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.favourite.adapter.FavoriteAdapter
-import com.example.movieinfotest.presentation.ui.random.RandomViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
@@ -33,9 +31,8 @@ class FavoriteListFragment : Fragment() {
         binding = FragmentFavoriteListBinding.inflate(inflater, container, false)
 
         init()
-        setupUI()
+        setupFavoriteList()
         fetchMovies()
-
 
         return binding.root
     }
@@ -49,18 +46,21 @@ class FavoriteListFragment : Fragment() {
         (activity as MainActivity).supportActionBar?.title =
             resources.getString(R.string.favorite_title)
 
+        binding.favoriteTextLogin.setOnClickListener {
+            NavHostFragment.findNavController(this).navigate(R.id.action_favoriteList_to_loginFragment)
+        }
     }
 
     private fun fetchMovies() {
 
-        CoroutineScope(Dispatchers.Main).launch {
+        CoroutineScope(Dispatchers.IO).launch {
             viewModel.getPopular().collectLatest { pagingData ->
                 adapter.submitData(pagingData)
             }
         }
     }
 
-    private fun setupUI() {
+    private fun setupFavoriteList() {
 
         binding.rvFavoriteList.layoutManager = LinearLayoutManager(context)
         val listener = object : FavoriteAdapter.MovieDetailClickListener {
@@ -70,20 +70,11 @@ class FavoriteListFragment : Fragment() {
                 NavHostFragment.findNavController(this@FavoriteListFragment).navigate(action)
             }
         }
-
-        binding.favoriteTextLogin.setOnClickListener {
-            NavHostFragment.findNavController(this).navigate(R.id.action_favoriteList_to_loginFragment)
-        }
-
         adapter = FavoriteAdapter(listener)
-
         binding.rvFavoriteList.adapter = adapter
-
     }
 
     override fun onStart() {
-
-
         if(!(activity as MainActivity).isLogin()){
             binding.rvFavoriteList.visibility = View.GONE
             binding.favoriteTextLogin.visibility = View.VISIBLE

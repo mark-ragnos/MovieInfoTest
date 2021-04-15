@@ -37,11 +37,10 @@ fun getGenreList(list: List<com.example.movieinfotest.domain.entities.genre.Genr
  * Соотношение постеров у = х * 1.5
  */
 fun ImageView.registerImage(path: String?, x: Int = 100, y: Int = 150) {
-    if (path == null)
-        return
     Picasso.get()
         .load("https://www.themoviedb.org/t/p/w1280${path}")
         .placeholder(R.drawable.placeholder)
+        .error(R.drawable.placeholder)
         .resize(x, y)
         .centerCrop()
         .into(this)

@@ -19,10 +19,7 @@ import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.details.actors.ActorAdapter
 import com.example.movieinfotest.utils.*
 import com.example.movieinfotest.utils.network.NetworkConnection
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class DetailsFragment : Fragment() {
     private lateinit var binding: FragmentMovieInfoBinding
@@ -85,7 +82,7 @@ class DetailsFragment : Fragment() {
             }
 
             if (!MainActivity.isLogin())
-                CoroutineScope(Dispatchers.Main).async {
+                CoroutineScope(Dispatchers.Main).launch {
                     if (!viewModel.isFavorite()) {
                         makeToast(resources.getString(R.string.movie_added_to_favorite))
                         viewModel.saveInFavorite(NetworkConnection.isOnline(MovieApp.getInstance()))
@@ -119,7 +116,7 @@ class DetailsFragment : Fragment() {
         binding.infoRating.text = details.vote_average.toString()
         binding.infoPoster.registerImage(details.poster_path, x = 150, y = 225)
         setActors(details.actors)
-        CoroutineScope(Dispatchers.Main).async {
+        CoroutineScope(Dispatchers.Main).launch {
             changeFavoriteBnt(viewModel.isFavorite())
         }
         onProgress(false)
@@ -146,5 +143,9 @@ class DetailsFragment : Fragment() {
     private fun onProgress(isVisible: Boolean) {
         binding.progressBar.visibility = if (isVisible) View.VISIBLE else View.GONE
         binding.infoRootElement.visibility = if (!isVisible) View.VISIBLE else View.INVISIBLE
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(20)
+            binding.infoRootElement.scrollTo(0, 0)
+        }
     }
 }
