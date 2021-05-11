@@ -19,6 +19,7 @@ import com.example.movieinfotest.presentation.ui.popular.adapter.MovieLoadingSta
 import com.example.movieinfotest.utils.network.NetworkConnection
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -32,7 +33,7 @@ class PopularMovieListFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentPopularMovieListBinding.inflate(inflater, container, false)
 
         init()
@@ -77,8 +78,12 @@ class PopularMovieListFragment : Fragment() {
                     else
                         viewModel.saveInFavorite(movie, NetworkConnection.isOnline(MovieApp.getInstance()))
             }
+
+            override suspend fun isFavorite(id: Int):Boolean {
+                return viewModel.isFavorite(id)
+            }
         }
-        movieAdapter = MovieAdapter(listener, viewModel.favoriteMovieUseCase)
+        movieAdapter = MovieAdapter(listener)
 
         binding.rvPopularList.adapter = movieAdapter.withLoadStateFooter(
             footer = MovieLoadingStateAdapter(movieAdapter)

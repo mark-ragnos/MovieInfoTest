@@ -25,16 +25,7 @@ class MovieRepository(
             pagingSourceFactory = pagingSourceFactory
         ).flow.map { pagingData ->
             pagingData.map {
-                Movie(
-                    it.id,
-                    it.title,
-                    it.vote_average,
-                    it.release_date,
-                    it.poster_path,
-                    it.overview,
-                    null,
-                    null
-                )
+                it.toMovieDomain()
             }
         }
     }

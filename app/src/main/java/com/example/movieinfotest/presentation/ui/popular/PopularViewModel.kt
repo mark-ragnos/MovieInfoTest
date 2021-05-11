@@ -15,8 +15,8 @@ import kotlinx.coroutines.launch
 
 class PopularViewModel(
     private val popularMovieUseCase: PopularMovieUseCase,
-    val favoriteMovieUseCase: FavoriteMovieUseCase
-    ) : ViewModel() {
+    private val favoriteMovieUseCase: FavoriteMovieUseCase
+) : ViewModel() {
     private val movies: Flow<PagingData<Movie>> =
         popularMovieUseCase.getPopularList().cachedIn(viewModelScope)
 
@@ -26,7 +26,7 @@ class PopularViewModel(
 
     fun saveInFavorite(movie: Movie, sourceMode: NetworkStatus) {
         CoroutineScope(Dispatchers.IO).launch {
-             favoriteMovieUseCase.saveInFavorite(movie, sourceMode)
+            favoriteMovieUseCase.saveInFavorite(movie, sourceMode)
         }
     }
 
@@ -34,5 +34,9 @@ class PopularViewModel(
         CoroutineScope(Dispatchers.IO).launch {
             favoriteMovieUseCase.deleteFromFavorite(movie.id)
         }
+    }
+
+    suspend fun isFavorite(id: Int): Boolean {
+        return favoriteMovieUseCase.isFavorite(id)
     }
 }

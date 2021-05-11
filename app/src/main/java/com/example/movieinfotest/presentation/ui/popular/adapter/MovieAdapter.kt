@@ -18,8 +18,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MovieAdapter(
-    private val listener: MovieClickListener,
-    private val favoriteMovieUseCase: FavoriteMovieUseCase
+    private val listener: MovieClickListener
 ) :
     PagingDataAdapter<Movie, MovieHolder>(MovieDiffCallback) {
     override fun onBindViewHolder(holder: MovieHolder, position: Int) {
@@ -45,6 +44,7 @@ class MovieAdapter(
     interface MovieClickListener {
         fun onClick(id: Int)
         fun onFavorite(movie: Movie?, isFavorite: Boolean)
+        suspend fun isFavorite(id: Int):Boolean
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieHolder {
@@ -53,7 +53,7 @@ class MovieAdapter(
     }
 
     private suspend fun isFavorite(position: Int): Boolean = withContext(Dispatchers.IO) {
-        return@withContext favoriteMovieUseCase.isFavorite(getItem(position)!!.id)
+        return@withContext listener.isFavorite(getItem(position)!!.id)
 
     }
 }
