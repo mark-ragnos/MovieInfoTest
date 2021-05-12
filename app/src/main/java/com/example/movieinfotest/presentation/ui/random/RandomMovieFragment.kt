@@ -1,10 +1,13 @@
 package com.example.movieinfotest.presentation.ui.random
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
+import androidx.databinding.Observable
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.coroutineScope
@@ -40,6 +43,8 @@ class RandomMovieFragment : Fragment() {
 
         init()
         initGenreList()
+        initButtonObserver()
+        initTextWatcher()
         setupUI()
         setupReadLifeData()
 
@@ -58,17 +63,29 @@ class RandomMovieFragment : Fragment() {
             )
     }
 
+    private fun initButtonObserver(){
+        viewModel.buttonEnabled.addOnPropertyChangedCallback(object :Observable.OnPropertyChangedCallback(){
+            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+                buttonEnabled(viewModel.buttonEnabled.get())
+            }
+        })
+    }
+
+    private fun initTextWatcher() {
+        binding.genInYear.addTextChangedListener {
+            viewModel.buttonEnabled.set(isGenerateAccess(it.toString()))
+        }
+
+    }
 
     private fun setupUI() {
         binding.genBtnRandom.setOnClickListener {
             lifecycle.coroutineScope.launch(Dispatchers.Main) {
-                if (isGenerateAccess()) {
-                    onProgress(true)
-                    viewModel.generateRandom(
-                        (binding.genInGenre.selectedItem as Genre).id.toString(),
-                        binding.genInYear.text.toString()
-                    )
-                }
+                onProgress(true)
+                viewModel.generateRandom(
+                    (binding.genInGenre.selectedItem as Genre).id.toString(),
+                    binding.genInYear.text.toString()
+                )
             }
         }
 
@@ -87,7 +104,7 @@ class RandomMovieFragment : Fragment() {
             if (viewModel.getGenres() != null) {
                 val adapter = context?.let { GenreAdapter(it, viewModel.getGenres()!!) }
                 binding.genInGenre.adapter = adapter
-                buttonEnabled(true)
+                viewModel.buttonEnabled.set(true)
             }
         }
     }
@@ -108,13 +125,12 @@ class RandomMovieFragment : Fragment() {
         onProgress(false)
     }
 
-    private fun isGenerateAccess(): Boolean {
+    private fun isGenerateAccess(inputYear: String): Boolean {
         if (NetworkConnection.isOnline(MovieApp.getInstance()) == NetworkStatus.OFFLINE) {
             makeMessage(resources.getText(R.string.internet_not_found))
             return false
         }
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
-        val inputYear = binding.genInYear.text.toString()
 
         if (inputYear == "")
             return true
@@ -134,7 +150,7 @@ class RandomMovieFragment : Fragment() {
     private fun onProgress(isProgress: Boolean) {
         binding.progressBar.visibility = if (isProgress) View.VISIBLE else View.GONE
         binding.genResult.visibility = if (!isProgress) View.VISIBLE else View.INVISIBLE
-        buttonEnabled(!isProgress)
+        viewModel.buttonEnabled.set(!isProgress)
     }
 
     private fun buttonEnabled(isEnabled: Boolean) {

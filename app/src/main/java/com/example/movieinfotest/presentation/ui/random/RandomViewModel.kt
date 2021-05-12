@@ -15,6 +15,8 @@ import kotlinx.coroutines.flow.SharedFlow
 class RandomViewModel(
     private val randomMovieUseCase: RandomMovieUseCase
 ) : ViewModel() {
+    val buttonEnabled = ObservableBoolean()
+
     private val movieDetails: MutableLiveData<Movie> by lazy {
         MutableLiveData<Movie>()
     }
