@@ -22,7 +22,6 @@ class MovieRemoteMediator(
 
 
     override suspend fun load(loadType: LoadType, state: PagingState<Int, Movie>): MediatorResult {
-        Log.d("TEST", state.toString())
         try {
             val page = when (loadType) {
                 LoadType.REFRESH -> {

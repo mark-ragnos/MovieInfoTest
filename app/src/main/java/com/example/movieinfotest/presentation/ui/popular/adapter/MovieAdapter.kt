@@ -12,10 +12,7 @@ import com.example.movieinfotest.domain.usecases.FavoriteMovieUseCase
 import com.example.movieinfotest.utils.FirebaseLogin
 import com.example.movieinfotest.utils.getYear
 import com.example.movieinfotest.utils.registerImage
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 class MovieAdapter(
     private val listener: MovieClickListener
@@ -29,14 +26,14 @@ class MovieAdapter(
 
         holder.favorite.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
-                val isFavorite = isFavorite(position)
+                val isFavorite = getItem(position)?.let { it1 -> isFavorite(it1) } ?: false
                 listener.onFavorite(getItem(position), isFavorite)
                 holder.changeImage(!isFavorite)
             }
         }
 
         CoroutineScope(Dispatchers.Main).launch {
-            val isFavorite = isFavorite(position)
+            val isFavorite = getItem(position)?.let { it1 -> isFavorite(it1) } ?: false
             holder.changeImage(isFavorite)
         }
     }
@@ -52,9 +49,7 @@ class MovieAdapter(
         return MovieHolder(binding)
     }
 
-    private suspend fun isFavorite(position: Int): Boolean{
-        if(getItem(position) == null)
-            return false
-        return listener.isFavorite(getItem(position)!!.id)
+    private suspend fun isFavorite(item: Movie): Boolean{
+        return listener.isFavorite(item.id)
     }
 }

@@ -35,7 +35,7 @@ class RandomMovieFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentGenerateMovieBinding.inflate(inflater, container, false)
 
         init()

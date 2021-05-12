@@ -15,7 +15,7 @@ class RandomViewModel(
     private val movieDetails: MutableLiveData<Movie> by lazy {
         MutableLiveData<Movie>()
     }
-    var genres:List<Genre>? = null
+    private var genres:List<Genre>? = null
 
     fun getRandom(): LiveData<Movie> {
         return movieDetails
