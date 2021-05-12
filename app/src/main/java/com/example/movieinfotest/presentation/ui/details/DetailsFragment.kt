@@ -1,12 +1,14 @@
 package com.example.movieinfotest.presentation.ui.details
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.coroutineScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieinfotest.MainActivity
@@ -20,6 +22,8 @@ import com.example.movieinfotest.presentation.ui.details.actors.ActorAdapter
 import com.example.movieinfotest.utils.*
 import com.example.movieinfotest.utils.network.NetworkConnection
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 
 class DetailsFragment : Fragment() {
     private lateinit var binding: FragmentMovieInfoBinding
@@ -29,7 +33,7 @@ class DetailsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentMovieInfoBinding.inflate(inflater, container, false)
         onProgress(true)
         init()
@@ -54,28 +58,20 @@ class DetailsFragment : Fragment() {
             resources.getString(R.string.details_title)
         (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-
         val saved = DetailsFragmentArgs.fromBundle(requireArguments()).id
-
-        CoroutineScope(Dispatchers.Main).launch{
-            viewModel.sendID(saved, NetworkConnection.isOnline(MovieApp.getInstance()))
-        }
+        viewModel.sendID(saved, NetworkConnection.isOnline(MovieApp.getInstance()))
     }
 
     private fun setupReadLifeData() {
-        val detailObserver = Observer<Movie?> {
-            setMovie(it)
+        lifecycle.coroutineScope.launch(Dispatchers.Main) {
+            viewModel.getDetails().collectLatest { it?.let { it1 -> setMovie(it1) } }
         }
-        viewModel.getDetails().observe(viewLifecycleOwner, detailObserver)
-
-
     }
 
     private fun setupFavoriteBtn() {
         binding.infoAddToFavorite.setOnClickListener {
-
             if (FirebaseLogin.isLogin())
-                CoroutineScope(Dispatchers.Main).launch {
+                lifecycle.coroutineScope.launch(Dispatchers.Main) {
                     if (!viewModel.isFavorite()) {
                         makeToast(resources.getString(R.string.movie_added_to_favorite))
                         viewModel.saveInFavorite(NetworkConnection.isOnline(MovieApp.getInstance()))
@@ -89,7 +85,6 @@ class DetailsFragment : Fragment() {
             else{
                 NavHostFragment.findNavController(this)
                     .navigate(R.id.action_movieInfo_to_loginFragment)
-                return@setOnClickListener
             }
         }
 
@@ -114,7 +109,7 @@ class DetailsFragment : Fragment() {
         binding.infoRating.text = details.vote_average.toString()
         binding.infoPoster.registerImage(details.poster_path, x = 150, y = 225)
         setActors(details.actors)
-        CoroutineScope(Dispatchers.Main).launch {
+        lifecycle.coroutineScope.launch(Dispatchers.Main) {
             changeFavoriteBnt(viewModel.isFavorite())
         }
         onProgress(false)
@@ -141,7 +136,7 @@ class DetailsFragment : Fragment() {
     private fun onProgress(isVisible: Boolean) {
         binding.progressBar.visibility = if (isVisible) View.VISIBLE else View.GONE
         binding.infoRootElement.visibility = if (!isVisible) View.VISIBLE else View.INVISIBLE
-        CoroutineScope(Dispatchers.Main).launch {
+        lifecycle.coroutineScope.launch(Dispatchers.Main) {
             delay(20)
             binding.infoRootElement.scrollTo(0, 0)
         }
