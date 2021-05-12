@@ -127,7 +127,6 @@ class RandomMovieFragment : Fragment() {
 
     private fun isGenerateAccess(inputYear: String): Boolean {
         if (NetworkConnection.isOnline(MovieApp.getInstance()) == NetworkStatus.OFFLINE) {
-            makeMessage(resources.getText(R.string.internet_not_found))
             return false
         }
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
@@ -136,7 +135,6 @@ class RandomMovieFragment : Fragment() {
             return true
 
         if (inputYear.toInt() !in 1895..currentYear) {
-            makeMessage(resources.getText(R.string.year_incorrect))
             return false
         }
 

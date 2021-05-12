@@ -58,7 +58,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
-            android:visibility="invisible" />
+            android:visibility="invisible"
+            tools:ignore="MissingConstraints" />
 
         <ImageView
             android:id="@+id/gen_out_poster"
@@ -170,6 +171,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
+        android:maxLength="4"
         android:ems="10"
         android:hint="@string/enter_year"
         android:inputType="number"
