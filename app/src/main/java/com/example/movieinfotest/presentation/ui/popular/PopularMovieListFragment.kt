@@ -1,12 +1,15 @@
 package com.example.movieinfotest.presentation.ui.popular
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.coroutineScope
 import androidx.navigation.fragment.NavHostFragment
+import androidx.paging.map
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieinfotest.MainActivity
 import com.example.movieinfotest.MovieApp
@@ -21,6 +24,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 
 
@@ -54,7 +60,7 @@ class PopularMovieListFragment : Fragment() {
     }
 
     private fun fetchMovies() {
-        CoroutineScope(Dispatchers.Main).launch {
+        lifecycle.coroutineScope.launch(Dispatchers.IO){
             viewModel.getFavorite().collectLatest { pagingData ->
                 movieAdapter.submitData(pagingData)
             }

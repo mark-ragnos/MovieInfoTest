@@ -15,10 +15,11 @@ class MovieRepository(
     val api: ApiHelper,
     val db: DbHelper
 ) : IMovieRepository<Movie> {
+
     @OptIn(ExperimentalPagingApi::class)
     override fun getMovies(): Flow<PagingData<Movie>> {
 
-        val pagingSourceFactory = { db.getDatabase().movieDao().loadMovies() }
+        val pagingSourceFactory = { db.loadMovies() }
         return Pager(
             config = PagingConfig(20, enablePlaceholders = true),
             remoteMediator = MovieRemoteMediator(api, db.getDatabase()),

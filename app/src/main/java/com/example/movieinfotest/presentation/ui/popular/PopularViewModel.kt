@@ -25,13 +25,13 @@ class PopularViewModel(
     }
 
     fun saveInFavorite(movie: Movie, sourceMode: NetworkStatus) {
-        CoroutineScope(Dispatchers.IO).launch {
+        viewModelScope.launch(Dispatchers.IO) {
             favoriteMovieUseCase.saveInFavorite(movie, sourceMode)
         }
     }
 
     fun removeFromFavorite(movie: Movie) {
-        CoroutineScope(Dispatchers.IO).launch {
+        viewModelScope.launch(Dispatchers.IO) {
             favoriteMovieUseCase.deleteFromFavorite(movie.id)
         }
     }

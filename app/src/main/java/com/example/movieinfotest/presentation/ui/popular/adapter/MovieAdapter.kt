@@ -44,7 +44,7 @@ class MovieAdapter(
     interface MovieClickListener {
         fun onClick(id: Int)
         fun onFavorite(movie: Movie?, isFavorite: Boolean)
-        suspend fun isFavorite(id: Int):Boolean
+        suspend fun isFavorite(id: Int): Boolean
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieHolder {
@@ -52,8 +52,9 @@ class MovieAdapter(
         return MovieHolder(binding)
     }
 
-    private suspend fun isFavorite(position: Int): Boolean = withContext(Dispatchers.IO) {
-        return@withContext listener.isFavorite(getItem(position)!!.id)
-
+    private suspend fun isFavorite(position: Int): Boolean{
+        if(getItem(position) == null)
+            return false
+        return listener.isFavorite(getItem(position)!!.id)
     }
 }

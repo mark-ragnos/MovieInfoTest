@@ -6,6 +6,7 @@ import com.example.movieinfotest.data.entities.actors.Actor
 import com.example.movieinfotest.data.entities.details.MovieDetails
 import com.example.movieinfotest.data.entities.details.MovieDetailsDB
 import com.example.movieinfotest.data.entities.genre.Genre
+import com.example.movieinfotest.data.entities.popular.Movie
 import com.example.movieinfotest.utils.toGenre
 import com.example.movieinfotest.utils.toMovieDetails
 
@@ -60,5 +61,9 @@ class DbHelper(
 
     suspend fun removeFromFavorite(id: Int) {
         database.favoriteDao().removeFromFavorite(id)
+    }
+
+    fun loadMovies(): PagingSource<Int, Movie> {
+        return database.movieDao().loadMovies()
     }
 }

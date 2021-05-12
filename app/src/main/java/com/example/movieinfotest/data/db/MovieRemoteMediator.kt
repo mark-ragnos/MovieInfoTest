@@ -1,5 +1,6 @@
 package com.example.movieinfotest.data.db
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -21,6 +22,7 @@ class MovieRemoteMediator(
 
 
     override suspend fun load(loadType: LoadType, state: PagingState<Int, Movie>): MediatorResult {
+        Log.d("TEST", state.toString())
         try {
             val page = when (loadType) {
                 LoadType.REFRESH -> {
@@ -31,9 +33,13 @@ class MovieRemoteMediator(
                     return MediatorResult.Success(true)
                 }
                 LoadType.APPEND -> {
-                    val remoteKeys = getRemoteKeyForLastItem(state)
-                        ?: throw InvalidObjectException("Result is empty")
-                    remoteKeys.nextKey ?: return MediatorResult.Success(true)
+                    if (state.isEmpty()) {
+                        startPage + 1
+                    }else {
+                        val remoteKeys = getRemoteKeyForLastItem(state)
+                            ?: throw InvalidObjectException("Result is empty")
+                        remoteKeys.nextKey ?: return MediatorResult.Success(true)
+                    }
                 }
             }
             val movies = api.getPopularList(page)
