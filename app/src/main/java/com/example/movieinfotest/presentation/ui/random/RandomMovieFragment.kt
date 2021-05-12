@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.coroutineScope
 import androidx.navigation.fragment.NavHostFragment
 import com.example.movieinfotest.MainActivity
 import com.example.movieinfotest.MovieApp
@@ -29,7 +30,6 @@ import java.util.*
 class RandomMovieFragment : Fragment() {
     private lateinit var binding: FragmentGenerateMovieBinding
     private lateinit var viewModel: RandomViewModel
-    private var accessToMove = false
 
 
     override fun onCreateView(
@@ -39,6 +39,7 @@ class RandomMovieFragment : Fragment() {
         binding = FragmentGenerateMovieBinding.inflate(inflater, container, false)
 
         init()
+        initGenreList()
         setupUI()
         setupReadLifeData()
 
@@ -60,36 +61,33 @@ class RandomMovieFragment : Fragment() {
 
     private fun setupUI() {
         binding.genBtnRandom.setOnClickListener {
-            CoroutineScope(Dispatchers.Main).launch {
-                accessToMove = false
+            lifecycle.coroutineScope.launch(Dispatchers.Main) {
                 if (isGenerateAccess()) {
                     onProgress(true)
                     viewModel.generateRandom(
                         (binding.genInGenre.selectedItem as Genre).id.toString(),
                         binding.genInYear.text.toString()
                     )
-                    accessToMove = true
                 }
             }
         }
 
         binding.genResult.setOnClickListener {
-            if (accessToMove) {
-                val action = RandomMovieFragmentDirections.actionGenerateMovieToMovieInfo(
-                    binding.genOutId.text.toString().toInt()
-                )
-                NavHostFragment.findNavController(this).navigate(action)
-            }
+            val action = RandomMovieFragmentDirections.actionGenerateMovieToMovieInfo(
+                binding.genOutId.text.toString().toInt()
+            )
+            NavHostFragment.findNavController(this).navigate(action)
+
         }
 
-        initGenreList()
     }
 
-    private fun initGenreList(){
-        CoroutineScope(Dispatchers.Main).launch {
+    private fun initGenreList() {
+        lifecycle.coroutineScope.launch(Dispatchers.Main) {
             if (viewModel.getGenres() != null) {
                 val adapter = context?.let { GenreAdapter(it, viewModel.getGenres()!!) }
                 binding.genInGenre.adapter = adapter
+                buttonEnabled(true)
             }
         }
     }
@@ -107,13 +105,12 @@ class RandomMovieFragment : Fragment() {
         binding.genOutName.text = movie.title
         binding.genOutId.text = movie.id.toString()
         binding.genOutDesc.text = movie.overview
-        accessToMove = true
         onProgress(false)
     }
 
     private fun isGenerateAccess(): Boolean {
         if (NetworkConnection.isOnline(MovieApp.getInstance()) == NetworkStatus.OFFLINE) {
-                makeMessage(resources.getText(R.string.internet_not_found))
+            makeMessage(resources.getText(R.string.internet_not_found))
             return false
         }
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
@@ -130,11 +127,17 @@ class RandomMovieFragment : Fragment() {
         return true
     }
 
-    private fun makeMessage(message: CharSequence){
+    private fun makeMessage(message: CharSequence) {
         context?.let { ToastUtils.makeShortMessage(it, message.toString()) }
     }
-    private fun onProgress(isProgress: Boolean){
-        binding.progressBar.visibility = if(isProgress) View.VISIBLE else View.GONE
-        binding.genResult.visibility = if(!isProgress) View.VISIBLE else View.INVISIBLE
+
+    private fun onProgress(isProgress: Boolean) {
+        binding.progressBar.visibility = if (isProgress) View.VISIBLE else View.GONE
+        binding.genResult.visibility = if (!isProgress) View.VISIBLE else View.INVISIBLE
+        buttonEnabled(!isProgress)
+    }
+
+    private fun buttonEnabled(isEnabled: Boolean) {
+        binding.genBtnRandom.isEnabled = isEnabled
     }
 }

@@ -30,11 +30,11 @@ class GenreRepository(
             val dbGenres = dbGenreDef.await()
             val apiGenres = apiGenreDef.await()
 
-            if(dbGenres?.size == apiGenres?.size)
-                result = dbGenres?.toGenreDomain()
+            result = if(dbGenres?.size == apiGenres?.size)
+                dbGenres?.toGenreDomain()
             else{
                 apiGenres?.let { db.addAllGenres(it) }
-                result = apiGenres?.toGenreDomain()
+                apiGenres?.toGenreDomain()
             }
         }
 
