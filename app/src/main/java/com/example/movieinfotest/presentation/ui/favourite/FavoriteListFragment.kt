@@ -85,7 +85,7 @@ class FavoriteListFragment : Fragment() {
 
                 R.id.logout -> {
                     parentViewModel.auth.signOut()
-                    requireActivity().recreate()
+                    parentFragmentManager.beginTransaction().detach(this).attach(this).commit()
                 }
             }
             return@setOnMenuItemClickListener true

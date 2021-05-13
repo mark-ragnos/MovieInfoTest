@@ -80,7 +80,7 @@ class RandomMovieFragment : Fragment() {
 
                 R.id.logout -> {
                     parentViewModel.auth.signOut()
-                    requireActivity().recreate()
+                    parentFragmentManager.beginTransaction().detach(this).attach(this).commit()
                 }
             }
             return@setOnMenuItemClickListener true
@@ -151,7 +151,7 @@ class RandomMovieFragment : Fragment() {
     }
 
     private fun isGenerateAccess(inputYear: String): Boolean {
-        if (NetworkConnection.isOnline(MovieApp.getInstance()) == NetworkStatus.OFFLINE) {
+        if (NetworkConnection.isOnline() == NetworkStatus.OFFLINE) {
             return false
         }
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)

@@ -50,8 +50,8 @@ class DetailsFragment : Fragment() {
             AppViewModelFactory()
         ).get(DetailsViewModel::class.java)
 
-        val saved = DetailsFragmentArgs.fromBundle(requireArguments()).id
-        viewModel.sendID(saved, NetworkConnection.isOnline(MovieApp.getInstance()))
+        val savedId = DetailsFragmentArgs.fromBundle(requireArguments()).id
+        viewModel.sendID(savedId, NetworkConnection.isOnline())
 
         initToolbar()
     }
@@ -79,7 +79,7 @@ class DetailsFragment : Fragment() {
 
                 R.id.logout -> {
                     parentViewModel.auth.signOut()
-                    requireActivity().recreate()
+                    parentFragmentManager.beginTransaction().detach(this).attach(this).commit()
                 }
             }
             return@setOnMenuItemClickListener true
@@ -98,7 +98,7 @@ class DetailsFragment : Fragment() {
                 lifecycle.coroutineScope.launch(Dispatchers.Main) {
                     if (!viewModel.isFavorite()) {
                         makeToast(resources.getString(R.string.movie_added_to_favorite))
-                        viewModel.saveInFavorite(NetworkConnection.isOnline(MovieApp.getInstance()))
+                        viewModel.saveInFavorite(NetworkConnection.isOnline())
                         changeFavoriteBnt(true)
                     } else {
                         makeToast(resources.getString(R.string.movie_deleted_from_favorite))

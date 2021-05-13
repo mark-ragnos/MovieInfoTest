@@ -73,7 +73,7 @@ class PopularMovieListFragment : Fragment() {
 
                 R.id.logout -> {
                     parentViewModel.auth.signOut()
-                    requireActivity().recreate()
+                    parentFragmentManager.beginTransaction().detach(this).attach(this).commit()
                 }
             }
             return@setOnMenuItemClickListener true
@@ -105,7 +105,7 @@ class PopularMovieListFragment : Fragment() {
                     else
                         viewModel.saveInFavorite(
                             movie,
-                            NetworkConnection.isOnline(MovieApp.getInstance())
+                            NetworkConnection.isOnline()
                         )
             }
 

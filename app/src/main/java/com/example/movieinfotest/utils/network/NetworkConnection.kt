@@ -5,10 +5,13 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.NetworkInfo
 import android.os.Build
+import com.example.movieinfotest.MovieApp
 
 class NetworkConnection {
-
     companion object{
+        fun isOnline(): NetworkStatus {
+            return isOnline(MovieApp.getInstance())
+        }
 
         fun isOnline(context: Context): NetworkStatus {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

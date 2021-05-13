@@ -56,8 +56,7 @@ class RegistrationFragment : Fragment() {
             parentViewModel.auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener {
                     if (it.isSuccessful) {
-                        (activity as MainActivity).onBackPressed()
-                        activity?.recreate()
+                        requireActivity().onBackPressed()
                     } else {
                         makeToast(resources.getText(R.string.autentification_failed))
                     }

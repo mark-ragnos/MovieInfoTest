@@ -34,7 +34,7 @@ class RandomViewModel(
     suspend fun getGenres(): List<Genre>? {
         if (genres == null)
             genres =
-                randomMovieUseCase.getGenres(NetworkConnection.isOnline(MovieApp.getInstance()))
+                randomMovieUseCase.getGenres(NetworkConnection.isOnline())
         return genres
     }
 }
