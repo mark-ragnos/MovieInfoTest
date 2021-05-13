@@ -1,18 +1,23 @@
 package com.example.movieinfotest.presentation.ui.random
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.Observable
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.coroutineScope
 import androidx.navigation.fragment.NavHostFragment
 import com.example.movieinfotest.MainActivity
+import com.example.movieinfotest.MainActivityViewModel
 import com.example.movieinfotest.MovieApp
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentGenerateMovieBinding
@@ -20,9 +25,11 @@ import com.example.movieinfotest.domain.entities.genre.Genre
 import com.example.movieinfotest.domain.entities.movie.Movie
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.random.adapter.GenreAdapter
+import com.example.movieinfotest.utils.FirebaseLogin
 import com.example.movieinfotest.utils.network.NetworkStatus
 import com.example.movieinfotest.utils.network.NetworkConnection
 import com.example.movieinfotest.utils.ToastUtils
+import com.example.movieinfotest.utils.ToolbarMaker
 import com.example.movieinfotest.utils.registerImage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -33,6 +40,7 @@ import java.util.*
 class RandomMovieFragment : Fragment() {
     private lateinit var binding: FragmentGenerateMovieBinding
     private lateinit var viewModel: RandomViewModel
+    private val parentViewModel: MainActivityViewModel by activityViewModels()
 
 
     override fun onCreateView(
@@ -57,10 +65,33 @@ class RandomMovieFragment : Fragment() {
             AppViewModelFactory()
         ).get(RandomViewModel::class.java)
 
-        (activity as MainActivity).supportActionBar?.title =
-            (activity as MainActivity).resources.getString(
-                R.string.random_title
-            )
+        initToolbar()
+    }
+
+    private fun initToolbar() {
+        ToolbarMaker.makeToolbar(binding.toolbar, parentViewModel)
+        initMenuItemClickListener()
+    }
+
+    private fun initMenuItemClickListener(){
+        binding.toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.dark_mode_btn -> {
+                    parentViewModel.changeDarkMode()
+                }
+
+                R.id.login -> {
+                    NavHostFragment.findNavController(this)
+                        .navigate(R.id.action_generateMovie_to_loginFragment)
+                }
+
+                R.id.logout -> {
+                    parentViewModel.auth.signOut()
+                    requireActivity().recreate()
+                }
+            }
+            return@setOnMenuItemClickListener true
+        }
     }
 
     private fun initButtonObserver(){

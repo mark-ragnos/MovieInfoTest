@@ -1,18 +1,22 @@
 package com.example.movieinfotest
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class MainActivityViewModel : ViewModel() {
-    private var isDarkMode: Boolean = false
+    var isDarkMode: Boolean = false
+    var isDarkModeControl: Boolean? = null
+    val auth: FirebaseAuth = Firebase.auth
 
-    fun changeMode() {
+    fun changeDarkMode(){
+        if (!isDarkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
         isDarkMode = !isDarkMode
-    }
-
-    fun getDarkMode(): Boolean {
-        return isDarkMode
     }
 }

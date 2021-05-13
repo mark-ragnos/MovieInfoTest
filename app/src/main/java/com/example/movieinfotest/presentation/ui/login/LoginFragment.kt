@@ -11,8 +11,10 @@ import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
 import com.example.movieinfotest.MainActivity
+import com.example.movieinfotest.MainActivityViewModel
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentLoginBinding
 import com.example.movieinfotest.utils.isCorrectUserData
@@ -24,11 +26,12 @@ import com.google.firebase.ktx.Firebase
 class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
     private lateinit var auth: FirebaseAuth
+    private val parentViewModel: MainActivityViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
 
         init()
@@ -44,12 +47,9 @@ class LoginFragment : Fragment() {
         }
 
 
-        (activity as MainActivity).supportActionBar?.title =
-            (activity as MainActivity).resources.getString(
-                R.string.login
-            )
-        (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
+        binding.toolbar.setNavigationOnClickListener {
+            activity?.onBackPressed()
+        }
     }
 
     private fun setupUI() {

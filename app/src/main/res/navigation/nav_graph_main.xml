@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_generateMovie_to_movieInfo"
             app:destination="@id/movieInfo" />
+        <action
+            android:id="@+id/action_generateMovie_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/popularMovieList"

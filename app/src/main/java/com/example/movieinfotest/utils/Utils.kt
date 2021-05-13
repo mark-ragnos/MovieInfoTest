@@ -1,5 +1,8 @@
 package com.example.movieinfotest.utils
 
+import android.content.Context
+import android.content.res.Configuration
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.widget.ImageView
 import com.example.movieinfotest.R
 import com.example.movieinfotest.data.entities.details.MovieDetails
@@ -80,4 +83,9 @@ fun isCorrectUserData(email: String, password: String):Boolean{
         return false
 
     return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+}
+
+fun Context.isDarkThemeOn(): Boolean{
+    return resources.configuration.uiMode and
+            Configuration.UI_MODE_NIGHT_MASK == UI_MODE_NIGHT_YES
 }

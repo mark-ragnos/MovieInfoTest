@@ -23,7 +23,7 @@ class RegistrationFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentRegistrationBinding.inflate(inflater, container, false)
 
         init()
@@ -35,10 +35,9 @@ class RegistrationFragment : Fragment() {
     private fun init() {
         auth = Firebase.auth
 
-        (activity as MainActivity).supportActionBar?.title =
-            resources.getString(R.string.register)
-        (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
+        binding.toolbar.setNavigationOnClickListener {
+            activity?.onBackPressed()
+        }
     }
 
     private fun setupUI() {

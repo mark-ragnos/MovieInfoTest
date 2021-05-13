@@ -1,17 +1,22 @@
 package com.example.movieinfotest.presentation.ui.popular
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.coroutineScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.paging.map
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieinfotest.MainActivity
+import com.example.movieinfotest.MainActivityViewModel
 import com.example.movieinfotest.MovieApp
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentPopularMovieListBinding
@@ -19,6 +24,8 @@ import com.example.movieinfotest.domain.entities.movie.Movie
 import com.example.movieinfotest.presentation.ui.popular.adapter.MovieAdapter
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.popular.adapter.MovieLoadingStateAdapter
+import com.example.movieinfotest.utils.FirebaseLogin
+import com.example.movieinfotest.utils.ToolbarMaker
 import com.example.movieinfotest.utils.network.NetworkConnection
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -33,6 +40,7 @@ import kotlinx.coroutines.launch
 class PopularMovieListFragment : Fragment() {
     private lateinit var binding: FragmentPopularMovieListBinding
     private lateinit var viewModel: PopularViewModel
+    private val parentViewModel: MainActivityViewModel by activityViewModels()
     private lateinit var movieAdapter: MovieAdapter
 
     override fun onCreateView(
@@ -55,8 +63,33 @@ class PopularMovieListFragment : Fragment() {
             AppViewModelFactory()
         ).get(PopularViewModel::class.java)
 
-        (activity as MainActivity).supportActionBar?.title =
-            (activity as MainActivity).resources.getString(R.string.popular_title)
+        initToolbar()
+    }
+
+    private fun initToolbar() {
+        ToolbarMaker.makeToolbar(binding.toolbar, parentViewModel)
+        initMenuItemClickListener()
+    }
+
+    private fun initMenuItemClickListener(){
+        binding.toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.dark_mode_btn -> {
+                    parentViewModel.changeDarkMode()
+                }
+
+                R.id.login -> {
+                    NavHostFragment.findNavController(this)
+                        .navigate(R.id.action_popularMovieList_to_loginFragment)
+                }
+
+                R.id.logout -> {
+                    parentViewModel.auth.signOut()
+                    requireActivity().recreate()
+                }
+            }
+            return@setOnMenuItemClickListener true
+        }
     }
 
     private fun fetchMovies() {
