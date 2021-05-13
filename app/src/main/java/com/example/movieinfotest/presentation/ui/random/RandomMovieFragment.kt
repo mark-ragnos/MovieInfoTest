@@ -33,6 +33,7 @@ import java.util.*
 class RandomMovieFragment : Fragment() {
     private lateinit var binding: FragmentGenerateMovieBinding
     private lateinit var viewModel: RandomViewModel
+    private lateinit var genreAdapter: GenreAdapter
     private val parentViewModel: MainActivityViewModel by activityViewModels()
 
 
@@ -127,8 +128,10 @@ class RandomMovieFragment : Fragment() {
     private fun initGenreList() {
         lifecycle.coroutineScope.launch(Dispatchers.Main) {
             if (viewModel.getGenres() != null) {
-                val adapter = context?.let { GenreAdapter(it, viewModel.getGenres()!!) }
-                binding.genInGenre.adapter = adapter
+                viewModel.getGenres()?.let {
+                    genreAdapter = GenreAdapter(it, requireContext())
+                    binding.genInGenre.adapter = genreAdapter
+                }
                 viewModel.buttonEnabled.set(true)
             }
         }

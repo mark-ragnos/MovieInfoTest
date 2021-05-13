@@ -2,26 +2,26 @@ package com.example.movieinfotest.presentation.ui.random.adapter
 
 import android.content.Context
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
-import androidx.appcompat.view.ContextThemeWrapper
 import com.example.movieinfotest.R
 import com.example.movieinfotest.domain.entities.genre.Genre
 
-class GenreAdapter(val context: Context, var genres: List<Genre>) : BaseAdapter() {
-    override fun getCount(): Int {
-        return genres.size
-    }
+class GenreAdapter(genres: List<Genre>, private val context: Context) : BaseAdapter() {
+    val genres: List<Genre>
 
     init {
         val res = ArrayList<Genre>()
         res.add(Genre(0, ""))
         res.addAll(genres)
-        genres = res
+        this.genres = res
+    }
+
+    override fun getCount(): Int {
+        return genres.size
     }
 
     override fun getItem(position: Int): Any {
@@ -48,7 +48,7 @@ class GenreAdapter(val context: Context, var genres: List<Genre>) : BaseAdapter(
         vh.id?.text = genres[position].id.toString()
         vh.genre?.text = genres[position].name
 
-        if(position == 0){
+        if (position == 0) {
             vh.genre?.text = context.resources.getText(R.string.select_genre)
             vh.genre?.setTextColor(Color.GRAY)
         }
@@ -58,6 +58,7 @@ class GenreAdapter(val context: Context, var genres: List<Genre>) : BaseAdapter(
     private class ItemHolder(row: View?) {
         val id = row?.findViewById<TextView>(R.id.sp_id)
         val genre = row?.findViewById<TextView>(R.id.sp_genre)
+
     }
 
 }
