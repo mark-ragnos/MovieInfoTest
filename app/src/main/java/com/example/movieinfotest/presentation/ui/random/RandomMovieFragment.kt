@@ -1,14 +1,10 @@
 package com.example.movieinfotest.presentation.ui.random
 
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.Observable
 import androidx.fragment.app.activityViewModels
@@ -16,7 +12,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.coroutineScope
 import androidx.navigation.fragment.NavHostFragment
-import com.example.movieinfotest.MainActivity
 import com.example.movieinfotest.MainActivityViewModel
 import com.example.movieinfotest.MovieApp
 import com.example.movieinfotest.R
@@ -25,13 +20,11 @@ import com.example.movieinfotest.domain.entities.genre.Genre
 import com.example.movieinfotest.domain.entities.movie.Movie
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.random.adapter.GenreAdapter
-import com.example.movieinfotest.utils.FirebaseLogin
 import com.example.movieinfotest.utils.network.NetworkStatus
 import com.example.movieinfotest.utils.network.NetworkConnection
 import com.example.movieinfotest.utils.ToastUtils
 import com.example.movieinfotest.utils.ToolbarMaker
 import com.example.movieinfotest.utils.registerImage
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
@@ -73,7 +66,7 @@ class RandomMovieFragment : Fragment() {
         initMenuItemClickListener()
     }
 
-    private fun initMenuItemClickListener(){
+    private fun initMenuItemClickListener() {
         binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.dark_mode_btn -> {
@@ -94,8 +87,9 @@ class RandomMovieFragment : Fragment() {
         }
     }
 
-    private fun initButtonObserver(){
-        viewModel.buttonEnabled.addOnPropertyChangedCallback(object :Observable.OnPropertyChangedCallback(){
+    private fun initButtonObserver() {
+        viewModel.buttonEnabled.addOnPropertyChangedCallback(object :
+            Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
                 buttonEnabled(viewModel.buttonEnabled.get())
             }

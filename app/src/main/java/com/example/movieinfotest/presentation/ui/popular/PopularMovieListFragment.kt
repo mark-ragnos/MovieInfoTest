@@ -1,21 +1,15 @@
 package com.example.movieinfotest.presentation.ui.popular
 
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.coroutineScope
 import androidx.navigation.fragment.NavHostFragment
-import androidx.paging.map
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.movieinfotest.MainActivity
 import com.example.movieinfotest.MainActivityViewModel
 import com.example.movieinfotest.MovieApp
 import com.example.movieinfotest.R
@@ -24,16 +18,10 @@ import com.example.movieinfotest.domain.entities.movie.Movie
 import com.example.movieinfotest.presentation.ui.popular.adapter.MovieAdapter
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.popular.adapter.MovieLoadingStateAdapter
-import com.example.movieinfotest.utils.FirebaseLogin
 import com.example.movieinfotest.utils.ToolbarMaker
 import com.example.movieinfotest.utils.network.NetworkConnection
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 
 
@@ -71,7 +59,7 @@ class PopularMovieListFragment : Fragment() {
         initMenuItemClickListener()
     }
 
-    private fun initMenuItemClickListener(){
+    private fun initMenuItemClickListener() {
         binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.dark_mode_btn -> {
@@ -93,7 +81,7 @@ class PopularMovieListFragment : Fragment() {
     }
 
     private fun fetchMovies() {
-        lifecycle.coroutineScope.launch(Dispatchers.IO){
+        lifecycle.coroutineScope.launch(Dispatchers.IO) {
             viewModel.getFavorite().collectLatest { pagingData ->
                 movieAdapter.submitData(pagingData)
             }
@@ -115,10 +103,13 @@ class PopularMovieListFragment : Fragment() {
                     if (isFavorite)
                         viewModel.removeFromFavorite(movie)
                     else
-                        viewModel.saveInFavorite(movie, NetworkConnection.isOnline(MovieApp.getInstance()))
+                        viewModel.saveInFavorite(
+                            movie,
+                            NetworkConnection.isOnline(MovieApp.getInstance())
+                        )
             }
 
-            override suspend fun isFavorite(id: Int):Boolean {
+            override suspend fun isFavorite(id: Int): Boolean {
                 return viewModel.isFavorite(id)
             }
         }

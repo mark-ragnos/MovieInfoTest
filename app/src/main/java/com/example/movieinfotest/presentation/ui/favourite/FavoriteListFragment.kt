@@ -1,13 +1,10 @@
 package com.example.movieinfotest.presentation.ui.favourite
 
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
@@ -34,11 +31,6 @@ class FavoriteListFragment : Fragment() {
     private val parentViewModel: MainActivityViewModel by activityViewModels()
     private lateinit var adapter: FavoriteAdapter
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initToolbar()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -52,12 +44,34 @@ class FavoriteListFragment : Fragment() {
         return binding.root
     }
 
+    override fun onStart() {
+        if (!FirebaseLogin.isLogin()) {
+            binding.rvFavoriteList.visibility = View.GONE
+            binding.favoriteTextLogin.visibility = View.VISIBLE
+        }
+        super.onStart()
+    }
+
+    private fun init() {
+        viewModel = ViewModelProviders.of(
+            this,
+            AppViewModelFactory()
+        ).get(FavoriteViewModel::class.java)
+
+        binding.favoriteTextLogin.setOnClickListener {
+            NavHostFragment.findNavController(this)
+                .navigate(R.id.action_favoriteList_to_loginFragment)
+        }
+
+        initToolbar()
+    }
+
     private fun initToolbar() {
         ToolbarMaker.makeToolbar(binding.toolbar, parentViewModel)
         initMenuItemClickListener()
     }
 
-    private fun initMenuItemClickListener(){
+    private fun initMenuItemClickListener() {
         binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.dark_mode_btn -> {
@@ -78,20 +92,7 @@ class FavoriteListFragment : Fragment() {
         }
     }
 
-    private fun init() {
-        viewModel = ViewModelProviders.of(
-            this,
-            AppViewModelFactory()
-        ).get(FavoriteViewModel::class.java)
-
-        binding.favoriteTextLogin.setOnClickListener {
-            NavHostFragment.findNavController(this)
-                .navigate(R.id.action_favoriteList_to_loginFragment)
-        }
-    }
-
     private fun fetchMovies() {
-
         CoroutineScope(Dispatchers.IO).launch {
             viewModel.getPopular().collectLatest { pagingData ->
                 adapter.submitData(pagingData)
@@ -100,7 +101,6 @@ class FavoriteListFragment : Fragment() {
     }
 
     private fun setupFavoriteList() {
-
         binding.rvFavoriteList.layoutManager = LinearLayoutManager(context)
         val listener = object : FavoriteAdapter.MovieDetailClickListener {
             override fun onClick(id: Int) {
@@ -119,18 +119,5 @@ class FavoriteListFragment : Fragment() {
         touchHelper.attachToRecyclerView(binding.rvFavoriteList)
 
         binding.rvFavoriteList.adapter = adapter
-    }
-
-    override fun onStart() {
-        if (!FirebaseLogin.isLogin()) {
-            binding.rvFavoriteList.visibility = View.GONE
-            binding.favoriteTextLogin.visibility = View.VISIBLE
-        }
-        super.onStart()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 }

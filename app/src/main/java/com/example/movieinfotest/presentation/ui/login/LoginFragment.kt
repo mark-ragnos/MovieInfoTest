@@ -1,31 +1,22 @@
 package com.example.movieinfotest.presentation.ui.login
 
 import android.os.Bundle
-import android.util.Log
-import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ProgressBar
-import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
 import com.example.movieinfotest.MainActivity
 import com.example.movieinfotest.MainActivityViewModel
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentLoginBinding
-import com.example.movieinfotest.utils.isCorrectUserData
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import com.example.movieinfotest.utils.*
 
 
 class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
-    private lateinit var auth: FirebaseAuth
     private val parentViewModel: MainActivityViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -36,16 +27,16 @@ class LoginFragment : Fragment() {
 
         init()
         setupUI()
+        inputTextWatcher()
+        preValidateButton()
 
         return binding.root
     }
 
     private fun init() {
-        auth = Firebase.auth
-        if (auth.currentUser != null) {
-            (activity as MainActivity).onBackPressed()
+        if (FirebaseLogin.isLogin()) {
+            requireActivity().onBackPressed()
         }
-
 
         binding.toolbar.setNavigationOnClickListener {
             activity?.onBackPressed()
@@ -65,9 +56,9 @@ class LoginFragment : Fragment() {
         binding.logBtnLogin.setOnClickListener {
             val email = binding.logEmail.text.toString()
             val password = binding.logPassword.text.toString()
-            if (isCorrectUserData(email, password)) {
-                showProgressBar(true)
-                auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
+            showProgressBar(true)
+            parentViewModel.auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener {
                     if (it.isSuccessful) {
                         (activity as MainActivity).onBackPressed()
                         activity?.recreate()
@@ -76,21 +67,29 @@ class LoginFragment : Fragment() {
                     }
                     showProgressBar(false)
                 }
-            } else
-                makeToast(resources.getText(R.string.incorrect_user_data))
 
         }
     }
 
     private fun makeToast(message: CharSequence) {
-        Toast.makeText(
-            context,
-            message,
-            Toast.LENGTH_SHORT
-        ).show()
+        ToastUtils.makeShortMessage(requireContext(), message.toString())
     }
 
     private fun showProgressBar(isProgress: Boolean) {
         binding.progressBar.visibility = if (isProgress) View.VISIBLE else View.INVISIBLE
+    }
+
+    private fun inputTextWatcher() {
+        binding.logEmail.addTextChangedListener {
+            binding.logBtnLogin.isEnabled = isCorrectUserData(it.toString(), binding.logPassword.text.toString())
+        }
+
+        binding.logPassword.addTextChangedListener {
+            binding.logBtnLogin.isEnabled = isCorrectUserData(binding.logEmail.text.toString(), it.toString())
+        }
+    }
+
+    private fun preValidateButton(){
+        binding.logBtnLogin.isEnabled = isCorrectUserData(binding.logEmail.text.toString(), binding.logPassword.text.toString())
     }
 }

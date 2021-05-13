@@ -1,18 +1,15 @@
 package com.example.movieinfotest.presentation.ui.details
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.coroutineScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.movieinfotest.MainActivity
 import com.example.movieinfotest.MainActivityViewModel
 import com.example.movieinfotest.MovieApp
 import com.example.movieinfotest.R
@@ -23,9 +20,10 @@ import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.details.actors.ActorAdapter
 import com.example.movieinfotest.utils.*
 import com.example.movieinfotest.utils.network.NetworkConnection
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class DetailsFragment : Fragment() {
     private lateinit var binding: FragmentMovieInfoBinding
@@ -52,10 +50,6 @@ class DetailsFragment : Fragment() {
             AppViewModelFactory()
         ).get(DetailsViewModel::class.java)
 
-        binding.toolbar.setNavigationOnClickListener {
-            activity?.onBackPressed()
-        }
-
         val saved = DetailsFragmentArgs.fromBundle(requireArguments()).id
         viewModel.sendID(saved, NetworkConnection.isOnline(MovieApp.getInstance()))
 
@@ -63,6 +57,10 @@ class DetailsFragment : Fragment() {
     }
 
     private fun initToolbar() {
+        binding.toolbar.setNavigationOnClickListener {
+            activity?.onBackPressed()
+        }
+
         ToolbarMaker.makeToolbar(binding.toolbar, parentViewModel)
         initMenuItemClickListener()
     }

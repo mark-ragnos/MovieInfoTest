@@ -77,14 +77,6 @@ fun Movie.toMovieDetails(): MovieDetails {
     return MovieDetails(id, title, vote_average, overview, release_date, null, poster_path)
 }
 
-fun isCorrectUserData(email: String, password: String):Boolean{
-
-    if (password.length < 8 || email == "")
-        return false
-
-    return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
-}
-
 fun Context.isDarkThemeOn(): Boolean{
     return resources.configuration.uiMode and
             Configuration.UI_MODE_NIGHT_MASK == UI_MODE_NIGHT_YES

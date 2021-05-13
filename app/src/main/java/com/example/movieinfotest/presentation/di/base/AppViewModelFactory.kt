@@ -11,13 +11,13 @@ import com.example.movieinfotest.presentation.ui.random.RandomViewModel
 class AppViewModelFactory : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(PopularViewModel::class.java))
-            return DaggerMovieComponent.builder().build().getPopularMovieUseCase() as T
+            return DaggerMovieComponent.builder().build().getPopularViewModel() as T
         if (modelClass.isAssignableFrom(DetailsViewModel::class.java))
-            return DaggerMovieComponent.builder().build().getMovieInfoUseCase() as T
+            return DaggerMovieComponent.builder().build().getDetailsViewModel() as T
         if (modelClass.isAssignableFrom(FavoriteViewModel::class.java))
-            return DaggerMovieComponent.builder().build().getFavoriteMovieUseCase() as T
+            return DaggerMovieComponent.builder().build().getFavoriteViewModel() as T
         if (modelClass.isAssignableFrom(RandomViewModel::class.java))
-            return DaggerMovieComponent.builder().build().getRandomMovieUseCase() as T
+            return DaggerMovieComponent.builder().build().getRandomViewModel() as T
 
         throw IllegalArgumentException("Incorrect ViewModel class")
     }

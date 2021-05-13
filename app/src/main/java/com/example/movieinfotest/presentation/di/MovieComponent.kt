@@ -17,14 +17,14 @@ import javax.inject.Singleton
 interface MovieComponent {
 
     @Singleton
-    fun getFavoriteMovieUseCase(): FavoriteViewModel
+    fun getFavoriteViewModel(): FavoriteViewModel
 
     @Singleton
-    fun getMovieInfoUseCase(): DetailsViewModel
+    fun getDetailsViewModel(): DetailsViewModel
 
     @Singleton
-    fun getPopularMovieUseCase(): PopularViewModel
+    fun getPopularViewModel(): PopularViewModel
 
     @Singleton
-    fun getRandomMovieUseCase(): RandomViewModel
+    fun getRandomViewModel(): RandomViewModel
 }
