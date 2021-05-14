@@ -23,19 +23,6 @@ class MovieAdapter(
 
         if (FirebaseLogin.isLogin())
             holder.favorite.visibility = View.VISIBLE
-
-        holder.favorite.setOnClickListener {
-            CoroutineScope(Dispatchers.Main).launch {
-                val isFavorite = getItem(position)?.let { it1 -> isFavorite(it1) } ?: false
-                listener.onFavorite(getItem(position), isFavorite)
-                holder.changeImage(!isFavorite)
-            }
-        }
-
-        CoroutineScope(Dispatchers.Main).launch {
-            val isFavorite = getItem(position)?.let { it1 -> isFavorite(it1) } ?: false
-            holder.changeImage(isFavorite)
-        }
     }
 
     interface MovieClickListener {
@@ -47,9 +34,5 @@ class MovieAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieHolder {
         val binding = ItemListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MovieHolder(binding)
-    }
-
-    private suspend fun isFavorite(item: Movie): Boolean{
-        return listener.isFavorite(item.id)
     }
 }

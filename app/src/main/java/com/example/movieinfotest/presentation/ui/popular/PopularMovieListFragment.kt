@@ -89,8 +89,6 @@ class PopularMovieListFragment : Fragment() {
     }
 
     private fun setupPopularList() {
-        binding.rvPopularList.layoutManager = LinearLayoutManager(context)
-
         val listener = object : MovieAdapter.MovieClickListener {
             override fun onClick(id: Int) {
                 val action =

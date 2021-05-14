@@ -1,6 +1,7 @@
 package com.example.movieinfotest.presentation.ui.random
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +14,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.coroutineScope
 import androidx.navigation.fragment.NavHostFragment
 import com.example.movieinfotest.MainActivityViewModel
-import com.example.movieinfotest.MovieApp
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentGenerateMovieBinding
 import com.example.movieinfotest.domain.entities.genre.Genre
@@ -27,7 +27,7 @@ import com.example.movieinfotest.utils.ToolbarMaker
 import com.example.movieinfotest.utils.registerImage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.Calendar
 
 
 class RandomMovieFragment : Fragment() {
@@ -44,9 +44,8 @@ class RandomMovieFragment : Fragment() {
         binding = FragmentGenerateMovieBinding.inflate(inflater, container, false)
 
         init()
-        initGenreList()
-        initButtonObserver()
         initTextWatcher()
+        initGenreList()
         setupUI()
         setupReadLifeData()
 
@@ -88,18 +87,9 @@ class RandomMovieFragment : Fragment() {
         }
     }
 
-    private fun initButtonObserver() {
-        viewModel.buttonEnabled.addOnPropertyChangedCallback(object :
-            Observable.OnPropertyChangedCallback() {
-            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                buttonEnabled(viewModel.buttonEnabled.get())
-            }
-        })
-    }
-
     private fun initTextWatcher() {
         binding.genInYear.addTextChangedListener {
-            viewModel.buttonEnabled.set(isGenerateAccess(it.toString()))
+            buttonEnabled(isGenerateAccess(it.toString()))
         }
 
     }
@@ -108,10 +98,13 @@ class RandomMovieFragment : Fragment() {
         binding.genBtnRandom.setOnClickListener {
             lifecycle.coroutineScope.launch(Dispatchers.Main) {
                 onProgress(true)
-                viewModel.generateRandom(
-                    (binding.genInGenre.selectedItem as Genre).id.toString(),
-                    binding.genInYear.text.toString()
-                )
+                if (isGenerateAccess(binding.genInYear.toString()))
+                    viewModel.generateRandom(
+                        (binding.genInGenre.selectedItem as Genre).id.toString(),
+                        binding.genInYear.text.toString()
+                    )
+                else
+                    onProgress(false)
             }
         }
 
@@ -120,19 +113,15 @@ class RandomMovieFragment : Fragment() {
                 binding.genOutId.text.toString().toInt()
             )
             NavHostFragment.findNavController(this).navigate(action)
-
         }
-
     }
 
     private fun initGenreList() {
         lifecycle.coroutineScope.launch(Dispatchers.Main) {
-            if (viewModel.getGenres() != null) {
-                viewModel.getGenres()?.let {
-                    genreAdapter = GenreAdapter(it, requireContext())
-                    binding.genInGenre.adapter = genreAdapter
-                }
-                viewModel.buttonEnabled.set(true)
+            if (!viewModel.getGenres().isNullOrEmpty()) {
+                genreAdapter = GenreAdapter(viewModel.getGenres()!!, requireContext())
+                binding.genInGenre.adapter = genreAdapter
+                buttonEnabled(NetworkStatus.ONLINE == NetworkConnection.isOnline())
             }
         }
     }
@@ -154,29 +143,26 @@ class RandomMovieFragment : Fragment() {
     }
 
     private fun isGenerateAccess(inputYear: String): Boolean {
-        if (NetworkConnection.isOnline() == NetworkStatus.OFFLINE) {
+        if (NetworkConnection.isOnline() == NetworkStatus.OFFLINE)
             return false
-        }
+
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
 
         if (inputYear == "")
             return true
-
-        if (inputYear.toInt() !in 1895..currentYear) {
+        if (inputYear.toInt() !in 1895..currentYear)
             return false
-        }
 
         return true
-    }
-
-    private fun makeMessage(message: CharSequence) {
-        context?.let { ToastUtils.makeShortMessage(it, message.toString()) }
     }
 
     private fun onProgress(isProgress: Boolean) {
         binding.progressBar.visibility = if (isProgress) View.VISIBLE else View.GONE
         binding.genResult.visibility = if (!isProgress) View.VISIBLE else View.INVISIBLE
-        viewModel.buttonEnabled.set(!isProgress)
+        if (NetworkConnection.isOnline() == NetworkStatus.ONLINE)
+            buttonEnabled(!isProgress)
+        else
+            buttonEnabled(false)
     }
 
     private fun buttonEnabled(isEnabled: Boolean) {
