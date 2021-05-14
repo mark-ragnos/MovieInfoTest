@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="value" format="float" />
+    <attr name="maxValue" format="float" />
+    <attr name="maxPoints" format="integer" />
+
+    <attr name="hideEmptyPoints" format="boolean" />
+
+    <attr name="imageEmpty" format="reference" />
+    <attr name="imageHalf" format="reference" />
+    <attr name="imageFull" format="reference" />
+
+    <attr name="imageSize" format="dimension" />
+    <attr name="marginBetweenPoints" format="dimension" />
+    <attr name="imageColor" format="color" />
+
+</resources>

@@ -132,6 +132,7 @@ class DetailsFragment : Fragment() {
         binding.infoGenres.text = getGenreList(details.genres)
         binding.infoName.text = details.title
         binding.infoRating.text = details.vote_average.toString()
+        binding.ratingIndicator.setRating(details.vote_average.toFloat())
         binding.infoPoster.registerImage(details.poster_path, x = 150, y = 225)
         setActors(details.actors)
         lifecycle.coroutineScope.launch(Dispatchers.Main) {

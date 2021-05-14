@@ -109,7 +109,16 @@
                 app:layout_constraintStart_toStartOf="@+id/info_name"
                 app:layout_constraintTop_toTopOf="@+id/det_date" />
 
+            <com.example.movieinfotest.presentation.ui.views.RatingIndicator
+                android:id="@+id/rating_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@+id/info_date"
+                app:layout_constraintTop_toTopOf="@+id/det_rating"
+                app:imageColor="?attr/colorPrimary"/>
+
             <com.google.android.material.textview.MaterialTextView
+                android:visibility="gone"
                 android:id="@+id/info_rating"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
