@@ -4,15 +4,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
-import com.example.movieinfotest.MainActivity
-import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.ItemListBinding
 import com.example.movieinfotest.domain.entities.movie.Movie
-import com.example.movieinfotest.domain.usecases.FavoriteMovieUseCase
 import com.example.movieinfotest.utils.FirebaseLogin
-import com.example.movieinfotest.utils.getYear
-import com.example.movieinfotest.utils.registerImage
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MovieAdapter(
     private val listener: MovieClickListener
@@ -23,6 +20,19 @@ class MovieAdapter(
 
         if (FirebaseLogin.isLogin())
             holder.favorite.visibility = View.VISIBLE
+
+        holder.favorite.setOnClickListener {
+            CoroutineScope(Dispatchers.Main).launch {
+                val isFavorite = getItem(position)?.let { it1 -> isFavorite(it1) } ?: false
+                listener.onFavorite(getItem(position), isFavorite)
+                holder.changeImage(!isFavorite)
+            }
+        }
+
+        CoroutineScope(Dispatchers.Main).launch {
+            val isFavorite = getItem(position)?.let { it1 -> isFavorite(it1) } ?: false
+            holder.changeImage(isFavorite)
+        }
     }
 
     interface MovieClickListener {
@@ -34,5 +44,9 @@ class MovieAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieHolder {
         val binding = ItemListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MovieHolder(binding)
+    }
+
+    private suspend fun isFavorite(item: Movie): Boolean{
+        return listener.isFavorite(item.id)
     }
 }

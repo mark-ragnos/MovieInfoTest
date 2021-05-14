@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.coroutineScope
+import androidx.lifecycle.whenResumed
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieinfotest.MainActivityViewModel
@@ -141,9 +142,6 @@ class DetailsFragment : Fragment() {
 
     private fun setActors(list: List<Actor>?) {
         if (!list.isNullOrEmpty()) {
-            val manager = LinearLayoutManager(context)
-            manager.orientation = LinearLayoutManager.HORIZONTAL
-            binding.lvActors.layoutManager = manager
             binding.lvActors.adapter = ActorAdapter(list)
         } else {
             binding.lvActors.visibility = View.INVISIBLE
@@ -161,8 +159,10 @@ class DetailsFragment : Fragment() {
         binding.progressBar.visibility = if (isVisible) View.VISIBLE else View.GONE
         binding.infoRootElement.visibility = if (!isVisible) View.VISIBLE else View.INVISIBLE
         lifecycle.coroutineScope.launch(Dispatchers.Main) {
-            delay(20)
-            binding.infoRootElement.scrollTo(0, 0)
+            whenResumed {
+                delay(20)
+                binding.infoRootElement.scrollTo(0, 0)
+            }
         }
     }
 }
