@@ -6,6 +6,7 @@ plugins {
     id 'com.google.gms.google-services'
     id 'com.google.firebase.firebase-perf'
     id 'com.google.firebase.crashlytics'
+    id 'io.gitlab.arturbosch.detekt'
 }
 
 android {
@@ -71,15 +72,13 @@ dependencies {
     //coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3'
 
-    //jetpack
-    def paging_version = "3.0.0"
-    def room_version = "2.4.0-alpha02"
+    //paging
+    implementation "androidx.paging:paging-runtime-ktx:3.0.0"
 
-    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
-
-    implementation "androidx.room:room-ktx:$room_version"
-    implementation "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
+    //room
+    implementation "androidx.room:room-ktx:2.4.0-alpha02"
+    implementation "androidx.room:room-runtime:2.4.0-alpha02"
+    kapt "androidx.room:room-compiler:2.4.0-alpha02"
 
     //navigation
     implementation "androidx.navigation:navigation-fragment-ktx:2.3.5"
@@ -99,9 +98,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics'
     implementation 'com.google.firebase:firebase-analytics'
 
-
-
-
     //dagger 2
     implementation 'com.google.dagger:dagger:2.35.1'
     implementation 'com.google.dagger:dagger-android:2.35.1'
@@ -109,4 +105,6 @@ dependencies {
     kapt 'com.google.dagger:dagger-android-processor:2.27'
     kapt 'com.google.dagger:dagger-compiler:2.27'
 
+    //detekt
+    detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:1.17.0"
 }
