@@ -65,8 +65,8 @@ fun MovieDetailsDB.toMovieDetails(genres: List<Genre>?): MovieDetails {
     )
 }
 
-fun Genre.toGenreDB(movie_id: Int): GenreDB {
-    return GenreDB(movie_id, id, name)
+fun Genre.toGenreDB(movieId: Int): GenreDB {
+    return GenreDB(movieId, id, name)
 }
 
 fun GenreDB.toGenre(): Genre {
