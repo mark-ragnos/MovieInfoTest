@@ -103,7 +103,7 @@ class PopularMovieListFragment : Fragment() {
                     else
                         viewModel.saveInFavorite(
                             movie,
-                            NetworkConnection.isOnline()
+                            NetworkConnection.getNetworkStatus(MovieApp.getInstance())
                         )
             }
 
@@ -117,5 +117,4 @@ class PopularMovieListFragment : Fragment() {
             footer = MovieLoadingStateAdapter(movieAdapter)
         )
     }
-
 }

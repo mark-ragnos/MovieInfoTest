@@ -2,6 +2,7 @@ package com.example.movieinfotest.domain.repositories
 
 import androidx.paging.PagingData
 import com.example.movieinfotest.domain.entities.movie.Movie
+import com.example.movieinfotest.utils.network.NetworkConnection
 import kotlinx.coroutines.flow.Flow
 
 interface IMovieRepository<T : Any> {
@@ -10,7 +11,5 @@ interface IMovieRepository<T : Any> {
 
     suspend fun getRandomMovie(genre: String, year: String): T
 
-    suspend fun getMovieInfoLocal(movie_id: Int): Movie?
-
-    suspend fun getMovieInfoRemote(movie_id: Int): Movie?
+    suspend fun getMovieInfo(movie_id: Int, networkStatus: NetworkConnection.STATUS): Movie?
 }

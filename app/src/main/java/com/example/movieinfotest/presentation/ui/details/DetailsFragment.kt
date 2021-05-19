@@ -52,7 +52,7 @@ class DetailsFragment : Fragment() {
         ).get(DetailsViewModel::class.java)
 
         val savedId = DetailsFragmentArgs.fromBundle(requireArguments()).id
-        viewModel.sendID(savedId, NetworkConnection.isOnline())
+        viewModel.sendID(savedId, NetworkConnection.getNetworkStatus(MovieApp.getInstance()))
 
         initToolbar()
     }
@@ -66,7 +66,7 @@ class DetailsFragment : Fragment() {
         initMenuItemClickListener()
     }
 
-    private fun initMenuItemClickListener(){
+    private fun initMenuItemClickListener() {
         binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.dark_mode_btn -> {
@@ -99,7 +99,7 @@ class DetailsFragment : Fragment() {
                 lifecycle.coroutineScope.launch(Dispatchers.Main) {
                     if (!viewModel.isFavorite()) {
                         makeToast(resources.getString(R.string.movie_added_to_favorite))
-                        viewModel.saveInFavorite(NetworkConnection.isOnline())
+                        viewModel.saveInFavorite(NetworkConnection.getNetworkStatus(MovieApp.getInstance()))
                         changeFavoriteBnt(true)
                     } else {
                         makeToast(resources.getString(R.string.movie_deleted_from_favorite))
@@ -107,7 +107,7 @@ class DetailsFragment : Fragment() {
                         changeFavoriteBnt(false)
                     }
                 }
-            else{
+            else {
                 NavHostFragment.findNavController(this)
                     .navigate(R.id.action_movieInfo_to_loginFragment)
             }
@@ -132,7 +132,6 @@ class DetailsFragment : Fragment() {
         binding.infoGenres.text = getGenreList(details.genres)
         binding.infoName.text = details.title
         binding.infoRating.text = details.vote_average.toString()
-        binding.ratingIndicator.setRating(details.vote_average.toFloat())
         binding.infoPoster.registerImage(details.poster_path, x = 150, y = 225)
         setActors(details.actors)
         lifecycle.coroutineScope.launch(Dispatchers.Main) {

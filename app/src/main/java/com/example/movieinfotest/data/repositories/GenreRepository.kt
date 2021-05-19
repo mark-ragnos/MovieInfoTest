@@ -4,7 +4,8 @@ import com.example.movieinfotest.data.api.ApiHelper
 import com.example.movieinfotest.data.db.DbHelper
 import com.example.movieinfotest.domain.entities.genre.Genre
 import com.example.movieinfotest.domain.repositories.IGenreRepository
-import com.example.movieinfotest.utils.network.NetworkStatus
+import com.example.movieinfotest.utils.network.NetworkConnection
+import com.example.movieinfotest.utils.network.isOnline
 import com.example.movieinfotest.utils.toGenreDomain
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -13,8 +14,8 @@ class GenreRepository(
     val api: ApiHelper,
     val db: DbHelper
 ) : IGenreRepository<Genre> {
-    override suspend fun getGenres(networkStatus: NetworkStatus): List<Genre>? {
-        if(networkStatus == NetworkStatus.OFFLINE)
+    override suspend fun getGenres(networkStatus: NetworkConnection.STATUS): List<Genre>? {
+        if (networkStatus.isOnline())
             return db.getAllGenres()?.toGenreDomain()
 
         var result: List<Genre>? = null
@@ -30,9 +31,9 @@ class GenreRepository(
             val dbGenres = dbGenreDef.await()
             val apiGenres = apiGenreDef.await()
 
-            result = if(dbGenres?.size == apiGenres?.size)
+            result = if (dbGenres?.size == apiGenres?.size)
                 dbGenres?.toGenreDomain()
-            else{
+            else {
                 apiGenres?.let { db.addAllGenres(it) }
                 apiGenres?.toGenreDomain()
             }

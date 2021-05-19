@@ -1,7 +1,7 @@
 package com.example.movieinfotest.domain.repositories
 
 import androidx.paging.PagingData
-import com.example.movieinfotest.utils.network.NetworkStatus
+import com.example.movieinfotest.utils.network.NetworkConnection
 import kotlinx.coroutines.flow.Flow
 
 interface IFavoriteRepository<T: Any> {
@@ -10,7 +10,7 @@ interface IFavoriteRepository<T: Any> {
 
     fun getFavoriteList(): Flow<PagingData<T>>
 
-    suspend fun saveInFavorite(movie: T, sourceMode: NetworkStatus)
+    suspend fun saveInFavorite(movie: T, sourceMode: NetworkConnection.STATUS)
 
     suspend fun deleteFromFavorite(movie_id: Int)
 }

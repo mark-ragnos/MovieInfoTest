@@ -1,14 +1,12 @@
 package com.example.movieinfotest.presentation.ui.details
 
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movieinfotest.domain.entities.movie.Movie
 import com.example.movieinfotest.domain.usecases.FavoriteMovieUseCase
 import com.example.movieinfotest.domain.usecases.MovieInfoUseCase
-import com.example.movieinfotest.utils.network.NetworkStatus
+import com.example.movieinfotest.utils.network.NetworkConnection
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -26,13 +24,13 @@ class DetailsViewModel(
         return movieDetails
     }
 
-    fun sendID(id: Int, networkStatus: NetworkStatus) {
+    fun sendID(id: Int, networkStatus: NetworkConnection.STATUS) {
         viewModelScope.launch(Dispatchers.IO) {
             movieDetails.value = movieInfoUseCase.getMovieInfo(id, networkStatus)
         }
     }
 
-    fun saveInFavorite(sourceMode: NetworkStatus) {
+    fun saveInFavorite(sourceMode: NetworkConnection.STATUS) {
         viewModelScope.launch(Dispatchers.IO) {
             movieDetails.value?.let { favoriteUseCase.saveInFavorite(it, sourceMode) }
         }
@@ -49,5 +47,4 @@ class DetailsViewModel(
             isFavorite = favoriteUseCase.isFavorite(movieDetails.value!!.id)
             isFavorite
         }
-
 }

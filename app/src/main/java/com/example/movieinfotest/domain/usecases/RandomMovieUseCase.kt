@@ -4,14 +4,14 @@ import com.example.movieinfotest.domain.entities.genre.Genre
 import com.example.movieinfotest.domain.entities.movie.Movie
 import com.example.movieinfotest.domain.repositories.IGenreRepository
 import com.example.movieinfotest.domain.repositories.IMovieRepository
-import com.example.movieinfotest.utils.network.NetworkStatus
+import com.example.movieinfotest.utils.network.NetworkConnection
 
 class RandomMovieUseCase(
     private val genreRepository: IGenreRepository<Genre>,
     private val movieRepository: IMovieRepository<Movie>
 ) {
 
-    suspend fun getGenres(networkStatus: NetworkStatus): List<Genre>? {
+    suspend fun getGenres(networkStatus: NetworkConnection.STATUS): List<Genre>? {
         return genreRepository.getGenres(networkStatus)
     }
 

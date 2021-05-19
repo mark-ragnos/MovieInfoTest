@@ -6,6 +6,8 @@ import com.example.movieinfotest.data.db.DbHelper
 import com.example.movieinfotest.data.db.MovieRemoteMediator
 import com.example.movieinfotest.domain.entities.movie.Movie
 import com.example.movieinfotest.domain.repositories.IMovieRepository
+import com.example.movieinfotest.utils.network.NetworkConnection
+import com.example.movieinfotest.utils.network.isOnline
 import com.example.movieinfotest.utils.toActorDomain
 import com.example.movieinfotest.utils.toMovieDomain
 import kotlinx.coroutines.flow.Flow
@@ -35,7 +37,13 @@ class MovieRepository(
         return api.getRandomMovie(year, genre)!!.toMovieDomain()
     }
 
-    override suspend fun getMovieInfoLocal(movie_id: Int): Movie? {
+    override suspend fun getMovieInfo(
+        movie_id: Int,
+        networkStatus: NetworkConnection.STATUS
+    ): Movie? {
+        if (networkStatus.isOnline())
+            return getMovieInfoRemote(movie_id)
+
         val favorite = db.getDetailsFromFavorite(movie_id)
         if (favorite != null) {
             val actors = db.getActorsById(movie_id).toActorDomain()
@@ -44,11 +52,11 @@ class MovieRepository(
         return db.getDetailsById(movie_id)?.toMovieDomain()
     }
 
-    override suspend fun getMovieInfoRemote(movie_id: Int): Movie? {
+    private suspend fun getMovieInfoRemote(movie_id: Int): Movie? {
         val favorite = db.getDetailsFromFavorite(movie_id)
         if (favorite != null) {
             val actors = db.getActorsById(movie_id).toActorDomain()
-            if(actors.isEmpty()){
+            if (actors.isEmpty()) {
                 return updateMovie(movie_id)
             }
             return favorite.toMovieDomain(actors)
@@ -57,7 +65,7 @@ class MovieRepository(
             ?.toMovieDomain(api.getActorsList(movie_id.toString())?.toActorDomain())
     }
 
-    private suspend fun updateMovie(movie_id: Int):Movie{
+    private suspend fun updateMovie(movie_id: Int): Movie {
         val movieInfo = api.getDetailsInformation(movie_id.toString())
         val actors = api.getActorsList(movie_id.toString())
         if (movieInfo != null) {
@@ -66,5 +74,4 @@ class MovieRepository(
 
         return movieInfo!!.toMovieDomain(actors!!.toActorDomain())
     }
-
 }

@@ -18,14 +18,12 @@ import com.example.movieinfotest.domain.entities.genre.Genre
 import com.example.movieinfotest.domain.entities.movie.Movie
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.random.adapter.GenreAdapter
-import com.example.movieinfotest.utils.network.NetworkStatus
 import com.example.movieinfotest.utils.network.NetworkConnection
 import com.example.movieinfotest.utils.ToolbarMaker
 import com.example.movieinfotest.utils.registerImage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.Calendar
-
 
 class RandomMovieFragment : Fragment() {
     private lateinit var binding: FragmentGenerateMovieBinding
@@ -118,7 +116,7 @@ class RandomMovieFragment : Fragment() {
             if (!viewModel.getGenres().isNullOrEmpty()) {
                 genreAdapter = GenreAdapter(viewModel.getGenres()!!, requireContext())
                 binding.genInGenre.adapter = genreAdapter
-                buttonEnabled(NetworkStatus.ONLINE == NetworkConnection.isOnline())
+                buttonEnabled(NetworkConnection.isOnline())
             }
         }
     }
@@ -140,7 +138,7 @@ class RandomMovieFragment : Fragment() {
     }
 
     private fun isGenerateAccess(inputYear: String): Boolean {
-        if (NetworkConnection.isOnline() == NetworkStatus.OFFLINE)
+        if (!NetworkConnection.isOnline())
             return false
 
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)

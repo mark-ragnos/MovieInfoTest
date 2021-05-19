@@ -1,13 +1,17 @@
 package com.example.movieinfotest.data.repositories
 
-import androidx.paging.*
+import androidx.paging.PagingData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.map
 import com.example.movieinfotest.data.api.ApiHelper
 import com.example.movieinfotest.data.db.DbHelper
 import com.example.movieinfotest.domain.entities.movie.Movie
 import com.example.movieinfotest.domain.repositories.IFavoriteRepository
-import com.example.movieinfotest.utils.network.NetworkStatus
 import com.example.movieinfotest.utils.converters.toActorData
 import com.example.movieinfotest.utils.converters.toMovieDetails
+import com.example.movieinfotest.utils.network.NetworkConnection
+import com.example.movieinfotest.utils.network.isOnline
 import com.example.movieinfotest.utils.toActorDomain
 import com.example.movieinfotest.utils.toMovieDomain
 import kotlinx.coroutines.flow.Flow
@@ -47,13 +51,12 @@ class FavoriteRepository(
         return p
     }
 
-    override suspend fun saveInFavorite(movie: Movie, sourceMode: NetworkStatus) {
-        if (sourceMode == NetworkStatus.ONLINE) {
+    override suspend fun saveInFavorite(movie: Movie, sourceMode: NetworkConnection.STATUS) {
+        if (sourceMode.isOnline()) {
             val movie = api.getDetailsInformation(movie.id.toString())
-            if(movie!=null)
+            if (movie != null)
                 db.saveInFavorite(movie, api.getActorsList(movie.id.toString()))
-        }
-        else
+        } else
             db.saveInFavorite(movie.toMovieDetails(), movie.actors?.toActorData(movie.id))
     }
 
