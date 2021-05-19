@@ -1,26 +1,23 @@
 package com.example.movieinfotest.presentation.ui.random
 
-import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.movieinfotest.MovieApp
-import com.example.movieinfotest.domain.entities.genre.Genre
-import com.example.movieinfotest.domain.entities.movie.Movie
+import com.example.movieinfotest.domain.entities.genre.GenreDomain
+import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.domain.usecases.RandomMovieUseCase
 import com.example.movieinfotest.utils.network.NetworkConnection
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
 
 class RandomViewModel(
     private val randomMovieUseCase: RandomMovieUseCase
 ) : ViewModel() {
-    private val movieDetails: MutableLiveData<Movie> by lazy {
-        MutableLiveData<Movie>()
+    private val movieDetails: MutableLiveData<MovieDomain> by lazy {
+        MutableLiveData<MovieDomain>()
     }
-    private var genres: List<Genre>? = null
+    private var genres: List<GenreDomain>? = null
 
-    fun getRandom(): LiveData<Movie> {
+    fun getRandom(): LiveData<MovieDomain> {
         return movieDetails
     }
 
@@ -29,7 +26,7 @@ class RandomViewModel(
         movieDetails.value = randomMovieUseCase.getRandomMovie(genre = genreRes, year = year)
     }
 
-    suspend fun getGenres(): List<Genre>? {
+    suspend fun getGenres(): List<GenreDomain>? {
         if (genres == null)
             genres =
                 randomMovieUseCase.getGenres(NetworkConnection.getNetworkStatus(MovieApp.getInstance()))

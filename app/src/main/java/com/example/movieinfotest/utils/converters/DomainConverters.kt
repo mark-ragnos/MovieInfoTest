@@ -1,11 +1,10 @@
 package com.example.movieinfotest.utils.converters
 
 import com.example.movieinfotest.data.entities.details.MovieDetails
-import com.example.movieinfotest.domain.entities.movie.Movie as MovieDomain
-import com.example.movieinfotest.data.entities.popular.Movie as MovieData
-import com.example.movieinfotest.domain.entities.actor.Actor as ActorDomain
+import com.example.movieinfotest.domain.entities.movie.MovieDomain as MovieDomain
+import com.example.movieinfotest.domain.entities.actor.ActorDomain as ActorDomain
 import com.example.movieinfotest.data.entities.actors.Actor as ActorData
-import com.example.movieinfotest.domain.entities.genre.Genre as GenreDomain
+import com.example.movieinfotest.domain.entities.genre.GenreDomain as GenreDomain
 import com.example.movieinfotest.data.entities.genre.Genre as GenreData
 
 fun MovieDomain.toMovieDetails(): MovieDetails {

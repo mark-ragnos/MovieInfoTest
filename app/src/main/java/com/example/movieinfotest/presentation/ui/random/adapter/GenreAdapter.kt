@@ -8,14 +8,14 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 import com.example.movieinfotest.R
-import com.example.movieinfotest.domain.entities.genre.Genre
+import com.example.movieinfotest.domain.entities.genre.GenreDomain
 
-class GenreAdapter(genres: List<Genre>, private val context: Context) : BaseAdapter() {
-    val genres: List<Genre>
+class GenreAdapter(genres: List<GenreDomain>, private val context: Context) : BaseAdapter() {
+    val genres: List<GenreDomain>
 
     init {
-        val res = ArrayList<Genre>()
-        res.add(Genre(0, ""))
+        val res = ArrayList<GenreDomain>()
+        res.add(GenreDomain(0, ""))
         res.addAll(genres)
         this.genres = res
     }

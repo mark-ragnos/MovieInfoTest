@@ -6,7 +6,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.map
 import com.example.movieinfotest.data.api.ApiHelper
 import com.example.movieinfotest.data.db.DbHelper
-import com.example.movieinfotest.domain.entities.movie.Movie
+import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.domain.repositories.IFavoriteRepository
 import com.example.movieinfotest.utils.converters.toActorData
 import com.example.movieinfotest.utils.converters.toMovieDetails
@@ -20,14 +20,14 @@ import kotlinx.coroutines.flow.map
 class FavoriteRepository(
     val api: ApiHelper,
     val db: DbHelper
-) : IFavoriteRepository<Movie> {
+) : IFavoriteRepository<MovieDomain> {
 
-    override suspend fun getFavorite(movie_id: Int): Movie? {
+    override suspend fun getFavorite(movie_id: Int): MovieDomain? {
         val actors = db.getActorsById(movie_id).toActorDomain()
         return db.getDetailsFromFavorite(movie_id)?.toMovieDomain(actors)
     }
 
-    override fun getFavoriteList(): Flow<PagingData<Movie>> {
+    override fun getFavoriteList(): Flow<PagingData<MovieDomain>> {
         val pagingSourceFactory = { db.getGetFavoriteList() }
 
         val p = Pager(
@@ -35,7 +35,7 @@ class FavoriteRepository(
             pagingSourceFactory = pagingSourceFactory
         ).flow.map { pagingData ->
             pagingData.map {
-                Movie(
+                MovieDomain(
                     it.id,
                     it.title,
                     it.vote_average,
@@ -51,7 +51,7 @@ class FavoriteRepository(
         return p
     }
 
-    override suspend fun saveInFavorite(movie: Movie, sourceMode: NetworkConnection.STATUS) {
+    override suspend fun saveInFavorite(movie: MovieDomain, sourceMode: NetworkConnection.STATUS) {
         if (sourceMode.isOnline()) {
             val movie = api.getDetailsInformation(movie.id.toString())
             if (movie != null)

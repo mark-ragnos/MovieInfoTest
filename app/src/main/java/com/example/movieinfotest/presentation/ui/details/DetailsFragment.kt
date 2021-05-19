@@ -10,13 +10,12 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.whenResumed
 import androidx.navigation.fragment.NavHostFragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieinfotest.MainActivityViewModel
 import com.example.movieinfotest.MovieApp
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentMovieInfoBinding
-import com.example.movieinfotest.domain.entities.actor.Actor
-import com.example.movieinfotest.domain.entities.movie.Movie
+import com.example.movieinfotest.domain.entities.actor.ActorDomain
+import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.details.actors.ActorAdapter
 import com.example.movieinfotest.utils.*
@@ -126,7 +125,7 @@ class DetailsFragment : Fragment() {
 
     }
 
-    private fun setMovie(details: Movie) {
+    private fun setMovie(details: MovieDomain) {
         binding.infoDate.text = details.release_date.getYear()
         binding.infoDescription.text = details.overview
         binding.infoGenres.text = getGenreList(details.genres)
@@ -140,7 +139,7 @@ class DetailsFragment : Fragment() {
         onProgress(false)
     }
 
-    private fun setActors(list: List<Actor>?) {
+    private fun setActors(list: List<ActorDomain>?) {
         if (!list.isNullOrEmpty()) {
             binding.lvActors.adapter = ActorAdapter(list)
         } else {

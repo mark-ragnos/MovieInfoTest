@@ -1,6 +1,6 @@
 package com.example.movieinfotest.domain.entities.genre
 
-data class Genre(
+data class GenreDomain(
     val id: Int,
     val name: String
 )

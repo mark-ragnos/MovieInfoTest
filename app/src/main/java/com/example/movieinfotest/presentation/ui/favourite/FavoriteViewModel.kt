@@ -2,7 +2,7 @@ package com.example.movieinfotest.presentation.ui.favourite
 
 import androidx.lifecycle.ViewModel
 import androidx.paging.PagingData
-import com.example.movieinfotest.domain.entities.movie.Movie
+import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.domain.usecases.FavoriteMovieUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -12,10 +12,10 @@ import kotlinx.coroutines.launch
 class FavoriteViewModel(
     private val favoriteMovieUseCase: FavoriteMovieUseCase
 ) : ViewModel() {
-    private val movies: Flow<PagingData<Movie>> =
+    private val movies: Flow<PagingData<MovieDomain>> =
         favoriteMovieUseCase.getFavoriteList()
 
-    fun getPopular(): Flow<PagingData<Movie>> {
+    fun getPopular(): Flow<PagingData<MovieDomain>> {
         return movies
     }
 

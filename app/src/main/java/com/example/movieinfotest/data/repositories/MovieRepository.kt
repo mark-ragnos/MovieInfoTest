@@ -4,7 +4,7 @@ import androidx.paging.*
 import com.example.movieinfotest.data.api.ApiHelper
 import com.example.movieinfotest.data.db.DbHelper
 import com.example.movieinfotest.data.db.MovieRemoteMediator
-import com.example.movieinfotest.domain.entities.movie.Movie
+import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.domain.repositories.IMovieRepository
 import com.example.movieinfotest.utils.network.NetworkConnection
 import com.example.movieinfotest.utils.network.isOnline
@@ -16,10 +16,10 @@ import kotlinx.coroutines.flow.map
 class MovieRepository(
     val api: ApiHelper,
     val db: DbHelper
-) : IMovieRepository<Movie> {
+) : IMovieRepository<MovieDomain> {
 
     @OptIn(ExperimentalPagingApi::class)
-    override fun getMovies(): Flow<PagingData<Movie>> {
+    override fun getMovies(): Flow<PagingData<MovieDomain>> {
 
         val pagingSourceFactory = { db.loadMovies() }
         return Pager(
@@ -33,14 +33,14 @@ class MovieRepository(
         }
     }
 
-    override suspend fun getRandomMovie(genre: String, year: String): Movie {
+    override suspend fun getRandomMovie(genre: String, year: String): MovieDomain {
         return api.getRandomMovie(year, genre)!!.toMovieDomain()
     }
 
     override suspend fun getMovieInfo(
         movie_id: Int,
         networkStatus: NetworkConnection.STATUS
-    ): Movie? {
+    ): MovieDomain? {
         if (networkStatus.isOnline())
             return getMovieInfoRemote(movie_id)
 
@@ -52,7 +52,7 @@ class MovieRepository(
         return db.getDetailsById(movie_id)?.toMovieDomain()
     }
 
-    private suspend fun getMovieInfoRemote(movie_id: Int): Movie? {
+    private suspend fun getMovieInfoRemote(movie_id: Int): MovieDomain? {
         val favorite = db.getDetailsFromFavorite(movie_id)
         if (favorite != null) {
             val actors = db.getActorsById(movie_id).toActorDomain()
@@ -65,7 +65,7 @@ class MovieRepository(
             ?.toMovieDomain(api.getActorsList(movie_id.toString())?.toActorDomain())
     }
 
-    private suspend fun updateMovie(movie_id: Int): Movie {
+    private suspend fun updateMovie(movie_id: Int): MovieDomain {
         val movieInfo = api.getDetailsInformation(movie_id.toString())
         val actors = api.getActorsList(movie_id.toString())
         if (movieInfo != null) {

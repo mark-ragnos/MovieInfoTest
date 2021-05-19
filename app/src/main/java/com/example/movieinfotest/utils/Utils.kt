@@ -22,7 +22,7 @@ fun String?.getYear(): String {
 }
 
 
-fun getGenreList(list: List<com.example.movieinfotest.domain.entities.genre.Genre>?): String {
+fun getGenreList(list: List<com.example.movieinfotest.domain.entities.genre.GenreDomain>?): String {
     if (list?.size == 0 || (list == null))
         return "Don't find any genres"
     val result = StringBuilder()

@@ -14,8 +14,8 @@ import androidx.navigation.fragment.NavHostFragment
 import com.example.movieinfotest.MainActivityViewModel
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentGenerateMovieBinding
-import com.example.movieinfotest.domain.entities.genre.Genre
-import com.example.movieinfotest.domain.entities.movie.Movie
+import com.example.movieinfotest.domain.entities.genre.GenreDomain
+import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.random.adapter.GenreAdapter
 import com.example.movieinfotest.utils.network.NetworkConnection
@@ -95,7 +95,7 @@ class RandomMovieFragment : Fragment() {
                 onProgressGenerator(true)
                 if (isGenerateAccess(binding.genInYear.text.toString()))
                     viewModel.generateRandom(
-                        (binding.genInGenre.selectedItem as Genre).id.toString(),
+                        (binding.genInGenre.selectedItem as GenreDomain).id.toString(),
                         binding.genInYear.text.toString()
                     )
                 else
@@ -122,13 +122,13 @@ class RandomMovieFragment : Fragment() {
     }
 
     private fun setupReadLifeData() {
-        val detailObserver = Observer<Movie> {
+        val detailObserver = Observer<MovieDomain> {
             setMovie(it)
         }
         viewModel.getRandom().observe(viewLifecycleOwner, detailObserver)
     }
 
-    private fun setMovie(movie: Movie) {
+    private fun setMovie(movie: MovieDomain) {
         binding.genOutPoster.registerImage(movie.poster_path, x = 150, y = 225)
         binding.genOutRating.text = movie.vote_average.toString()
         binding.genOutName.text = movie.title

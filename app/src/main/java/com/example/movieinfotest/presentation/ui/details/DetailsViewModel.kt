@@ -3,7 +3,7 @@ package com.example.movieinfotest.presentation.ui.details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movieinfotest.domain.entities.movie.Movie
+import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.domain.usecases.FavoriteMovieUseCase
 import com.example.movieinfotest.domain.usecases.MovieInfoUseCase
 import com.example.movieinfotest.utils.network.NetworkConnection
@@ -18,9 +18,9 @@ class DetailsViewModel(
     private val favoriteUseCase: FavoriteMovieUseCase
 ) : ViewModel() {
     private var isFavorite = false
-    private val movieDetails = MutableStateFlow<Movie?>(null)
+    private val movieDetails = MutableStateFlow<MovieDomain?>(null)
 
-    fun getDetails(): StateFlow<Movie?> {
+    fun getDetails(): StateFlow<MovieDomain?> {
         return movieDetails
     }
 

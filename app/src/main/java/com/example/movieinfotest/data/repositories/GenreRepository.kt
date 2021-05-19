@@ -2,7 +2,7 @@ package com.example.movieinfotest.data.repositories
 
 import com.example.movieinfotest.data.api.ApiHelper
 import com.example.movieinfotest.data.db.DbHelper
-import com.example.movieinfotest.domain.entities.genre.Genre
+import com.example.movieinfotest.domain.entities.genre.GenreDomain
 import com.example.movieinfotest.domain.repositories.IGenreRepository
 import com.example.movieinfotest.utils.network.NetworkConnection
 import com.example.movieinfotest.utils.network.isOnline
@@ -13,12 +13,12 @@ import kotlinx.coroutines.coroutineScope
 class GenreRepository(
     val api: ApiHelper,
     val db: DbHelper
-) : IGenreRepository<Genre> {
-    override suspend fun getGenres(networkStatus: NetworkConnection.STATUS): List<Genre>? {
+) : IGenreRepository<GenreDomain> {
+    override suspend fun getGenres(networkStatus: NetworkConnection.STATUS): List<GenreDomain>? {
         if (networkStatus.isOnline())
             return db.getAllGenres()?.toGenreDomain()
 
-        var result: List<Genre>? = null
+        var result: List<GenreDomain>? = null
 
         coroutineScope {
             val dbGenreDef = async {

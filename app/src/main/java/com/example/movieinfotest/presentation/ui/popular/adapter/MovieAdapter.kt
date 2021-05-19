@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import com.example.movieinfotest.databinding.ItemListBinding
-import com.example.movieinfotest.domain.entities.movie.Movie
+import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.utils.FirebaseLogin
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 class MovieAdapter(
     private val listener: MovieClickListener
 ) :
-    PagingDataAdapter<Movie, MovieHolder>(MovieDiffCallback) {
+    PagingDataAdapter<MovieDomain, MovieHolder>(MovieDiffCallback) {
     override fun onBindViewHolder(holder: MovieHolder, position: Int) {
         holder.bind(movie = getItem(position), listener)
 
@@ -37,7 +37,7 @@ class MovieAdapter(
 
     interface MovieClickListener {
         fun onClick(id: Int)
-        fun onFavorite(movie: Movie?, isFavorite: Boolean)
+        fun onFavorite(movie: MovieDomain?, isFavorite: Boolean)
         suspend fun isFavorite(id: Int): Boolean
     }
 
@@ -46,7 +46,7 @@ class MovieAdapter(
         return MovieHolder(binding)
     }
 
-    private suspend fun isFavorite(item: Movie): Boolean{
+    private suspend fun isFavorite(item: MovieDomain): Boolean{
         return listener.isFavorite(item.id)
     }
 }

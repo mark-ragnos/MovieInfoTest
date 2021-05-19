@@ -9,12 +9,11 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.coroutineScope
 import androidx.navigation.fragment.NavHostFragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieinfotest.MainActivityViewModel
 import com.example.movieinfotest.MovieApp
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentPopularMovieListBinding
-import com.example.movieinfotest.domain.entities.movie.Movie
+import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.presentation.ui.popular.adapter.MovieAdapter
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.popular.adapter.MovieLoadingStateAdapter
@@ -96,7 +95,7 @@ class PopularMovieListFragment : Fragment() {
                 NavHostFragment.findNavController(this@PopularMovieListFragment).navigate(action)
             }
 
-            override fun onFavorite(movie: Movie?, isFavorite: Boolean) {
+            override fun onFavorite(movie: MovieDomain?, isFavorite: Boolean) {
                 if (movie != null)
                     if (isFavorite)
                         viewModel.removeFromFavorite(movie)

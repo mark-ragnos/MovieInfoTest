@@ -4,7 +4,7 @@ package com.example.movieinfotest.presentation.ui.popular
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.*
-import com.example.movieinfotest.domain.entities.movie.Movie
+import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.domain.usecases.FavoriteMovieUseCase
 import com.example.movieinfotest.domain.usecases.PopularMovieUseCase
 import com.example.movieinfotest.utils.network.NetworkConnection
@@ -16,20 +16,20 @@ class PopularViewModel(
     private val popularMovieUseCase: PopularMovieUseCase,
     private val favoriteMovieUseCase: FavoriteMovieUseCase
 ) : ViewModel() {
-    private val movies: Flow<PagingData<Movie>> =
+    private val movies: Flow<PagingData<MovieDomain>> =
         popularMovieUseCase.getPopularList().cachedIn(viewModelScope)
 
-    fun getFavorite(): Flow<PagingData<Movie>> {
+    fun getFavorite(): Flow<PagingData<MovieDomain>> {
         return movies
     }
 
-    fun saveInFavorite(movie: Movie, sourceMode: NetworkConnection.STATUS) {
+    fun saveInFavorite(movie: MovieDomain, sourceMode: NetworkConnection.STATUS) {
         viewModelScope.launch(Dispatchers.IO) {
             favoriteMovieUseCase.saveInFavorite(movie, sourceMode)
         }
     }
 
-    fun removeFromFavorite(movie: Movie) {
+    fun removeFromFavorite(movie: MovieDomain) {
         viewModelScope.launch(Dispatchers.IO) {
             favoriteMovieUseCase.deleteFromFavorite(movie.id)
         }
