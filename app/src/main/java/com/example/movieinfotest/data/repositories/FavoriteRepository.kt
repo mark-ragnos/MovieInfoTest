@@ -10,6 +10,7 @@ import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.domain.repositories.IFavoriteRepository
 import com.example.movieinfotest.utils.converters.toActorData
 import com.example.movieinfotest.utils.converters.toMovieDetails
+import com.example.movieinfotest.utils.converters.toMovieDomain
 import com.example.movieinfotest.utils.network.NetworkConnection
 import com.example.movieinfotest.utils.network.isOnline
 import com.example.movieinfotest.utils.toActorDomain
@@ -35,16 +36,7 @@ class FavoriteRepository(
             pagingSourceFactory = pagingSourceFactory
         ).flow.map { pagingData ->
             pagingData.map {
-                MovieDomain(
-                    it.id,
-                    it.title,
-                    it.vote_average,
-                    it.release_date,
-                    it.poster_path,
-                    it.overview,
-                    null,
-                    null
-                )
+                it.toMovieDomain()
             }
         }
 
