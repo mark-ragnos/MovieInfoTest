@@ -54,6 +54,9 @@ interface FavoriteDao {
     @Query("SELECT * FROM moviedetailsdb WHERE id LIKE :id")
     suspend fun getFavoriteById(id: Int): MovieDetailsDB?
 
+    @Query("SELECT * FROM moviedetailsdb WHERE id LIKE :id")
+    fun getFavorite(id: Int): Int
+
     @Transaction
     suspend fun removeFromFavorite(id: Int){
         deleteFavorite(id)

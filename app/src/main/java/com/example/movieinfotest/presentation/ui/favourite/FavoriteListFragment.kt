@@ -54,7 +54,7 @@ class FavoriteListFragment : Fragment() {
     private fun init() {
         viewModel = ViewModelProviders.of(
             this,
-            AppViewModelFactory()
+            AppViewModelFactory.makeFactory()
         ).get(FavoriteViewModel::class.java)
 
         binding.favoriteTextLogin.setOnClickListener {

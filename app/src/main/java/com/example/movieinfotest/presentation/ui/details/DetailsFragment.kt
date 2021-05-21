@@ -1,6 +1,7 @@
 package com.example.movieinfotest.presentation.ui.details
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -36,6 +37,7 @@ class DetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentMovieInfoBinding.inflate(inflater, container, false)
+
         onProgress(true)
         init()
         setupReadLifeData()
@@ -44,10 +46,15 @@ class DetailsFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        binding.scrollView.scrollTo(0, 0)
+    }
+
     private fun init() {
         viewModel = ViewModelProviders.of(
             this,
-            AppViewModelFactory()
+            AppViewModelFactory.makeFactory()
         ).get(DetailsViewModel::class.java)
 
         val savedId = DetailsFragmentArgs.fromBundle(requireArguments()).id
@@ -88,7 +95,17 @@ class DetailsFragment : Fragment() {
 
     private fun setupReadLifeData() {
         lifecycle.coroutineScope.launch(Dispatchers.Main) {
-            viewModel.getDetails().collectLatest { it?.let { it1 -> setMovie(it1) } }
+            viewModel.movieDetails.collectLatest {
+                it?.let { it1 -> setMovie(it1) }
+            }
+
+
+        }
+
+        lifecycle.coroutineScope.launch(Dispatchers.Main) {
+            viewModel.isFavorite.collectLatest {
+                changeFavoriteBnt(it)
+            }
         }
     }
 
@@ -96,14 +113,14 @@ class DetailsFragment : Fragment() {
         binding.infoAddToFavorite.setOnClickListener {
             if (FirebaseLogin.isLogin())
                 lifecycle.coroutineScope.launch(Dispatchers.Main) {
-                    if (!viewModel.isFavorite()) {
+                    if (!viewModel.isFavorite.value) {
                         makeToast(resources.getString(R.string.movie_added_to_favorite))
                         viewModel.saveInFavorite(NetworkConnection.getNetworkStatus(MovieApp.getInstance()))
-                        changeFavoriteBnt(true)
+//                        changeFavoriteBnt(true)
                     } else {
                         makeToast(resources.getString(R.string.movie_deleted_from_favorite))
                         viewModel.deleteFromFavorite()
-                        changeFavoriteBnt(false)
+//                        changeFavoriteBnt(false)
                     }
                 }
             else {
@@ -133,9 +150,6 @@ class DetailsFragment : Fragment() {
         binding.infoRating.text = details.vote_average.toString()
         binding.infoPoster.registerImage(details.poster_path, x = 150, y = 225)
         setActors(details.actors)
-        lifecycle.coroutineScope.launch(Dispatchers.Main) {
-            changeFavoriteBnt(viewModel.isFavorite())
-        }
         onProgress(false)
     }
 
@@ -156,12 +170,6 @@ class DetailsFragment : Fragment() {
 
     private fun onProgress(isVisible: Boolean) {
         binding.progressBar.visibility = if (isVisible) View.VISIBLE else View.GONE
-        binding.infoRootElement.visibility = if (!isVisible) View.VISIBLE else View.INVISIBLE
-        lifecycle.coroutineScope.launch(Dispatchers.Main) {
-            whenResumed {
-                delay(20)
-                binding.infoRootElement.scrollTo(0, 0)
-            }
-        }
+        binding.scrollView.visibility = if (!isVisible) View.VISIBLE else View.INVISIBLE
     }
 }

@@ -50,7 +50,7 @@ class RandomMovieFragment : Fragment() {
     private fun init() {
         viewModel = ViewModelProviders.of(
             this,
-            AppViewModelFactory()
+            AppViewModelFactory.makeFactory()
         ).get(RandomViewModel::class.java)
 
         initToolbar()

@@ -4,8 +4,6 @@ plugins {
     id 'androidx.navigation.safeargs.kotlin'
     id 'kotlin-kapt'
     id 'com.google.gms.google-services'
-    id 'com.google.firebase.firebase-perf'
-    id 'com.google.firebase.crashlytics'
     id 'io.gitlab.arturbosch.detekt'
 }
 
@@ -29,10 +27,6 @@ android {
 
     buildTypes {
         debug {
-            FirebasePerformance {
-                instrumentationEnabled true
-            }
-
         }
 
         release {
@@ -59,8 +53,12 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.annotation:annotation:1.2.0'
+
+    //lifecycle
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
+
+    //testing
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
@@ -94,9 +92,6 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:27.0.0')
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.firebase:firebase-messaging'
-    implementation 'com.google.firebase:firebase-perf'
-    implementation 'com.google.firebase:firebase-crashlytics'
-    implementation 'com.google.firebase:firebase-analytics'
 
     //dagger 2
     implementation 'com.google.dagger:dagger:2.35.1'
@@ -107,4 +102,7 @@ dependencies {
 
     //detekt
     detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:1.17.0"
+
+    //shimmer
+    implementation "com.facebook.shimmer:shimmer:0.5.0"
 }

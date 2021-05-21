@@ -6,11 +6,13 @@ import androidx.lifecycle.ViewModel
 import com.example.movieinfotest.MovieApp
 import com.example.movieinfotest.domain.entities.genre.GenreDomain
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
-import com.example.movieinfotest.domain.usecases.RandomMovieUseCase
+import com.example.movieinfotest.domain.usecases.GenreUseCase
+import com.example.movieinfotest.domain.usecases.MovieUseCase
 import com.example.movieinfotest.utils.network.NetworkConnection
 
 class RandomViewModel(
-    private val randomMovieUseCase: RandomMovieUseCase
+    private val movieUseCase: MovieUseCase,
+    private val genreUseCase: GenreUseCase
 ) : ViewModel() {
     private val movieDetails: MutableLiveData<MovieDomain> by lazy {
         MutableLiveData<MovieDomain>()
@@ -23,13 +25,13 @@ class RandomViewModel(
 
     suspend fun generateRandom(genre: String, year: String) {
         val genreRes = if (genre != "0") genre else ""
-        movieDetails.value = randomMovieUseCase.getRandomMovie(genre = genreRes, year = year)
+        movieDetails.value = movieUseCase.getRandomMovie(genre = genreRes, year = year)
     }
 
     suspend fun getGenres(): List<GenreDomain>? {
         if (genres == null)
             genres =
-                randomMovieUseCase.getGenres(NetworkConnection.getNetworkStatus(MovieApp.getInstance()))
+                genreUseCase.getAllGenres(NetworkConnection.getNetworkStatus(MovieApp.getInstance()))
         return genres
     }
 }

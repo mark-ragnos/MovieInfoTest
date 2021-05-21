@@ -5,46 +5,59 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.domain.usecases.FavoriteMovieUseCase
-import com.example.movieinfotest.domain.usecases.MovieInfoUseCase
+import com.example.movieinfotest.domain.usecases.MovieUseCase
 import com.example.movieinfotest.utils.network.NetworkConnection
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.asStateFlow
+import kotlin.properties.Delegates
 
 class DetailsViewModel(
-    private val movieInfoUseCase: MovieInfoUseCase,
+    private val movieUseCase: MovieUseCase,
     private val favoriteUseCase: FavoriteMovieUseCase
 ) : ViewModel() {
-    private var isFavorite = false
-    private val movieDetails = MutableStateFlow<MovieDomain?>(null)
+    private var movieId by Delegates.notNull<Int>()
 
-    fun getDetails(): StateFlow<MovieDomain?> {
-        return movieDetails
-    }
+    private val _isFavorite = MutableStateFlow(false)
+    val isFavorite = _isFavorite.asStateFlow()
+
+    private val _movieDetails = MutableStateFlow<MovieDomain?>(null)
+    val movieDetails = _movieDetails.asStateFlow()
 
     fun sendID(id: Int, networkStatus: NetworkConnection.STATUS) {
+        movieId = id
+
+        if (movieDetails.value?.id != id)
+            loadMovie(networkStatus)
+    }
+
+    fun loadMovie(networkStatus: NetworkConnection.STATUS) {
         viewModelScope.launch(Dispatchers.IO) {
-            movieDetails.value = movieInfoUseCase.getMovieInfo(id, networkStatus)
+            _movieDetails.value = movieUseCase.getMovieInfo(movieId, networkStatus)
+            isFavorite()
         }
     }
 
     fun saveInFavorite(sourceMode: NetworkConnection.STATUS) {
         viewModelScope.launch(Dispatchers.IO) {
-            movieDetails.value?.let { favoriteUseCase.saveInFavorite(it, sourceMode) }
+            movieDetails.value?.let {
+                favoriteUseCase.saveInFavorite(it, sourceMode)
+            }
+            isFavorite()
         }
     }
 
     fun deleteFromFavorite() {
         viewModelScope.launch(Dispatchers.IO) {
-            movieDetails.value?.id?.let { favoriteUseCase.deleteFromFavorite(it) }
+            movieDetails.value?.id?.let {
+                favoriteUseCase.deleteFromFavorite(it)
+            }
+            isFavorite()
         }
     }
 
-    suspend fun isFavorite(): Boolean =
-        withContext(viewModelScope.coroutineContext) {
-            isFavorite = favoriteUseCase.isFavorite(movieDetails.value!!.id)
-            isFavorite
-        }
+    private suspend fun isFavorite() {
+        _isFavorite.emit(favoriteUseCase.isFavorite(movieId))
+    }
 }

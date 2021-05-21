@@ -13,9 +13,9 @@
         android:layout_gravity="center"
         android:foregroundGravity="center"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/info_root_element"
-        app:layout_constraintEnd_toEndOf="@+id/info_root_element"
-        app:layout_constraintStart_toStartOf="@+id/info_root_element"
+        app:layout_constraintBottom_toBottomOf="@+id/scrollView"
+        app:layout_constraintEnd_toEndOf="@+id/scrollView"
+        app:layout_constraintStart_toStartOf="@+id/scrollView"
         app:layout_constraintTop_toTopOf="@+id/toolbar" />
 
     <androidx.appcompat.widget.Toolbar
@@ -34,7 +34,7 @@
         app:titleTextColor="?attr/colorOnPrimary" />
 
     <ScrollView
-        android:id="@+id/info_root_element"
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:scrollbars="vertical"

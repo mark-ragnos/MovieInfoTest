@@ -47,7 +47,7 @@ class PopularMovieListFragment : Fragment() {
     private fun init() {
         viewModel = ViewModelProviders.of(
             this,
-            AppViewModelFactory()
+            AppViewModelFactory.makeFactory()
         ).get(PopularViewModel::class.java)
 
         initToolbar()
@@ -81,7 +81,7 @@ class PopularMovieListFragment : Fragment() {
 
     private fun fetchMovies() {
         lifecycle.coroutineScope.launch(Dispatchers.IO) {
-            viewModel.getFavorite().collectLatest { pagingData ->
+            viewModel.movies.collectLatest { pagingData ->
                 movieAdapter.submitData(pagingData)
             }
         }
