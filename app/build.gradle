@@ -105,4 +105,7 @@ dependencies {
 
     //shimmer
     implementation "com.facebook.shimmer:shimmer:0.5.0"
+
+    //spinner
+    implementation "com.github.skydoves:powerspinner:1.1.7"
 }

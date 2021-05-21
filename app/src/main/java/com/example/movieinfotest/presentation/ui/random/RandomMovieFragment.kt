@@ -7,23 +7,23 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.coroutineScope
 import androidx.navigation.fragment.NavHostFragment
 import com.example.movieinfotest.MainActivityViewModel
+import com.example.movieinfotest.MovieApp
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentGenerateMovieBinding
-import com.example.movieinfotest.domain.entities.genre.GenreDomain
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.random.adapter.GenreAdapter
 import com.example.movieinfotest.utils.network.NetworkConnection
 import com.example.movieinfotest.utils.ToolbarMaker
+import com.example.movieinfotest.utils.isPossibleYear
 import com.example.movieinfotest.utils.registerImage
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.util.Calendar
 
 class RandomMovieFragment : Fragment() {
     private lateinit var binding: FragmentGenerateMovieBinding
@@ -40,9 +40,9 @@ class RandomMovieFragment : Fragment() {
 
         init()
         initTextWatcher()
-        initGenreList()
+        initSpinner()
         setupUI()
-        setupReadLifeData()
+        observeOnData()
 
         return binding.root
     }
@@ -89,13 +89,35 @@ class RandomMovieFragment : Fragment() {
 
     }
 
+    private fun initSpinner() {
+        genreAdapter = GenreAdapter(0, null, binding.genInGenre)
+        binding.genInGenre.setSpinnerAdapter(genreAdapter)
+        binding.genInGenre.setOnSpinnerItemSelectedListener(viewModel.selectGenreListener)
+
+        viewModel.loadGenres(NetworkConnection.getNetworkStatus(MovieApp.getInstance()))
+    }
+
+    private fun observeOnData() {
+        lifecycle.coroutineScope.launch {
+            viewModel.movie.collectLatest {
+                it?.let { setMovie(it) }
+            }
+        }
+
+        lifecycle.coroutineScope.launch {
+            viewModel.genres.collectLatest {
+                it?.let { genreAdapter.setItems(it) }
+            }
+        }
+    }
+
     private fun setupUI() {
         binding.genBtnRandom.setOnClickListener {
             lifecycle.coroutineScope.launch(Dispatchers.Main) {
                 onProgressGenerator(true)
                 if (isGenerateAccess(binding.genInYear.text.toString()))
                     viewModel.generateRandom(
-                        (binding.genInGenre.selectedItem as GenreDomain).id.toString(),
+                        viewModel.selectedGenreId.value,
                         binding.genInYear.text.toString()
                     )
                 else
@@ -111,23 +133,6 @@ class RandomMovieFragment : Fragment() {
         }
     }
 
-    private fun initGenreList() {
-        lifecycle.coroutineScope.launch(Dispatchers.Main) {
-            if (!viewModel.getGenres().isNullOrEmpty()) {
-                genreAdapter = GenreAdapter(viewModel.getGenres()!!, requireContext())
-                binding.genInGenre.adapter = genreAdapter
-                buttonEnabled(NetworkConnection.isOnline())
-            }
-        }
-    }
-
-    private fun setupReadLifeData() {
-        val detailObserver = Observer<MovieDomain> {
-            setMovie(it)
-        }
-        viewModel.getRandom().observe(viewLifecycleOwner, detailObserver)
-    }
-
     private fun setMovie(movie: MovieDomain) {
         binding.genOutPoster.registerImage(movie.poster_path, x = 150, y = 225)
         binding.genOutRating.text = movie.vote_average.toString()
@@ -138,17 +143,7 @@ class RandomMovieFragment : Fragment() {
     }
 
     private fun isGenerateAccess(inputYear: String): Boolean {
-        if (!NetworkConnection.isOnline())
-            return false
-
-        val currentYear = Calendar.getInstance().get(Calendar.YEAR)
-
-        if (inputYear == "")
-            return true
-        if (inputYear.toInt() !in 1895..currentYear)
-            return false
-
-        return true
+        return isPossibleYear(inputYear) && NetworkConnection.isOnline()
     }
 
     private fun onProgressGenerator(isProgress: Boolean) {

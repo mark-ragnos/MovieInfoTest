@@ -1,64 +1,59 @@
 package com.example.movieinfotest.presentation.ui.random.adapter
 
-import android.content.Context
-import android.graphics.Color
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.TextView
-import com.example.movieinfotest.R
+import androidx.recyclerview.widget.RecyclerView
+import com.example.movieinfotest.databinding.SpinnerRowBinding
 import com.example.movieinfotest.domain.entities.genre.GenreDomain
+import com.skydoves.powerspinner.OnSpinnerItemSelectedListener
+import com.skydoves.powerspinner.PowerSpinnerInterface
+import com.skydoves.powerspinner.PowerSpinnerView
 
-class GenreAdapter(genres: List<GenreDomain>, private val context: Context) : BaseAdapter() {
-    val genres: List<GenreDomain>
+class GenreAdapter(
+    override var index: Int,
+    override var onSpinnerItemSelectedListener: OnSpinnerItemSelectedListener<GenreDomain>?,
+    override val spinnerView: PowerSpinnerView
+) : RecyclerView.Adapter<GenreAdapter.ViewHolder>(), PowerSpinnerInterface<GenreDomain> {
+    private lateinit var genres: List<GenreDomain>
 
-    init {
-        val res = ArrayList<GenreDomain>()
-        res.add(GenreDomain(0, ""))
-        res.addAll(genres)
-        this.genres = res
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenreAdapter.ViewHolder {
+        val binding = SpinnerRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding)
     }
 
-    override fun getCount(): Int {
+    override fun onBindViewHolder(holder: GenreAdapter.ViewHolder, position: Int) {
+        holder.bind(genres[position])
+        holder.binding.root.setOnClickListener {
+            notifyItemSelected(position)
+        }
+    }
+
+    override fun getItemCount(): Int {
         return genres.size
     }
 
-    override fun getItem(position: Int): Any {
-        return genres[position]
-    }
+    class ViewHolder(val binding: SpinnerRowBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
-    override fun getItemId(position: Int): Long {
-        return position.toLong()
-    }
-
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val view: View
-        val vh: ItemHolder
-
-        if (convertView == null) {
-            view = inflater.inflate(R.layout.spinner_row, parent, false)
-            vh = ItemHolder(view)
-            view.tag = vh
-        } else {
-            view = convertView
-            vh = view.tag as ItemHolder
+        fun bind(genre: GenreDomain) {
+            binding.spId.text = genre.id.toString()
+            binding.spGenre.text = genre.name
         }
-        vh.id?.text = genres[position].id.toString()
-        vh.genre?.text = genres[position].name
-
-        if (position == 0) {
-            vh.genre?.text = context.resources.getText(R.string.select_genre)
-            vh.genre?.setTextColor(Color.GRAY)
-        }
-        return view
     }
 
-    private class ItemHolder(row: View?) {
-        val id = row?.findViewById<TextView>(R.id.sp_id)
-        val genre = row?.findViewById<TextView>(R.id.sp_genre)
-
+    override fun notifyItemSelected(index: Int) {
+        val oldIndex = this.index
+        this.index = index
+        this.spinnerView.notifyItemSelected(index, this.genres[index].name)
+        this.onSpinnerItemSelectedListener?.onItemSelected(
+            oldIndex = oldIndex,
+            oldItem = genres[oldIndex],
+            newIndex = index,
+            newItem = genres[index]
+        )
     }
 
+    override fun setItems(itemList: List<GenreDomain>) {
+        genres = itemList
+    }
 }

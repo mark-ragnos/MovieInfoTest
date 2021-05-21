@@ -7,38 +7,22 @@ import com.example.movieinfotest.domain.repositories.IGenreRepository
 import com.example.movieinfotest.utils.network.NetworkConnection
 import com.example.movieinfotest.utils.network.isOnline
 import com.example.movieinfotest.utils.toGenreDomain
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 
 class GenreRepository(
     val api: ApiHelper,
     val db: DbHelper
 ) : IGenreRepository<GenreDomain> {
     override suspend fun getGenres(networkStatus: NetworkConnection.STATUS): List<GenreDomain>? {
-        if (networkStatus.isOnline())
+        if (!networkStatus.isOnline())
             return db.getAllGenres()?.toGenreDomain()
 
-        var result: List<GenreDomain>? = null
+        val netList = api.getGenresList()
+        val dbList = api.getGenresList()
 
-        coroutineScope {
-            val dbGenreDef = async {
-                db.getAllGenres()
-            }
-            val apiGenreDef = async {
-                api.getGenresList()
-            }
+        if(netList?.size== dbList?.size)
+            return dbList?.toGenreDomain()
 
-            val dbGenres = dbGenreDef.await()
-            val apiGenres = apiGenreDef.await()
-
-            result = if (dbGenres?.size == apiGenres?.size)
-                dbGenres?.toGenreDomain()
-            else {
-                apiGenres?.let { db.addAllGenres(it) }
-                apiGenres?.toGenreDomain()
-            }
-        }
-
-        return result
+        db.addAllGenres(netList!!)
+        return dbList?.toGenreDomain()
     }
 }

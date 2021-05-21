@@ -8,7 +8,6 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        app:title="@string/random_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
@@ -18,6 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:theme="@style/ToolbarColoredBackArrow"
+        app:title="@string/random_title"
         app:titleTextColor="?attr/colorOnPrimary" />
 
     <androidx.core.widget.ContentLoadingProgressBar
@@ -31,25 +31,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/gen_result" />
 
-    <Spinner
+    <com.skydoves.powerspinner.PowerSpinnerView
         android:id="@+id/gen_in_genre"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:hint="@string/select_genre"
         android:textSize="@dimen/def_item_size"
         app:layout_constraintEnd_toEndOf="@+id/gen_in_year"
         app:layout_constraintStart_toStartOf="@+id/gen_in_year"
         app:layout_constraintTop_toTopOf="@+id/gen_tv_genre"
-        app:popupTheme="@style/Theme.MovieInfoTest"
-        app:theme="@style/Theme.MovieInfoTest" />
+        app:spinner_arrow_gravity="end"
+        app:spinner_arrow_show="true"
+        app:spinner_arrow_tint="@color/primary_light"
+        app:spinner_popup_background="?attr/colorSurface" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/gen_btn_random"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:enabled="true"
         android:text="@string/get_random"
         android:textSize="@dimen/def_item_size"
-        android:enabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gen_tv_genre" />
@@ -172,12 +175,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="@string/gen_genre"
+        android:textColor="?attr/colorOnBackground"
         android:textSize="@dimen/def_item_size"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gen_tv_year"
-        tools:viewBindingIgnore="true"
-        android:textColor="?attr/colorOnBackground" />
+        tools:viewBindingIgnore="true" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/gen_in_year"
