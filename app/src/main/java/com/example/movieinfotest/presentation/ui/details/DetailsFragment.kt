@@ -94,15 +94,13 @@ class DetailsFragment : Fragment() {
     }
 
     private fun setupReadLifeData() {
-        lifecycle.coroutineScope.launch(Dispatchers.Main) {
+        lifecycle.coroutineScope.launch {
             viewModel.movieDetails.collectLatest {
                 it?.let { it1 -> setMovie(it1) }
             }
-
-
         }
 
-        lifecycle.coroutineScope.launch(Dispatchers.Main) {
+        lifecycle.coroutineScope.launch {
             viewModel.isFavorite.collectLatest {
                 changeFavoriteBnt(it)
             }
@@ -112,34 +110,34 @@ class DetailsFragment : Fragment() {
     private fun setupFavoriteBtn() {
         binding.infoAddToFavorite.setOnClickListener {
             if (FirebaseLogin.isLogin())
-                lifecycle.coroutineScope.launch(Dispatchers.Main) {
-                    if (!viewModel.isFavorite.value) {
-                        makeToast(resources.getString(R.string.movie_added_to_favorite))
-                        viewModel.saveInFavorite(NetworkConnection.getNetworkStatus(MovieApp.getInstance()))
-//                        changeFavoriteBnt(true)
-                    } else {
-                        makeToast(resources.getString(R.string.movie_deleted_from_favorite))
-                        viewModel.deleteFromFavorite()
-//                        changeFavoriteBnt(false)
-                    }
-                }
-            else {
-                NavHostFragment.findNavController(this)
-                    .navigate(R.id.action_movieInfo_to_loginFragment)
-            }
+                saveDeleteMovie()
+            else
+                moveToLogin()
         }
+    }
 
+    private fun saveDeleteMovie() {
+        if (!viewModel.isFavorite.value) {
+            makeToast(resources.getString(R.string.movie_added_to_favorite))
+            viewModel.saveInFavorite(NetworkConnection.getNetworkStatus(MovieApp.getInstance()))
+        } else {
+            makeToast(resources.getString(R.string.movie_deleted_from_favorite))
+            viewModel.deleteFromFavorite()
+        }
+    }
+
+    private fun moveToLogin() {
+        NavHostFragment.findNavController(this)
+            .navigate(R.id.action_movieInfo_to_loginFragment)
     }
 
     private fun changeFavoriteBnt(isFavorite: Boolean) {
-        if (FirebaseLogin.isLogin())
-            if (isFavorite) {
-                binding.infoAddToFavorite.text =
-                    resources.getText(R.string.delete_from_favorite)
-            } else {
-                binding.infoAddToFavorite.text = resources.getText(R.string.save_as_favorite)
-            }
-
+        if (isFavorite) {
+            binding.infoAddToFavorite.text =
+                resources.getText(R.string.delete_from_favorite)
+        } else {
+            binding.infoAddToFavorite.text = resources.getText(R.string.save_as_favorite)
+        }
     }
 
     private fun setMovie(details: MovieDomain) {
@@ -160,7 +158,6 @@ class DetailsFragment : Fragment() {
             binding.lvActors.visibility = View.INVISIBLE
             binding.infoTextActors.visibility = View.INVISIBLE
             binding.infoTextGenres.visibility = View.INVISIBLE
-            binding.infoGenres.visibility = View.INVISIBLE
         }
     }
 
