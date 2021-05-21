@@ -21,7 +21,6 @@ import com.example.movieinfotest.utils.network.NetworkConnection
 import com.example.movieinfotest.utils.ToolbarMaker
 import com.example.movieinfotest.utils.isPossibleYear
 import com.example.movieinfotest.utils.registerImage
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -42,7 +41,7 @@ class RandomMovieFragment : Fragment() {
         initTextWatcher()
         initSpinner()
         setupUI()
-        observeOnData()
+        subscribeOnData()
 
         return binding.root
     }
@@ -84,7 +83,7 @@ class RandomMovieFragment : Fragment() {
 
     private fun initTextWatcher() {
         binding.genInYear.addTextChangedListener {
-            buttonEnabled(isGenerateAccess(it.toString()))
+            buttonEnabled(isPossibleYear(it.toString()))
         }
 
     }
@@ -97,7 +96,7 @@ class RandomMovieFragment : Fragment() {
         viewModel.loadGenres(NetworkConnection.getNetworkStatus(MovieApp.getInstance()))
     }
 
-    private fun observeOnData() {
+    private fun subscribeOnData() {
         lifecycle.coroutineScope.launch {
             viewModel.movie.collectLatest {
                 it?.let { setMovie(it) }
@@ -113,16 +112,14 @@ class RandomMovieFragment : Fragment() {
 
     private fun setupUI() {
         binding.genBtnRandom.setOnClickListener {
-            lifecycle.coroutineScope.launch(Dispatchers.Main) {
-                onProgressGenerator(true)
-                if (isGenerateAccess(binding.genInYear.text.toString()))
-                    viewModel.generateRandom(
-                        viewModel.selectedGenreId.value,
-                        binding.genInYear.text.toString()
-                    )
-                else
-                    onProgressGenerator(false)
-            }
+            onProgressGenerator(true)
+            if (isGenerateAccess())
+                viewModel.generateRandom(
+                    viewModel.selectedGenreId.value,
+                    binding.genInYear.text.toString()
+                )
+            else
+                onProgressGenerator(false)
         }
 
         binding.genResult.setOnClickListener {
@@ -142,8 +139,8 @@ class RandomMovieFragment : Fragment() {
         onProgressGenerator(false)
     }
 
-    private fun isGenerateAccess(inputYear: String): Boolean {
-        return isPossibleYear(inputYear) && NetworkConnection.isOnline()
+    private fun isGenerateAccess(): Boolean {
+        return NetworkConnection.isOnline()
     }
 
     private fun onProgressGenerator(isProgress: Boolean) {

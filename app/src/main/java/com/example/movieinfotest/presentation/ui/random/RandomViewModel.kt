@@ -1,5 +1,6 @@
 package com.example.movieinfotest.presentation.ui.random
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movieinfotest.domain.entities.genre.GenreDomain
@@ -43,8 +44,9 @@ class RandomViewModel(
     }
 
     fun loadGenres(networkStatus: NetworkConnection.STATUS) {
-        viewModelScope.launch(Dispatchers.IO) {
-            _genres.value = genreUseCase.getAllGenres(networkStatus)
-        }
+        if (genres.value.isNullOrEmpty())
+            viewModelScope.launch(Dispatchers.IO) {
+                _genres.value = genreUseCase.getAllGenres(networkStatus)
+            }
     }
 }
