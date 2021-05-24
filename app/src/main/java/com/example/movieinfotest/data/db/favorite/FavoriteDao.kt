@@ -34,7 +34,7 @@ interface FavoriteDao {
             it.toGenreDB(movieDetails.id)
         }
         val finActors = actors?.map {
-            Actor(movieDetails.id, it.id, it.name, it.character, it.profilePath)
+            Actor(movieDetails.id, it.id, it.name, it.character, it.profilePath, it.gender)
         }
 
         val details = movieDetails.toMovieDetailsDB()

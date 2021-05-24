@@ -19,8 +19,8 @@ import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.random.adapter.GenreAdapter
 import com.example.movieinfotest.utils.network.NetworkConnection
 import com.example.movieinfotest.utils.ToolbarMaker
+import com.example.movieinfotest.utils.displayMoviePoster
 import com.example.movieinfotest.utils.isPossibleYear
-import com.example.movieinfotest.utils.registerImage
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -133,7 +133,7 @@ class RandomMovieFragment : Fragment() {
     }
 
     private fun setMovie(movie: MovieDomain) {
-        binding.genOutPoster.registerImage(movie.posterPath, x = 150, y = 225)
+        binding.genOutPoster.displayMoviePoster(movie.posterPath, x = 150, y = 225)
         binding.genOutRating.text = movie.voteAverage.toString()
         binding.genOutName.text = movie.title
         binding.genOutId.text = movie.id.toString()

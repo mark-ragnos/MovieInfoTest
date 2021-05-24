@@ -11,5 +11,7 @@ data class Actor(
     val name: String,
     val character: String,
     @SerializedName("profile_path")
-    val profilePath: String?
+    val profilePath: String?,
+
+    val gender: Int?
 )

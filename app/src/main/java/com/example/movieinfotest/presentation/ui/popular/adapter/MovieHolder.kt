@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.ItemListBinding
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
-import com.example.movieinfotest.utils.registerImage
+import com.example.movieinfotest.utils.displayMoviePoster
 
 class MovieHolder(private val binding: ItemListBinding) : RecyclerView.ViewHolder(binding.root) {
     var favorite: ImageButton = binding.itemFavorite
@@ -16,7 +16,7 @@ class MovieHolder(private val binding: ItemListBinding) : RecyclerView.ViewHolde
                 itemId.text = it.id.toString()
                 itemName.text = it.title
                 itemRating.text = it.voteAverage.toString()
-                itemImage.registerImage(it.posterPath)
+                itemImage.displayMoviePoster(it.posterPath)
                 itemView.setOnClickListener { listener.onClick(getId()) }
             }
         }

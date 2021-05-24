@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movieinfotest.databinding.ItemListBinding
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
-import com.example.movieinfotest.utils.registerImage
+import com.example.movieinfotest.utils.displayMoviePoster
 
 class FavoriteAdapter(
     private val listener: MovieDetailClickListener
@@ -36,7 +36,7 @@ class FavoriteAdapter(
                 binding.itemName.text = movie.title
                 binding.itemId.text = movie.id.toString()
                 binding.itemRating.text = movie.voteAverage.toString()
-                binding.itemImage.registerImage(movie.posterPath)
+                binding.itemImage.displayMoviePoster(movie.posterPath)
             }
         }
     }

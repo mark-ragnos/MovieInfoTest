@@ -3,14 +3,11 @@ package com.example.movieinfotest.utils
 import android.content.Context
 import android.content.res.Configuration
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import android.widget.ImageView
-import com.example.movieinfotest.R
 import com.example.movieinfotest.data.entities.details.MovieDetails
 import com.example.movieinfotest.data.entities.details.MovieDetailsDB
 import com.example.movieinfotest.data.entities.genre.Genre
 import com.example.movieinfotest.data.entities.genre.GenreDB
 import com.example.movieinfotest.data.entities.popular.Movie
-import com.squareup.picasso.Picasso
 
 fun String?.getYear(): String {
     if (this == null || length < 4) {
@@ -33,19 +30,6 @@ fun getGenreList(list: List<com.example.movieinfotest.domain.entities.genre.Genr
     result.deleteCharAt(result.lastIndex)
 
     return result.toString()
-}
-
-/**
- * Соотношение постеров у = х * 1.5
- */
-fun ImageView.registerImage(path: String?, x: Int = 100, y: Int = (x * 1.5).toInt()) {
-    Picasso.get()
-        .load("https://www.themoviedb.org/t/p/w1280$path")
-        .placeholder(R.drawable.placeholder)
-        .error(R.drawable.placeholder)
-        .resize(x, y)
-        .centerCrop()
-        .into(this)
 }
 
 fun MovieDetails.toMovieDetailsDB(): MovieDetailsDB {

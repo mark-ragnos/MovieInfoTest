@@ -43,18 +43,14 @@ fun ActorData.toActorDomain(): ActorDomain {
         id,
         name,
         character,
-        profilePath
+        profilePath,
+        gender
     )
 }
 
 fun List<ActorData>.toActorDomain(): List<ActorDomain> {
     return map {
-        ActorDomain(
-            it.id,
-            it.name,
-            it.character,
-            it.profilePath
-        )
+        it.toActorDomain()
     }
 }
 
@@ -64,6 +60,6 @@ fun GenreData.toGenreDomain(): GenreDomain {
 
 fun List<GenreData>.toGenreDomain(): List<GenreDomain> {
     return map {
-        GenreDomain(it.id, it.name)
+        it.toGenreDomain()
     }
 }

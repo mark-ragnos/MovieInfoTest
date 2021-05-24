@@ -19,26 +19,24 @@ fun MovieDomain.toMovieDetails(): MovieDetails {
     )
 }
 
-fun GenreDomain.toGenreDate(): GenreData {
+fun GenreDomain.toGenreData(): GenreData {
     return GenreData(id, name)
 }
 
 fun List<GenreDomain>.toGenresData(): List<GenreData> {
     return map {
-        GenreData(it.id, it.name)
+        it.toGenreData()
     }
 }
 
 fun ActorDomain.toActorData(movieId: Int): ActorData {
     return ActorData(
-        movieId, id, name, character, profilePath
+        movieId, id, name, character, profilePath, gender
     )
 }
 
 fun List<ActorDomain>.toActorData(movieId: Int): List<ActorData> {
     return map {
-        ActorData(
-            movieId, it.id, it.name, it.character, it.profilePath
-        )
+        it.toActorData(movieId)
     }
 }

@@ -21,7 +21,7 @@ import com.example.movieinfotest.utils.FirebaseLogin
 import com.example.movieinfotest.utils.ToolbarMaker
 import com.example.movieinfotest.utils.getGenreList
 import com.example.movieinfotest.utils.getYear
-import com.example.movieinfotest.utils.registerImage
+import com.example.movieinfotest.utils.displayMoviePoster
 import com.example.movieinfotest.utils.ToastUtils
 import com.example.movieinfotest.utils.network.NetworkConnection
 import kotlinx.coroutines.flow.collectLatest
@@ -45,11 +45,6 @@ class DetailsFragment : Fragment() {
         setupFavoriteBtn()
 
         return binding.root
-    }
-
-    override fun onResume() {
-        super.onResume()
-        binding.scrollView.scrollTo(0, 0)
     }
 
     private fun init() {
@@ -148,7 +143,7 @@ class DetailsFragment : Fragment() {
         binding.infoGenres.text = getGenreList(details.genres)
         binding.infoName.text = details.title
         binding.infoRating.text = details.voteAverage.toString()
-        binding.infoPoster.registerImage(details.posterPath, x = 150, y = 225)
+        binding.infoPoster.displayMoviePoster(details.posterPath, x = 150, y = 225)
         setActors(details.actors)
         onProgress(false)
     }
