@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.coroutineScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieinfotest.MainActivityViewModel
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentFavoriteListBinding
@@ -18,11 +18,9 @@ import com.example.movieinfotest.presentation.ui.favourite.adapter.FavoriteAdapt
 import com.example.movieinfotest.presentation.ui.favourite.adapter.FavoriteItemTouchCallback
 import com.example.movieinfotest.utils.FirebaseLogin
 import com.example.movieinfotest.utils.ToolbarMaker
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-
 
 class FavoriteListFragment : Fragment() {
     private lateinit var binding: FragmentFavoriteListBinding
@@ -92,15 +90,14 @@ class FavoriteListFragment : Fragment() {
     }
 
     private fun fetchMovies() {
-        CoroutineScope(Dispatchers.IO).launch {
-            viewModel.getPopular().collectLatest { pagingData ->
+        lifecycle.coroutineScope.launch(Dispatchers.IO) {
+            viewModel.movies.collectLatest { pagingData ->
                 adapter.submitData(pagingData)
             }
         }
     }
 
     private fun setupFavoriteList() {
-        binding.rvFavoriteList.layoutManager = LinearLayoutManager(context)
         val listener = object : FavoriteAdapter.MovieDetailClickListener {
             override fun onClick(id: Int) {
                 val action =

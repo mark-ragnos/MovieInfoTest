@@ -15,7 +15,6 @@ class FavoriteAdapter(
 
     interface MovieDetailClickListener {
         fun onClick(id: Int)
-
         fun onSwipe(id: Int)
     }
 
