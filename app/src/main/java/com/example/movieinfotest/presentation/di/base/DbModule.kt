@@ -6,7 +6,6 @@ import com.example.movieinfotest.data.db.MovieDatabase
 import dagger.Module
 import dagger.Provides
 
-
 @Module(includes = [ContextModule::class])
 class DbModule {
 

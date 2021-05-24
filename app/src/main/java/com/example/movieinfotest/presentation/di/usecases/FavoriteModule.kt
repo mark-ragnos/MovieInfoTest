@@ -6,7 +6,7 @@ import com.example.movieinfotest.presentation.di.repository.FavoriteRepModule
 import dagger.Module
 import dagger.Provides
 
-@Module(includes =  [FavoriteRepModule::class])
+@Module(includes = [FavoriteRepModule::class])
 class FavoriteModule {
 
     @Provides

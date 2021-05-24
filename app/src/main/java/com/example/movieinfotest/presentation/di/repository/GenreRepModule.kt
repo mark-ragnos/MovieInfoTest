@@ -8,7 +8,6 @@ import com.example.movieinfotest.presentation.di.base.DbModule
 import dagger.Module
 import dagger.Provides
 
-
 @Module(includes = [ApiModule::class, DbModule::class])
 class GenreRepModule {
 

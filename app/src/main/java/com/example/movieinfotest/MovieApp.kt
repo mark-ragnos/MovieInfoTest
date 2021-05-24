@@ -19,7 +19,6 @@ class MovieApp : Application() {
         private lateinit var database: MovieDatabase
         private lateinit var instance: MovieApp
 
-
         fun getInstance(): MovieApp {
             return instance
         }

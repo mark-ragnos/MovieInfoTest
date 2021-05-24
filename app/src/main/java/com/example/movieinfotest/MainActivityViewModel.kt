@@ -11,7 +11,7 @@ class MainActivityViewModel : ViewModel() {
     var isDarkModeControl: Boolean? = null
     val auth: FirebaseAuth = Firebase.auth
 
-    fun changeDarkMode(){
+    fun changeDarkMode() {
         if (!isDarkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         } else {

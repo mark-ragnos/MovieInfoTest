@@ -9,7 +9,6 @@ import com.example.movieinfotest.databinding.ActivityMainBinding
 import com.example.movieinfotest.utils.isDarkThemeOn
 import com.google.firebase.FirebaseApp
 
-
 class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MainActivityViewModel
     private lateinit var binding: ActivityMainBinding
