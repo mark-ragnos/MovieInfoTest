@@ -1,4 +1,4 @@
-package com.example.movieinfotest.utils
+package com.example.movieinfotest.utils.converters
 
 import com.example.movieinfotest.data.entities.details.MovieDetails
 import com.example.movieinfotest.domain.entities.movie.MovieDomain as MovieDomain
@@ -7,7 +7,6 @@ import com.example.movieinfotest.domain.entities.actor.ActorDomain as ActorDomai
 import com.example.movieinfotest.data.entities.actors.Actor as ActorData
 import com.example.movieinfotest.domain.entities.genre.GenreDomain as GenreDomain
 import com.example.movieinfotest.data.entities.genre.Genre as GenreData
-
 
 fun MovieData.toMovieDomain(
     genres: List<GenreDomain>? = null,
@@ -39,7 +38,6 @@ fun MovieDetails.toMovieDomain(actors: List<ActorDomain>? = null): MovieDomain {
     )
 }
 
-
 fun ActorData.toActorDomain(): ActorDomain {
     return ActorDomain(
         id,
@@ -50,7 +48,7 @@ fun ActorData.toActorDomain(): ActorDomain {
 }
 
 fun List<ActorData>.toActorDomain(): List<ActorDomain> {
-    val actors = map {
+    return map {
         ActorDomain(
             it.id,
             it.name,
@@ -58,17 +56,14 @@ fun List<ActorData>.toActorDomain(): List<ActorDomain> {
             it.profilePath
         )
     }
-    return actors
 }
-
 
 fun GenreData.toGenreDomain(): GenreDomain {
     return GenreDomain(id, name)
 }
 
 fun List<GenreData>.toGenreDomain(): List<GenreDomain> {
-    val genres = map {
+    return map {
         GenreDomain(it.id, it.name)
     }
-    return genres
 }

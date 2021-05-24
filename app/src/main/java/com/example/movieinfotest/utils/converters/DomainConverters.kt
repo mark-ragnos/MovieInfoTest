@@ -24,23 +24,21 @@ fun GenreDomain.toGenreDate(): GenreData {
 }
 
 fun List<GenreDomain>.toGenresData(): List<GenreData> {
-    val genres = map {
+    return map {
         GenreData(it.id, it.name)
     }
-    return genres
 }
 
-fun ActorDomain.toActorData(movie_id: Int): ActorData {
+fun ActorDomain.toActorData(movieId: Int): ActorData {
     return ActorData(
-        movie_id, id, name, character, profilePath
+        movieId, id, name, character, profilePath
     )
 }
 
-fun List<ActorDomain>.toActorData(movie_id: Int): List<ActorData> {
-    val actors = map {
+fun List<ActorDomain>.toActorData(movieId: Int): List<ActorData> {
+    return map {
         ActorData(
-            movie_id, it.id, it.name, it.character, it.profilePath
+            movieId, it.id, it.name, it.character, it.profilePath
         )
     }
-    return actors
 }

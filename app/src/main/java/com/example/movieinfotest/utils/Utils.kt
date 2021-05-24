@@ -13,18 +13,17 @@ import com.example.movieinfotest.data.entities.popular.Movie
 import com.squareup.picasso.Picasso
 
 fun String?.getYear(): String {
-    if (this == null)
+    if (this == null || length < 4) {
         return "Unknown Year"
-    if (this.length < 4)
-        return "Unknown Year"
+    }
 
     return this.substring(0, 4)
 }
 
-
 fun getGenreList(list: List<com.example.movieinfotest.domain.entities.genre.GenreDomain>?): String {
-    if (list?.size == 0 || (list == null))
+    if (list.isNullOrEmpty()) {
         return "Don't find any genres"
+    }
     val result = StringBuilder()
     list.forEach {
         result.append(it.name)
@@ -41,7 +40,7 @@ fun getGenreList(list: List<com.example.movieinfotest.domain.entities.genre.Genr
  */
 fun ImageView.registerImage(path: String?, x: Int = 100, y: Int = (x * 1.5).toInt()) {
     Picasso.get()
-        .load("https://www.themoviedb.org/t/p/w1280${path}")
+        .load("https://www.themoviedb.org/t/p/w1280$path")
         .placeholder(R.drawable.placeholder)
         .error(R.drawable.placeholder)
         .resize(x, y)
@@ -77,7 +76,7 @@ fun Movie.toMovieDetails(): MovieDetails {
     return MovieDetails(id, title, voteAverage, overview, releaseDate, null, posterPath)
 }
 
-fun Context.isDarkThemeOn(): Boolean{
+fun Context.isDarkThemeOn(): Boolean {
     return resources.configuration.uiMode and
             Configuration.UI_MODE_NIGHT_MASK == UI_MODE_NIGHT_YES
 }

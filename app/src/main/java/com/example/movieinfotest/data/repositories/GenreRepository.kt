@@ -6,7 +6,7 @@ import com.example.movieinfotest.domain.entities.genre.GenreDomain
 import com.example.movieinfotest.domain.repositories.IGenreRepository
 import com.example.movieinfotest.utils.network.NetworkConnection
 import com.example.movieinfotest.utils.network.isOnline
-import com.example.movieinfotest.utils.toGenreDomain
+import com.example.movieinfotest.utils.converters.toGenreDomain
 
 class GenreRepository(
     val api: ApiHelper,

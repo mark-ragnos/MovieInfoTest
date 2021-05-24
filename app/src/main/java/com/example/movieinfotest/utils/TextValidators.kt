@@ -17,10 +17,13 @@ fun isCorrectPassword(password: String): Boolean {
 fun isPossibleYear(inputYear: String): Boolean {
     val currentYear = Calendar.getInstance().get(Calendar.YEAR)
 
-    if (inputYear == "")
+    if (inputYear == "") {
         return true
-    if (inputYear.toInt() !in 1895..currentYear)
+    }
+
+    if (inputYear.toInt() !in 1895..currentYear) {
         return false
+    }
 
     return true
 }

@@ -12,8 +12,8 @@ import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.domain.repositories.IMovieRepository
 import com.example.movieinfotest.utils.network.NetworkConnection
 import com.example.movieinfotest.utils.network.isOnline
-import com.example.movieinfotest.utils.toActorDomain
-import com.example.movieinfotest.utils.toMovieDomain
+import com.example.movieinfotest.utils.converters.toActorDomain
+import com.example.movieinfotest.utils.converters.toMovieDomain
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
