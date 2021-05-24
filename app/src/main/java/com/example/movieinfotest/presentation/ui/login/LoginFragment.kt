@@ -8,19 +8,20 @@ import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
-import com.example.movieinfotest.MainActivity
 import com.example.movieinfotest.MainActivityViewModel
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentLoginBinding
-import com.example.movieinfotest.utils.*
-
+import com.example.movieinfotest.utils.FirebaseLogin
+import com.example.movieinfotest.utils.ToastUtils
+import com.example.movieinfotest.utils.isCorrectUserData
 
 class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
     private val parentViewModel: MainActivityViewModel by activityViewModels()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
@@ -66,7 +67,6 @@ class LoginFragment : Fragment() {
                     }
                     showProgressBar(false)
                 }
-
         }
     }
 
@@ -80,15 +80,18 @@ class LoginFragment : Fragment() {
 
     private fun inputTextWatcher() {
         binding.logEmail.addTextChangedListener {
-            binding.logBtnLogin.isEnabled = isCorrectUserData(it.toString(), binding.logPassword.text.toString())
+            binding.logBtnLogin.isEnabled =
+                isCorrectUserData(it.toString(), binding.logPassword.text.toString())
         }
 
         binding.logPassword.addTextChangedListener {
-            binding.logBtnLogin.isEnabled = isCorrectUserData(binding.logEmail.text.toString(), it.toString())
+            binding.logBtnLogin.isEnabled =
+                isCorrectUserData(binding.logEmail.text.toString(), it.toString())
         }
     }
 
-    private fun preValidateButton(){
-        binding.logBtnLogin.isEnabled = isCorrectUserData(binding.logEmail.text.toString(), binding.logPassword.text.toString())
+    private fun preValidateButton() {
+        binding.logBtnLogin.isEnabled =
+            isCorrectUserData(binding.logEmail.text.toString(), binding.logPassword.text.toString())
     }
 }

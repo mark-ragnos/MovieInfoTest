@@ -30,9 +30,9 @@ class RandomMovieFragment : Fragment() {
     private lateinit var genreAdapter: GenreAdapter
     private val parentViewModel: MainActivityViewModel by activityViewModels()
 
-
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentGenerateMovieBinding.inflate(inflater, container, false)
@@ -85,7 +85,6 @@ class RandomMovieFragment : Fragment() {
         binding.genInYear.addTextChangedListener {
             buttonEnabled(isPossibleYear(it.toString()))
         }
-
     }
 
     private fun initSpinner() {
@@ -115,13 +114,14 @@ class RandomMovieFragment : Fragment() {
     private fun setupUI() {
         binding.genBtnRandom.setOnClickListener {
             onProgressGenerator(true)
-            if (isGenerateAccess())
+            if (isGenerateAccess()) {
                 viewModel.generateRandom(
                     viewModel.selectedGenreId.value,
                     binding.genInYear.text.toString()
                 )
-            else
+            } else {
                 onProgressGenerator(false)
+            }
         }
 
         binding.genResult.setOnClickListener {

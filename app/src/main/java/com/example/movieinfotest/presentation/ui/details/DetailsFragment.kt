@@ -17,7 +17,12 @@ import com.example.movieinfotest.domain.entities.actor.ActorDomain
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.details.actors.ActorAdapter
-import com.example.movieinfotest.utils.*
+import com.example.movieinfotest.utils.FirebaseLogin
+import com.example.movieinfotest.utils.ToolbarMaker
+import com.example.movieinfotest.utils.getGenreList
+import com.example.movieinfotest.utils.getYear
+import com.example.movieinfotest.utils.registerImage
+import com.example.movieinfotest.utils.ToastUtils
 import com.example.movieinfotest.utils.network.NetworkConnection
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -27,9 +32,9 @@ class DetailsFragment : Fragment() {
     private lateinit var viewModel: DetailsViewModel
     private val parentViewModel: MainActivityViewModel by activityViewModels()
 
-
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentMovieInfoBinding.inflate(inflater, container, false)
@@ -105,10 +110,11 @@ class DetailsFragment : Fragment() {
 
     private fun setupFavoriteBtn() {
         binding.infoAddToFavorite.setOnClickListener {
-            if (FirebaseLogin.isLogin())
+            if (FirebaseLogin.isLogin()) {
                 saveDeleteMovie()
-            else
+            } else {
                 moveToLogin()
+            }
         }
     }
 

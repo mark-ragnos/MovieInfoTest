@@ -7,21 +7,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
-import com.example.movieinfotest.MainActivity
 import com.example.movieinfotest.MainActivityViewModel
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentRegistrationBinding
 import com.example.movieinfotest.utils.ToastUtils
 import com.example.movieinfotest.utils.isCorrectUserData
 
-
 class RegistrationFragment : Fragment() {
     private lateinit var binding: FragmentRegistrationBinding
     private val parentViewModel: MainActivityViewModel by activityViewModels()
 
-
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentRegistrationBinding.inflate(inflater, container, false)
@@ -75,15 +73,18 @@ class RegistrationFragment : Fragment() {
 
     private fun inputTextWatcher() {
         binding.regEmail.addTextChangedListener {
-            binding.regBtnRegistration.isEnabled = isCorrectUserData(it.toString(), binding.regPassword.text.toString())
+            binding.regBtnRegistration.isEnabled =
+                isCorrectUserData(it.toString(), binding.regPassword.text.toString())
         }
 
         binding.regPassword.addTextChangedListener {
-            binding.regBtnRegistration.isEnabled = isCorrectUserData(binding.regEmail.text.toString(), it.toString())
+            binding.regBtnRegistration.isEnabled =
+                isCorrectUserData(binding.regEmail.text.toString(), it.toString())
         }
     }
 
-    private fun preValidateButton(){
-        binding.regBtnRegistration.isEnabled = isCorrectUserData(binding.regEmail.text.toString(), binding.regPassword.text.toString())
+    private fun preValidateButton() {
+        binding.regBtnRegistration.isEnabled =
+            isCorrectUserData(binding.regEmail.text.toString(), binding.regPassword.text.toString())
     }
 }

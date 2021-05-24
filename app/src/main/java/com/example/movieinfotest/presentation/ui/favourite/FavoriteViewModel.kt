@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.domain.usecases.FavoriteMovieUseCase
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -16,7 +15,7 @@ class FavoriteViewModel(
     val movies: Flow<PagingData<MovieDomain>> =
         favoriteMovieUseCase.getFavoriteList()
 
-    fun removeFromFavorite(id: Int){
+    fun removeFromFavorite(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             favoriteMovieUseCase.deleteFromFavorite(id)
         }

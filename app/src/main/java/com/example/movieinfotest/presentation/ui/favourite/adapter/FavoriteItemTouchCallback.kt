@@ -3,7 +3,8 @@ package com.example.movieinfotest.presentation.ui.favourite.adapter
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 
-class FavoriteItemTouchCallback(private val listener: FavoriteItemTouchListener):ItemTouchHelper.Callback() {
+class FavoriteItemTouchCallback(private val listener: FavoriteItemTouchListener) :
+    ItemTouchHelper.Callback() {
     override fun getMovementFlags(
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder
@@ -30,10 +31,8 @@ class FavoriteItemTouchCallback(private val listener: FavoriteItemTouchListener)
     override fun isItemViewSwipeEnabled(): Boolean {
         return true
     }
-
-
 }
 
-interface FavoriteItemTouchListener{
+interface FavoriteItemTouchListener {
     fun onItemDismiss(position: Int)
 }

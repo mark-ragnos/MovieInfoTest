@@ -11,7 +11,8 @@ import com.example.movieinfotest.utils.registerImage
 
 class FavoriteAdapter(
     private val listener: MovieDetailClickListener
-) : PagingDataAdapter<MovieDomain, FavoriteAdapter.MovieDetailsDbHolder>(MovieDetailsDiffCallback), FavoriteItemTouchListener {
+) : PagingDataAdapter<MovieDomain, FavoriteAdapter.MovieDetailsDbHolder>(MovieDetailsDiffCallback),
+    FavoriteItemTouchListener {
 
     interface MovieDetailClickListener {
         fun onClick(id: Int)
@@ -28,8 +29,9 @@ class FavoriteAdapter(
         }
     }
 
-    class MovieDetailsDbHolder(val binding: ItemListBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(movie: MovieDomain?){
+    class MovieDetailsDbHolder(val binding: ItemListBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(movie: MovieDomain?) {
             movie?.let {
                 binding.itemName.text = movie.title
                 binding.itemId.text = movie.id.toString()

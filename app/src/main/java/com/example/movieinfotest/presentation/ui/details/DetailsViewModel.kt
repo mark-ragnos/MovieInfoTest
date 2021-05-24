@@ -1,6 +1,5 @@
 package com.example.movieinfotest.presentation.ui.details
 
-
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
@@ -28,8 +27,9 @@ class DetailsViewModel(
     fun sendID(id: Int, networkStatus: NetworkConnection.STATUS) {
         movieId = id
 
-        if (movieDetails.value?.id != id)
+        if (movieDetails.value?.id != id) {
             loadMovie(networkStatus)
+        }
     }
 
     fun loadMovie(networkStatus: NetworkConnection.STATUS) {

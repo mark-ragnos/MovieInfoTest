@@ -43,9 +43,10 @@ class RandomViewModel(
     }
 
     fun loadGenres(networkStatus: NetworkConnection.STATUS) {
-        if (genres.value.isNullOrEmpty())
+        if (genres.value.isNullOrEmpty()) {
             viewModelScope.launch(Dispatchers.IO) {
                 _genres.value = genreUseCase.getAllGenres(networkStatus)
             }
+        }
     }
 }
