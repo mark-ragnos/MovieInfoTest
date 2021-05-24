@@ -90,8 +90,10 @@ class RandomMovieFragment : Fragment() {
 
     private fun initSpinner() {
         genreAdapter = GenreAdapter(0, null, binding.genInGenre)
+
         binding.genInGenre.setSpinnerAdapter(genreAdapter)
         binding.genInGenre.setOnSpinnerItemSelectedListener(viewModel.selectGenreListener)
+        binding.genInGenre.lifecycleOwner = viewLifecycleOwner
 
         viewModel.loadGenres(NetworkConnection.getNetworkStatus(MovieApp.getInstance()))
     }

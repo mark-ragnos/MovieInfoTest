@@ -1,6 +1,5 @@
 package com.example.movieinfotest.presentation.ui.random
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movieinfotest.domain.entities.genre.GenreDomain
