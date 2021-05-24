@@ -7,9 +7,9 @@ fun MovieDetailsDB.toMovieDomain(): MovieDomain {
     return MovieDomain(
         id,
         title,
-        vote_average,
-        release_date,
-        poster_path,
+        voteAverage,
+        releaseDate,
+        posterPath,
         overview,
         null,
         null

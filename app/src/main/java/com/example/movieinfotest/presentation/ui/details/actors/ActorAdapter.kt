@@ -27,7 +27,7 @@ class ActorAdapter(private val list: List<ActorDomain> ):RecyclerView.Adapter<Ac
             binding.apply {
                 actorName.text = actor.name
                 actorRole.text = actor.character
-                actorPoster.registerImage(actor.profile_path)
+                actorPoster.registerImage(actor.profilePath)
             }
         }
     }

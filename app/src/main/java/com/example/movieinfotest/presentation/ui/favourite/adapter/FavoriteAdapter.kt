@@ -33,8 +33,8 @@ class FavoriteAdapter(
             movie?.let {
                 binding.itemName.text = movie.title
                 binding.itemId.text = movie.id.toString()
-                binding.itemRating.text = movie.vote_average.toString()
-                binding.itemImage.registerImage(movie.poster_path)
+                binding.itemRating.text = movie.voteAverage.toString()
+                binding.itemImage.registerImage(movie.posterPath)
             }
         }
     }

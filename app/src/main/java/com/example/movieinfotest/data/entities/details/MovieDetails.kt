@@ -1,19 +1,21 @@
 package com.example.movieinfotest.data.entities.details
 
-
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.movieinfotest.data.entities.genre.Genre
+import com.google.gson.annotations.SerializedName
 
 data class MovieDetails(
-
     val id: Int,
     val title: String,
-    val vote_average: Double,
+    @SerializedName("vote_average")
+    val voteAverage: Double,
     val overview: String,
-    val release_date: String?,
+    @SerializedName("release_date")
+    val releaseDate: String?,
     val genres: List<Genre>?,
-    val poster_path: String?
+    @SerializedName("poster_path")
+    val posterPath: String?
 )
 
 @Entity
@@ -21,10 +23,9 @@ data class MovieDetailsDB(
     @PrimaryKey
     val id: Int,
     val title: String,
-    val vote_average: Double,
+    val voteAverage: Double,
     val overview: String,
-    val release_date: String?,
-    val poster_path: String?,
-
-    var add_date: Long?
+    val releaseDate: String?,
+    val posterPath: String?,
+    var addDate: Long?
 )

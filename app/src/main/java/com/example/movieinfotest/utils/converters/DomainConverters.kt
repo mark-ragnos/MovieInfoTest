@@ -11,11 +11,11 @@ fun MovieDomain.toMovieDetails(): MovieDetails {
     return MovieDetails(
         id,
         title,
-        vote_average,
+        voteAverage,
         overview,
-        release_date,
+        releaseDate,
         genres?.toGenresData(),
-        poster_path
+        posterPath
     )
 }
 
@@ -32,14 +32,14 @@ fun List<GenreDomain>.toGenresData(): List<GenreData> {
 
 fun ActorDomain.toActorData(movie_id: Int): ActorData {
     return ActorData(
-        movie_id, id, name, character, profile_path
+        movie_id, id, name, character, profilePath
     )
 }
 
 fun List<ActorDomain>.toActorData(movie_id: Int): List<ActorData> {
     val actors = map {
         ActorData(
-            movie_id, it.id, it.name, it.character, it.profile_path
+            movie_id, it.id, it.name, it.character, it.profilePath
         )
     }
     return actors

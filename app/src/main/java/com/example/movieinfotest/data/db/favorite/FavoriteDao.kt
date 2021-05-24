@@ -8,7 +8,6 @@ import com.example.movieinfotest.data.entities.details.MovieDetailsDB
 import com.example.movieinfotest.data.entities.genre.GenreDB
 import com.example.movieinfotest.utils.toGenreDB
 import com.example.movieinfotest.utils.toMovieDetailsDB
-import java.sql.Date
 import java.util.*
 
 @Dao
@@ -20,10 +19,10 @@ interface FavoriteDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addGenres(genreDBS: List<GenreDB>)
 
-    @Query("SELECT * FROM actor WHERE movie_id LIKE :movie_id")
+    @Query("SELECT * FROM actor WHERE movieId LIKE :movie_id")
     suspend fun getActors(movie_id: Int): List<Actor>
 
-    @Query("SELECT * FROM genredb WHERE movie_id LIKE :movie_id")
+    @Query("SELECT * FROM genredb WHERE movieId LIKE :movie_id")
     suspend fun getGenres(movie_id: Int): List<GenreDB>
 
     @Transaction
@@ -32,11 +31,11 @@ interface FavoriteDao {
             it.toGenreDB(movieDetails.id)
         }
         val finActors = actors?.map {
-            Actor(movieDetails.id, it.id, it.name, it.character, it.profile_path)
+            Actor(movieDetails.id, it.id, it.name, it.character, it.profilePath)
         }
 
         val details = movieDetails.toMovieDetailsDB()
-        details.add_date = Calendar.getInstance().time.time
+        details.addDate = Calendar.getInstance().time.time
 
         addMovieDetails(details)
         if (finActors != null)
@@ -48,7 +47,7 @@ interface FavoriteDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addMovieDetails(movieDetails: MovieDetailsDB)
 
-    @Query("SELECT * FROM moviedetailsdb ORDER BY add_date DESC")
+    @Query("SELECT * FROM moviedetailsdb ORDER BY addDate DESC")
     fun getFavoriteList(): PagingSource<Int, MovieDetailsDB>
 
     @Query("SELECT * FROM moviedetailsdb WHERE id LIKE :id")
@@ -67,9 +66,9 @@ interface FavoriteDao {
     @Query("DELETE FROM moviedetailsdb WHERE id LIKE :id")
     suspend fun deleteFavorite(id: Int)
 
-    @Query("DELETE FROM actor WHERE movie_id LIKE :movie_id")
+    @Query("DELETE FROM actor WHERE movieId LIKE :movie_id")
     suspend fun deleteActors(movie_id:Int)
 
-    @Query("DELETE FROM genredb WHERE movie_id LIKE :movie_id")
+    @Query("DELETE FROM genredb WHERE movieId LIKE :movie_id")
     suspend fun deleteGenres(movie_id: Int)
 }

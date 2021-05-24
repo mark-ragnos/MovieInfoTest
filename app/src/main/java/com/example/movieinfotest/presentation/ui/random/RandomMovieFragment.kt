@@ -133,8 +133,8 @@ class RandomMovieFragment : Fragment() {
     }
 
     private fun setMovie(movie: MovieDomain) {
-        binding.genOutPoster.registerImage(movie.poster_path, x = 150, y = 225)
-        binding.genOutRating.text = movie.vote_average.toString()
+        binding.genOutPoster.registerImage(movie.posterPath, x = 150, y = 225)
+        binding.genOutRating.text = movie.voteAverage.toString()
         binding.genOutName.text = movie.title
         binding.genOutId.text = movie.id.toString()
         binding.genOutDesc.text = movie.overview

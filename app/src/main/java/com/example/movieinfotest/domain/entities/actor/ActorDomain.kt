@@ -4,5 +4,5 @@ data class ActorDomain(
     val id: Int,
     val name: String,
     val character: String,
-    val profile_path: String?
+    val profilePath: String?
 )

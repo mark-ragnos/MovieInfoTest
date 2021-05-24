@@ -17,9 +17,9 @@ fun MovieData.toMovieDomain(
     return MovieDomain(
         id,
         title,
-        vote_average,
-        release_date,
-        poster_path,
+        voteAverage,
+        releaseDate,
+        posterPath,
         overview,
         genres = genres,
         actors = actors
@@ -30,9 +30,9 @@ fun MovieDetails.toMovieDomain(actors: List<ActorDomain>? = null): MovieDomain {
     return MovieDomain(
         id,
         title,
-        vote_average,
-        release_date,
-        poster_path,
+        voteAverage,
+        releaseDate,
+        posterPath,
         overview,
         genres?.toGenreDomain(),
         actors = actors
@@ -45,7 +45,7 @@ fun ActorData.toActorDomain(): ActorDomain {
         id,
         name,
         character,
-        profile_path
+        profilePath
     )
 }
 
@@ -55,7 +55,7 @@ fun List<ActorData>.toActorDomain(): List<ActorDomain> {
             it.id,
             it.name,
             it.character,
-            it.profile_path
+            it.profilePath
         )
     }
     return actors

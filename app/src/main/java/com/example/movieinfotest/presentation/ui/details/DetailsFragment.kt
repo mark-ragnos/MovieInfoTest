@@ -1,7 +1,6 @@
 package com.example.movieinfotest.presentation.ui.details
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.coroutineScope
-import androidx.lifecycle.whenResumed
 import androidx.navigation.fragment.NavHostFragment
 import com.example.movieinfotest.MainActivityViewModel
 import com.example.movieinfotest.MovieApp
@@ -21,8 +19,6 @@ import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.details.actors.ActorAdapter
 import com.example.movieinfotest.utils.*
 import com.example.movieinfotest.utils.network.NetworkConnection
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -141,12 +137,12 @@ class DetailsFragment : Fragment() {
     }
 
     private fun setMovie(details: MovieDomain) {
-        binding.infoDate.text = details.release_date.getYear()
+        binding.infoDate.text = details.releaseDate.getYear()
         binding.infoDescription.text = details.overview
         binding.infoGenres.text = getGenreList(details.genres)
         binding.infoName.text = details.title
-        binding.infoRating.text = details.vote_average.toString()
-        binding.infoPoster.registerImage(details.poster_path, x = 150, y = 225)
+        binding.infoRating.text = details.voteAverage.toString()
+        binding.infoPoster.registerImage(details.posterPath, x = 150, y = 225)
         setActors(details.actors)
         onProgress(false)
     }

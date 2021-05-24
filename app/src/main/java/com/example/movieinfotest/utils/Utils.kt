@@ -50,18 +50,18 @@ fun ImageView.registerImage(path: String?, x: Int = 100, y: Int = (x * 1.5).toIn
 }
 
 fun MovieDetails.toMovieDetailsDB(): MovieDetailsDB {
-    return MovieDetailsDB(id, title, vote_average, overview, release_date, poster_path, null)
+    return MovieDetailsDB(id, title, voteAverage, overview, releaseDate, posterPath, null)
 }
 
 fun MovieDetailsDB.toMovieDetails(genres: List<Genre>?): MovieDetails {
     return MovieDetails(
         id,
         title,
-        vote_average,
+        voteAverage,
         overview,
-        release_date,
+        releaseDate,
         genres = genres,
-        poster_path
+        posterPath
     )
 }
 
@@ -74,7 +74,7 @@ fun GenreDB.toGenre(): Genre {
 }
 
 fun Movie.toMovieDetails(): MovieDetails {
-    return MovieDetails(id, title, vote_average, overview, release_date, null, poster_path)
+    return MovieDetails(id, title, voteAverage, overview, releaseDate, null, posterPath)
 }
 
 fun Context.isDarkThemeOn(): Boolean{

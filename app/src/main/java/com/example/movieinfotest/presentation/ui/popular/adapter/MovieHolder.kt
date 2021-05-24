@@ -15,8 +15,8 @@ class MovieHolder(private val binding: ItemListBinding) : RecyclerView.ViewHolde
             movie?.let {
                 itemId.text = it.id.toString()
                 itemName.text = it.title
-                itemRating.text = it.vote_average.toString()
-                itemImage.registerImage(it.poster_path)
+                itemRating.text = it.voteAverage.toString()
+                itemImage.registerImage(it.posterPath)
                 itemView.setOnClickListener { listener.onClick(getId()) }
             }
         }
