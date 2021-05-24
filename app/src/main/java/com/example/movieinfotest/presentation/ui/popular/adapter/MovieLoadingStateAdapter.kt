@@ -47,5 +47,4 @@ class MovieLoadingStateAdapter(private val adapter: MovieAdapter) :
                     .inflate(R.layout.loading_state, parent, false)
             )
         ) { adapter.retry() }
-
 }

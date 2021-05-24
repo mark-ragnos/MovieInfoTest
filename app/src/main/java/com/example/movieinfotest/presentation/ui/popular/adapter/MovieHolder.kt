@@ -27,9 +27,10 @@ class MovieHolder(private val binding: ItemListBinding) : RecyclerView.ViewHolde
     }
 
     fun changeImage(isFavorite: Boolean) {
-        if (isFavorite)
+        if (isFavorite) {
             binding.itemFavorite.setImageResource(R.drawable.ic_favorite)
-        else
+        } else {
             binding.itemFavorite.setImageResource(R.drawable.ic_favorite_not)
+        }
     }
 }

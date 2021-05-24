@@ -17,12 +17,12 @@ import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.presentation.ui.popular.adapter.MovieAdapter
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.popular.adapter.MovieLoadingStateAdapter
+import com.example.movieinfotest.utils.FirebaseLogin
 import com.example.movieinfotest.utils.ToolbarMaker
 import com.example.movieinfotest.utils.network.NetworkConnection
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-
 
 class PopularMovieListFragment : Fragment() {
     private lateinit var binding: FragmentPopularMovieListBinding
@@ -96,21 +96,23 @@ class PopularMovieListFragment : Fragment() {
             }
 
             override fun onFavorite(movie: MovieDomain?, isFavorite: Boolean) {
-                if (movie != null)
-                    if (isFavorite)
-                        viewModel.removeFromFavorite(movie)
-                    else
+                movie?.let {
+                    if (isFavorite) {
+                        viewModel.removeFromFavorite(it)
+                    } else {
                         viewModel.saveInFavorite(
                             movie,
                             NetworkConnection.getNetworkStatus(MovieApp.getInstance())
                         )
+                    }
+                }
             }
 
             override suspend fun isFavorite(id: Int): Boolean {
                 return viewModel.isFavorite(id)
             }
         }
-        movieAdapter = MovieAdapter(listener)
+        movieAdapter = MovieAdapter(listener, FirebaseLogin.isLogin())
 
         binding.rvPopularList.adapter = movieAdapter.withLoadStateFooter(
             footer = MovieLoadingStateAdapter(movieAdapter)
