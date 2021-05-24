@@ -12,32 +12,32 @@ class ApiHelper(
 ) {
 
     suspend fun getPopularList(page: Int): List<Movie>? {
-        val response = api.getPopular(page)
+        val response = api.getPopularMovies(page)
         return response.body()?.results
     }
 
     suspend fun getDetailsInformation(id: String): MovieDetails? {
-        val response = api.getDetails(id)
+        val response = api.getMovieDetails(id)
         return response.body()
     }
 
     suspend fun getRandomMovie(year: String, genre: String): Movie? {
-        val pages = api.getRandomFilm(year, genre, 1).body()!!.totalPages
-        val response = api.getRandomFilm(year, genre, Random.nextInt(1..pages)).body()
+        val pages = api.discoverMoviesBy(year, genre, 1).body()!!.totalPages
+        val response = api.discoverMoviesBy(year, genre, Random.nextInt(1..pages)).body()
         return response?.results?.get(Random.nextInt(response.results.indices))
     }
 
     suspend fun getGenresList(): List<Genre>? {
-        val response = api.getGenreList()
+        val response = api.getGenres()
         return response.body()?.genres
     }
 
     suspend fun getActorsList(id: String): List<Actor>? {
-        val response = api.getCredits(id)
+        val response = api.getMovieCredits(id)
         return response.body()?.cast
     }
 
-    companion object{
+    companion object {
         const val PAGE_SIZE = 20
     }
 }

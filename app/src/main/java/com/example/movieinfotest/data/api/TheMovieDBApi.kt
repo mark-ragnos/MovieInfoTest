@@ -13,60 +13,42 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
-import java.util.concurrent.TimeUnit
 
 interface TheMovieDBApi {
-
-    //Генерация случайного фильма с заданными параметрами ГОД? ЖАНР
-    //Отображать: Постер, название и рейтинг фильма
     @GET("discover/movie?api_key=393a66787ff4b601eae377e5ec8b4d36&sort_by=popularity.desc")
-    suspend fun getRandomFilm(
+    suspend fun discoverMoviesBy(
         @Query("year") year: String,
         @Query("with_genres") genre: String,
         @Query("page") page: Int
     ): Response<PopularFilms>
 
-
-    //Самые популярные фильмы в порядку убывания популярности
-    //Отображать: Постер, название, рейтинг и год
     @GET("movie/popular?api_key=393a66787ff4b601eae377e5ec8b4d36")
-    suspend fun getPopular(@Query("page") page: Int): Response<PopularFilms>
+    suspend fun getPopularMovies(@Query("page") page: Int): Response<PopularFilms>
 
-
-    //Полная инфа о фильме по ИД
-    //Отображать: Постер, название, дата, рейтинг, жанр, описание, список актеров
     @GET("movie/{movie_id}?api_key=393a66787ff4b601eae377e5ec8b4d36")
-    suspend fun getDetails(
+    suspend fun getMovieDetails(
         @Path("movie_id") movieId: String
     ): Response<MovieDetails>
 
-
-    //Получение списка жанров
     @GET("genre/movie/list?api_key=393a66787ff4b601eae377e5ec8b4d36")
-    suspend fun getGenreList(): Response<GenreCollection>
+    suspend fun getGenres(): Response<GenreCollection>
 
-
-    //Получения списка актеров у фильма
     @GET("movie/{movie_id}/credits?api_key=393a66787ff4b601eae377e5ec8b4d36")
-    suspend fun getCredits(@Path("movie_id") movieId: String): Response<FilmActors>
-
+    suspend fun getMovieCredits(@Path("movie_id") movieId: String): Response<FilmActors>
 
     companion object {
         private const val BASE_URL = "https://api.themoviedb.org/3/"
 
         fun create(): TheMovieDBApi {
-            val loger = HttpLoggingInterceptor(object : HttpLoggingInterceptor.Logger {
+            val logger = HttpLoggingInterceptor(object : HttpLoggingInterceptor.Logger {
                 override fun log(message: String) {
                     Log.d("OkHttp", message)
                 }
             })
-            loger.level = HttpLoggingInterceptor.Level.BODY
+            logger.level = HttpLoggingInterceptor.Level.BODY
 
             val client = OkHttpClient.Builder()
-                .connectTimeout(2000, TimeUnit.SECONDS)
-                .writeTimeout(2000, TimeUnit.SECONDS)
-                .readTimeout(2000, TimeUnit.SECONDS)
-                .addInterceptor(loger)
+                .addInterceptor(logger)
                 .build()
 
             return Retrofit.Builder()
