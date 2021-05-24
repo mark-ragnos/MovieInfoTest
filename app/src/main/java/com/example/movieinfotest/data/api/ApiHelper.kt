@@ -36,4 +36,8 @@ class ApiHelper(
         val response = api.getCredits(id)
         return response.body()?.cast
     }
+
+    companion object{
+        const val PAGE_SIZE = 20
+    }
 }

@@ -23,16 +23,16 @@ class FavoriteRepository(
     val db: DbHelper
 ) : IFavoriteRepository<MovieDomain> {
 
-    override suspend fun getFavorite(movie_id: Int): MovieDomain? {
-        val actors = db.getActorsById(movie_id).toActorDomain()
-        return db.getDetailsFromFavorite(movie_id)?.toMovieDomain(actors)
+    override suspend fun getFavorite(movieId: Int): MovieDomain? {
+        val actors = db.getActorsById(movieId).toActorDomain()
+        return db.getDetailsFromFavorite(movieId)?.toMovieDomain(actors)
     }
 
     override fun getFavoriteList(): Flow<PagingData<MovieDomain>> {
         val pagingSourceFactory = { db.getGetFavoriteList() }
 
         val p = Pager(
-            config = PagingConfig(20, enablePlaceholders = true),
+            config = PagingConfig(ApiHelper.PAGE_SIZE, enablePlaceholders = true),
             pagingSourceFactory = pagingSourceFactory
         ).flow.map { pagingData ->
             pagingData.map {
@@ -46,13 +46,15 @@ class FavoriteRepository(
     override suspend fun saveInFavorite(movie: MovieDomain, sourceMode: NetworkConnection.STATUS) {
         if (sourceMode.isOnline()) {
             val movie = api.getDetailsInformation(movie.id.toString())
-            if (movie != null)
+            movie?.let {
                 db.saveInFavorite(movie, api.getActorsList(movie.id.toString()))
-        } else
+            }
+        } else {
             db.saveInFavorite(movie.toMovieDetails(), movie.actors?.toActorData(movie.id))
+        }
     }
 
-    override suspend fun deleteFromFavorite(movie_id: Int) {
-        db.removeFromFavorite(movie_id)
+    override suspend fun deleteFromFavorite(movieId: Int) {
+        db.removeFromFavorite(movieId)
     }
 }

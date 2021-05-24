@@ -1,6 +1,10 @@
 package com.example.movieinfotest.data.repositories
 
-import androidx.paging.*
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.map
 import com.example.movieinfotest.data.api.ApiHelper
 import com.example.movieinfotest.data.db.DbHelper
 import com.example.movieinfotest.data.db.MovieRemoteMediator
@@ -23,7 +27,7 @@ class MovieRepository(
 
         val pagingSourceFactory = { db.loadMovies() }
         return Pager(
-            config = PagingConfig(20, enablePlaceholders = true),
+            config = PagingConfig(ApiHelper.PAGE_SIZE, enablePlaceholders = true),
             remoteMediator = MovieRemoteMediator(api, db.getDatabase()),
             pagingSourceFactory = pagingSourceFactory
         ).flow.map { pagingData ->
@@ -38,36 +42,37 @@ class MovieRepository(
     }
 
     override suspend fun getMovieInfo(
-        movie_id: Int,
+        movieId: Int,
         networkStatus: NetworkConnection.STATUS
     ): MovieDomain? {
-        if (networkStatus.isOnline())
-            return getMovieInfoRemote(movie_id)
+        if (networkStatus.isOnline()) {
+            return getMovieInfoRemote(movieId)
+        }
 
-        val favorite = db.getDetailsFromFavorite(movie_id)
+        val favorite = db.getDetailsFromFavorite(movieId)
         if (favorite != null) {
-            val actors = db.getActorsById(movie_id).toActorDomain()
+            val actors = db.getActorsById(movieId).toActorDomain()
             return favorite.toMovieDomain(actors)
         }
-        return db.getDetailsById(movie_id)?.toMovieDomain()
+        return db.getDetailsById(movieId)?.toMovieDomain()
     }
 
-    private suspend fun getMovieInfoRemote(movie_id: Int): MovieDomain? {
-        val favorite = db.getDetailsFromFavorite(movie_id)
+    private suspend fun getMovieInfoRemote(movieId: Int): MovieDomain? {
+        val favorite = db.getDetailsFromFavorite(movieId)
         if (favorite != null) {
-            val actors = db.getActorsById(movie_id).toActorDomain()
+            val actors = db.getActorsById(movieId).toActorDomain()
             if (actors.isEmpty()) {
-                return updateMovie(movie_id)
+                return updateMovie(movieId)
             }
             return favorite.toMovieDomain(actors)
         }
-        return api.getDetailsInformation(movie_id.toString())
-            ?.toMovieDomain(api.getActorsList(movie_id.toString())?.toActorDomain())
+        return api.getDetailsInformation(movieId.toString())
+            ?.toMovieDomain(api.getActorsList(movieId.toString())?.toActorDomain())
     }
 
-    private suspend fun updateMovie(movie_id: Int): MovieDomain {
-        val movieInfo = api.getDetailsInformation(movie_id.toString())
-        val actors = api.getActorsList(movie_id.toString())
+    private suspend fun updateMovie(movieId: Int): MovieDomain {
+        val movieInfo = api.getDetailsInformation(movieId.toString())
+        val actors = api.getActorsList(movieId.toString())
         if (movieInfo != null) {
             db.saveInFavorite(movieInfo, actors)
         }

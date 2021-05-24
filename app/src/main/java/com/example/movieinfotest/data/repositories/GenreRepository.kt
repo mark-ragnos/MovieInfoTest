@@ -13,14 +13,16 @@ class GenreRepository(
     val db: DbHelper
 ) : IGenreRepository<GenreDomain> {
     override suspend fun getGenres(networkStatus: NetworkConnection.STATUS): List<GenreDomain>? {
-        if (!networkStatus.isOnline())
+        if (!networkStatus.isOnline()) {
             return db.getAllGenres()?.toGenreDomain()
+        }
 
         val netList = api.getGenresList()
         val dbList = api.getGenresList()
 
-        if(netList?.size== dbList?.size)
+        if (netList?.size == dbList?.size) {
             return dbList?.toGenreDomain()
+        }
 
         db.addAllGenres(netList!!)
         return dbList?.toGenreDomain()
