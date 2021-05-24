@@ -1,7 +1,6 @@
 package com.example.movieinfotest.data.db
 
 import androidx.paging.PagingSource
-import com.example.movieinfotest.MovieApp
 import com.example.movieinfotest.data.entities.actors.Actor
 import com.example.movieinfotest.data.entities.details.MovieDetails
 import com.example.movieinfotest.data.entities.details.MovieDetailsDB
@@ -18,22 +17,18 @@ class DbHelper(
         return database
     }
 
-    //Получение списка жанров
     suspend fun getAllGenres(): List<Genre>? {
         return database.genreDao().loadAll()
     }
 
-    //Сохранение списка жанров
     suspend fun addAllGenres(genres: List<Genre>) {
         database.genreDao().saveAll(genres)
     }
 
-    //Сохранение в избранное
     suspend fun saveInFavorite(movieDetails: MovieDetails, actors: List<Actor>?) {
         database.favoriteDao().saveInFavorite(movieDetails, actors)
     }
 
-    //Загрузка из избранного списка
     fun getGetFavoriteList(): PagingSource<Int, MovieDetailsDB> {
         return database.favoriteDao().getFavoriteList()
     }
@@ -46,7 +41,6 @@ class DbHelper(
         return movieDB?.toMovieDetails(genres)
     }
 
-    //Загрузка из избранного по ИД
     suspend fun getDetailsById(id: Int): MovieDetails? {
         return getFromList(id)
     }

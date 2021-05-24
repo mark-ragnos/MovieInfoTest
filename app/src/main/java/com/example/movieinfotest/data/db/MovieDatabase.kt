@@ -25,10 +25,9 @@ abstract class MovieDatabase : RoomDatabase() {
     abstract fun remoteDao(): RemoteKeysDao
     abstract fun favoriteDao(): FavoriteDao
 
-    companion object{
+    companion object {
         fun create(context: Context): MovieDatabase {
             return Room.databaseBuilder(context, MovieDatabase::class.java, "db_movie.db").build()
         }
-
     }
 }

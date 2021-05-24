@@ -1,6 +1,5 @@
 package com.example.movieinfotest.data.db
 
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -12,14 +11,12 @@ import com.example.movieinfotest.data.api.ApiHelper
 import java.io.InvalidObjectException
 import java.lang.Exception
 
-
 @OptIn(ExperimentalPagingApi::class)
 class MovieRemoteMediator(
     private val api: ApiHelper,
     private val db: MovieDatabase
 ) : RemoteMediator<Int, Movie>() {
     private val startPage: Int = 1
-
 
     override suspend fun load(loadType: LoadType, state: PagingState<Int, Movie>): MediatorResult {
         try {
@@ -34,7 +31,7 @@ class MovieRemoteMediator(
                 LoadType.APPEND -> {
                     if (state.isEmpty()) {
                         startPage + 1
-                    }else {
+                    } else {
                         val remoteKeys = getRemoteKeyForLastItem(state)
                             ?: throw InvalidObjectException("Result is empty")
                         remoteKeys.nextKey ?: return MediatorResult.Success(true)
