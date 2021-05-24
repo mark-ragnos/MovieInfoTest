@@ -11,5 +11,5 @@ interface IMovieRepository<T : Any> {
 
     suspend fun getRandomMovie(genre: String, year: String): T
 
-    suspend fun getMovieInfo(movie_id: Int, networkStatus: NetworkConnection.STATUS): MovieDomain?
+    suspend fun getMovieInfo(movieId: Int, networkStatus: NetworkConnection.STATUS): MovieDomain?
 }

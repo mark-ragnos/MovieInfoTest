@@ -10,11 +10,11 @@ class FavoriteMovieUseCase(
     private val favoriteRepository: IFavoriteRepository<MovieDomain>
 ) {
 
-    suspend fun isFavorite(movie_id: Int):Boolean{
-        return favoriteRepository.getFavorite(movie_id) != null
+    suspend fun isFavorite(movieId: Int): Boolean {
+        return favoriteRepository.getFavorite(movieId) != null
     }
 
-    suspend fun saveInFavorite(movie: MovieDomain, sourceMode: NetworkConnection.STATUS){
+    suspend fun saveInFavorite(movie: MovieDomain, sourceMode: NetworkConnection.STATUS) {
         favoriteRepository.saveInFavorite(movie, sourceMode)
     }
 
@@ -22,7 +22,7 @@ class FavoriteMovieUseCase(
         return favoriteRepository.getFavoriteList()
     }
 
-    suspend fun deleteFromFavorite(movie_id: Int){
-        favoriteRepository.deleteFromFavorite(movie_id)
+    suspend fun deleteFromFavorite(movieId: Int) {
+        favoriteRepository.deleteFromFavorite(movieId)
     }
 }
