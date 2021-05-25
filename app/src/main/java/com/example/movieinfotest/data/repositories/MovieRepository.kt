@@ -49,11 +49,26 @@ class MovieRepository(
         if (networkStatus.isOnline()) {
             return getMovieInfoRemote(movieId)
         }
-        return db.getDetailsFromFavorite(movieId)?.toMovieDomain()
+
+        val favorite = db.getDetailsFromFavorite(movieId)
+        if (favorite != null) {
+            return favorite.toMovieDomain()
+        }
+
+        return db.getDetailsFromCache(movieId)?.toMovieDomain()
     }
 
     private suspend fun getMovieInfoRemote(movieId: Int): MovieDomain {
-        return updateMovie(movieId)
+        val favorite = db.getDetailsFromFavorite(movieId)
+        if (favorite != null) {
+            if (favorite.casts.isNullOrEmpty() && favorite.crew.isNullOrEmpty() && favorite.genres.isNullOrEmpty()) {
+                return updateMovie(movieId)
+            }
+            return favorite.toMovieDomain()
+        }
+        val credits = api.getCredits(movieId.toString())
+        return api.getDetailsInformation(movieId.toString())!!
+            .toMovieDomain(credits?.cast?.toCastDomain(), credits?.crew?.toCrewDomain())
     }
 
     private suspend fun updateMovie(movieId: Int): MovieDomain {

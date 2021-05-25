@@ -37,6 +37,10 @@ class DbHelper(
         return database.favoriteDao().getFavoriteById(id)
     }
 
+    suspend fun getDetailsFromCache(movieId: Int): Movie? {
+        return database.movieDao().getMovieById(movieId)
+    }
+
     suspend fun removeFromFavorite(id: Int) {
         database.favoriteDao().removeFromFavorite(id)
     }
