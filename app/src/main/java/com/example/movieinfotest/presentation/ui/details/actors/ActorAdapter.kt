@@ -30,7 +30,7 @@ class ActorAdapter(private val list: List<ActorDomain>) :
             binding.apply {
                 actorName.text = actor.name
                 actorRole.text = actor.character
-                actorPoster.displayActorPicture(actor.profilePath, actor.gender)
+                actorPoster.displayActorPicture(actor.profilePath, actor.gender, x = 100, y = 125)
             }
         }
     }

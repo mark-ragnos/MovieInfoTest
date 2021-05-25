@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.coroutineScope
@@ -24,6 +25,7 @@ import com.example.movieinfotest.utils.getYear
 import com.example.movieinfotest.utils.displayMoviePoster
 import com.example.movieinfotest.utils.ToastUtils
 import com.example.movieinfotest.utils.network.NetworkConnection
+import com.example.movieinfotest.utils.getDivider
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -151,10 +153,23 @@ class DetailsFragment : Fragment() {
     private fun setActors(list: List<ActorDomain>?) {
         if (!list.isNullOrEmpty()) {
             binding.lvActors.adapter = ActorAdapter(list)
+            addDivider()
         } else {
             binding.lvActors.visibility = View.INVISIBLE
             binding.infoTextActors.visibility = View.INVISIBLE
             binding.infoTextGenres.visibility = View.INVISIBLE
+        }
+    }
+
+    private fun addDivider() {
+        context?.let {
+            binding.lvActors.addItemDecoration(
+                getDivider(
+                    it,
+                    LinearLayout.HORIZONTAL,
+                    R.drawable.divider
+                )
+            )
         }
     }
 

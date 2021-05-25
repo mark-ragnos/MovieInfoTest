@@ -1,6 +1,9 @@
 package com.example.movieinfotest.utils
 
+import android.content.Context
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.movieinfotest.R
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.RequestCreator
@@ -53,4 +56,12 @@ private fun RequestCreator.actorPlaceholder(gender: Int): RequestCreator {
 private fun RequestCreator.setPlaceholders(placeholderResId: Int): RequestCreator {
     return this.placeholder(placeholderResId)
         .error(placeholderResId)
+}
+
+fun getDivider(context: Context, orientation: Int, drawableRes: Int): DividerItemDecoration {
+    val divider = DividerItemDecoration(context, orientation)
+    ContextCompat.getDrawable(context, drawableRes)?.let {
+        divider.setDrawable(it)
+    }
+    return divider
 }
