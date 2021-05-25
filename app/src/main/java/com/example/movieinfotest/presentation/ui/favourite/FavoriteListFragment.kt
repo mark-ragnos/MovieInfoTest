@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.coroutineScope
@@ -18,6 +19,7 @@ import com.example.movieinfotest.presentation.ui.favourite.adapter.FavoriteAdapt
 import com.example.movieinfotest.presentation.ui.favourite.adapter.FavoriteItemTouchCallback
 import com.example.movieinfotest.utils.FirebaseLogin
 import com.example.movieinfotest.utils.ToolbarMaker
+import com.example.movieinfotest.utils.getDivider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -116,5 +118,18 @@ class FavoriteListFragment : Fragment() {
         touchHelper.attachToRecyclerView(binding.rvFavoriteList)
 
         binding.rvFavoriteList.adapter = adapter
+        addDivider()
+    }
+
+    private fun addDivider() {
+        context?.let {
+            binding.rvFavoriteList.addItemDecoration(
+                getDivider(
+                    it,
+                    LinearLayout.VERTICAL,
+                    R.drawable.divider
+                )
+            )
+        }
     }
 }

@@ -16,7 +16,7 @@ class MovieHolder(private val binding: ItemListBinding) : RecyclerView.ViewHolde
                 itemId.text = it.id.toString()
                 itemName.text = it.title
                 itemRating.text = it.voteAverage.toString()
-                itemImage.displayMoviePoster(it.posterPath)
+                itemImage.displayMoviePoster(it.posterPath, SIZE_X, SIZE_Y)
                 itemView.setOnClickListener { listener.onClick(getId()) }
             }
         }
@@ -32,5 +32,10 @@ class MovieHolder(private val binding: ItemListBinding) : RecyclerView.ViewHolde
         } else {
             binding.itemFavorite.setImageResource(R.drawable.ic_favorite_not)
         }
+    }
+
+    companion object {
+        private const val SIZE_X = 75
+        private const val SIZE_Y = 100
     }
 }

@@ -21,7 +21,8 @@
         android:layout_height="50dp"
         android:layout_gravity="bottom"
         android:elevation="8dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingHorizontal="4dp">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/actor_name"

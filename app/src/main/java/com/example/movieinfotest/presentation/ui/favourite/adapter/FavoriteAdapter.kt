@@ -36,8 +36,13 @@ class FavoriteAdapter(
                 binding.itemName.text = movie.title
                 binding.itemId.text = movie.id.toString()
                 binding.itemRating.text = movie.voteAverage.toString()
-                binding.itemImage.displayMoviePoster(movie.posterPath)
+                binding.itemImage.displayMoviePoster(movie.posterPath, SIZE_X, SIZE_Y)
             }
+        }
+
+        companion object {
+            private const val SIZE_X = 75
+            private const val SIZE_Y = 100
         }
     }
 

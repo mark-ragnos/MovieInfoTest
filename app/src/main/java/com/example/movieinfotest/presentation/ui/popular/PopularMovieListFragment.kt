@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.coroutineScope
@@ -19,6 +20,7 @@ import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.popular.adapter.MovieLoadingStateAdapter
 import com.example.movieinfotest.utils.FirebaseLogin
 import com.example.movieinfotest.utils.ToolbarMaker
+import com.example.movieinfotest.utils.getDivider
 import com.example.movieinfotest.utils.network.NetworkConnection
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
@@ -117,5 +119,18 @@ class PopularMovieListFragment : Fragment() {
         binding.rvPopularList.adapter = movieAdapter.withLoadStateFooter(
             footer = MovieLoadingStateAdapter(movieAdapter)
         )
+        addDivider()
+    }
+
+    private fun addDivider() {
+        context?.let {
+            binding.rvPopularList.addItemDecoration(
+                getDivider(
+                    it,
+                    LinearLayout.VERTICAL,
+                    R.drawable.divider
+                )
+            )
+        }
     }
 }
