@@ -9,14 +9,23 @@ import com.example.movieinfotest.data.db.genres.GenreDao
 import com.example.movieinfotest.data.db.movie.MovieDao
 import com.example.movieinfotest.data.entities.remotekeys.RemoteKeys
 import com.example.movieinfotest.data.db.remotekeys.RemoteKeysDao
-import com.example.movieinfotest.data.entities.actors.Actor
+import com.example.movieinfotest.data.entities.actors.Cast
+import com.example.movieinfotest.data.entities.actors.Crew
 import com.example.movieinfotest.data.entities.details.MovieDetailsDB
-import com.example.movieinfotest.data.entities.genre.GenreDB
+import com.example.movieinfotest.data.entities.genre.GenreMovieDB
 import com.example.movieinfotest.data.entities.genre.Genre
 import com.example.movieinfotest.data.entities.popular.Movie
 
 @Database(
-    entities = [Genre::class, Movie::class, RemoteKeys::class, Actor::class, GenreDB::class, MovieDetailsDB::class],
+    entities = [
+        Genre::class,
+        Movie::class,
+        RemoteKeys::class,
+        Cast::class,
+        GenreMovieDB::class,
+        MovieDetailsDB::class,
+        Crew::class
+    ],
     version = 1
 )
 abstract class MovieDatabase : RoomDatabase() {

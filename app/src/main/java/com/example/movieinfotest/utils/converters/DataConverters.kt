@@ -1,16 +1,20 @@
 package com.example.movieinfotest.utils.converters
 
 import com.example.movieinfotest.data.entities.details.MovieDetails
-import com.example.movieinfotest.domain.entities.movie.MovieDomain as MovieDomain
-import com.example.movieinfotest.data.entities.popular.Movie as MovieData
-import com.example.movieinfotest.domain.entities.actor.ActorDomain as ActorDomain
-import com.example.movieinfotest.data.entities.actors.Actor as ActorData
-import com.example.movieinfotest.domain.entities.genre.GenreDomain as GenreDomain
-import com.example.movieinfotest.data.entities.genre.Genre as GenreData
+import com.example.movieinfotest.domain.entities.movie.MovieDomain
+import com.example.movieinfotest.data.entities.popular.Movie
+import com.example.movieinfotest.domain.entities.actor.CastDomain
+import com.example.movieinfotest.data.entities.actors.Cast
+import com.example.movieinfotest.data.entities.actors.Crew
+import com.example.movieinfotest.domain.entities.genre.GenreDomain
+import com.example.movieinfotest.data.entities.genre.Genre
+import com.example.movieinfotest.data.entities.genre.GenreMovieDB
+import com.example.movieinfotest.domain.entities.actor.CrewDomain
 
-fun MovieData.toMovieDomain(
+fun Movie.toMovieDomain(
     genres: List<GenreDomain>? = null,
-    actors: List<ActorDomain>? = null
+    cast: List<CastDomain>? = null,
+    crew: List<CrewDomain>? = null
 ): MovieDomain {
 
     return MovieDomain(
@@ -21,11 +25,15 @@ fun MovieData.toMovieDomain(
         posterPath,
         overview,
         genres = genres,
-        actors = actors
+        casts = cast,
+        crews = crew
     )
 }
 
-fun MovieDetails.toMovieDomain(actors: List<ActorDomain>? = null): MovieDomain {
+fun MovieDetails.toMovieDomain(
+    cast: List<CastDomain>? = null,
+    crew: List<CrewDomain>? = null
+): MovieDomain {
     return MovieDomain(
         id,
         title,
@@ -34,12 +42,13 @@ fun MovieDetails.toMovieDomain(actors: List<ActorDomain>? = null): MovieDomain {
         posterPath,
         overview,
         genres?.toGenreDomain(),
-        actors = actors
+        casts = cast,
+        crews = crew
     )
 }
 
-fun ActorData.toActorDomain(): ActorDomain {
-    return ActorDomain(
+fun Cast.toCastDomain(): CastDomain {
+    return CastDomain(
         id,
         name,
         character,
@@ -48,18 +57,38 @@ fun ActorData.toActorDomain(): ActorDomain {
     )
 }
 
-fun List<ActorData>.toActorDomain(): List<ActorDomain> {
+fun List<Cast>.toCastDomain(): List<CastDomain> {
     return map {
-        it.toActorDomain()
+        it.toCastDomain()
     }
 }
 
-fun GenreData.toGenreDomain(): GenreDomain {
+fun Genre.toGenreDomain(): GenreDomain {
     return GenreDomain(id, name)
 }
 
-fun List<GenreData>.toGenreDomain(): List<GenreDomain> {
+fun List<Genre>.toGenreDomain(): List<GenreDomain> {
     return map {
         it.toGenreDomain()
+    }
+}
+
+fun Genre.toGenreDB(movieId: Int): GenreMovieDB {
+    return GenreMovieDB(movieId, id, name)
+}
+
+fun List<Genre>.toGenreDB(movieId: Int): List<GenreMovieDB> {
+    return map {
+        it.toGenreDB(movieId)
+    }
+}
+
+fun Crew.toCrewDomain(): CrewDomain {
+    return CrewDomain(id, name, job, profilePath, gender)
+}
+
+fun List<Crew>.toCrewDomain(): List<CrewDomain> {
+    return map {
+        it.toCrewDomain()
     }
 }

@@ -12,6 +12,7 @@ fun MovieDetailsDB.toMovieDomain(): MovieDomain {
         posterPath,
         overview,
         null,
+        null,
         null
     )
 }

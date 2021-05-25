@@ -6,7 +6,6 @@ import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import com.example.movieinfotest.data.entities.details.MovieDetails
 import com.example.movieinfotest.data.entities.details.MovieDetailsDB
 import com.example.movieinfotest.data.entities.genre.Genre
-import com.example.movieinfotest.data.entities.genre.GenreDB
 import com.example.movieinfotest.data.entities.popular.Movie
 
 fun String?.getYear(): String {
@@ -46,14 +45,6 @@ fun MovieDetailsDB.toMovieDetails(genres: List<Genre>?): MovieDetails {
         genres = genres,
         posterPath
     )
-}
-
-fun Genre.toGenreDB(movieId: Int): GenreDB {
-    return GenreDB(movieId, id, name)
-}
-
-fun GenreDB.toGenre(): Genre {
-    return Genre(id, name)
 }
 
 fun Movie.toMovieDetails(): MovieDetails {

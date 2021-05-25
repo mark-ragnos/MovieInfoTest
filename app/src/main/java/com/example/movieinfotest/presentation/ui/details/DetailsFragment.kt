@@ -14,7 +14,7 @@ import com.example.movieinfotest.MainActivityViewModel
 import com.example.movieinfotest.MovieApp
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentMovieInfoBinding
-import com.example.movieinfotest.domain.entities.actor.ActorDomain
+import com.example.movieinfotest.domain.entities.actor.CastDomain
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.details.actors.ActorAdapter
@@ -146,11 +146,11 @@ class DetailsFragment : Fragment() {
         binding.infoName.text = details.title
         binding.infoRating.text = details.voteAverage.toString()
         binding.infoPoster.displayMoviePoster(details.posterPath, x = 150, y = 225)
-        setActors(details.actors)
+        setActors(details.casts)
         onProgress(false)
     }
 
-    private fun setActors(list: List<ActorDomain>?) {
+    private fun setActors(list: List<CastDomain>?) {
         if (!list.isNullOrEmpty()) {
             binding.lvActors.adapter = ActorAdapter(list)
             addDivider()

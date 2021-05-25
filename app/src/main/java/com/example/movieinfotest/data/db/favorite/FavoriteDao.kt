@@ -6,35 +6,38 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Dao
-import com.example.movieinfotest.data.entities.actors.Actor
+import com.example.movieinfotest.data.entities.actors.Cast
+import com.example.movieinfotest.data.entities.actors.Crew
+import com.example.movieinfotest.data.entities.db.FavoriteMovie
 import com.example.movieinfotest.data.entities.details.MovieDetails
 import com.example.movieinfotest.data.entities.details.MovieDetailsDB
-import com.example.movieinfotest.data.entities.genre.GenreDB
-import com.example.movieinfotest.utils.toGenreDB
+import com.example.movieinfotest.data.entities.genre.GenreMovieDB
+import com.example.movieinfotest.utils.converters.toGenreDB
 import com.example.movieinfotest.utils.toMovieDetailsDB
 import java.util.Calendar
 
 @Dao
 interface FavoriteDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addActors(actor: List<Actor>)
+    suspend fun addCasts(cast: List<Cast>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addGenres(genreDBS: List<GenreDB>)
+    suspend fun addCrews(crews: List<Crew>)
 
-    @Query("SELECT * FROM actor WHERE movieId LIKE :movieId")
-    suspend fun getActors(movieId: Int): List<Actor>
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addGenres(genreDBS: List<GenreMovieDB>)
 
-    @Query("SELECT * FROM genredb WHERE movieId LIKE :movieId")
-    suspend fun getGenres(movieId: Int): List<GenreDB>
+    @Query("SELECT * FROM genremoviedb WHERE movieId LIKE :movieId")
+    suspend fun getGenres(movieId: Int): List<GenreMovieDB>
 
     @Transaction
-    suspend fun saveInFavorite(movieDetails: MovieDetails, actors: List<Actor>?) {
-        val genres = movieDetails.genres?.map {
-            it.toGenreDB(movieDetails.id)
+    suspend fun saveInFavorite(movieDetails: MovieDetails, casts: List<Cast>?, crews: List<Crew>?) {
+        val genres = movieDetails.genres?.toGenreDB(movieDetails.id)
+        val finCast = casts?.map {
+            Cast(movieDetails.id, it.id, it.name, it.character, it.profilePath, it.gender)
         }
-        val finActors = actors?.map {
-            Actor(movieDetails.id, it.id, it.name, it.character, it.profilePath, it.gender)
+        val finCrew = crews?.map {
+            Crew(movieDetails.id, it.id, it.name, it.job, it.profilePath, it.gender)
         }
 
         val details = movieDetails.toMovieDetailsDB()
@@ -42,11 +45,14 @@ interface FavoriteDao {
 
         addMovieDetails(details)
 
-        if (finActors != null) {
-            addActors(finActors)
+        if (finCast != null) {
+            addCasts(finCast)
         }
         if (genres != null) {
             addGenres(genres)
+        }
+        if (finCrew != null) {
+            addCrews(finCrew)
         }
     }
 
@@ -56,8 +62,9 @@ interface FavoriteDao {
     @Query("SELECT * FROM moviedetailsdb ORDER BY addDate DESC")
     fun getFavoriteList(): PagingSource<Int, MovieDetailsDB>
 
+    @Transaction
     @Query("SELECT * FROM moviedetailsdb WHERE id LIKE :movieId")
-    suspend fun getFavoriteById(movieId: Int): MovieDetailsDB?
+    suspend fun getFavoriteById(movieId: Int): FavoriteMovie?
 
     @Query("SELECT * FROM moviedetailsdb WHERE id LIKE :movieId")
     fun getFavorite(movieId: Int): Int
@@ -72,9 +79,9 @@ interface FavoriteDao {
     @Query("DELETE FROM moviedetailsdb WHERE id LIKE :movieId")
     suspend fun deleteFavorite(movieId: Int)
 
-    @Query("DELETE FROM actor WHERE movieId LIKE :movieId")
+    @Query("DELETE FROM `cast` WHERE movieId LIKE :movieId")
     suspend fun deleteActors(movieId: Int)
 
-    @Query("DELETE FROM genredb WHERE movieId LIKE :movieId")
+    @Query("DELETE FROM genremoviedb WHERE movieId LIKE :movieId")
     suspend fun deleteGenres(movieId: Int)
 }

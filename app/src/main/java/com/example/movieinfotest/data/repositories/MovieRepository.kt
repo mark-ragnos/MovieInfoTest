@@ -12,7 +12,8 @@ import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.domain.repositories.IMovieRepository
 import com.example.movieinfotest.utils.network.NetworkConnection
 import com.example.movieinfotest.utils.network.isOnline
-import com.example.movieinfotest.utils.converters.toActorDomain
+import com.example.movieinfotest.utils.converters.toCastDomain
+import com.example.movieinfotest.utils.converters.toCrewDomain
 import com.example.movieinfotest.utils.converters.toMovieDomain
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -48,35 +49,23 @@ class MovieRepository(
         if (networkStatus.isOnline()) {
             return getMovieInfoRemote(movieId)
         }
-
-        val favorite = db.getDetailsFromFavorite(movieId)
-        if (favorite != null) {
-            val actors = db.getActorsById(movieId).toActorDomain()
-            return favorite.toMovieDomain(actors)
-        }
-        return db.getDetailsById(movieId)?.toMovieDomain()
+        return db.getDetailsFromFavorite(movieId)?.toMovieDomain()
     }
 
-    private suspend fun getMovieInfoRemote(movieId: Int): MovieDomain? {
-        val favorite = db.getDetailsFromFavorite(movieId)
-        if (favorite != null) {
-            val actors = db.getActorsById(movieId).toActorDomain()
-            if (actors.isEmpty()) {
-                return updateMovie(movieId)
-            }
-            return favorite.toMovieDomain(actors)
-        }
-        return api.getDetailsInformation(movieId.toString())
-            ?.toMovieDomain(api.getActorsList(movieId.toString())?.toActorDomain())
+    private suspend fun getMovieInfoRemote(movieId: Int): MovieDomain {
+        return updateMovie(movieId)
     }
 
     private suspend fun updateMovie(movieId: Int): MovieDomain {
         val movieInfo = api.getDetailsInformation(movieId.toString())
-        val actors = api.getActorsList(movieId.toString())
+        val credits = api.getCredits(movieId.toString())
         if (movieInfo != null) {
-            db.saveInFavorite(movieInfo, actors)
+            db.saveInFavorite(movieInfo, credits?.cast, credits?.crew)
         }
 
-        return movieInfo!!.toMovieDomain(actors!!.toActorDomain())
+        return movieInfo!!.toMovieDomain(
+            credits?.cast?.toCastDomain(),
+            credits?.crew?.toCrewDomain()
+        )
     }
 }

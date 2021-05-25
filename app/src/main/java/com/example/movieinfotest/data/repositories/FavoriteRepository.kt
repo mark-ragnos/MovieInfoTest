@@ -8,12 +8,12 @@ import com.example.movieinfotest.data.api.ApiHelper
 import com.example.movieinfotest.data.db.DbHelper
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.domain.repositories.IFavoriteRepository
-import com.example.movieinfotest.utils.converters.toActorData
-import com.example.movieinfotest.utils.converters.toMovieDetails
 import com.example.movieinfotest.utils.converters.toMovieDomain
+import com.example.movieinfotest.utils.converters.toMovieDetails
+import com.example.movieinfotest.utils.converters.toCastData
+import com.example.movieinfotest.utils.converters.toCrewData
 import com.example.movieinfotest.utils.network.NetworkConnection
 import com.example.movieinfotest.utils.network.isOnline
-import com.example.movieinfotest.utils.converters.toActorDomain
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -23,8 +23,7 @@ class FavoriteRepository(
 ) : IFavoriteRepository<MovieDomain> {
 
     override suspend fun getFavorite(movieId: Int): MovieDomain? {
-        val actors = db.getActorsById(movieId).toActorDomain()
-        return db.getDetailsFromFavorite(movieId)?.toMovieDomain(actors)
+        return db.getDetailsFromFavorite(movieId)?.toMovieDomain()
     }
 
     override fun getFavoriteList(): Flow<PagingData<MovieDomain>> {
@@ -44,12 +43,17 @@ class FavoriteRepository(
 
     override suspend fun saveInFavorite(movie: MovieDomain, sourceMode: NetworkConnection.STATUS) {
         if (sourceMode.isOnline()) {
-            val movie = api.getDetailsInformation(movie.id.toString())
-            movie?.let {
-                db.saveInFavorite(movie, api.getActorsList(movie.id.toString()))
+            val movieDetails = api.getDetailsInformation(movie.id.toString())
+            movieDetails?.let {
+                val credits = api.getCredits(movie.id.toString())
+                db.saveInFavorite(movieDetails, credits?.cast, credits?.crew)
             }
         } else {
-            db.saveInFavorite(movie.toMovieDetails(), movie.actors?.toActorData(movie.id))
+            db.saveInFavorite(
+                movie.toMovieDetails(),
+                movie.casts?.toCastData(movie.id),
+                movie.crews?.toCrewData(movie.id)
+            )
         }
     }
 

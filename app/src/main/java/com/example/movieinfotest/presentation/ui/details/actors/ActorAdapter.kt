@@ -4,10 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movieinfotest.databinding.ItemActorListBinding
-import com.example.movieinfotest.domain.entities.actor.ActorDomain
+import com.example.movieinfotest.domain.entities.actor.CastDomain
 import com.example.movieinfotest.utils.displayActorPicture
 
-class ActorAdapter(private val list: List<ActorDomain>) :
+class ActorAdapter(private val list: List<CastDomain>) :
     RecyclerView.Adapter<ActorAdapter.ActorHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActorAdapter.ActorHolder {
@@ -26,11 +26,11 @@ class ActorAdapter(private val list: List<ActorDomain>) :
 
     inner class ActorHolder(private val binding: ItemActorListBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(actor: ActorDomain) {
+        fun bind(cast: CastDomain) {
             binding.apply {
-                actorName.text = actor.name
-                actorRole.text = actor.character
-                actorPoster.displayActorPicture(actor.profilePath, actor.gender, x = 100, y = 125)
+                actorName.text = cast.name
+                actorRole.text = cast.character
+                actorPoster.displayActorPicture(cast.profilePath, cast.gender, x = 100, y = 125)
             }
         }
     }
