@@ -1,10 +1,11 @@
-package com.example.movieinfotest
+package com.example.movieinfotest.presentation.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.ActivityMainBinding
 import com.example.movieinfotest.utils.isDarkThemeOn
 import com.google.firebase.FirebaseApp

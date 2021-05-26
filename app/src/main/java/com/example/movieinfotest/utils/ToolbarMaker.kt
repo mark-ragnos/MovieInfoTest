@@ -4,7 +4,7 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
-import com.example.movieinfotest.MainActivityViewModel
+import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
 import com.example.movieinfotest.MovieApp
 import com.example.movieinfotest.R
 

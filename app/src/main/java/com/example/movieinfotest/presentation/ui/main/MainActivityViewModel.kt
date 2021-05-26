@@ -1,4 +1,4 @@
-package com.example.movieinfotest
+package com.example.movieinfotest.presentation.ui.main
 
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModel

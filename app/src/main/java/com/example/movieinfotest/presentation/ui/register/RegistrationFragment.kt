@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
-import com.example.movieinfotest.MainActivityViewModel
+import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentRegistrationBinding
 import com.example.movieinfotest.utils.ToastUtils

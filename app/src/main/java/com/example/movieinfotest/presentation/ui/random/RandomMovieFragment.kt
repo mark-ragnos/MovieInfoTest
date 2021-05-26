@@ -10,7 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.coroutineScope
 import androidx.navigation.fragment.NavHostFragment
-import com.example.movieinfotest.MainActivityViewModel
+import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
 import com.example.movieinfotest.MovieApp
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentGenerateMovieBinding
