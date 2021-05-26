@@ -40,16 +40,9 @@ class FavoriteListFragment : Fragment() {
         init()
         setupFavoriteList()
         fetchMovies()
+        displayList()
 
         return binding.root
-    }
-
-    override fun onStart() {
-        if (!FirebaseLogin.isLogin()) {
-            binding.rvFavoriteList.visibility = View.GONE
-            binding.favoriteTextLogin.visibility = View.VISIBLE
-        }
-        super.onStart()
     }
 
     private fun init() {
@@ -119,6 +112,13 @@ class FavoriteListFragment : Fragment() {
 
         binding.rvFavoriteList.adapter = adapter
         addDivider()
+    }
+
+    private fun displayList() {
+        if (!FirebaseLogin.isLogin()) {
+            binding.rvFavoriteList.visibility = View.GONE
+            binding.favoriteTextLogin.visibility = View.VISIBLE
+        }
     }
 
     private fun addDivider() {

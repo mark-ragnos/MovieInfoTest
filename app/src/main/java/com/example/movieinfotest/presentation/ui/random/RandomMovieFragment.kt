@@ -147,7 +147,7 @@ class RandomMovieFragment : Fragment() {
 
     private fun onProgressGenerator(isProgress: Boolean) {
         binding.progressBar.visibility = if (isProgress) View.VISIBLE else View.GONE
-        binding.genResult.visibility = if (!isProgress) View.VISIBLE else View.INVISIBLE
+        binding.cardView.visibility = if (!isProgress) View.VISIBLE else View.INVISIBLE
         buttonEnabled(!isProgress)
     }
 

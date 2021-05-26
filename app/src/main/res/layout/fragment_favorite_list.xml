@@ -8,23 +8,26 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        app:title="@string/favorite_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:elevation="16dp"
+        android:minHeight="?attr/actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:theme="@style/ToolbarColoredBackArrow"
-        android:minHeight="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        app:titleTextColor="?attr/colorOnPrimary"/>
+        app:title="@string/favorite_title"
+        app:titleTextColor="?attr/colorOnPrimary" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_favorite_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginHorizontal="4dp"
+        android:clipToPadding="false"
+        android:paddingTop="4dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -42,12 +45,12 @@
         android:layout_marginEnd="42dp"
         android:gravity="center"
         android:text="@string/you_not_reg"
+        android:textColor="?attr/colorOnBackground"
         android:textSize="@dimen/def_item_size"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:textColor="?attr/colorOnBackground"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

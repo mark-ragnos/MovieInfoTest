@@ -43,18 +43,30 @@ class FavoriteRepository(
 
     override suspend fun saveInFavorite(movie: MovieDomain, sourceMode: NetworkConnection.STATUS) {
         if (sourceMode.isOnline()) {
+            saveInFavoriteOnline(movie)
+        } else {
+            saveInFavoriteOffline(movie)
+        }
+    }
+
+    private suspend fun saveInFavoriteOnline(movie: MovieDomain) {
+        if (movie.casts.isNullOrEmpty() && movie.crews.isNullOrEmpty()) {
             val movieDetails = api.getDetailsInformation(movie.id.toString())
             movieDetails?.let {
                 val credits = api.getCredits(movie.id.toString())
                 db.saveInFavorite(movieDetails, credits?.cast, credits?.crew)
             }
         } else {
-            db.saveInFavorite(
-                movie.toMovieDetails(),
-                movie.casts?.toCastData(movie.id),
-                movie.crews?.toCrewData(movie.id)
-            )
+            saveInFavoriteOffline(movie)
         }
+    }
+
+    private suspend fun saveInFavoriteOffline(movie: MovieDomain) {
+        db.saveInFavorite(
+            movie.toMovieDetails(),
+            movie.casts?.toCastData(movie.id),
+            movie.crews?.toCrewData(movie.id)
+        )
     }
 
     override suspend fun deleteFromFavorite(movieId: Int) {
