@@ -13,7 +13,7 @@
     <string name="popular">Popular</string>
     <string name="get_random">Get random</string>
     <string name="enter_year">Enter year</string>
-    <string name="actor_list">List of the Actors:</string>
+    <string name="actor_list">List of the </string>
     <string name="genres">Genres:</string>
     <string name="popular_title">Populars</string>
     <string name="random_title">Generator</string>
@@ -48,5 +48,8 @@
     <string name="incorrect_user_data">Incorrect input values</string>
     <string name="internet_not_found">Please turn on the Interner</string>
     <string name="year_incorrect">Incorrect year.</string>
+
+    <string name="cast">Cast</string>
+    <string name="crew">Crew</string>
 
 </resources>

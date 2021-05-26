@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="def_item_size">18sp</dimen>
+    <dimen name="def_item_size">14sp</dimen>
     <dimen name="def_item_sub">14sp</dimen>
     <dimen name="def_layout_margin">8dp</dimen>
     <!-- Default screen margins, per the Android Design guidelines. -->

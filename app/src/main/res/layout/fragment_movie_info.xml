@@ -52,74 +52,32 @@
                 android:layout_height="150dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:textSize="@dimen/def_item_size"
+                android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/det_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="@string/title"
-                android:textSize="@dimen/def_item_size"
-                android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/info_poster"
-                app:layout_constraintTop_toTopOf="@+id/info_poster"
-                tools:viewBindingIgnore="true" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/info_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginEnd="16dp"
-                android:textSize="@dimen/def_item_size"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:textSize="16sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/det_title"
-                app:layout_constraintTop_toTopOf="@+id/det_title" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/det_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/gen_year"
-                android:textSize="@dimen/def_item_size"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/det_title"
-                app:layout_constraintTop_toBottomOf="@+id/info_name"
-                tools:viewBindingIgnore="true" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/info_date"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/def_item_size"
-                app:layout_constraintEnd_toEndOf="@+id/info_name"
-                app:layout_constraintStart_toStartOf="@+id/info_name"
-                app:layout_constraintTop_toTopOf="@+id/det_date" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/det_rating"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/rating"
-                android:textSize="@dimen/def_item_size"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/det_date"
-                app:layout_constraintTop_toBottomOf="@+id/info_date"
-                tools:viewBindingIgnore="true" />
+                app:layout_constraintStart_toEndOf="@+id/info_poster"
+                app:layout_constraintTop_toTopOf="@+id/info_poster" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/info_rating"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/def_item_size"
-                app:layout_constraintEnd_toEndOf="@+id/info_date"
-                app:layout_constraintStart_toStartOf="@+id/info_date"
-                app:layout_constraintTop_toTopOf="@+id/det_rating" />
+                android:layout_marginTop="8dp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/info_name"
+                app:layout_constraintStart_toStartOf="@+id/info_name"
+                app:layout_constraintTop_toBottomOf="@+id/info_name" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/info_add_to_favorite"
@@ -127,20 +85,21 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/save_as_favorite"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="@+id/info_rating"
-                app:layout_constraintStart_toStartOf="@+id/det_rating"
-                app:layout_constraintTop_toBottomOf="@+id/det_rating" />
+                app:layout_constraintStart_toStartOf="@+id/info_rating"
+                app:layout_constraintTop_toBottomOf="@+id/info_rating" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/info_description"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:textSize="@dimen/def_item_size"
+                android:layout_marginTop="8dp"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="@+id/info_add_to_favorite"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/info_add_to_favorite" />
+                app:layout_constraintTop_toBottomOf="@+id/info_poster" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/info_text_genres"
@@ -148,7 +107,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/genres"
-                android:textSize="@dimen/def_item_size"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/info_description"
                 app:layout_constraintTop_toBottomOf="@+id/info_description"
@@ -159,39 +118,68 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:textSize="@dimen/def_item_size"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="@+id/info_description"
                 app:layout_constraintStart_toEndOf="@+id/info_text_genres"
                 app:layout_constraintTop_toTopOf="@+id/info_text_genres" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/info_text_actors"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/actor_list"
-                android:textSize="@dimen/def_item_size"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/info_text_genres"
-                app:layout_constraintTop_toBottomOf="@+id/info_genres"
-                tools:viewBindingIgnore="true" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/lv_actors"
+            <LinearLayout
+                android:id="@+id/actors"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/info_text_actors"
-                app:layout_constraintVertical_bias="1.0"
-                tools:listitem="@layout/item_actor_list" />
+                app:layout_constraintStart_toStartOf="@+id/info_text_genres"
+                app:layout_constraintTop_toBottomOf="@+id/info_genres"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/switchActors"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/actor_list"
+                    android:textOff="@string/cast"
+                    android:textOn="@string/crew"
+                    app:layout_constraintStart_toStartOf="@+id/info_text_genres"
+                    app:layout_constraintTop_toBottomOf="@+id/info_genres"
+                    app:showText="true" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/castList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/switchActors"
+                    app:layout_constraintVertical_bias="1.0"
+                    tools:listitem="@layout/item_actor_list" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/crewList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/switchActors"
+                    app:layout_constraintVertical_bias="1.0"
+                    tools:listitem="@layout/item_actor_list" />
+            </LinearLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

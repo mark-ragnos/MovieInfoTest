@@ -10,14 +10,17 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.coroutineScope
 import androidx.navigation.fragment.NavHostFragment
+import androidx.recyclerview.widget.RecyclerView
 import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
 import com.example.movieinfotest.MovieApp
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentMovieInfoBinding
 import com.example.movieinfotest.domain.entities.actor.CastDomain
+import com.example.movieinfotest.domain.entities.actor.CrewDomain
+import com.example.movieinfotest.domain.entities.actor.asCast
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
-import com.example.movieinfotest.presentation.ui.details.actors.ActorAdapter
+import com.example.movieinfotest.presentation.ui.details.actors.CastAdapter
 import com.example.movieinfotest.utils.FirebaseLogin
 import com.example.movieinfotest.utils.ToolbarMaker
 import com.example.movieinfotest.utils.getGenreList
@@ -113,6 +116,16 @@ class DetailsFragment : Fragment() {
                 moveToLogin()
             }
         }
+
+        binding.switchActors.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                binding.crewList.visibility = View.VISIBLE
+                binding.castList.visibility = View.GONE
+            } else {
+                binding.crewList.visibility = View.GONE
+                binding.castList.visibility = View.VISIBLE
+            }
+        }
     }
 
     private fun saveDeleteMovie() {
@@ -140,30 +153,35 @@ class DetailsFragment : Fragment() {
     }
 
     private fun setMovie(details: MovieDomain) {
-        binding.infoDate.text = details.releaseDate.getYear()
         binding.infoDescription.text = details.overview
         binding.infoGenres.text = getGenreList(details.genres)
-        binding.infoName.text = details.title
+        val resultName = "${details.title} (${details.releaseDate.getYear()})"
+        binding.infoName.text = resultName
         binding.infoRating.text = details.voteAverage.toString()
         binding.infoPoster.displayMoviePoster(details.posterPath, x = 150, y = 225)
-        setActors(details.casts)
+        setActors(details.casts, details.crews)
         onProgress(false)
     }
 
-    private fun setActors(list: List<CastDomain>?) {
-        if (!list.isNullOrEmpty()) {
-            binding.lvActors.adapter = ActorAdapter(list)
-            addDivider()
-        } else {
-            binding.lvActors.visibility = View.INVISIBLE
-            binding.infoTextActors.visibility = View.INVISIBLE
-            binding.infoTextGenres.visibility = View.INVISIBLE
+    private fun setActors(cast: List<CastDomain>?, crew: List<CrewDomain>?) {
+        if (!cast.isNullOrEmpty()) {
+            binding.actors.visibility = View.VISIBLE
+
+            binding.castList.adapter = CastAdapter(cast)
+            addDivider(binding.castList)
+        }
+
+        if (!crew.isNullOrEmpty()) {
+            binding.actors.visibility = View.VISIBLE
+
+            binding.crewList.adapter = CastAdapter(crew.asCast())
+            addDivider(binding.crewList)
         }
     }
 
-    private fun addDivider() {
+    private fun addDivider(list: RecyclerView) {
         context?.let {
-            binding.lvActors.addItemDecoration(
+            list.addItemDecoration(
                 getDivider(
                     it,
                     LinearLayout.HORIZONTAL,

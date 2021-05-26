@@ -7,10 +7,10 @@ import com.example.movieinfotest.databinding.ItemActorListBinding
 import com.example.movieinfotest.domain.entities.actor.CastDomain
 import com.example.movieinfotest.utils.displayActorPicture
 
-class ActorAdapter(private val list: List<CastDomain>) :
-    RecyclerView.Adapter<ActorAdapter.ActorHolder>() {
+class CastAdapter(private val list: List<CastDomain>) :
+    RecyclerView.Adapter<CastAdapter.ActorHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActorAdapter.ActorHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CastAdapter.ActorHolder {
         val binding =
             ItemActorListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ActorHolder(binding)
@@ -20,7 +20,7 @@ class ActorAdapter(private val list: List<CastDomain>) :
         return list.size
     }
 
-    override fun onBindViewHolder(holder: ActorAdapter.ActorHolder, position: Int) {
+    override fun onBindViewHolder(holder: CastAdapter.ActorHolder, position: Int) {
         holder.bind(list[position])
     }
 
