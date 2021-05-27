@@ -13,7 +13,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
 import com.example.movieinfotest.MovieApp
 import com.example.movieinfotest.R
-import com.example.movieinfotest.databinding.FragmentPopularMovieListBinding
+import com.example.movieinfotest.databinding.FragmentPopularListBinding
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.presentation.ui.popular.adapter.MovieAdapter
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
@@ -26,8 +26,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class PopularMovieListFragment : Fragment() {
-    private lateinit var binding: FragmentPopularMovieListBinding
+class PopularListFragment : Fragment() {
+    private lateinit var binding: FragmentPopularListBinding
     private lateinit var viewModel: PopularViewModel
     private val parentViewModel: MainActivityViewModel by activityViewModels()
     private lateinit var movieAdapter: MovieAdapter
@@ -37,7 +37,7 @@ class PopularMovieListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentPopularMovieListBinding.inflate(inflater, container, false)
+        binding = FragmentPopularListBinding.inflate(inflater, container, false)
 
         init()
         setupPopularList()
@@ -93,8 +93,8 @@ class PopularMovieListFragment : Fragment() {
         val listener = object : MovieAdapter.MovieClickListener {
             override fun onClick(id: Int) {
                 val action =
-                    PopularMovieListFragmentDirections.actionPopularMovieListToMovieInfo(id)
-                NavHostFragment.findNavController(this@PopularMovieListFragment).navigate(action)
+                    PopularListFragmentDirections.actionPopularMovieListToMovieInfo(id)
+                NavHostFragment.findNavController(this@PopularListFragment).navigate(action)
             }
 
             override fun onFavorite(movie: MovieDomain?, isFavorite: Boolean) {

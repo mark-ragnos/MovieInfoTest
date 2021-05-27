@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
 import com.example.movieinfotest.MovieApp
 import com.example.movieinfotest.R
-import com.example.movieinfotest.databinding.FragmentMovieInfoBinding
+import com.example.movieinfotest.databinding.FragmentDetailsBinding
 import com.example.movieinfotest.domain.entities.actor.CastDomain
 import com.example.movieinfotest.domain.entities.actor.CrewDomain
 import com.example.movieinfotest.domain.entities.actor.asCast
@@ -33,7 +33,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class DetailsFragment : Fragment() {
-    private lateinit var binding: FragmentMovieInfoBinding
+    private lateinit var binding: FragmentDetailsBinding
     private lateinit var viewModel: DetailsViewModel
     private val parentViewModel: MainActivityViewModel by activityViewModels()
 
@@ -42,7 +42,7 @@ class DetailsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentMovieInfoBinding.inflate(inflater, container, false)
+        binding = FragmentDetailsBinding.inflate(inflater, container, false)
 
         onProgress(true)
         init()

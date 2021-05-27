@@ -21,7 +21,7 @@
         android:id="@+id/generateMovie"
         android:name="com.example.movieinfotest.presentation.ui.random.RandomMovieFragment"
         android:label="fragment_generate_movie"
-        tools:layout="@layout/fragment_generate_movie">
+        tools:layout="@layout/fragment_random_movie">
         <action
             android:id="@+id/action_generateMovie_to_movieInfo"
             app:destination="@id/movieInfo" />
@@ -31,9 +31,9 @@
     </fragment>
     <fragment
         android:id="@+id/popularMovieList"
-        android:name="com.example.movieinfotest.presentation.ui.popular.PopularMovieListFragment"
+        android:name="com.example.movieinfotest.presentation.ui.popular.PopularListFragment"
         android:label="fragment_popular_movie_list"
-        tools:layout="@layout/fragment_popular_movie_list">
+        tools:layout="@layout/fragment_popular_list">
         <action
             android:id="@+id/action_popularMovieList_to_movieInfo"
             app:destination="@id/movieInfo" />
@@ -45,7 +45,7 @@
         android:id="@+id/movieInfo"
         android:name="com.example.movieinfotest.presentation.ui.details.DetailsFragment"
         android:label="fragment_movie_info"
-        tools:layout="@layout/fragment_movie_info">
+        tools:layout="@layout/fragment_details">
         <argument
             android:name="id"
             android:defaultValue="0"

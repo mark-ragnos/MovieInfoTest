@@ -13,7 +13,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
 import com.example.movieinfotest.MovieApp
 import com.example.movieinfotest.R
-import com.example.movieinfotest.databinding.FragmentGenerateMovieBinding
+import com.example.movieinfotest.databinding.FragmentRandomMovieBinding
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.random.adapter.GenreAdapter
@@ -25,7 +25,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class RandomMovieFragment : Fragment() {
-    private lateinit var binding: FragmentGenerateMovieBinding
+    private lateinit var binding: FragmentRandomMovieBinding
     private lateinit var viewModel: RandomViewModel
     private lateinit var genreAdapter: GenreAdapter
     private val parentViewModel: MainActivityViewModel by activityViewModels()
@@ -35,7 +35,7 @@ class RandomMovieFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentGenerateMovieBinding.inflate(inflater, container, false)
+        binding = FragmentRandomMovieBinding.inflate(inflater, container, false)
 
         init()
         initTextWatcher()
