@@ -18,7 +18,7 @@ class GenreRepository(
         }
 
         val netList = api.getGenresList()
-        val dbList = api.getGenresList()
+        val dbList = db.getAllGenres()
 
         if (netList?.size == dbList?.size) {
             return dbList?.toGenreDomain()

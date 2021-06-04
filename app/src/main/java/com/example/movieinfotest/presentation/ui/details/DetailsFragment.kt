@@ -21,6 +21,7 @@ import com.example.movieinfotest.domain.entities.actor.asCast
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.details.actors.CastAdapter
+import com.example.movieinfotest.presentation.ui.register.RegistrationFragment
 import com.example.movieinfotest.utils.FirebaseLogin
 import com.example.movieinfotest.utils.ToolbarMaker
 import com.example.movieinfotest.utils.getGenreList
@@ -81,8 +82,7 @@ class DetailsFragment : Fragment() {
                 }
 
                 R.id.login -> {
-                    NavHostFragment.findNavController(this)
-                        .navigate(R.id.action_movieInfo_to_loginFragment)
+                    RegistrationFragment.navigate(NavHostFragment.findNavController(this))
                 }
 
                 R.id.logout -> {
@@ -140,7 +140,7 @@ class DetailsFragment : Fragment() {
 
     private fun moveToLogin() {
         NavHostFragment.findNavController(this)
-            .navigate(R.id.action_movieInfo_to_loginFragment)
+            .navigate(R.id.action_global_registrationGraph)
     }
 
     private fun changeFavoriteBnt(isFavorite: Boolean) {

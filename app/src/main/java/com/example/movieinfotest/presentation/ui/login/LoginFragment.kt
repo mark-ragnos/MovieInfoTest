@@ -71,7 +71,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun makeToast(message: CharSequence) {
-        ToastUtils.makeShortMessage(requireContext(), message.toString())
+        context?.let { ToastUtils.makeShortMessage(it, message.toString()) }
     }
 
     private fun showProgressBar(isProgress: Boolean) {

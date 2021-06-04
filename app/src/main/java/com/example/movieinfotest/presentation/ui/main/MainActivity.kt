@@ -3,7 +3,7 @@ package com.example.movieinfotest.presentation.ui.main
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.ActivityMainBinding
@@ -23,9 +23,8 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = ViewModelProviders.of(this).get(MainActivityViewModel::class.java)
         setupDarkMode()
-
-        val navController = findNavController(R.id.fragment)
-        binding.bottomNavigation.setupWithNavController(navController)
+        val navController = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        binding.bottomNavigation.setupWithNavController(navController.navController)
     }
 
     private fun setupDarkMode() {

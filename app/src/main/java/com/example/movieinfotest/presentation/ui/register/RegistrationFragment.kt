@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavController
 import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentRegistrationBinding
@@ -64,7 +65,7 @@ class RegistrationFragment : Fragment() {
     }
 
     private fun makeToast(message: CharSequence) {
-        ToastUtils.makeShortMessage(requireContext(), message.toString())
+        context?.let { ToastUtils.makeShortMessage(it, message.toString()) }
     }
 
     private fun showProgressBar(isProgress: Boolean) {
@@ -86,5 +87,11 @@ class RegistrationFragment : Fragment() {
     private fun preValidateButton() {
         binding.regBtnRegistration.isEnabled =
             isCorrectUserData(binding.regEmail.text.toString(), binding.regPassword.text.toString())
+    }
+
+    companion object {
+        fun navigate(navController: NavController) {
+            navController.navigate(R.id.action_global_registrationGraph)
+        }
     }
 }

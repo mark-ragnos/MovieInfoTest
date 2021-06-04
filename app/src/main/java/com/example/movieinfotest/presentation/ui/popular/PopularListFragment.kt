@@ -18,6 +18,7 @@ import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.presentation.ui.popular.adapter.MovieAdapter
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.popular.adapter.MovieLoadingStateAdapter
+import com.example.movieinfotest.presentation.ui.register.RegistrationFragment
 import com.example.movieinfotest.utils.FirebaseLogin
 import com.example.movieinfotest.utils.ToolbarMaker
 import com.example.movieinfotest.utils.getDivider
@@ -68,8 +69,7 @@ class PopularListFragment : Fragment() {
                 }
 
                 R.id.login -> {
-                    NavHostFragment.findNavController(this)
-                        .navigate(R.id.action_popularMovieList_to_loginFragment)
+                    RegistrationFragment.navigate(NavHostFragment.findNavController(this))
                 }
 
                 R.id.logout -> {

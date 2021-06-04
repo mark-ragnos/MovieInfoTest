@@ -17,6 +17,7 @@ import com.example.movieinfotest.databinding.FragmentRandomMovieBinding
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.random.adapter.GenreAdapter
+import com.example.movieinfotest.presentation.ui.register.RegistrationFragment
 import com.example.movieinfotest.utils.network.NetworkConnection
 import com.example.movieinfotest.utils.ToolbarMaker
 import com.example.movieinfotest.utils.displayMoviePoster
@@ -68,8 +69,7 @@ class RandomMovieFragment : Fragment() {
                 }
 
                 R.id.login -> {
-                    NavHostFragment.findNavController(this)
-                        .navigate(R.id.action_generateMovie_to_loginFragment)
+                    RegistrationFragment.navigate(NavHostFragment.findNavController(this))
                 }
 
                 R.id.logout -> {

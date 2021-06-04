@@ -17,6 +17,7 @@ import com.example.movieinfotest.databinding.FragmentFavoriteListBinding
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.favourite.adapter.FavoriteAdapter
 import com.example.movieinfotest.presentation.ui.favourite.adapter.FavoriteItemTouchCallback
+import com.example.movieinfotest.presentation.ui.register.RegistrationFragment
 import com.example.movieinfotest.utils.FirebaseLogin
 import com.example.movieinfotest.utils.ToolbarMaker
 import com.example.movieinfotest.utils.getDivider
@@ -52,8 +53,7 @@ class FavoriteListFragment : Fragment() {
         ).get(FavoriteViewModel::class.java)
 
         binding.favoriteTextLogin.setOnClickListener {
-            NavHostFragment.findNavController(this)
-                .navigate(R.id.action_favoriteList_to_loginFragment)
+            RegistrationFragment.navigate(NavHostFragment.findNavController(this))
         }
 
         initToolbar()
@@ -72,8 +72,7 @@ class FavoriteListFragment : Fragment() {
                 }
 
                 R.id.login -> {
-                    NavHostFragment.findNavController(this)
-                        .navigate(R.id.action_favoriteList_to_loginFragment)
+                    RegistrationFragment.navigate(NavHostFragment.findNavController(this))
                 }
 
                 R.id.logout -> {
