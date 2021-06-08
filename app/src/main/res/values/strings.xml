@@ -43,7 +43,10 @@
     <string name="register">Create account</string>
     <string name="login_help">Already a member? <u>Login</u></string>
     <string name="logout">Logout</string>
-    <string name="you_not_reg">You are not authorized. Please <u>log in</u> to access add and view in your favorite list</string>
+
+    <string name="not_sign_in">You are not authorized. Please <u>log in</u> to access add and view in your favorite list</string>
+    <string name="empty_list">Your favorite list is empty. Add some moves for see your favorite movies</string>
+
     <string name="autentification_failed">Authentication failed.</string>
     <string name="incorrect_user_data">Incorrect input values</string>
     <string name="internet_not_found">Please turn on the Interner</string>

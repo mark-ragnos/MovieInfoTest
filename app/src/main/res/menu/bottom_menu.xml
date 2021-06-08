@@ -2,15 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/favoriteList"
-        android:title="@string/favorite"
-        android:icon="@drawable/ic_favorite"/>
+        android:icon="@drawable/ic_favorite"
+        android:title="@string/favorite" />
     <item
         android:id="@+id/popularMovieList"
-        android:title="@string/popular"
-        android:icon="@drawable/ic_popular_v2"/>
+        android:icon="@drawable/ic_popular_v2"
+        android:title="@string/popular" />
     <item
         android:id="@+id/generateMovie"
-        android:title="@string/random"
         android:icon="@drawable/ic_dice"
-        />
+        android:title="@string/random" />
 </menu>

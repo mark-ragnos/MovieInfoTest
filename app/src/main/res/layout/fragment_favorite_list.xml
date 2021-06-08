@@ -35,7 +35,6 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         tools:listitem="@layout/item_list" />
 
-
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/favorite_text_login"
         android:layout_width="0dp"
@@ -44,7 +43,7 @@
         android:layout_marginStart="42dp"
         android:layout_marginEnd="42dp"
         android:gravity="center"
-        android:text="@string/you_not_reg"
+        android:text="@string/not_sign_in"
         android:textColor="?attr/colorOnBackground"
         android:textSize="@dimen/def_item_size"
         android:visibility="gone"

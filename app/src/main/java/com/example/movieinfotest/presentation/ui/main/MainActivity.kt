@@ -23,8 +23,7 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = ViewModelProviders.of(this).get(MainActivityViewModel::class.java)
         setupDarkMode()
-        val navController = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        binding.bottomNavigation.setupWithNavController(navController.navController)
+        setupNavigation()
     }
 
     private fun setupDarkMode() {
@@ -32,5 +31,11 @@ class MainActivity : AppCompatActivity() {
             viewModel.isDarkModeControl = true
             viewModel.isDarkMode = applicationContext.isDarkThemeOn()
         }
+    }
+
+    private fun setupNavigation() {
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        binding.bottomNavigation.setupWithNavController(navHostFragment.navController)
     }
 }
