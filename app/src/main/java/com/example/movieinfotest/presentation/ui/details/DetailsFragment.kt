@@ -27,9 +27,11 @@ import com.example.movieinfotest.utils.ToolbarMaker
 import com.example.movieinfotest.utils.getGenreList
 import com.example.movieinfotest.utils.getYear
 import com.example.movieinfotest.utils.displayMoviePoster
-import com.example.movieinfotest.utils.ToastUtils
 import com.example.movieinfotest.utils.network.NetworkConnection
 import com.example.movieinfotest.utils.getDivider
+import com.example.movieinfotest.utils.setVisible
+import com.example.movieinfotest.utils.setGone
+import com.example.movieinfotest.utils.reRunFragment
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -49,6 +51,7 @@ class DetailsFragment : Fragment() {
         init()
         setupReadLifeData()
         setupFavoriteBtn()
+        setupSwitchActors()
 
         return binding.root
     }
@@ -63,35 +66,6 @@ class DetailsFragment : Fragment() {
         viewModel.sendID(savedId, NetworkConnection.getNetworkStatus(MovieApp.getInstance()))
 
         initToolbar()
-    }
-
-    private fun initToolbar() {
-        binding.toolbar.setNavigationOnClickListener {
-            activity?.onBackPressed()
-        }
-
-        ToolbarMaker.makeToolbar(binding.toolbar, parentViewModel)
-        initMenuItemClickListener()
-    }
-
-    private fun initMenuItemClickListener() {
-        binding.toolbar.setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.dark_mode_btn -> {
-                    parentViewModel.changeDarkMode()
-                }
-
-                R.id.login -> {
-                    RegistrationFragment.navigate(NavHostFragment.findNavController(this))
-                }
-
-                R.id.logout -> {
-                    parentViewModel.auth.signOut()
-                    parentFragmentManager.beginTransaction().detach(this).attach(this).commit()
-                }
-            }
-            return@setOnMenuItemClickListener true
-        }
     }
 
     private fun setupReadLifeData() {
@@ -116,24 +90,53 @@ class DetailsFragment : Fragment() {
                 moveToLogin()
             }
         }
+    }
 
-        binding.switchActors.setOnCheckedChangeListener { buttonView, isChecked ->
+    private fun setupSwitchActors() {
+        binding.switchActors.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                binding.crewList.visibility = View.VISIBLE
-                binding.castList.visibility = View.GONE
+                binding.crewList.setVisible()
+                binding.castList.setGone()
             } else {
-                binding.crewList.visibility = View.GONE
-                binding.castList.visibility = View.VISIBLE
+                binding.crewList.setGone()
+                binding.castList.setVisible()
             }
+        }
+    }
+
+    private fun initToolbar() {
+        binding.toolbar.setNavigationOnClickListener {
+            activity?.onBackPressed()
+        }
+
+        ToolbarMaker.makeToolbar(binding.toolbar, parentViewModel)
+        initMenuItemClickListener()
+    }
+
+    private fun initMenuItemClickListener() {
+        binding.toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.dark_mode_btn -> {
+                    parentViewModel.changeDarkMode()
+                }
+
+                R.id.login -> {
+                    RegistrationFragment.navigate(NavHostFragment.findNavController(this))
+                }
+
+                R.id.logout -> {
+                    parentViewModel.auth.signOut()
+                    parentFragmentManager.reRunFragment(this)
+                }
+            }
+            return@setOnMenuItemClickListener true
         }
     }
 
     private fun saveDeleteMovie() {
         if (!viewModel.isFavorite.value) {
-            makeToast(resources.getString(R.string.movie_added_to_favorite))
             viewModel.saveInFavorite(NetworkConnection.getNetworkStatus(MovieApp.getInstance()))
         } else {
-            makeToast(resources.getString(R.string.movie_deleted_from_favorite))
             viewModel.deleteFromFavorite()
         }
     }
@@ -155,8 +158,8 @@ class DetailsFragment : Fragment() {
     private fun setMovie(details: MovieDomain) {
         binding.infoDescription.text = details.overview
         binding.infoGenres.text = getGenreList(details.genres)
-        val resultName = "${details.title} (${details.releaseDate.getYear()})"
-        binding.infoName.text = resultName
+        binding.infoName.text =
+            getString(R.string.title_with_date, details.title, details.releaseDate.getYear())
         binding.infoRating.text = details.voteAverage.toString()
         binding.infoPoster.displayMoviePoster(details.posterPath, x = 150, y = 225)
         setActors(details.casts, details.crews)
@@ -165,14 +168,14 @@ class DetailsFragment : Fragment() {
 
     private fun setActors(cast: List<CastDomain>?, crew: List<CrewDomain>?) {
         if (!cast.isNullOrEmpty()) {
-            binding.actors.visibility = View.VISIBLE
+            binding.actors.setVisible()
 
             binding.castList.adapter = CastAdapter(cast)
             addDivider(binding.castList)
         }
 
         if (!crew.isNullOrEmpty()) {
-            binding.actors.visibility = View.VISIBLE
+            binding.actors.setVisible()
 
             binding.crewList.adapter = CastAdapter(crew.asCast())
             addDivider(binding.crewList)
@@ -191,12 +194,13 @@ class DetailsFragment : Fragment() {
         }
     }
 
-    private fun makeToast(text: String) {
-        context?.let { ToastUtils.makeShortMessage(it, text) }
-    }
-
     private fun onProgress(isVisible: Boolean) {
-        binding.progressBar.visibility = if (isVisible) View.VISIBLE else View.GONE
-        binding.scrollView.visibility = if (!isVisible) View.VISIBLE else View.INVISIBLE
+        if (isVisible) {
+            binding.progressBar.setVisible()
+            binding.scrollView.setGone()
+        } else {
+            binding.progressBar.setGone()
+            binding.scrollView.setVisible()
+        }
     }
 }

@@ -3,6 +3,9 @@ package com.example.movieinfotest.utils
 import android.content.Context
 import android.content.res.Configuration
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import android.view.View
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.example.movieinfotest.data.entities.details.MovieDetails
 import com.example.movieinfotest.data.entities.details.MovieDetailsDB
 import com.example.movieinfotest.data.entities.genre.Genre
@@ -54,4 +57,21 @@ fun Movie.toMovieDetails(): MovieDetails {
 fun Context.isDarkThemeOn(): Boolean {
     return resources.configuration.uiMode and
             Configuration.UI_MODE_NIGHT_MASK == UI_MODE_NIGHT_YES
+}
+
+fun View.setVisible() {
+    visibility = View.VISIBLE
+}
+
+fun View.setGone() {
+    visibility = View.GONE
+}
+
+fun View.setInvisible() {
+    visibility = View.INVISIBLE
+}
+
+fun FragmentManager.reRunFragment(fragment: Fragment) {
+    beginTransaction().detach(fragment).commit()
+    beginTransaction().attach(fragment).commit()
 }

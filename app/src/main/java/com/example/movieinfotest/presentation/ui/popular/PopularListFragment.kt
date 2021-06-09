@@ -23,6 +23,7 @@ import com.example.movieinfotest.utils.FirebaseLogin
 import com.example.movieinfotest.utils.ToolbarMaker
 import com.example.movieinfotest.utils.getDivider
 import com.example.movieinfotest.utils.network.NetworkConnection
+import com.example.movieinfotest.utils.reRunFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -56,39 +57,6 @@ class PopularListFragment : Fragment() {
         initToolbar()
     }
 
-    private fun initToolbar() {
-        ToolbarMaker.makeToolbar(binding.toolbar, parentViewModel)
-        initMenuItemClickListener()
-    }
-
-    private fun initMenuItemClickListener() {
-        binding.toolbar.setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.dark_mode_btn -> {
-                    parentViewModel.changeDarkMode()
-                }
-
-                R.id.login -> {
-                    RegistrationFragment.navigate(NavHostFragment.findNavController(this))
-                }
-
-                R.id.logout -> {
-                    parentViewModel.auth.signOut()
-                    parentFragmentManager.beginTransaction().detach(this).attach(this).commit()
-                }
-            }
-            return@setOnMenuItemClickListener true
-        }
-    }
-
-    private fun fetchMovies() {
-        lifecycle.coroutineScope.launch(Dispatchers.IO) {
-            viewModel.movies.collectLatest { pagingData ->
-                movieAdapter.submitData(pagingData)
-            }
-        }
-    }
-
     private fun setupPopularList() {
         val listener = object : MovieAdapter.MovieClickListener {
             override fun onClick(id: Int) {
@@ -120,6 +88,39 @@ class PopularListFragment : Fragment() {
             footer = MovieLoadingStateAdapter(movieAdapter)
         )
         addDivider()
+    }
+
+    private fun fetchMovies() {
+        lifecycle.coroutineScope.launch(Dispatchers.IO) {
+            viewModel.movies.collectLatest { pagingData ->
+                movieAdapter.submitData(pagingData)
+            }
+        }
+    }
+
+    private fun initToolbar() {
+        ToolbarMaker.makeToolbar(binding.toolbar, parentViewModel)
+        initMenuItemClickListener()
+    }
+
+    private fun initMenuItemClickListener() {
+        binding.toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.dark_mode_btn -> {
+                    parentViewModel.changeDarkMode()
+                }
+
+                R.id.login -> {
+                    RegistrationFragment.navigate(NavHostFragment.findNavController(this))
+                }
+
+                R.id.logout -> {
+                    parentViewModel.auth.signOut()
+                    parentFragmentManager.reRunFragment(this)
+                }
+            }
+            return@setOnMenuItemClickListener true
+        }
     }
 
     private fun addDivider() {

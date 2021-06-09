@@ -21,6 +21,7 @@ import com.example.movieinfotest.presentation.ui.register.RegistrationFragment
 import com.example.movieinfotest.utils.FirebaseLogin
 import com.example.movieinfotest.utils.ToolbarMaker
 import com.example.movieinfotest.utils.getDivider
+import com.example.movieinfotest.utils.reRunFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -41,9 +42,13 @@ class FavoriteListFragment : Fragment() {
         init()
         setupFavoriteList()
         fetchMovies()
-        displayList()
 
         return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        displayList()
     }
 
     private fun init() {
@@ -57,39 +62,6 @@ class FavoriteListFragment : Fragment() {
         }
 
         initToolbar()
-    }
-
-    private fun initToolbar() {
-        ToolbarMaker.makeToolbar(binding.toolbar, parentViewModel)
-        initMenuItemClickListener()
-    }
-
-    private fun initMenuItemClickListener() {
-        binding.toolbar.setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.dark_mode_btn -> {
-                    parentViewModel.changeDarkMode()
-                }
-
-                R.id.login -> {
-                    RegistrationFragment.navigate(NavHostFragment.findNavController(this))
-                }
-
-                R.id.logout -> {
-                    parentViewModel.auth.signOut()
-                    parentFragmentManager.beginTransaction().detach(this).attach(this).commit()
-                }
-            }
-            return@setOnMenuItemClickListener true
-        }
-    }
-
-    private fun fetchMovies() {
-        lifecycle.coroutineScope.launch(Dispatchers.IO) {
-            viewModel.movies.collectLatest { pagingData ->
-                adapter.submitData(pagingData)
-            }
-        }
     }
 
     private fun setupFavoriteList() {
@@ -113,10 +85,43 @@ class FavoriteListFragment : Fragment() {
         addDivider()
     }
 
+    private fun fetchMovies() {
+        lifecycle.coroutineScope.launch(Dispatchers.IO) {
+            viewModel.movies.collectLatest { pagingData ->
+                adapter.submitData(pagingData)
+            }
+        }
+    }
+
     private fun displayList() {
         if (!FirebaseLogin.isLogin()) {
             binding.rvFavoriteList.visibility = View.GONE
             binding.favoriteTextLogin.visibility = View.VISIBLE
+        }
+    }
+
+    private fun initToolbar() {
+        ToolbarMaker.makeToolbar(binding.toolbar, parentViewModel)
+        initMenuItemClickListener()
+    }
+
+    private fun initMenuItemClickListener() {
+        binding.toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.dark_mode_btn -> {
+                    parentViewModel.changeDarkMode()
+                }
+
+                R.id.login -> {
+                    RegistrationFragment.navigate(NavHostFragment.findNavController(this))
+                }
+
+                R.id.logout -> {
+                    parentViewModel.auth.signOut()
+                    parentFragmentManager.reRunFragment(this)
+                }
+            }
+            return@setOnMenuItemClickListener true
         }
     }
 

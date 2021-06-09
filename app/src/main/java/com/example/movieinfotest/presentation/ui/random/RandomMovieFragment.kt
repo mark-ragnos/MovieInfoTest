@@ -22,6 +22,7 @@ import com.example.movieinfotest.utils.network.NetworkConnection
 import com.example.movieinfotest.utils.ToolbarMaker
 import com.example.movieinfotest.utils.displayMoviePoster
 import com.example.movieinfotest.utils.isPossibleYear
+import com.example.movieinfotest.utils.reRunFragment
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -56,6 +57,52 @@ class RandomMovieFragment : Fragment() {
         initToolbar()
     }
 
+    private fun initTextWatcher() {
+        binding.genInYear.addTextChangedListener {
+            buttonEnabled(isPossibleYear(it.toString()))
+        }
+    }
+
+    private fun initSpinner() {
+        genreAdapter = GenreAdapter(0, null, binding.genInGenre)
+
+        binding.genInGenre.setSpinnerAdapter(genreAdapter)
+        binding.genInGenre.setOnSpinnerItemSelectedListener(viewModel.selectGenreListener)
+        binding.genInGenre.lifecycleOwner = viewLifecycleOwner
+
+        viewModel.loadGenres(NetworkConnection.getNetworkStatus(MovieApp.getInstance()))
+    }
+
+    private fun setupUI() {
+        binding.genBtnRandom.setOnClickListener {
+            if (isGenerateAccess()) {
+                onProgressGenerator(true)
+                viewModel.generateRandom(binding.genInYear.text.toString())
+            }
+        }
+
+        binding.genResult.setOnClickListener {
+            val action = RandomMovieFragmentDirections.actionGenerateMovieToMovieInfo(
+                binding.genOutId.text.toString().toInt()
+            )
+            NavHostFragment.findNavController(this).navigate(action)
+        }
+    }
+
+    private fun subscribeOnData() {
+        lifecycle.coroutineScope.launch {
+            viewModel.movie.collectLatest {
+                it?.let { setMovie(it) }
+            }
+        }
+
+        lifecycle.coroutineScope.launch {
+            viewModel.genres.collectLatest {
+                it?.let { genreAdapter.setItems(it) }
+            }
+        }
+    }
+
     private fun initToolbar() {
         ToolbarMaker.makeToolbar(binding.toolbar, parentViewModel)
         initMenuItemClickListener()
@@ -74,70 +121,21 @@ class RandomMovieFragment : Fragment() {
 
                 R.id.logout -> {
                     parentViewModel.auth.signOut()
-                    parentFragmentManager.beginTransaction().detach(this).attach(this).commit()
+                    parentFragmentManager.reRunFragment(this)
                 }
             }
             return@setOnMenuItemClickListener true
         }
     }
 
-    private fun initTextWatcher() {
-        binding.genInYear.addTextChangedListener {
-            buttonEnabled(isPossibleYear(it.toString()))
-        }
-    }
-
-    private fun initSpinner() {
-        genreAdapter = GenreAdapter(0, null, binding.genInGenre)
-
-        binding.genInGenre.setSpinnerAdapter(genreAdapter)
-        binding.genInGenre.setOnSpinnerItemSelectedListener(viewModel.selectGenreListener)
-        binding.genInGenre.lifecycleOwner = viewLifecycleOwner
-
-        viewModel.loadGenres(NetworkConnection.getNetworkStatus(MovieApp.getInstance()))
-    }
-
-    private fun subscribeOnData() {
-        lifecycle.coroutineScope.launch {
-            viewModel.movie.collectLatest {
-                it?.let { setMovie(it) }
-            }
-        }
-
-        lifecycle.coroutineScope.launch {
-            viewModel.genres.collectLatest {
-                it?.let { genreAdapter.setItems(it) }
-            }
-        }
-    }
-
-    private fun setupUI() {
-        binding.genBtnRandom.setOnClickListener {
-            onProgressGenerator(true)
-            if (isGenerateAccess()) {
-                viewModel.generateRandom(
-                    viewModel.selectedGenreId.value,
-                    binding.genInYear.text.toString()
-                )
-            } else {
-                onProgressGenerator(false)
-            }
-        }
-
-        binding.genResult.setOnClickListener {
-            val action = RandomMovieFragmentDirections.actionGenerateMovieToMovieInfo(
-                binding.genOutId.text.toString().toInt()
-            )
-            NavHostFragment.findNavController(this).navigate(action)
-        }
-    }
-
     private fun setMovie(movie: MovieDomain) {
-        binding.genOutPoster.displayMoviePoster(movie.posterPath, x = 150, y = 225)
-        binding.genOutRating.text = movie.voteAverage.toString()
-        binding.genOutName.text = movie.title
-        binding.genOutId.text = movie.id.toString()
-        binding.genOutDesc.text = movie.overview
+        binding.apply {
+            genOutPoster.displayMoviePoster(movie.posterPath, x = 150, y = 225)
+            genOutRating.text = movie.voteAverage.toString()
+            genOutName.text = movie.title
+            genOutId.text = movie.id.toString()
+            genOutDesc.text = movie.overview
+        }
         onProgressGenerator(false)
     }
 

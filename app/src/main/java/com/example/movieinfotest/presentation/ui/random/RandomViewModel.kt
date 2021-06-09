@@ -23,20 +23,20 @@ class RandomViewModel(
     private val _genres = MutableStateFlow<List<GenreDomain>?>(null)
     val genres = _genres.asStateFlow()
 
-    private val _selectedGenreId = MutableStateFlow(-1)
+    private val _selectedGenreId = MutableStateFlow(NOT_SELECTED_GENRE)
     val selectedGenreId = _selectedGenreId.asStateFlow()
 
     val selectGenreListener =
-        OnSpinnerItemSelectedListener<GenreDomain> { oldIndex, oldItem, newIndex, newItem ->
+        OnSpinnerItemSelectedListener<GenreDomain> { _, _, _, newItem ->
             viewModelScope.launch {
                 _selectedGenreId.emit(newItem.id)
             }
         }
 
-    fun generateRandom(genre: Int, year: String) {
+    fun generateRandom(year: String) {
         viewModelScope.launch(Dispatchers.IO) {
             _movie.value = movieUseCase.getRandomMovie(
-                genre = if (genre == -1) "" else genre.toString(),
+                genre = if (selectedGenreId.value == NOT_SELECTED_GENRE) "" else selectedGenreId.value.toString(),
                 year = year
             )
         }
@@ -48,5 +48,9 @@ class RandomViewModel(
                 _genres.value = genreUseCase.getAllGenres(networkStatus)
             }
         }
+    }
+
+    companion object {
+        const val NOT_SELECTED_GENRE = -1
     }
 }
