@@ -4,6 +4,8 @@ plugins {
     id 'androidx.navigation.safeargs.kotlin'
     id 'kotlin-kapt'
     id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+    id 'com.google.firebase.firebase-perf'
     id 'io.gitlab.arturbosch.detekt'
 }
 
@@ -91,9 +93,13 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
 
     //firebase
-    implementation platform('com.google.firebase:firebase-bom:27.0.0')
+    implementation platform('com.google.firebase:firebase-bom:28.1.0')
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.firebase:firebase-messaging'
+    implementation 'com.google.firebase:firebase-messaging'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-perf-ktx'
 
     //dagger 2
     implementation 'com.google.dagger:dagger:2.35.1'
