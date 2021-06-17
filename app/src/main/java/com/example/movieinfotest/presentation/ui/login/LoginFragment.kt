@@ -1,7 +1,6 @@
 package com.example.movieinfotest.presentation.ui.login
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,11 +10,11 @@ import androidx.navigation.fragment.NavHostFragment
 import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentLoginBinding
+import com.example.movieinfotest.presentation.ui.base.BaseFragment
 import com.example.movieinfotest.utils.FirebaseLogin
-import com.example.movieinfotest.utils.ToastUtils
 import com.example.movieinfotest.utils.isCorrectUserData
 
-class LoginFragment : Fragment() {
+class LoginFragment : BaseFragment() {
     private lateinit var binding: FragmentLoginBinding
     private val parentViewModel: MainActivityViewModel by activityViewModels()
 
@@ -63,15 +62,11 @@ class LoginFragment : Fragment() {
                     if (it.isSuccessful) {
                         requireActivity().onBackPressed()
                     } else {
-                        makeToast(resources.getText(R.string.autentification_failed))
+                        makeShortMessage(view, resources.getText(R.string.autentification_failed))
                     }
                     showProgressBar(false)
                 }
         }
-    }
-
-    private fun makeToast(message: CharSequence) {
-        context?.let { ToastUtils.makeShortMessage(it, message.toString()) }
     }
 
     private fun showProgressBar(isProgress: Boolean) {

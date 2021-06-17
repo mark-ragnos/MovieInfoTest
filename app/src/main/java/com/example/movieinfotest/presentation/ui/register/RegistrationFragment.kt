@@ -1,7 +1,6 @@
 package com.example.movieinfotest.presentation.ui.register
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,10 +10,10 @@ import androidx.navigation.NavController
 import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentRegistrationBinding
-import com.example.movieinfotest.utils.ToastUtils
+import com.example.movieinfotest.presentation.ui.base.BaseFragment
 import com.example.movieinfotest.utils.isCorrectUserData
 
-class RegistrationFragment : Fragment() {
+class RegistrationFragment : BaseFragment() {
     private lateinit var binding: FragmentRegistrationBinding
     private val parentViewModel: MainActivityViewModel by activityViewModels()
 
@@ -57,15 +56,11 @@ class RegistrationFragment : Fragment() {
                     if (it.isSuccessful) {
                         requireActivity().onBackPressed()
                     } else {
-                        makeToast(resources.getText(R.string.autentification_failed))
+                        makeShortMessage(view, resources.getText(R.string.autentification_failed))
                     }
                     showProgressBar(false)
                 }
         }
-    }
-
-    private fun makeToast(message: CharSequence) {
-        context?.let { ToastUtils.makeShortMessage(it, message.toString()) }
     }
 
     private fun showProgressBar(isProgress: Boolean) {

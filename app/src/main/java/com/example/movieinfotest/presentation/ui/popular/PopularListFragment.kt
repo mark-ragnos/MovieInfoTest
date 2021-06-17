@@ -1,7 +1,6 @@
 package com.example.movieinfotest.presentation.ui.popular
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +16,7 @@ import com.example.movieinfotest.databinding.FragmentPopularListBinding
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.presentation.ui.popular.adapter.MovieAdapter
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
+import com.example.movieinfotest.presentation.ui.base.BaseFragment
 import com.example.movieinfotest.presentation.ui.popular.adapter.MovieLoadingStateAdapter
 import com.example.movieinfotest.presentation.ui.register.RegistrationFragment
 import com.example.movieinfotest.utils.FirebaseLogin
@@ -28,7 +28,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class PopularListFragment : Fragment() {
+class PopularListFragment : BaseFragment() {
     private lateinit var binding: FragmentPopularListBinding
     private lateinit var viewModel: PopularViewModel
     private val parentViewModel: MainActivityViewModel by activityViewModels()

@@ -1,7 +1,6 @@
 package com.example.movieinfotest.presentation.ui.favourite
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +14,7 @@ import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentFavoriteListBinding
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
+import com.example.movieinfotest.presentation.ui.base.BaseFragment
 import com.example.movieinfotest.presentation.ui.favourite.adapter.FavoriteAdapter
 import com.example.movieinfotest.presentation.ui.favourite.adapter.FavoriteItemTouchCallback
 import com.example.movieinfotest.presentation.ui.register.RegistrationFragment
@@ -26,7 +26,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class FavoriteListFragment : Fragment() {
+class FavoriteListFragment : BaseFragment() {
     private lateinit var binding: FragmentFavoriteListBinding
     private lateinit var viewModel: FavoriteViewModel
     private val parentViewModel: MainActivityViewModel by activityViewModels()

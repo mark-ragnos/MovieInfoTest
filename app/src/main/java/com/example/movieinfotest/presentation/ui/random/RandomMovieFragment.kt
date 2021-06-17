@@ -1,7 +1,6 @@
 package com.example.movieinfotest.presentation.ui.random
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +15,7 @@ import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentRandomMovieBinding
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
+import com.example.movieinfotest.presentation.ui.base.BaseFragment
 import com.example.movieinfotest.presentation.ui.random.adapter.GenreAdapter
 import com.example.movieinfotest.presentation.ui.register.RegistrationFragment
 import com.example.movieinfotest.utils.network.NetworkConnection
@@ -26,7 +26,7 @@ import com.example.movieinfotest.utils.reRunFragment
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class RandomMovieFragment : Fragment() {
+class RandomMovieFragment : BaseFragment() {
     private lateinit var binding: FragmentRandomMovieBinding
     private lateinit var viewModel: RandomViewModel
     private lateinit var genreAdapter: GenreAdapter

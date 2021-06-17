@@ -1,7 +1,6 @@
 package com.example.movieinfotest.presentation.ui.details
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +19,7 @@ import com.example.movieinfotest.domain.entities.actor.CrewDomain
 import com.example.movieinfotest.domain.entities.actor.asCast
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
+import com.example.movieinfotest.presentation.ui.base.BaseFragment
 import com.example.movieinfotest.presentation.ui.details.actors.CastAdapter
 import com.example.movieinfotest.presentation.ui.register.RegistrationFragment
 import com.example.movieinfotest.utils.FirebaseLogin
@@ -35,7 +35,7 @@ import com.example.movieinfotest.utils.reRunFragment
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class DetailsFragment : Fragment() {
+class DetailsFragment : BaseFragment() {
     private lateinit var binding: FragmentDetailsBinding
     private lateinit var viewModel: DetailsViewModel
     private val parentViewModel: MainActivityViewModel by activityViewModels()
