@@ -11,7 +11,6 @@ import androidx.lifecycle.coroutineScope
 import androidx.navigation.fragment.NavHostFragment
 import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
 import com.example.movieinfotest.MovieApp
-import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentPopularListBinding
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.presentation.ui.popular.adapter.MovieAdapter
@@ -20,7 +19,7 @@ import com.example.movieinfotest.presentation.ui.base.BaseFragment
 import com.example.movieinfotest.presentation.ui.popular.adapter.MovieLoadingStateAdapter
 import com.example.movieinfotest.utils.FirebaseLogin
 import com.example.movieinfotest.utils.ToolbarMaker
-import com.example.movieinfotest.utils.getDivider
+import com.example.movieinfotest.utils.addDefaultDivider
 import com.example.movieinfotest.utils.network.NetworkConnection
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
@@ -101,14 +100,6 @@ class PopularListFragment : BaseFragment() {
     }
 
     private fun addDivider() {
-        context?.let {
-            binding.rvPopularList.addItemDecoration(
-                getDivider(
-                    it,
-                    LinearLayout.VERTICAL,
-                    R.drawable.divider
-                )
-            )
-        }
+        binding.rvPopularList.addDefaultDivider(context, LinearLayout.VERTICAL)
     }
 }

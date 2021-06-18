@@ -27,9 +27,9 @@ import com.example.movieinfotest.utils.getGenreList
 import com.example.movieinfotest.utils.getYear
 import com.example.movieinfotest.utils.displayMoviePoster
 import com.example.movieinfotest.utils.network.NetworkConnection
-import com.example.movieinfotest.utils.getDivider
 import com.example.movieinfotest.utils.setVisible
 import com.example.movieinfotest.utils.setGone
+import com.example.movieinfotest.utils.addDefaultDivider
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -160,15 +160,7 @@ class DetailsFragment : BaseFragment() {
     }
 
     private fun addDivider(list: RecyclerView) {
-        context?.let {
-            list.addItemDecoration(
-                getDivider(
-                    it,
-                    LinearLayout.HORIZONTAL,
-                    R.drawable.divider
-                )
-            )
-        }
+        list.addDefaultDivider(context, LinearLayout.HORIZONTAL)
     }
 
     private fun onProgress(isVisible: Boolean) {

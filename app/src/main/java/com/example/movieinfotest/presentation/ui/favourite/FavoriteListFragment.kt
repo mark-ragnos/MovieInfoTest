@@ -11,7 +11,6 @@ import androidx.lifecycle.coroutineScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
-import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentFavoriteListBinding
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.base.BaseFragment
@@ -20,7 +19,7 @@ import com.example.movieinfotest.presentation.ui.favourite.adapter.FavoriteItemT
 import com.example.movieinfotest.presentation.ui.register.RegistrationFragment
 import com.example.movieinfotest.utils.FirebaseLogin
 import com.example.movieinfotest.utils.ToolbarMaker
-import com.example.movieinfotest.utils.getDivider
+import com.example.movieinfotest.utils.addDefaultDivider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -104,14 +103,6 @@ class FavoriteListFragment : BaseFragment() {
     }
 
     private fun addDivider() {
-        context?.let {
-            binding.rvFavoriteList.addItemDecoration(
-                getDivider(
-                    it,
-                    LinearLayout.VERTICAL,
-                    R.drawable.divider
-                )
-            )
-        }
+        binding.rvFavoriteList.addDefaultDivider(context, LinearLayout.VERTICAL)
     }
 }
