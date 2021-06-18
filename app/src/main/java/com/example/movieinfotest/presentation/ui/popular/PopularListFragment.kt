@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.coroutineScope
 import androidx.navigation.fragment.NavHostFragment
 import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 
 class PopularListFragment : BaseFragment() {
     private lateinit var binding: FragmentPopularListBinding
-    private lateinit var viewModel: PopularViewModel
+    private val viewModel: PopularViewModel by viewModels { AppViewModelFactory.makeFactory() }
     private val parentViewModel: MainActivityViewModel by activityViewModels()
     private lateinit var movieAdapter: MovieAdapter
 
@@ -38,20 +38,11 @@ class PopularListFragment : BaseFragment() {
     ): View {
         binding = FragmentPopularListBinding.inflate(inflater, container, false)
 
-        init()
+        initToolbar()
         setupPopularList()
         fetchMovies()
 
         return binding.root
-    }
-
-    private fun init() {
-        viewModel = ViewModelProviders.of(
-            this,
-            AppViewModelFactory.makeFactory()
-        ).get(PopularViewModel::class.java)
-
-        initToolbar()
     }
 
     private fun setupPopularList() {

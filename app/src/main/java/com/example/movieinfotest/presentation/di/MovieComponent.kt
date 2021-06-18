@@ -7,17 +7,13 @@ import com.example.movieinfotest.presentation.di.usecases.FavoriteModule
 import com.example.movieinfotest.presentation.di.usecases.GenreModule
 import com.example.movieinfotest.presentation.di.usecases.MovieModule
 import dagger.Component
-import javax.inject.Singleton
 
 @Component(modules = [FavoriteModule::class, MovieModule::class, GenreModule::class])
 interface MovieComponent {
 
-    @Singleton
     fun getFavoriteUseCase(): FavoriteMovieUseCase
 
-    @Singleton
     fun getMovieUseCase(): MovieUseCase
 
-    @Singleton
     fun getGenreUseCase(): GenreUseCase
 }

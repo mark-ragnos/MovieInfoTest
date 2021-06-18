@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.coroutineScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.RecyclerView
@@ -35,7 +35,7 @@ import kotlinx.coroutines.launch
 
 class DetailsFragment : BaseFragment() {
     private lateinit var binding: FragmentDetailsBinding
-    private lateinit var viewModel: DetailsViewModel
+    private val viewModel: DetailsViewModel by viewModels { AppViewModelFactory.makeFactory() }
     private val parentViewModel: MainActivityViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -55,11 +55,6 @@ class DetailsFragment : BaseFragment() {
     }
 
     private fun init() {
-        viewModel = ViewModelProviders.of(
-            this,
-            AppViewModelFactory.makeFactory()
-        ).get(DetailsViewModel::class.java)
-
         val savedId = DetailsFragmentArgs.fromBundle(requireArguments()).id
         viewModel.sendID(savedId, NetworkConnection.getNetworkStatus(MovieApp.getInstance()))
 

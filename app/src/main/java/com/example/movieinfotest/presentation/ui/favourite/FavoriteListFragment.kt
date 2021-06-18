@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.coroutineScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -26,7 +26,7 @@ import kotlinx.coroutines.launch
 
 class FavoriteListFragment : BaseFragment() {
     private lateinit var binding: FragmentFavoriteListBinding
-    private lateinit var viewModel: FavoriteViewModel
+    private val viewModel: FavoriteViewModel by viewModels { AppViewModelFactory.makeFactory() }
     private val parentViewModel: MainActivityViewModel by activityViewModels()
     private lateinit var adapter: FavoriteAdapter
 
@@ -50,11 +50,6 @@ class FavoriteListFragment : BaseFragment() {
     }
 
     private fun init() {
-        viewModel = ViewModelProviders.of(
-            this,
-            AppViewModelFactory.makeFactory()
-        ).get(FavoriteViewModel::class.java)
-
         binding.favoriteTextLogin.setOnClickListener {
             RegistrationFragment.navigate(NavHostFragment.findNavController(this))
         }

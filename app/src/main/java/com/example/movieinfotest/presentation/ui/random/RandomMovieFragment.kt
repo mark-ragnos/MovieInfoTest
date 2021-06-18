@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.coroutineScope
 import androidx.navigation.fragment.NavHostFragment
 import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 
 class RandomMovieFragment : BaseFragment() {
     private lateinit var binding: FragmentRandomMovieBinding
-    private lateinit var viewModel: RandomViewModel
+    private val viewModel: RandomViewModel by viewModels { AppViewModelFactory.makeFactory() }
     private lateinit var genreAdapter: GenreAdapter
     private val parentViewModel: MainActivityViewModel by activityViewModels()
 
@@ -36,22 +36,13 @@ class RandomMovieFragment : BaseFragment() {
     ): View {
         binding = FragmentRandomMovieBinding.inflate(inflater, container, false)
 
-        init()
+        initToolbar()
         initTextWatcher()
         initSpinner()
         setupUI()
         subscribeOnData()
 
         return binding.root
-    }
-
-    private fun init() {
-        viewModel = ViewModelProviders.of(
-            this,
-            AppViewModelFactory.makeFactory()
-        ).get(RandomViewModel::class.java)
-
-        initToolbar()
     }
 
     private fun initTextWatcher() {
