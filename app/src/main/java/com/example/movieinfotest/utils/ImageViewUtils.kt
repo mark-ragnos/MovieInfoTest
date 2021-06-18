@@ -33,7 +33,7 @@ fun ImageView.displayActorPicture(
 
 private fun loadImage(path: String?, x: Int, y: Int): RequestCreator {
     return Picasso.get()
-        .load("https://www.themoviedb.org/t/p/w1280$path")
+        .load("https://www.themoviedb.org/t/p/w154$path")
         .resize(x, y)
         .centerCrop()
 }
