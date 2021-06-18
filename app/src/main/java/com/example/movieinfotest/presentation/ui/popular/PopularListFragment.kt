@@ -18,12 +18,10 @@ import com.example.movieinfotest.presentation.ui.popular.adapter.MovieAdapter
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.base.BaseFragment
 import com.example.movieinfotest.presentation.ui.popular.adapter.MovieLoadingStateAdapter
-import com.example.movieinfotest.presentation.ui.register.RegistrationFragment
 import com.example.movieinfotest.utils.FirebaseLogin
 import com.example.movieinfotest.utils.ToolbarMaker
 import com.example.movieinfotest.utils.getDivider
 import com.example.movieinfotest.utils.network.NetworkConnection
-import com.example.movieinfotest.utils.reRunFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -99,28 +97,7 @@ class PopularListFragment : BaseFragment() {
     }
 
     private fun initToolbar() {
-        ToolbarMaker.makeToolbar(binding.toolbar, parentViewModel)
-        initMenuItemClickListener()
-    }
-
-    private fun initMenuItemClickListener() {
-        binding.toolbar.setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.dark_mode_btn -> {
-                    parentViewModel.changeDarkMode()
-                }
-
-                R.id.login -> {
-                    RegistrationFragment.navigate(NavHostFragment.findNavController(this))
-                }
-
-                R.id.logout -> {
-                    parentViewModel.auth.signOut()
-                    parentFragmentManager.reRunFragment(this)
-                }
-            }
-            return@setOnMenuItemClickListener true
-        }
+        ToolbarMaker.makeDefaultToolbar(binding.toolbar, parentViewModel, this)
     }
 
     private fun addDivider() {

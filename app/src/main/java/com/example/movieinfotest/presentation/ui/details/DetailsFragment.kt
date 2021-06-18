@@ -21,7 +21,6 @@ import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.base.BaseFragment
 import com.example.movieinfotest.presentation.ui.details.actors.CastAdapter
-import com.example.movieinfotest.presentation.ui.register.RegistrationFragment
 import com.example.movieinfotest.utils.FirebaseLogin
 import com.example.movieinfotest.utils.ToolbarMaker
 import com.example.movieinfotest.utils.getGenreList
@@ -31,7 +30,6 @@ import com.example.movieinfotest.utils.network.NetworkConnection
 import com.example.movieinfotest.utils.getDivider
 import com.example.movieinfotest.utils.setVisible
 import com.example.movieinfotest.utils.setGone
-import com.example.movieinfotest.utils.reRunFragment
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -109,28 +107,7 @@ class DetailsFragment : BaseFragment() {
             activity?.onBackPressed()
         }
 
-        ToolbarMaker.makeToolbar(binding.toolbar, parentViewModel)
-        initMenuItemClickListener()
-    }
-
-    private fun initMenuItemClickListener() {
-        binding.toolbar.setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.dark_mode_btn -> {
-                    parentViewModel.changeDarkMode()
-                }
-
-                R.id.login -> {
-                    RegistrationFragment.navigate(NavHostFragment.findNavController(this))
-                }
-
-                R.id.logout -> {
-                    parentViewModel.auth.signOut()
-                    parentFragmentManager.reRunFragment(this)
-                }
-            }
-            return@setOnMenuItemClickListener true
-        }
+        ToolbarMaker.makeDefaultToolbar(binding.toolbar, parentViewModel, this)
     }
 
     private fun saveDeleteMovie() {

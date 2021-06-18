@@ -11,18 +11,15 @@ import androidx.lifecycle.coroutineScope
 import androidx.navigation.fragment.NavHostFragment
 import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
 import com.example.movieinfotest.MovieApp
-import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentRandomMovieBinding
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.base.BaseFragment
 import com.example.movieinfotest.presentation.ui.random.adapter.GenreAdapter
-import com.example.movieinfotest.presentation.ui.register.RegistrationFragment
 import com.example.movieinfotest.utils.network.NetworkConnection
 import com.example.movieinfotest.utils.ToolbarMaker
 import com.example.movieinfotest.utils.displayMoviePoster
 import com.example.movieinfotest.utils.isPossibleYear
-import com.example.movieinfotest.utils.reRunFragment
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -104,28 +101,7 @@ class RandomMovieFragment : BaseFragment() {
     }
 
     private fun initToolbar() {
-        ToolbarMaker.makeToolbar(binding.toolbar, parentViewModel)
-        initMenuItemClickListener()
-    }
-
-    private fun initMenuItemClickListener() {
-        binding.toolbar.setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.dark_mode_btn -> {
-                    parentViewModel.changeDarkMode()
-                }
-
-                R.id.login -> {
-                    RegistrationFragment.navigate(NavHostFragment.findNavController(this))
-                }
-
-                R.id.logout -> {
-                    parentViewModel.auth.signOut()
-                    parentFragmentManager.reRunFragment(this)
-                }
-            }
-            return@setOnMenuItemClickListener true
-        }
+        ToolbarMaker.makeDefaultToolbar(binding.toolbar, parentViewModel, this)
     }
 
     private fun setMovie(movie: MovieDomain) {
