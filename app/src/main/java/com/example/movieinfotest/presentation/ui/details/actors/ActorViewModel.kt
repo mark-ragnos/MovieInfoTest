@@ -26,8 +26,9 @@ class ActorViewModel(
 
     init {
         actorId.onEach {
-            if (it != 0)
+            if (it != 0) {
                 _actorInfo.emit(actorUseCase.getActorInfo(it))
+            }
         }.launchIn(viewModelScope)
     }
 }

@@ -13,6 +13,7 @@ import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.base.BaseFragment
 import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
 import com.example.movieinfotest.utils.ToolbarMaker
+import com.example.movieinfotest.utils.displayActorPicture
 import com.example.movieinfotest.utils.moviedbSpecificUtils.getGenderText
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -56,12 +57,18 @@ class ActorFragment : BaseFragment() {
 
     private fun setActor(actor: ActorInfoDomain) {
         binding.apply {
+            name.text = actor.name
             actor.knownForDepartment?.let { famousFor.setValue(it) }
             biography.setValue(actor.biography)
             actor.birthday?.let { birthday.setValue(it) }
             actor.deathDay?.let { deathday.setValue(it) }
             actor.placeOfBirth?.let { birthPlace.setValue(it) }
             context?.let { getGenderText(actor.gender, it) }?.let { gender.setValue(it) }
+            poster.displayActorPicture(actor.profilePath, actor.gender, IMAGE_SIZE, IMAGE_SIZE)
         }
+    }
+
+    companion object {
+        const val IMAGE_SIZE = 150
     }
 }

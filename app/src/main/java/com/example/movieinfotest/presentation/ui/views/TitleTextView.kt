@@ -51,22 +51,23 @@ class TitleTextView(context: Context, attrs: AttributeSet) : LinearLayout(contex
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                 titleView.typeface = it.getFont(R.styleable.TitleTextView_ttv_title_text_style)
                     ?: Typeface.DEFAULT_BOLD
-            } else
+            } else {
                 if (it.hasValue(R.styleable.TitleTextView_ttv_title_text_style)) {
                     val fontId =
                         it.getResourceId(R.styleable.TitleTextView_ttv_title_text_style, -1)
                     titleView.typeface = ResourcesCompat.getFont(context, fontId)
                 }
-
+            }
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                 valueView.typeface = it.getFont(R.styleable.TitleTextView_ttv_value_text_style)
                     ?: Typeface.DEFAULT
-            } else
+            } else {
                 if (it.hasValue(R.styleable.TitleTextView_ttv_value_text_style)) {
                     val fontId =
                         it.getResourceId(R.styleable.TitleTextView_ttv_value_text_style, -1)
                     valueView.typeface = ResourcesCompat.getFont(context, fontId)
                 }
+            }
 
             titleView.setTextColor(
                 it.getColor(
@@ -82,8 +83,9 @@ class TitleTextView(context: Context, attrs: AttributeSet) : LinearLayout(contex
             )
         }
 
-        if (autoHide)
+        if (autoHide) {
             setVisible()
+        }
     }
 
     private fun setVisible() {
@@ -99,10 +101,6 @@ class TitleTextView(context: Context, attrs: AttributeSet) : LinearLayout(contex
     fun setValue(value: String) {
         valueView.text = value
         setVisible()
-    }
-
-    fun setTitle(title: String) {
-        titleView.text = title
     }
 
     fun getValue(): String {

@@ -9,8 +9,9 @@ const val MALE = 2
 const val NON_BINARY = 3
 
 fun getGenderText(gender: Int, context: Context): String {
-    if (gender !in NOT_SPECIFIED..NON_BINARY)
+    if (gender !in NOT_SPECIFIED..NON_BINARY) {
         return context.getString(R.string.unknown_gender)
+    }
     return gender.toGenderText(context)
 }
 
