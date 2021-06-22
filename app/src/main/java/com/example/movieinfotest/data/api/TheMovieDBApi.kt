@@ -2,6 +2,7 @@ package com.example.movieinfotest.data.api
 
 import android.util.Log
 import com.example.movieinfotest.data.entities.actors.FilmActors
+import com.example.movieinfotest.data.entities.api.actor.ActorInfo
 import com.example.movieinfotest.data.entities.details.MovieDetails
 import com.example.movieinfotest.data.entities.genre.GenreCollection
 import com.example.movieinfotest.data.entities.popular.PopularFilms
@@ -35,6 +36,9 @@ interface TheMovieDBApi {
 
     @GET("movie/{movie_id}/credits?api_key=393a66787ff4b601eae377e5ec8b4d36")
     suspend fun getMovieCredits(@Path("movie_id") movieId: String): Response<FilmActors>
+
+    @GET("person/{person_id}?api_key=393a66787ff4b601eae377e5ec8b4d36")
+    suspend fun getActorInfo(@Path("person_id") actorId: Int): Response<ActorInfo>
 
     companion object {
         private const val BASE_URL = "https://api.themoviedb.org/3/"

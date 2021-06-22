@@ -20,7 +20,6 @@ import com.example.movieinfotest.domain.entities.actor.asCast
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.base.BaseFragment
-import com.example.movieinfotest.presentation.ui.details.actors.CastAdapter
 import com.example.movieinfotest.utils.FirebaseLogin
 import com.example.movieinfotest.utils.ToolbarMaker
 import com.example.movieinfotest.utils.getGenreList
@@ -30,6 +29,7 @@ import com.example.movieinfotest.utils.network.NetworkConnection
 import com.example.movieinfotest.utils.setVisible
 import com.example.movieinfotest.utils.setGone
 import com.example.movieinfotest.utils.addDefaultDivider
+import com.example.movieinfotest.utils.listeners.NavigationListener
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -142,14 +142,14 @@ class DetailsFragment : BaseFragment() {
         if (!cast.isNullOrEmpty()) {
             binding.actors.setVisible()
 
-            binding.castList.adapter = CastAdapter(cast)
+            binding.castList.adapter = CastAdapter(cast, navigationClickListener)
             addDivider(binding.castList)
         }
 
         if (!crew.isNullOrEmpty()) {
             binding.actors.setVisible()
 
-            binding.crewList.adapter = CastAdapter(crew.asCast())
+            binding.crewList.adapter = CastAdapter(crew.asCast(), navigationClickListener)
             addDivider(binding.crewList)
         }
     }
@@ -165,6 +165,13 @@ class DetailsFragment : BaseFragment() {
         } else {
             binding.progressBar.setGone()
             binding.scrollView.setVisible()
+        }
+    }
+
+    private val navigationClickListener = object : NavigationListener<Int> {
+        override fun navigate(param: Int) {
+            val action = DetailsFragmentDirections.actionMovieInfoToActorFragment(param)
+            NavHostFragment.findNavController(this@DetailsFragment).navigate(action)
         }
     }
 }

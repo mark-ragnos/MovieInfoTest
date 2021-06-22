@@ -1,6 +1,7 @@
 package com.example.movieinfotest.data.api
 
 import com.example.movieinfotest.data.entities.actors.FilmActors
+import com.example.movieinfotest.data.entities.api.actor.ActorInfo
 import com.example.movieinfotest.data.entities.genre.Genre
 import com.example.movieinfotest.data.entities.details.MovieDetails
 import com.example.movieinfotest.data.entities.popular.Movie
@@ -35,6 +36,10 @@ class ApiHelper(
     suspend fun getCredits(id: String): FilmActors? {
         val response = api.getMovieCredits(id)
         return response.body()
+    }
+
+    suspend fun getActorInfo(actorId: Int): ActorInfo? {
+        return api.getActorInfo(actorId).body()
     }
 
     companion object {

@@ -2,11 +2,10 @@ package com.example.movieinfotest.utils
 
 import android.widget.ImageView
 import com.example.movieinfotest.R
+import com.example.movieinfotest.utils.moviedbSpecificUtils.FEMALE
+import com.example.movieinfotest.utils.moviedbSpecificUtils.MALE
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.RequestCreator
-
-const val MALE = 2
-const val FEMALE = 1
 
 /**
  * Соотношение постеров у = х * 1.5

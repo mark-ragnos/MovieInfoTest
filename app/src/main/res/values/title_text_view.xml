@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TitleTextView">
+        <attr name="ttv_title" format="string" />
+        <attr name="ttv_value" format="string" />
+        <attr name="ttv_title_text_size" format="dimension" />
+        <attr name="ttv_value_text_size" format="dimension" />
+        <attr name="ttv_title_text_style" format="dimension" />
+        <attr name="ttv_value_text_style" format="dimension" />
+        <attr name="ttv_title_text_color" format="color" />
+        <attr name="ttv_value_text_color" format="color" />
+        <attr name="autoHide" format="boolean" />
+    </declare-styleable>
+</resources>

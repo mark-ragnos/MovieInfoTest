@@ -56,5 +56,18 @@
     <string name="crew">Crew</string>
 
     <string name="title_with_date">%1$s (%2$s)</string>
+    <string name="actorInfo_title">Actor information</string>
 
+    <string name="not_specified">Not specified</string>
+    <string name="non_binary">Non-binary</string>
+    <string name="female">Female</string>
+    <string name="male">Male</string>
+    <string name="unknown_gender">Unknown gender</string>
+    <string name="personal_info">Personal information</string>
+    <string name="actorInfo_birthplace">Place of Birth</string>
+    <string name="actorInfo_deathday">Date of Death</string>
+    <string name="actorInfo_birthday">Date of Birth</string>
+    <string name="actorInfo_gender">Gender</string>
+    <string name="actorInfo_notable_for">Notable for</string>
+    <string name="actorInfo_biography">Biography</string>
 </resources>
