@@ -1,42 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-
-
+<!--    Light mode colors-->
     <color name="primary">#0d253f</color>
     <color name="textOnPrimary">#ffffff</color>
 
-    <color name="primary_dark">#00001a</color>
-    <color name="textOnPrimary_dark">#EEEEEE</color>
-
+    <color name="accentColor">#01b4e4</color>
 
     <color name="secondary">#01b4e4</color>
     <color name="textOnSecondary">#000000</color>
 
+    <color name="background">#FFFFFF</color>
+    <color name="textOnBackground">#000000</color>
+
+    <color name="surface">#FFFFFF</color>
+    <color name="textOnSurface">#000000</color>
+
+
+<!--Dark mode colors-->
+    <color name="primary_dark">#00001a</color>
+    <color name="textOnPrimary_dark">#EEEEEE</color>
+
     <color name="secondary_dark">#01b4e4</color>
     <color name="textOnSecondary_dark">#000000</color>
 
-
-    <color name="background">#DCDCDC</color>
-    <color name="textOnBackground">#000000</color>
-
-    <color name="background_dark">#FF000000</color>
+    <color name="background_dark">#121212</color>
     <color name="textOnBackground_dark">#EEEEEE</color>
 
-
-    <color name="surface">#EEEEEE</color>
-    <color name="textOnSurface">#000000</color>
-
-    <color name="surface_dark">#424242</color>
+    <color name="surface_dark">#121212</color>
     <color name="textOnSurface_dark">#EEEEEE</color>
 
+<!--Other colors-->
+    <color name="error_color">#B00020</color>
 
-    <color name="primary_light">#394d6a</color>
-    <color name="secondary_light">#64e6ff</color>
-    <color name="tertiary">#90cea1</color>
-
-    <color name="mdb_secondary_dark">#000000</color>
-
-    
 </resources>

@@ -69,7 +69,7 @@ class RandomMovieFragment : BaseFragment() {
             }
         }
 
-        binding.genResult.setOnClickListener {
+        binding.cardView.setOnClickListener {
             val action = RandomMovieFragmentDirections.actionGenerateMovieToMovieInfo(
                 binding.genOutId.text.toString().toInt()
             )

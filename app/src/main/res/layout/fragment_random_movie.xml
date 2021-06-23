@@ -12,14 +12,11 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:elevation="16dp"
-        android:minHeight="?attr/actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:theme="@style/ToolbarColoredBackArrow"
-        app:title="@string/random_title"
-        app:titleTextColor="?attr/colorOnPrimary" />
+        app:title="@string/random_title" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/gen_tv_year"
@@ -75,7 +72,7 @@
         app:layout_constraintTop_toTopOf="@+id/gen_tv_genre"
         app:spinner_arrow_gravity="end"
         app:spinner_arrow_show="true"
-        app:spinner_arrow_tint="@color/primary_light"
+        app:spinner_arrow_tint="?attr/colorSecondary"
         app:spinner_popup_background="?attr/colorSurface" />
 
     <com.google.android.material.button.MaterialButton
@@ -92,14 +89,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gen_tv_genre" />
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:elevation="8dp"
+        app:cardBackgroundColor="?attr/colorSurface"
+        app:cardElevation="4dp"
         android:foreground="?attr/selectableItemBackground"
         android:visibility="invisible"
         app:cardCornerRadius="8dp"
@@ -108,11 +106,8 @@
         app:layout_constraintTop_toBottomOf="@+id/gen_btn_random">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/gen_result"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="?attr/colorOnPrimary"
-            android:backgroundTint="?attr/colorSurface"
+            android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/gen_btn_random">
@@ -121,14 +116,13 @@
                 android:id="@+id/gen_out_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
                 android:visibility="invisible"
                 tools:ignore="MissingConstraints" />
 
             <ImageView
                 android:id="@+id/gen_out_poster"
-                android:layout_width="125dp"
-                android:layout_height="187.5dp"
+                android:layout_width="129dp"
+                android:layout_height="186dp"
                 android:contentDescription="@string/random_title"
                 android:textColor="?attr/colorOnSurface"
                 android:textSize="@dimen/def_item_size"
@@ -203,7 +197,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView4" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
     <androidx.core.widget.ContentLoadingProgressBar
         android:id="@+id/progress_bar"
