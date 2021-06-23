@@ -10,6 +10,7 @@ fun FavoriteMovie.toMovieDomain(): MovieDomain {
         movie.voteAverage,
         movie.releaseDate,
         movie.posterPath,
+        movie.backdropPath,
         movie.overview,
         genres.toGenreDomain(),
         casts.toCastDomain(),

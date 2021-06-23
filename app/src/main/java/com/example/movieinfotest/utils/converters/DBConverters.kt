@@ -10,6 +10,7 @@ fun MovieDetailsDB.toMovieDomain(): MovieDomain {
         voteAverage,
         releaseDate,
         posterPath,
+        backdropPath,
         overview,
         null,
         null,

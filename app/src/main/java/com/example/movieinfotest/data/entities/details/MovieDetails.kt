@@ -15,7 +15,9 @@ data class MovieDetails(
     val releaseDate: String?,
     val genres: List<Genre>?,
     @SerializedName("poster_path")
-    val posterPath: String?
+    val posterPath: String?,
+    @SerializedName("backdrop_path")
+    val backdropPath: String?
 )
 
 @Entity
@@ -27,5 +29,6 @@ data class MovieDetailsDB(
     val overview: String,
     val releaseDate: String?,
     val posterPath: String?,
+    val backdropPath: String?,
     var addDate: Long?
 )

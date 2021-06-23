@@ -70,4 +70,5 @@
     <string name="actorInfo_gender">Gender</string>
     <string name="actorInfo_notable_for">Notable for</string>
     <string name="actorInfo_biography">Biography</string>
+    <string name="details_overview">Overview</string>
 </resources>

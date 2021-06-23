@@ -29,6 +29,7 @@ import com.example.movieinfotest.utils.network.NetworkConnection
 import com.example.movieinfotest.utils.setVisible
 import com.example.movieinfotest.utils.setGone
 import com.example.movieinfotest.utils.addDefaultDivider
+import com.example.movieinfotest.utils.displayBackdrop
 import com.example.movieinfotest.utils.listeners.NavigationListener
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -45,7 +46,6 @@ class DetailsFragment : BaseFragment() {
     ): View {
         binding = FragmentDetailsBinding.inflate(inflater, container, false)
 
-        onProgress(true)
         init()
         setupReadLifeData()
         setupFavoriteBtn()
@@ -70,7 +70,7 @@ class DetailsFragment : BaseFragment() {
 
         lifecycle.coroutineScope.launch {
             viewModel.isFavorite.collectLatest {
-                changeFavoriteBnt(it)
+
             }
         }
     }
@@ -118,24 +118,15 @@ class DetailsFragment : BaseFragment() {
             .navigate(R.id.action_global_registrationGraph)
     }
 
-    private fun changeFavoriteBnt(isFavorite: Boolean) {
-        if (isFavorite) {
-            binding.infoAddToFavorite.text =
-                resources.getText(R.string.delete_from_favorite)
-        } else {
-            binding.infoAddToFavorite.text = resources.getText(R.string.save_as_favorite)
-        }
-    }
-
     private fun setMovie(details: MovieDomain) {
         binding.infoDescription.text = details.overview
         binding.infoGenres.text = getGenreList(details.genres)
         binding.infoName.text =
             getString(R.string.title_with_date, details.title, details.releaseDate.getYear())
-        binding.infoRating.text = details.voteAverage.toString()
+//        binding. = details.voteAverage.toString()
         binding.infoPoster.displayMoviePoster(details.posterPath, x = 150, y = 225)
+        binding.backdropImage.displayBackdrop(details.backdropPath)
         setActors(details.casts, details.crews)
-        onProgress(false)
     }
 
     private fun setActors(cast: List<CastDomain>?, crew: List<CrewDomain>?) {
@@ -156,16 +147,6 @@ class DetailsFragment : BaseFragment() {
 
     private fun addDivider(list: RecyclerView) {
         list.addDefaultDivider(context, LinearLayout.HORIZONTAL)
-    }
-
-    private fun onProgress(isVisible: Boolean) {
-        if (isVisible) {
-            binding.progressBar.setVisible()
-            binding.scrollView.setGone()
-        } else {
-            binding.progressBar.setGone()
-            binding.scrollView.setVisible()
-        }
     }
 
     private val navigationClickListener = object : NavigationListener<Int> {
