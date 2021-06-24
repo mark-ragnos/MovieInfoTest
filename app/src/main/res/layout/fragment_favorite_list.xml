@@ -12,14 +12,12 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:elevation="16dp"
-        android:minHeight="?attr/actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:theme="@style/ToolbarColoredBackArrow"
-        app:title="@string/favorite_title"
-        app:titleTextColor="?attr/colorOnPrimary" />
+        app:title="@string/favorite_title" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_favorite_list"

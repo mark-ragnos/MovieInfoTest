@@ -10,7 +10,6 @@ import com.squareup.picasso.RequestCreator
 const val FLAG_W154 = "w154"
 const val FLAG_W300 = "w300"
 
-
 /**
  * Соотношение постеров у = х * 1.5
  */
@@ -35,9 +34,7 @@ fun ImageView.displayActorPicture(
 }
 
 fun ImageView.displayBackdrop(
-    path: String?,
-    x: Int = 300,
-    y: Int = 150
+    path: String?
 ) {
     Picasso.get()
         .load("https://www.themoviedb.org/t/p/$FLAG_W300$path")

@@ -10,15 +10,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_arrow_back"
         app:theme="@style/ToolbarColoredBackArrow"
-        app:title="@string/details_title"
-        app:titleTextColor="?attr/colorOnPrimary" />
+        app:title="@string/details_title" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView"
@@ -35,41 +32,52 @@
 
             <FrameLayout
                 android:id="@+id/header_container"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="?attr/colorSurface"
+                android:elevation="4dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:viewBindingIgnore="true"
-                android:background="?attr/colorSurface">
+                tools:viewBindingIgnore="true">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/backdrop_image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitStart"
-                    android:foreground="@drawable/recolored"/>
+                    android:foreground="@drawable/filter_color_white_start"
+                    android:scaleType="fitXY" />
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginBottom="12dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginBottom="25dp"
                     app:cardBackgroundColor="?attr/colorSurface"
-                    app:cardElevation="8dp"
-                    app:cardCornerRadius="8dp">
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="8dp">
 
                     <ImageView
                         android:id="@+id/info_poster"
-                        android:layout_width="75dp"
-                        android:layout_height="112dp"
+                        android:layout_width="100dp"
+                        android:layout_height="150dp"
                         android:adjustViewBounds="true"
-                        android:contentDescription="@string/details_title"
-                        android:scaleType="fitXY" />
+                        android:contentDescription="@string/details_title" />
                 </com.google.android.material.card.MaterialCardView>
+
+                <ImageButton
+                    android:id="@+id/info_add_to_favorite"
+                    android:layout_width="21dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|bottom"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/favorite"
+                    android:src="@drawable/ic_favorite"
+                    app:tint="?attr/colorAccent" />
 
             </FrameLayout>
 
@@ -87,18 +95,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/header_container"
                 tools:text="The Lord of The Rings III Returns king." />
 
-            <ImageButton
-                android:id="@+id/info_add_to_favorite"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:src="@drawable/ic_favorite"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="@+id/header_container"
-                app:layout_constraintEnd_toEndOf="@+id/header_container"
-                app:layout_constraintTop_toTopOf="parent"
-                android:contentDescription="@string/favorite" />
-
             <TextView
                 android:id="@+id/overview"
                 android:layout_width="wrap_content"
@@ -107,19 +103,19 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/details_overview"
                 android:textColor="?attr/colorOnBackground"
-                android:textSize="14sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/info_name" />
 
             <TextView
                 android:id="@+id/info_description"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="@+id/info_add_to_favorite"
+                android:layout_marginEnd="8dp"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/overview" />
 
@@ -130,7 +126,7 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/genres"
                 android:textColor="?attr/colorOnBackground"
-                android:textSize="14sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/info_description"
                 app:layout_constraintTop_toBottomOf="@+id/info_description"
@@ -141,7 +137,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:textSize="14sp"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="@+id/info_description"
                 app:layout_constraintStart_toEndOf="@+id/info_text_genres"
                 app:layout_constraintTop_toTopOf="@+id/info_text_genres" />
@@ -168,6 +164,8 @@
                     android:textColor="?attr/colorOnBackground"
                     android:textOff="@string/cast"
                     android:textOn="@string/crew"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
                     android:thumb="@drawable/sw_thumb"
                     android:typeface="normal"
                     app:layout_constraintStart_toStartOf="@+id/info_text_genres"
@@ -175,8 +173,7 @@
                     app:showText="true"
                     app:switchPadding="16dp"
                     app:thumbTextPadding="4dp"
-                    app:thumbTint="?attr/colorSecondary"
-                    app:trackTint="?attr/colorSurface" />
+                    app:thumbTint="?attr/colorAccent" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/castList"

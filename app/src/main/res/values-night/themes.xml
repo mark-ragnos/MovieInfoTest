@@ -1,24 +1,32 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.MovieInfoTest" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="Theme.MovieInfoTest" parent="Theme.MaterialComponents.DayNight.NoActionBar">
 
-        <item name="colorPrimary">@color/primary_dark</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="android:textColorPrimary">@color/textOnPrimary_dark</item>
         <item name="colorOnPrimary">@color/textOnPrimary_dark</item>
 
         <item name="colorSecondary">@color/secondary_dark</item>
+        <item name="android:textColorSecondary">@color/textOnSecondary_dark</item>
         <item name="colorOnSecondary">@color/textOnSecondary_dark</item>
 
         <item name="colorSurface">@color/surface_dark</item>
         <item name="colorOnSurface">@color/textOnSurface_dark</item>
-
         <item name="backgroundColor">@color/background_dark</item>
         <item name="colorOnBackground">@color/textOnBackground_dark</item>
 
-        
+        <item name="colorAccent">@color/accentColor</item>
+        <item name="android:colorAccent">@color/accentColor</item>
+
+        <item name="colorError">@color/error_color</item>
+
+        <item name="titleTextAppearance">@style/ToolbarColoredBackArrow</item>
+
     </style>
 
     <style name="ToolbarColoredBackArrow" parent="Theme.MovieInfoTest">
-        <item name="android:textColorSecondary">@color/white</item>
-        <item name="colorOnPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/textOnPrimary_dark</item>
+        <item name="colorOnPrimary">@color/textOnPrimary_dark</item>
     </style>
 </resources>

@@ -72,13 +72,13 @@ class TitleTextView(context: Context, attrs: AttributeSet) : LinearLayout(contex
             titleView.setTextColor(
                 it.getColor(
                     R.styleable.TitleTextView_ttv_title_text_color,
-                    Color.BLACK
+                    titleView.currentTextColor
                 )
             )
             valueView.setTextColor(
                 it.getColor(
                     R.styleable.TitleTextView_ttv_value_text_color,
-                    Color.BLACK
+                    titleView.currentTextColor
                 )
             )
         }

@@ -3,27 +3,49 @@
     <style name="Theme.MovieInfoTest" parent="Theme.MaterialComponents.Light.NoActionBar">
 
         <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="android:textColorPrimary">@color/textOnPrimary</item>
         <item name="colorOnPrimary">@color/textOnPrimary</item>
 
         <item name="colorSecondary">@color/secondary</item>
+        <item name="android:textColorSecondary">@color/textOnSecondary</item>
         <item name="colorOnSecondary">@color/textOnSecondary</item>
 
         <item name="colorSurface">@color/surface</item>
         <item name="colorOnSurface">@color/textOnSurface</item>
-
         <item name="backgroundColor">@color/background</item>
         <item name="colorOnBackground">@color/textOnBackground</item>
 
+        <item name="colorAccent">@color/accentColor</item>
+        <item name="android:colorAccent">@color/accentColor</item>
+
+        <item name="colorError">@color/error_color</item>
+
         <item name="titleTextAppearance">@style/ToolbarColoredBackArrow</item>
-
-
 
     </style>
 
     <style name="ToolbarColoredBackArrow" parent="Theme.MovieInfoTest">
-        <item name="android:textColorSecondary">@color/white</item>
-        <item name="colorOnPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/textOnPrimary</item>
+        <item name="colorOnPrimary">@color/textOnPrimary</item>
     </style>
 
-
-</resources>
+</resources><!--
+    ПАМЯТКА:
+    =========
+    colorPrimary - цвет панели инструментов, кнопок, и др
+    colorPrimaryDark - цвет верхней выдвижной панельки (обычно на несколько тонов темнее colorPrimary)
+    android:textColorPrimary - цвет на colorPrimary-элементах
+    colorOnPrimary - цвет на colorPrimary-элементах
+    =========
+    colorAccent - цвет плавающей кнопки
+    android:colorAccent - цвет плавающей кнопки
+    =========
+    colorSecondary - эквивалентен colorAccent (плавающие кнопки, слайдеры, прогресс бары)
+    colorOnSecondary - цвет элементов на colorSecondary-элементах
+    =========
+    colorSurface - цвет карточек, элементов списка и меню (для разности цветов использовать вместе с elevation)
+    colorOnSurface - цвет элементов на colorSurface-элементах
+    backgroundColor - цвет заднего фона
+    colorOnBackground - цвет элементов на backgroundColor-элементах
+-->

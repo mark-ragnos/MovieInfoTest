@@ -70,7 +70,7 @@ class DetailsFragment : BaseFragment() {
 
         lifecycle.coroutineScope.launch {
             viewModel.isFavorite.collectLatest {
-
+                changeFavoriteBtn(isInFavorite = it)
             }
         }
     }
@@ -124,7 +124,7 @@ class DetailsFragment : BaseFragment() {
         binding.infoName.text =
             getString(R.string.title_with_date, details.title, details.releaseDate.getYear())
 //        binding. = details.voteAverage.toString()
-        binding.infoPoster.displayMoviePoster(details.posterPath, x = 150, y = 225)
+        binding.infoPoster.displayMoviePoster(details.posterPath, x = 100)
         binding.backdropImage.displayBackdrop(details.backdropPath)
         setActors(details.casts, details.crews)
     }
@@ -153,6 +153,14 @@ class DetailsFragment : BaseFragment() {
         override fun navigate(param: Int) {
             val action = DetailsFragmentDirections.actionMovieInfoToActorFragment(param)
             NavHostFragment.findNavController(this@DetailsFragment).navigate(action)
+        }
+    }
+
+    private fun changeFavoriteBtn(isInFavorite: Boolean) {
+        if (isInFavorite) {
+            binding.infoAddToFavorite.setImageResource(R.drawable.ic_favorite)
+        } else {
+            binding.infoAddToFavorite.setImageResource(R.drawable.ic_favorite_not)
         }
     }
 }
