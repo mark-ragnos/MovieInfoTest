@@ -1,6 +1,7 @@
 package com.example.movieinfotest.presentation.ui.details
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -123,10 +124,17 @@ class DetailsFragment : BaseFragment() {
         binding.infoGenres.text = getGenreList(details.genres)
         binding.infoName.text =
             getString(R.string.title_with_date, details.title, details.releaseDate.getYear())
-//        binding. = details.voteAverage.toString()
+        setUserScore(details.voteAverage)
         binding.infoPoster.displayMoviePoster(details.posterPath, x = 100)
         binding.backdropImage.displayBackdrop(details.backdropPath)
         setActors(details.casts, details.crews)
+    }
+
+    private fun setUserScore(score: Double) {
+        val realScore: Int = (score * RATING_MULT).toInt()
+        Log.d("TEST", realScore.toString())
+        binding.ratingBar.progress = realScore
+        binding.ratingValue.text = "$realScore%"
     }
 
     private fun setActors(cast: List<CastDomain>?, crew: List<CrewDomain>?) {
@@ -162,5 +170,9 @@ class DetailsFragment : BaseFragment() {
         } else {
             binding.infoAddToFavorite.setImageResource(R.drawable.ic_favorite_not)
         }
+    }
+
+    companion object {
+        const val RATING_MULT = 10
     }
 }
