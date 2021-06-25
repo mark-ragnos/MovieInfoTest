@@ -23,7 +23,9 @@ class MovieHolder(
 
     init {
         binding.itemFavorite.setOnClickListener {
-            listener.onFavorite(movie.value, isFavorite.value)
+            movie.value?.let { it1 ->
+                listener.favoriteAddOrRemove(it1, isFavorite.value)
+            }
             isFavorite.value = !isFavorite.value
         }
 
@@ -43,7 +45,7 @@ class MovieHolder(
                     itemName.text = it.title
                     itemRating.text = it.voteAverage.toString()
                     itemImage.displayMoviePoster(it.posterPath, SIZE_X, SIZE_Y)
-                    itemView.setOnClickListener { listener.onClick(getId()) }
+                    itemView.setOnClickListener { listener.navigate(getId()) }
                 }
             }
         }

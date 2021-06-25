@@ -47,22 +47,20 @@ class PopularListFragment : BaseFragment() {
 
     private fun setupPopularList() {
         val listener = object : MovieAdapter.MovieClickListener {
-            override fun onClick(id: Int) {
+            override fun navigate(param: Int) {
                 val action =
-                    PopularListFragmentDirections.actionPopularMovieListToMovieInfo(id)
+                    PopularListFragmentDirections.actionPopularMovieListToMovieInfo(param)
                 NavHostFragment.findNavController(this@PopularListFragment).navigate(action)
             }
 
-            override fun onFavorite(movie: MovieDomain?, isFavorite: Boolean) {
-                movie?.let {
-                    if (isFavorite) {
-                        viewModel.removeFromFavorite(it)
-                    } else {
-                        viewModel.saveInFavorite(
-                            movie,
-                            NetworkConnection.getNetworkStatus(MovieApp.getInstance())
-                        )
-                    }
+            override fun favoriteAddOrRemove(movie: MovieDomain, isFavorite: Boolean) {
+                if (isFavorite) {
+                    viewModel.removeFromFavorite(movie)
+                } else {
+                    viewModel.saveInFavorite(
+                        movie,
+                        NetworkConnection.getNetworkStatus(MovieApp.getInstance())
+                    )
                 }
             }
 

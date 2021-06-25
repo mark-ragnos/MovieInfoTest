@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import com.example.movieinfotest.databinding.ItemListBinding
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
+import com.example.movieinfotest.utils.listeners.NavigationListener
 
 class MovieAdapter(
     private val listener: MovieClickListener,
@@ -15,9 +16,8 @@ class MovieAdapter(
         holder.bind(movie = getItem(position))
     }
 
-    interface MovieClickListener {
-        fun onClick(id: Int)
-        fun onFavorite(movie: MovieDomain?, isFavorite: Boolean)
+    interface MovieClickListener : NavigationListener<Int> {
+        fun favoriteAddOrRemove(movie: MovieDomain, isFavorite: Boolean)
         suspend fun isFavorite(id: Int): Boolean
     }
 
