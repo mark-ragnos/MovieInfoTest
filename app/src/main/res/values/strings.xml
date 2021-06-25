@@ -73,4 +73,6 @@
 
     <string name="details_overview">Overview</string>
     <string name="details_user_rating">User\nScore</string>
+    <string name="details_list_of_cast">List of $s</string>
+    <string name="details_list_of_crew">List of $s</string>
 </resources>

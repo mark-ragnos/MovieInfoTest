@@ -1,7 +1,6 @@
 package com.example.movieinfotest.presentation.ui.details
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,6 +31,7 @@ import com.example.movieinfotest.utils.setGone
 import com.example.movieinfotest.utils.addDefaultDivider
 import com.example.movieinfotest.utils.displayBackdrop
 import com.example.movieinfotest.utils.listeners.NavigationListener
+import com.example.movieinfotest.utils.setInvisible
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -50,7 +50,7 @@ class DetailsFragment : BaseFragment() {
         init()
         setupReadLifeData()
         setupFavoriteBtn()
-        setupSwitchActors()
+        progress(true)
 
         return binding.root
     }
@@ -86,18 +86,6 @@ class DetailsFragment : BaseFragment() {
         }
     }
 
-    private fun setupSwitchActors() {
-        binding.switchActors.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                binding.crewList.setVisible()
-                binding.castList.setGone()
-            } else {
-                binding.crewList.setGone()
-                binding.castList.setVisible()
-            }
-        }
-    }
-
     private fun initToolbar() {
         binding.toolbar.setNavigationOnClickListener {
             activity?.onBackPressed()
@@ -128,28 +116,59 @@ class DetailsFragment : BaseFragment() {
         binding.infoPoster.displayMoviePoster(details.posterPath, x = 100)
         binding.backdropImage.displayBackdrop(details.backdropPath)
         setActors(details.casts, details.crews)
+
+        progress(false)
     }
 
     private fun setUserScore(score: Double) {
         val realScore: Int = (score * RATING_MULT).toInt()
-        Log.d("TEST", realScore.toString())
         binding.ratingBar.progress = realScore
         binding.ratingValue.text = "$realScore%"
     }
 
     private fun setActors(cast: List<CastDomain>?, crew: List<CrewDomain>?) {
         if (!cast.isNullOrEmpty()) {
-            binding.actors.setVisible()
-
             binding.castList.adapter = CastAdapter(cast, navigationClickListener)
             addDivider(binding.castList)
         }
 
         if (!crew.isNullOrEmpty()) {
-            binding.actors.setVisible()
-
             binding.crewList.adapter = CastAdapter(crew.asCast(), navigationClickListener)
             addDivider(binding.crewList)
+        }
+
+        doVisibleActorList()
+    }
+
+    private fun doVisibleActorList() {
+        var counter = 0
+        binding.castList.adapter?.let {
+            binding.listOfSingleActors.setVisible()
+            binding.castList.setVisible()
+            counter++
+        }
+        binding.crewList.adapter?.let {
+            if (counter == 0) {
+                binding.crewList.setVisible()
+                binding.castList.setGone()
+            } else {
+                binding.listOfSingleActors.setGone()
+                binding.switchActors.setVisible()
+                setupSwitchActors()
+            }
+            counter++
+        }
+    }
+
+    private fun setupSwitchActors() {
+        binding.switchActors.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                binding.crewList.setVisible()
+                binding.castList.setGone()
+            } else {
+                binding.crewList.setGone()
+                binding.castList.setVisible()
+            }
         }
     }
 
@@ -169,6 +188,16 @@ class DetailsFragment : BaseFragment() {
             binding.infoAddToFavorite.setImageResource(R.drawable.ic_favorite)
         } else {
             binding.infoAddToFavorite.setImageResource(R.drawable.ic_favorite_not)
+        }
+    }
+
+    private fun progress(isInProgress: Boolean) {
+        if (isInProgress) {
+            binding.progressBar.setVisible()
+            binding.container.setInvisible()
+        } else {
+            binding.progressBar.setGone()
+            binding.container.setVisible()
         }
     }
 
