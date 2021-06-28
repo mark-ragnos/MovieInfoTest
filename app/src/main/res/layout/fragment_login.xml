@@ -1,20 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".presentation.ui.login.LoginFragment">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:elevation="16dp"
-        app:navigationIcon="@drawable/ic_arrow_back"
-        app:theme="@style/ToolbarColoredBackArrow"
-        app:title="@string/login" />
+        android:layout_gravity="top">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:elevation="16dp"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:theme="@style/ToolbarColoredBackArrow"
+            app:title="@string/login" />
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
@@ -26,9 +32,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:textColor="?attr/colorOnBackground"
             android:hint="@string/email_example"
             android:inputType="textEmailAddress"
+            android:textColor="?attr/colorOnBackground"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
@@ -41,8 +47,8 @@
             android:layout_marginTop="16dp"
             android:ems="10"
             android:hint="@string/press_passwor"
-            android:textColor="?attr/colorOnBackground"
             android:inputType="textPassword"
+            android:textColor="?attr/colorOnBackground"
             app:layout_constraintEnd_toEndOf="@+id/log_email"
             app:layout_constraintStart_toStartOf="@+id/log_email"
             app:layout_constraintTop_toBottomOf="@+id/log_email" />
@@ -79,4 +85,4 @@
             app:layout_constraintTop_toBottomOf="@+id/log_text_login_help" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</FrameLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
