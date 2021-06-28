@@ -15,6 +15,8 @@ import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
 import com.example.movieinfotest.utils.ToolbarMaker
 import com.example.movieinfotest.utils.displayActorPicture
 import com.example.movieinfotest.utils.moviedbSpecificUtils.getGenderText
+import com.example.movieinfotest.utils.setInvisible
+import com.example.movieinfotest.utils.setVisible
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -30,6 +32,7 @@ class ActorFragment : BaseFragment() {
     ): View {
         binding = FragmentActorBinding.inflate(inflater, container, false)
 
+        progress(true)
         initToolbar()
         observeData()
         getActorId()
@@ -51,7 +54,10 @@ class ActorFragment : BaseFragment() {
 
     private fun observeData() {
         viewModel.actorInfo.onEach {
-            it?.let { setActor(it) }
+            it?.let {
+                setActor(it)
+                progress(false)
+            }
         }.launchIn(lifecycleScope)
     }
 
@@ -65,6 +71,16 @@ class ActorFragment : BaseFragment() {
             actor.placeOfBirth?.let { birthPlace.setValue(it) }
             context?.let { getGenderText(actor.gender, it) }?.let { gender.setValue(it) }
             poster.displayActorPicture(actor.profilePath, actor.gender, IMAGE_SIZE, IMAGE_SIZE)
+        }
+    }
+
+    private fun progress(isInProgress: Boolean) {
+        if (isInProgress) {
+            binding.container.setInvisible()
+            binding.progressBar.setVisible()
+        } else {
+            binding.container.setVisible()
+            binding.progressBar.setInvisible()
         }
     }
 
