@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentActorBinding
 import com.example.movieinfotest.domain.entities.actor.ActorInfoDomain
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
@@ -15,6 +16,7 @@ import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
 import com.example.movieinfotest.utils.ToolbarMaker
 import com.example.movieinfotest.utils.displayActorPicture
 import com.example.movieinfotest.utils.moviedbSpecificUtils.getGenderText
+import com.example.movieinfotest.utils.network.NetworkConnection
 import com.example.movieinfotest.utils.setInvisible
 import com.example.movieinfotest.utils.setVisible
 import kotlinx.coroutines.flow.launchIn
@@ -33,6 +35,7 @@ class ActorFragment : BaseFragment() {
         binding = FragmentActorBinding.inflate(inflater, container, false)
 
         progress(true)
+        preload()
         initToolbar()
         observeData()
         getActorId()
@@ -81,6 +84,12 @@ class ActorFragment : BaseFragment() {
         } else {
             binding.container.setVisible()
             binding.progressBar.setInvisible()
+        }
+    }
+
+    private fun preload() {
+        if (!NetworkConnection.isOnline()) {
+            requireActivity().onBackPressed()
         }
     }
 
