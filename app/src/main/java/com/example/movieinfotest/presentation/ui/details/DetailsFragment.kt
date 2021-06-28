@@ -67,8 +67,10 @@ class DetailsFragment : BaseFragment() {
     private fun setupReadLifeData() {
         lifecycle.coroutineScope.launch {
             viewModel.movieDetails.collectLatest {
-                it?.let { it1 -> setMovie(it1) }
-                progress(false)
+                it?.let { it1 ->
+                    setMovie(it1)
+                    progress(false)
+                }
             }
         }
 
