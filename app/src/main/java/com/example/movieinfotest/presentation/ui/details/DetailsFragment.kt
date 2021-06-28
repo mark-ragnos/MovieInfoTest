@@ -20,7 +20,9 @@ import com.example.movieinfotest.domain.entities.actor.asCast
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.base.BaseFragment
+import com.example.movieinfotest.presentation.ui.register.RegistrationFragment
 import com.example.movieinfotest.utils.FirebaseLogin
+import com.example.movieinfotest.utils.RATING_MULT
 import com.example.movieinfotest.utils.ToolbarMaker
 import com.example.movieinfotest.utils.getGenreList
 import com.example.movieinfotest.utils.getYear
@@ -47,10 +49,10 @@ class DetailsFragment : BaseFragment() {
     ): View {
         binding = FragmentDetailsBinding.inflate(inflater, container, false)
 
+        progress(true)
         init()
         setupReadLifeData()
         setupFavoriteBtn()
-        progress(true)
 
         return binding.root
     }
@@ -66,6 +68,7 @@ class DetailsFragment : BaseFragment() {
         lifecycle.coroutineScope.launch {
             viewModel.movieDetails.collectLatest {
                 it?.let { it1 -> setMovie(it1) }
+                progress(false)
             }
         }
 
@@ -81,8 +84,16 @@ class DetailsFragment : BaseFragment() {
             if (FirebaseLogin.isLogin()) {
                 saveDeleteMovie()
             } else {
-                moveToLogin()
+                RegistrationFragment.navigate(NavHostFragment.findNavController(this))
             }
+        }
+    }
+
+    private fun saveDeleteMovie() {
+        if (!viewModel.isFavorite.value) {
+            viewModel.saveInFavorite(NetworkConnection.getNetworkStatus(MovieApp.getInstance()))
+        } else {
+            viewModel.deleteFromFavorite()
         }
     }
 
@@ -94,36 +105,21 @@ class DetailsFragment : BaseFragment() {
         ToolbarMaker.makeDefaultToolbar(binding.toolbar, parentViewModel, this)
     }
 
-    private fun saveDeleteMovie() {
-        if (!viewModel.isFavorite.value) {
-            viewModel.saveInFavorite(NetworkConnection.getNetworkStatus(MovieApp.getInstance()))
-        } else {
-            viewModel.deleteFromFavorite()
-        }
-    }
-
-    private fun moveToLogin() {
-        NavHostFragment.findNavController(this)
-            .navigate(R.id.action_global_registrationGraph)
-    }
-
     private fun setMovie(details: MovieDomain) {
         binding.infoDescription.text = details.overview
         binding.infoGenres.text = getGenreList(details.genres)
         binding.infoName.text =
             getString(R.string.title_with_date, details.title, details.releaseDate.getYear())
-        setUserScore(details.voteAverage)
         binding.infoPoster.displayMoviePoster(details.posterPath, x = 100)
         binding.backdropImage.displayBackdrop(details.backdropPath)
+        setUserScore(details.voteAverage)
         setActors(details.casts, details.crews)
-
-        progress(false)
     }
 
     private fun setUserScore(score: Double) {
         val realScore: Int = (score * RATING_MULT).toInt()
         binding.ratingBar.progress = realScore
-        binding.ratingValue.text = "$realScore%"
+        binding.ratingValue.text = getString(R.string.details_percents, realScore.toString())
     }
 
     private fun setActors(cast: List<CastDomain>?, crew: List<CrewDomain>?) {
@@ -196,12 +192,8 @@ class DetailsFragment : BaseFragment() {
             binding.progressBar.setVisible()
             binding.container.setInvisible()
         } else {
-            binding.progressBar.setGone()
+            binding.progressBar.setInvisible()
             binding.container.setVisible()
         }
-    }
-
-    companion object {
-        const val RATING_MULT = 10
     }
 }
