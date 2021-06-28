@@ -70,4 +70,10 @@
     <string name="actorInfo_gender">Gender</string>
     <string name="actorInfo_notable_for">Notable for</string>
     <string name="actorInfo_biography">Biography</string>
+
+    <string name="details_overview">Overview</string>
+    <string name="details_user_rating">User\nScore</string>
+    <string name="details_list_of_cast">List of $s</string>
+    <string name="details_list_of_crew">List of $s</string>
+    <string name="details_percents">%1$s%%</string>
 </resources>

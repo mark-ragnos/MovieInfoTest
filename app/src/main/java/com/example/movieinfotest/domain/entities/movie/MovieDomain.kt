@@ -10,6 +10,7 @@ data class MovieDomain(
     val voteAverage: Double,
     val releaseDate: String?,
     val posterPath: String?,
+    val backdropPath: String?,
     val overview: String,
     val genres: List<GenreDomain>?,
     val casts: List<CastDomain>?,

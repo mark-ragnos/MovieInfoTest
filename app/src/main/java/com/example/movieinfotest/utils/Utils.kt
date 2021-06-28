@@ -35,7 +35,16 @@ fun getGenreList(list: List<com.example.movieinfotest.domain.entities.genre.Genr
 }
 
 fun MovieDetails.toMovieDetailsDB(): MovieDetailsDB {
-    return MovieDetailsDB(id, title, voteAverage, overview, releaseDate, posterPath, null)
+    return MovieDetailsDB(
+        id,
+        title,
+        voteAverage,
+        overview,
+        releaseDate,
+        posterPath,
+        backdropPath,
+        null
+    )
 }
 
 fun MovieDetailsDB.toMovieDetails(genres: List<Genre>?): MovieDetails {
@@ -46,12 +55,22 @@ fun MovieDetailsDB.toMovieDetails(genres: List<Genre>?): MovieDetails {
         overview,
         releaseDate,
         genres = genres,
-        posterPath
+        posterPath,
+        backdropPath
     )
 }
 
 fun Movie.toMovieDetails(): MovieDetails {
-    return MovieDetails(id, title, voteAverage, overview, releaseDate, null, posterPath)
+    return MovieDetails(
+        id,
+        title,
+        voteAverage,
+        overview,
+        releaseDate,
+        null,
+        posterPath,
+        backdropPath = null
+    )
 }
 
 fun Context.isDarkThemeOn(): Boolean {

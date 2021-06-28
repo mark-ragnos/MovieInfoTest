@@ -1,7 +1,6 @@
 package com.example.movieinfotest.presentation.ui.views
 
 import android.content.Context
-import android.graphics.Color
 import android.graphics.Typeface
 import android.util.AttributeSet
 import android.util.TypedValue
@@ -72,13 +71,13 @@ class TitleTextView(context: Context, attrs: AttributeSet) : LinearLayout(contex
             titleView.setTextColor(
                 it.getColor(
                     R.styleable.TitleTextView_ttv_title_text_color,
-                    Color.BLACK
+                    titleView.currentTextColor
                 )
             )
             valueView.setTextColor(
                 it.getColor(
                     R.styleable.TitleTextView_ttv_value_text_color,
-                    Color.BLACK
+                    titleView.currentTextColor
                 )
             )
         }

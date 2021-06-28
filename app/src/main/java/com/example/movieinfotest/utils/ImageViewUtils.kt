@@ -7,6 +7,9 @@ import com.example.movieinfotest.utils.moviedbSpecificUtils.MALE
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.RequestCreator
 
+const val FLAG_W154 = "w154"
+const val FLAG_W300 = "w300"
+
 /**
  * Соотношение постеров у = х * 1.5
  */
@@ -30,9 +33,22 @@ fun ImageView.displayActorPicture(
         .into(this)
 }
 
-private fun loadImage(path: String?, x: Int, y: Int): RequestCreator {
+fun ImageView.displayBackdrop(
+    path: String?
+) {
+    Picasso.get()
+        .load("https://www.themoviedb.org/t/p/$FLAG_W300$path")
+        .into(this)
+}
+
+private fun loadImage(
+    path: String?,
+    x: Int,
+    y: Int,
+    weightFlag: String = FLAG_W154
+): RequestCreator {
     return Picasso.get()
-        .load("https://www.themoviedb.org/t/p/w154$path")
+        .load("https://www.themoviedb.org/t/p/$weightFlag$path")
         .resize(x, y)
         .centerCrop()
 }

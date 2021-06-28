@@ -18,12 +18,13 @@ fun Movie.toMovieDomain(
 ): MovieDomain {
 
     return MovieDomain(
-        id,
-        title,
-        voteAverage,
-        releaseDate,
-        posterPath,
-        overview,
+        id = id,
+        title = title,
+        voteAverage = voteAverage,
+        releaseDate = releaseDate,
+        posterPath = posterPath,
+        backdropPath = null,
+        overview = overview,
         genres = genres,
         casts = cast,
         crews = crew
@@ -40,6 +41,7 @@ fun MovieDetails.toMovieDomain(
         voteAverage,
         releaseDate,
         posterPath,
+        backdropPath,
         overview,
         genres?.toGenreDomain(),
         casts = cast,

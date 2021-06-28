@@ -17,7 +17,8 @@ fun MovieDomain.toMovieDetails(): MovieDetails {
         overview,
         releaseDate,
         genres?.toGenresData(),
-        posterPath
+        posterPath,
+        backdropPath
     )
 }
 

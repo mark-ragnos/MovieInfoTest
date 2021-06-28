@@ -20,7 +20,9 @@ import com.example.movieinfotest.domain.entities.actor.asCast
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.base.BaseFragment
+import com.example.movieinfotest.presentation.ui.register.RegistrationFragment
 import com.example.movieinfotest.utils.FirebaseLogin
+import com.example.movieinfotest.utils.RATING_MULT
 import com.example.movieinfotest.utils.ToolbarMaker
 import com.example.movieinfotest.utils.getGenreList
 import com.example.movieinfotest.utils.getYear
@@ -29,7 +31,9 @@ import com.example.movieinfotest.utils.network.NetworkConnection
 import com.example.movieinfotest.utils.setVisible
 import com.example.movieinfotest.utils.setGone
 import com.example.movieinfotest.utils.addDefaultDivider
+import com.example.movieinfotest.utils.displayBackdrop
 import com.example.movieinfotest.utils.listeners.NavigationListener
+import com.example.movieinfotest.utils.setInvisible
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -45,11 +49,10 @@ class DetailsFragment : BaseFragment() {
     ): View {
         binding = FragmentDetailsBinding.inflate(inflater, container, false)
 
-        onProgress(true)
+        progress(true)
         init()
         setupReadLifeData()
         setupFavoriteBtn()
-        setupSwitchActors()
 
         return binding.root
     }
@@ -65,12 +68,13 @@ class DetailsFragment : BaseFragment() {
         lifecycle.coroutineScope.launch {
             viewModel.movieDetails.collectLatest {
                 it?.let { it1 -> setMovie(it1) }
+                progress(false)
             }
         }
 
         lifecycle.coroutineScope.launch {
             viewModel.isFavorite.collectLatest {
-                changeFavoriteBnt(it)
+                changeFavoriteBtn(isInFavorite = it)
             }
         }
     }
@@ -80,8 +84,75 @@ class DetailsFragment : BaseFragment() {
             if (FirebaseLogin.isLogin()) {
                 saveDeleteMovie()
             } else {
-                moveToLogin()
+                RegistrationFragment.navigate(NavHostFragment.findNavController(this))
             }
+        }
+    }
+
+    private fun saveDeleteMovie() {
+        if (!viewModel.isFavorite.value) {
+            viewModel.saveInFavorite(NetworkConnection.getNetworkStatus(MovieApp.getInstance()))
+        } else {
+            viewModel.deleteFromFavorite()
+        }
+    }
+
+    private fun initToolbar() {
+        binding.toolbar.setNavigationOnClickListener {
+            activity?.onBackPressed()
+        }
+
+        ToolbarMaker.makeDefaultToolbar(binding.toolbar, parentViewModel, this)
+    }
+
+    private fun setMovie(details: MovieDomain) {
+        binding.infoDescription.text = details.overview
+        binding.infoGenres.text = getGenreList(details.genres)
+        binding.infoName.text =
+            getString(R.string.title_with_date, details.title, details.releaseDate.getYear())
+        binding.infoPoster.displayMoviePoster(details.posterPath, x = 100)
+        binding.backdropImage.displayBackdrop(details.backdropPath)
+        setUserScore(details.voteAverage)
+        setActors(details.casts, details.crews)
+    }
+
+    private fun setUserScore(score: Double) {
+        val realScore: Int = (score * RATING_MULT).toInt()
+        binding.ratingBar.progress = realScore
+        binding.ratingValue.text = getString(R.string.details_percents, realScore.toString())
+    }
+
+    private fun setActors(cast: List<CastDomain>?, crew: List<CrewDomain>?) {
+        if (!cast.isNullOrEmpty()) {
+            binding.castList.adapter = CastAdapter(cast, navigationClickListener)
+            addDivider(binding.castList)
+        }
+
+        if (!crew.isNullOrEmpty()) {
+            binding.crewList.adapter = CastAdapter(crew.asCast(), navigationClickListener)
+            addDivider(binding.crewList)
+        }
+
+        doVisibleActorList()
+    }
+
+    private fun doVisibleActorList() {
+        var counter = 0
+        binding.castList.adapter?.let {
+            binding.listOfSingleActors.setVisible()
+            binding.castList.setVisible()
+            counter++
+        }
+        binding.crewList.adapter?.let {
+            if (counter == 0) {
+                binding.crewList.setVisible()
+                binding.castList.setGone()
+            } else {
+                binding.listOfSingleActors.setGone()
+                binding.switchActors.setVisible()
+                setupSwitchActors()
+            }
+            counter++
         }
     }
 
@@ -97,81 +168,32 @@ class DetailsFragment : BaseFragment() {
         }
     }
 
-    private fun initToolbar() {
-        binding.toolbar.setNavigationOnClickListener {
-            activity?.onBackPressed()
-        }
-
-        ToolbarMaker.makeDefaultToolbar(binding.toolbar, parentViewModel, this)
-    }
-
-    private fun saveDeleteMovie() {
-        if (!viewModel.isFavorite.value) {
-            viewModel.saveInFavorite(NetworkConnection.getNetworkStatus(MovieApp.getInstance()))
-        } else {
-            viewModel.deleteFromFavorite()
-        }
-    }
-
-    private fun moveToLogin() {
-        NavHostFragment.findNavController(this)
-            .navigate(R.id.action_global_registrationGraph)
-    }
-
-    private fun changeFavoriteBnt(isFavorite: Boolean) {
-        if (isFavorite) {
-            binding.infoAddToFavorite.text =
-                resources.getText(R.string.delete_from_favorite)
-        } else {
-            binding.infoAddToFavorite.text = resources.getText(R.string.save_as_favorite)
-        }
-    }
-
-    private fun setMovie(details: MovieDomain) {
-        binding.infoDescription.text = details.overview
-        binding.infoGenres.text = getGenreList(details.genres)
-        binding.infoName.text =
-            getString(R.string.title_with_date, details.title, details.releaseDate.getYear())
-        binding.infoRating.text = details.voteAverage.toString()
-        binding.infoPoster.displayMoviePoster(details.posterPath, x = 150, y = 225)
-        setActors(details.casts, details.crews)
-        onProgress(false)
-    }
-
-    private fun setActors(cast: List<CastDomain>?, crew: List<CrewDomain>?) {
-        if (!cast.isNullOrEmpty()) {
-            binding.actors.setVisible()
-
-            binding.castList.adapter = CastAdapter(cast, navigationClickListener)
-            addDivider(binding.castList)
-        }
-
-        if (!crew.isNullOrEmpty()) {
-            binding.actors.setVisible()
-
-            binding.crewList.adapter = CastAdapter(crew.asCast(), navigationClickListener)
-            addDivider(binding.crewList)
-        }
-    }
-
     private fun addDivider(list: RecyclerView) {
         list.addDefaultDivider(context, LinearLayout.HORIZONTAL)
-    }
-
-    private fun onProgress(isVisible: Boolean) {
-        if (isVisible) {
-            binding.progressBar.setVisible()
-            binding.scrollView.setGone()
-        } else {
-            binding.progressBar.setGone()
-            binding.scrollView.setVisible()
-        }
     }
 
     private val navigationClickListener = object : NavigationListener<Int> {
         override fun navigate(param: Int) {
             val action = DetailsFragmentDirections.actionMovieInfoToActorFragment(param)
             NavHostFragment.findNavController(this@DetailsFragment).navigate(action)
+        }
+    }
+
+    private fun changeFavoriteBtn(isInFavorite: Boolean) {
+        if (isInFavorite) {
+            binding.infoAddToFavorite.setImageResource(R.drawable.ic_favorite)
+        } else {
+            binding.infoAddToFavorite.setImageResource(R.drawable.ic_favorite_not)
+        }
+    }
+
+    private fun progress(isInProgress: Boolean) {
+        if (isInProgress) {
+            binding.progressBar.setVisible()
+            binding.container.setInvisible()
+        } else {
+            binding.progressBar.setInvisible()
+            binding.container.setVisible()
         }
     }
 }

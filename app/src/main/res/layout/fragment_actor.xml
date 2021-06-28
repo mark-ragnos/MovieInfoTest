@@ -95,8 +95,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     app:ttv_title="@string/actorInfo_notable_for"
-                    app:ttv_title_text_color="?attr/colorOnBackground"
-                    app:ttv_value_text_color="?attr/colorOnBackground" />
+                    app:ttv_title_text_color="?attr/colorOnBackground" />
 
                 <com.example.movieinfotest.presentation.ui.views.TitleTextView
                     android:id="@+id/gender"
@@ -104,8 +103,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     app:ttv_title="@string/actorInfo_gender"
-                    app:ttv_title_text_color="?attr/colorOnBackground"
-                    app:ttv_value_text_color="?attr/colorOnBackground" />
+                    app:ttv_title_text_color="?attr/colorOnBackground" />
 
                 <com.example.movieinfotest.presentation.ui.views.TitleTextView
                     android:id="@+id/birthday"
@@ -113,8 +111,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     app:ttv_title="@string/actorInfo_birthday"
-                    app:ttv_title_text_color="?attr/colorOnBackground"
-                    app:ttv_value_text_color="?attr/colorOnBackground" />
+                    app:ttv_title_text_color="?attr/colorOnBackground" />
 
                 <com.example.movieinfotest.presentation.ui.views.TitleTextView
                     android:id="@+id/deathday"
@@ -122,8 +119,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     app:ttv_title="@string/actorInfo_deathday"
-                    app:ttv_title_text_color="?attr/colorOnBackground"
-                    app:ttv_value_text_color="?attr/colorOnBackground" />
+                    app:ttv_title_text_color="?attr/colorOnBackground" />
 
                 <com.example.movieinfotest.presentation.ui.views.TitleTextView
                     android:id="@+id/birth_place"
@@ -131,8 +127,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     app:ttv_title="@string/actorInfo_birthplace"
-                    app:ttv_title_text_color="?attr/colorOnBackground"
-                    app:ttv_value_text_color="?attr/colorOnBackground" />
+                    app:ttv_title_text_color="?attr/colorOnBackground" />
 
                 <com.example.movieinfotest.presentation.ui.views.TitleTextView
                     android:id="@+id/biography"
@@ -141,8 +136,7 @@
                     android:layout_marginBottom="8dp"
                     app:ttv_title="@string/actorInfo_biography"
                     app:ttv_title_text_color="?attr/colorOnBackground"
-                    app:ttv_title_text_size="20sp"
-                    app:ttv_value_text_color="?attr/colorOnBackground" />
+                    app:ttv_title_text_size="20sp" />
 
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
