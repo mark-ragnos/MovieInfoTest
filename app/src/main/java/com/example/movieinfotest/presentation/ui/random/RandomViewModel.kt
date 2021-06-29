@@ -6,10 +6,14 @@ import com.example.movieinfotest.domain.entities.genre.GenreDomain
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.domain.usecases.GenreUseCase
 import com.example.movieinfotest.domain.usecases.MovieUseCase
+import com.example.movieinfotest.presentation.ui.random.adapter.RandomMoviesAdapter
 import com.example.movieinfotest.utils.network.NetworkConnection
 import com.skydoves.powerspinner.OnSpinnerItemSelectedListener
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
@@ -17,8 +21,12 @@ class RandomViewModel(
     private val movieUseCase: MovieUseCase,
     private val genreUseCase: GenreUseCase
 ) : ViewModel() {
-    private val _movie = MutableStateFlow<MovieDomain?>(null)
-    val movie = _movie.asStateFlow()
+    private val _movies = MutableSharedFlow<MovieDomain>(
+        extraBufferCapacity = RandomMoviesAdapter.RANDOM_LIST_SIZE,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST,
+        replay = RandomMoviesAdapter.RANDOM_LIST_SIZE
+    )
+    val movies = _movies.asSharedFlow()
 
     private val _genres = MutableStateFlow<List<GenreDomain>?>(null)
     val genres = _genres.asStateFlow()
@@ -35,9 +43,11 @@ class RandomViewModel(
 
     fun generateRandom(year: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            _movie.value = movieUseCase.getRandomMovie(
-                genre = if (selectedGenreId.value == NOT_SELECTED_GENRE) "" else selectedGenreId.value.toString(),
-                year = year
+            _movies.emit(
+                movieUseCase.getRandomMovie(
+                    genre = if (selectedGenreId.value == NOT_SELECTED_GENRE) "" else selectedGenreId.value.toString(),
+                    year = year
+                )
             )
         }
     }

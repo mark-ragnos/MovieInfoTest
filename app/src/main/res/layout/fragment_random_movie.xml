@@ -100,127 +100,25 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/gen_tv_genre" />
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardView"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:foreground="?attr/selectableItemBackground"
-            android:visibility="invisible"
-            app:cardBackgroundColor="?attr/colorSurface"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/gen_btn_random">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/gen_btn_random">
-
-                <TextView
-                    android:id="@+id/gen_out_id"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="invisible"
-                    tools:ignore="MissingConstraints" />
-
-                <ImageView
-                    android:id="@+id/gen_out_poster"
-                    android:layout_width="129dp"
-                    android:layout_height="186dp"
-                    android:contentDescription="@string/random_title"
-                    android:textColor="?attr/colorOnSurface"
-                    android:textSize="@dimen/def_item_size"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/textView3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/title"
-                    android:textColor="?attr/colorOnSurface"
-                    android:textSize="@dimen/def_item_size"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toEndOf="@+id/gen_out_poster"
-                    app:layout_constraintTop_toTopOf="@+id/gen_out_poster" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/gen_out_name"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:ellipsize="end"
-                    android:maxLines="2"
-                    android:textColor="?attr/colorOnSurface"
-                    android:textSize="@dimen/def_item_size"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/textView3"
-                    app:layout_constraintTop_toTopOf="@+id/textView3" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/textView4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/rating"
-                    android:textColor="?attr/colorOnSurface"
-                    android:textSize="@dimen/def_item_size"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="@+id/textView3"
-                    app:layout_constraintTop_toBottomOf="@+id/gen_out_name" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/gen_out_rating"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:textColor="?attr/colorOnSurface"
-                    android:textSize="@dimen/def_item_size"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView4"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/textView4" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/gen_out_desc"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="5dp"
-                    android:ellipsize="end"
-                    android:text=""
-                    android:textColor="?attr/colorOnSurface"
-                    android:textSize="@dimen/def_item_sub"
-                    app:layout_constraintBottom_toBottomOf="@+id/gen_out_poster"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/textView4"
-                    app:layout_constraintTop_toBottomOf="@+id/textView4" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <androidx.core.widget.ContentLoadingProgressBar
-            android:id="@+id/progress_bar"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@+id/cardView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/cardView" />
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="8dp"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/gen_btn_random"
+            tools:listitem="@layout/item_random_movie" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="invisible" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

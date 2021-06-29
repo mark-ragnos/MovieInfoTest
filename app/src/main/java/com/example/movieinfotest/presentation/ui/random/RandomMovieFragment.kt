@@ -8,26 +8,29 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.coroutineScope
-import androidx.navigation.fragment.NavHostFragment
+import androidx.lifecycle.lifecycleScope
 import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
 import com.example.movieinfotest.MovieApp
 import com.example.movieinfotest.databinding.FragmentRandomMovieBinding
-import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.base.BaseFragment
 import com.example.movieinfotest.presentation.ui.random.adapter.GenreAdapter
+import com.example.movieinfotest.presentation.ui.random.adapter.RandomMoviesAdapter
 import com.example.movieinfotest.utils.network.NetworkConnection
 import com.example.movieinfotest.utils.ToolbarMaker
-import com.example.movieinfotest.utils.displayMoviePoster
 import com.example.movieinfotest.utils.isPossibleYear
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class RandomMovieFragment : BaseFragment() {
     private lateinit var binding: FragmentRandomMovieBinding
     private val viewModel: RandomViewModel by viewModels { AppViewModelFactory.makeFactory() }
-    private lateinit var genreAdapter: GenreAdapter
     private val parentViewModel: MainActivityViewModel by activityViewModels()
+
+    private lateinit var genreAdapter: GenreAdapter
+    private val randomAdapter = RandomMoviesAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,6 +44,7 @@ class RandomMovieFragment : BaseFragment() {
         initSpinner()
         setupUI()
         subscribeOnData()
+        binding.recyclerView.adapter = randomAdapter
 
         return binding.root
     }
@@ -64,56 +68,29 @@ class RandomMovieFragment : BaseFragment() {
     private fun setupUI() {
         binding.genBtnRandom.setOnClickListener {
             if (isGenerateAccess()) {
-                onProgressGenerator(true)
                 viewModel.generateRandom(binding.genInYear.text.toString())
             }
-        }
-
-        binding.cardView.setOnClickListener {
-            val action = RandomMovieFragmentDirections.actionGenerateMovieToMovieInfo(
-                binding.genOutId.text.toString().toInt()
-            )
-            NavHostFragment.findNavController(this).navigate(action)
         }
     }
 
     private fun subscribeOnData() {
         lifecycle.coroutineScope.launch {
-            viewModel.movie.collectLatest {
-                it?.let { setMovie(it) }
-            }
-        }
-
-        lifecycle.coroutineScope.launch {
             viewModel.genres.collectLatest {
                 it?.let { genreAdapter.setItems(it) }
             }
         }
+
+        viewModel.movies.onEach {
+            randomAdapter.addMovie(it)
+        }.launchIn(lifecycleScope)
     }
 
     private fun initToolbar() {
         ToolbarMaker.makeDefaultToolbar(binding.toolbar, parentViewModel, this)
     }
 
-    private fun setMovie(movie: MovieDomain) {
-        binding.apply {
-            genOutPoster.displayMoviePoster(movie.posterPath, x = 150, y = 225)
-            genOutRating.text = movie.voteAverage.toString()
-            genOutName.text = movie.title
-            genOutId.text = movie.id.toString()
-            genOutDesc.text = movie.overview
-        }
-        onProgressGenerator(false)
-    }
-
     private fun isGenerateAccess(): Boolean {
         return NetworkConnection.isOnline()
-    }
-
-    private fun onProgressGenerator(isProgress: Boolean) {
-        binding.progressBar.visibility = if (isProgress) View.VISIBLE else View.GONE
-        binding.cardView.visibility = if (!isProgress) View.VISIBLE else View.INVISIBLE
-        buttonEnabled(!isProgress)
     }
 
     private fun buttonEnabled(isEnabled: Boolean) {
