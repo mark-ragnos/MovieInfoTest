@@ -12,7 +12,6 @@
     <string name="random">Random</string>
     <string name="popular">Popular</string>
     <string name="get_random">Get random</string>
-    <string name="enter_year">Enter year</string>
     <string name="actor_list">List of the </string>
     <string name="genres">Genres:</string>
     <string name="popular_title">Populars</string>
@@ -76,4 +75,7 @@
     <string name="details_list_of_cast">List of $s</string>
     <string name="details_list_of_crew">List of $s</string>
     <string name="details_percents">%1$s%%</string>
+
+    <string name="random_year">Year</string>
+    <string name="random_generate">Generate</string>
 </resources>

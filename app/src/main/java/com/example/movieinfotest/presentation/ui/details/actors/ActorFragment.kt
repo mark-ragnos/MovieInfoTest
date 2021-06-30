@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentActorBinding
 import com.example.movieinfotest.domain.entities.actor.ActorInfoDomain
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory

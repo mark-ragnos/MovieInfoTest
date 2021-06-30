@@ -6,18 +6,27 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movieinfotest.databinding.ItemRandomMovieBinding
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
+import com.example.movieinfotest.utils.RANDOM_LIST_SIZE
 import com.example.movieinfotest.utils.displayMoviePoster
+import com.example.movieinfotest.utils.listeners.NavigationListener
 import java.util.LinkedList
+import kotlin.properties.Delegates
 
-class RandomMoviesAdapter : RecyclerView.Adapter<RandomMoviesAdapter.ViewHolder>() {
+class RandomMoviesAdapter(
+    private val navigationListener: NavigationListener<Int>
+) : RecyclerView.Adapter<RandomMoviesAdapter.ViewHolder>() {
     private val randomMovies = LinkedList<MovieDomain>()
 
     fun addMovie(movies: MovieDomain) {
+        val oldList = LinkedList(randomMovies)
         randomMovies.addFirst(movies)
-        if (itemCount > RANDOM_LIST_SIZE){
+        if (itemCount > RANDOM_LIST_SIZE) {
             randomMovies.removeLast()
         }
-        notifyDataSetChanged()
+
+        val diffCallback = RandomMovieDiffCallback(oldList, randomMovies)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+        diffResult.dispatchUpdatesTo(this)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -28,18 +37,26 @@ class RandomMoviesAdapter : RecyclerView.Adapter<RandomMoviesAdapter.ViewHolder>
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(randomMovies[position])
+        holder.bind(randomMovies[position], navigationListener)
     }
 
     override fun getItemCount(): Int = randomMovies.size
 
     class ViewHolder(private val binding: ItemRandomMovieBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(movie: MovieDomain) {
+        private var id by Delegates.notNull<Int>()
+
+        fun bind(movie: MovieDomain, navigationListener: NavigationListener<Int>) {
+            id = movie.id
+
             binding.apply {
                 name.text = movie.title
                 description.text = movie.overview
                 moviePoster.displayMoviePoster(movie.posterPath)
+            }
+
+            binding.root.setOnClickListener {
+                navigationListener.navigate(id)
             }
         }
     }
@@ -59,9 +76,5 @@ class RandomMoviesAdapter : RecyclerView.Adapter<RandomMoviesAdapter.ViewHolder>
         override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
             return oldList[oldItemPosition] == newList[newItemPosition]
         }
-    }
-
-    companion object{
-        const val RANDOM_LIST_SIZE = 20
     }
 }

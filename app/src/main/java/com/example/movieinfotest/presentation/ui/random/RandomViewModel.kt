@@ -6,7 +6,8 @@ import com.example.movieinfotest.domain.entities.genre.GenreDomain
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.domain.usecases.GenreUseCase
 import com.example.movieinfotest.domain.usecases.MovieUseCase
-import com.example.movieinfotest.presentation.ui.random.adapter.RandomMoviesAdapter
+import com.example.movieinfotest.utils.NOT_SELECTED_GENRE
+import com.example.movieinfotest.utils.RANDOM_LIST_SIZE
 import com.example.movieinfotest.utils.network.NetworkConnection
 import com.skydoves.powerspinner.OnSpinnerItemSelectedListener
 import kotlinx.coroutines.Dispatchers
@@ -22,9 +23,9 @@ class RandomViewModel(
     private val genreUseCase: GenreUseCase
 ) : ViewModel() {
     private val _movies = MutableSharedFlow<MovieDomain>(
-        extraBufferCapacity = RandomMoviesAdapter.RANDOM_LIST_SIZE,
+        extraBufferCapacity = RANDOM_LIST_SIZE,
         onBufferOverflow = BufferOverflow.DROP_OLDEST,
-        replay = RandomMoviesAdapter.RANDOM_LIST_SIZE
+        replay = RANDOM_LIST_SIZE
     )
     val movies = _movies.asSharedFlow()
 
@@ -58,9 +59,5 @@ class RandomViewModel(
                 _genres.value = genreUseCase.getAllGenres(networkStatus)
             }
         }
-    }
-
-    companion object {
-        const val NOT_SELECTED_GENRE = -1
     }
 }
