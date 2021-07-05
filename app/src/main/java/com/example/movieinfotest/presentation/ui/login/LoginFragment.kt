@@ -15,35 +15,46 @@ import com.example.movieinfotest.utils.FirebaseLogin
 import com.example.movieinfotest.utils.isCorrectUserData
 
 class LoginFragment : BaseFragment() {
-    private lateinit var binding: FragmentLoginBinding
+    private var _binding: FragmentLoginBinding? = null
+    private val binding get() = _binding!!
     private val parentViewModel: MainActivityViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentLoginBinding.inflate(inflater, container, false)
+    ): View? {
+        _binding = FragmentLoginBinding.inflate(inflater, container, false)
 
         init()
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         setupUI()
         inputTextWatcher()
         preValidateButton()
+    }
 
-        return binding.root
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun init() {
         if (FirebaseLogin.isLogin()) {
             requireActivity().onBackPressed()
         }
-
-        binding.toolbar.setNavigationOnClickListener {
-            activity?.onBackPressed()
-        }
     }
 
     private fun setupUI() {
+        binding.toolbar.setNavigationOnClickListener {
+            activity?.onBackPressed()
+        }
+
         binding.logTextLoginHelp.setOnClickListener {
             NavHostFragment.findNavController(this)
                 .navigate(R.id.action_loginFragment_to_registrationFragment)

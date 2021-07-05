@@ -6,8 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import com.example.movieinfotest.R
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.movieinfotest.databinding.FragmentActorBinding
 import com.example.movieinfotest.domain.entities.actor.ActorInfoDomain
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
@@ -19,28 +20,43 @@ import com.example.movieinfotest.utils.moviedbSpecificUtils.getGenderText
 import com.example.movieinfotest.utils.network.NetworkConnection
 import com.example.movieinfotest.utils.setInvisible
 import com.example.movieinfotest.utils.setVisible
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class ActorFragment : BaseFragment() {
-    private lateinit var binding: FragmentActorBinding
+    private var _binding: FragmentActorBinding? = null
+    private val binding get() = _binding!!
     private val viewModel: ActorViewModel by viewModels { AppViewModelFactory.makeFactory() }
     private val parentViewModel: MainActivityViewModel by activityViewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        fetchData()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentActorBinding.inflate(inflater, container, false)
+    ): View? {
+        _binding = FragmentActorBinding.inflate(inflater, container, false)
+
+        getActorId()
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         progress(true)
         preload()
         initToolbar()
-        observeData()
-        getActorId()
+    }
 
-        return binding.root
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun initToolbar() {
@@ -55,13 +71,17 @@ class ActorFragment : BaseFragment() {
         viewModel.sendActorId(ActorFragmentArgs.fromBundle(requireArguments()).actorId)
     }
 
-    private fun observeData() {
-        viewModel.actorInfo.onEach {
-            it?.let {
-                setActor(it)
-                progress(false)
+    private fun fetchData() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.actorInfo.collectLatest { actor ->
+                    actor?.let {
+                        setActor(it)
+                        progress(false)
+                    }
+                }
             }
-        }.launchIn(lifecycleScope)
+        }
     }
 
     private fun setActor(actor: ActorInfoDomain) {

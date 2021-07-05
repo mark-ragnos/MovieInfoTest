@@ -14,31 +14,38 @@ import com.example.movieinfotest.presentation.ui.base.BaseFragment
 import com.example.movieinfotest.utils.isCorrectUserData
 
 class RegistrationFragment : BaseFragment() {
-    private lateinit var binding: FragmentRegistrationBinding
+    private var _binding: FragmentRegistrationBinding? = null
+    private val binding get() = _binding!!
     private val parentViewModel: MainActivityViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentRegistrationBinding.inflate(inflater, container, false)
-
-        init()
-        setupUI()
-        inputTextWatcher()
-        preValidateButton()
+    ): View? {
+        _binding = FragmentRegistrationBinding.inflate(inflater, container, false)
 
         return binding.root
     }
 
-    private fun init() {
-        binding.toolbar.setNavigationOnClickListener {
-            requireActivity().onBackPressed()
-        }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setupUI()
+        inputTextWatcher()
+        preValidateButton()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun setupUI() {
+        binding.toolbar.setNavigationOnClickListener {
+            requireActivity().onBackPressed()
+        }
+
         binding.regTextLoginHelp.setOnClickListener {
             requireActivity().onBackPressed()
         }

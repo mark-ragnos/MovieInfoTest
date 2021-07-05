@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.coroutineScope
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
@@ -38,55 +40,74 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class DetailsFragment : BaseFragment() {
-    private lateinit var binding: FragmentDetailsBinding
+    private var _binding: FragmentDetailsBinding? = null
+    private val binding get() = _binding!!
     private val viewModel: DetailsViewModel by viewModels { AppViewModelFactory.makeFactory() }
     private val parentViewModel: MainActivityViewModel by activityViewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        fetchData()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentDetailsBinding.inflate(inflater, container, false)
+    ): View? {
+        _binding = FragmentDetailsBinding.inflate(inflater, container, false)
 
-        progress(true)
-        init()
-        setupReadLifeData()
-        setupFavoriteBtn()
+        val savedId = DetailsFragmentArgs.fromBundle(requireArguments()).id
+        viewModel.sendID(savedId, NetworkConnection.getNetworkStatus(MovieApp.getInstance()))
 
         return binding.root
     }
 
-    private fun init() {
-        val savedId = DetailsFragmentArgs.fromBundle(requireArguments()).id
-        viewModel.sendID(savedId, NetworkConnection.getNetworkStatus(MovieApp.getInstance()))
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        initToolbar()
+        progress(true)
+        setupUI()
     }
 
-    private fun setupReadLifeData() {
-        lifecycle.coroutineScope.launch {
-            viewModel.movieDetails.collectLatest {
-                it?.let { it1 ->
-                    setMovie(it1)
-                    progress(false)
-                }
-            }
-        }
-
-        lifecycle.coroutineScope.launch {
-            viewModel.isFavorite.collectLatest {
-                changeFavoriteBtn(isInFavorite = it)
-            }
-        }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
-    private fun setupFavoriteBtn() {
+    private fun setupUI() {
+        binding.toolbar.setNavigationOnClickListener {
+            activity?.onBackPressed()
+        }
+
         binding.infoAddToFavorite.setOnClickListener {
             if (FirebaseLogin.isLogin()) {
                 saveDeleteMovie()
             } else {
                 RegistrationFragment.navigate(NavHostFragment.findNavController(this))
+            }
+        }
+
+        ToolbarMaker.makeDefaultToolbar(binding.toolbar, parentViewModel, this)
+    }
+
+    private fun fetchData() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.movieDetails.collectLatest { movie ->
+                    movie?.let {
+                        setMovie(movie)
+                        progress(false)
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.isFavorite.collectLatest { isFavorite ->
+                    changeFavoriteBtn(isInFavorite = isFavorite)
+                }
             }
         }
     }
@@ -99,14 +120,6 @@ class DetailsFragment : BaseFragment() {
         }
     }
 
-    private fun initToolbar() {
-        binding.toolbar.setNavigationOnClickListener {
-            activity?.onBackPressed()
-        }
-
-        ToolbarMaker.makeDefaultToolbar(binding.toolbar, parentViewModel, this)
-    }
-
     private fun setMovie(details: MovieDomain) {
         binding.infoDescription.text = details.overview
         binding.infoGenres.text = getGenreList(details.genres)
@@ -114,14 +127,12 @@ class DetailsFragment : BaseFragment() {
             getString(R.string.title_with_date, details.title, details.releaseDate.getYear())
         binding.infoPoster.displayMoviePoster(details.posterPath, x = 100)
         binding.backdropImage.displayBackdrop(details.backdropPath)
-        setUserScore(details.voteAverage)
-        setActors(details.casts, details.crews)
-    }
 
-    private fun setUserScore(score: Double) {
-        val realScore: Int = (score * RATING_MULT).toInt()
+        val realScore: Int = (details.voteAverage * RATING_MULT).toInt()
         binding.ratingBar.progress = realScore
         binding.ratingValue.text = getString(R.string.details_percents, realScore.toString())
+
+        setActors(details.casts, details.crews)
     }
 
     private fun setActors(cast: List<CastDomain>?, crew: List<CrewDomain>?) {
