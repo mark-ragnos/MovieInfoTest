@@ -26,7 +26,11 @@ import kotlinx.coroutines.launch
 class ActorFragment : BaseFragment() {
     private var _binding: FragmentActorBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: ActorViewModel by viewModels { AppViewModelFactory.makeFactory() }
+    private val viewModel: ActorViewModel by viewModels {
+        AppViewModelFactory.getFactory(
+            requireContext()
+        )
+    }
     private val parentViewModel: MainActivityViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -108,7 +112,7 @@ class ActorFragment : BaseFragment() {
     }
 
     private fun preload() {
-        if (!NetworkConnection.isOnline()) {
+        if (!NetworkConnection.isOnline(requireContext())) {
             requireActivity().onBackPressed()
         }
     }

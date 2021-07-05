@@ -7,7 +7,7 @@ import com.example.movieinfotest.utils.network.NetworkConnection
 import kotlinx.coroutines.flow.Flow
 
 class MovieUseCase(
-    private val movieRepository: IMovieRepository<MovieDomain>
+    private val movieRepository: IMovieRepository
 ) {
     fun getPopularMovies(): Flow<PagingData<MovieDomain>> {
         return movieRepository.getMovies()

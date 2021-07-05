@@ -5,7 +5,7 @@ import com.example.movieinfotest.domain.repositories.IGenreRepository
 import com.example.movieinfotest.utils.network.NetworkConnection
 
 class GenreUseCase(
-    private val genreRepository: IGenreRepository<GenreDomain>
+    private val genreRepository: IGenreRepository
 ) {
     suspend fun getAllGenres(networkStatus: NetworkConnection.STATUS): List<GenreDomain>? {
         return genreRepository.getGenres(networkStatus)

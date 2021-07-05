@@ -12,7 +12,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.NavHostFragment
 import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
-import com.example.movieinfotest.MovieApp
 import com.example.movieinfotest.databinding.FragmentPopularListBinding
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.presentation.ui.popular.adapter.MovieAdapter
@@ -29,7 +28,7 @@ import kotlinx.coroutines.launch
 class PopularListFragment : BaseFragment() {
     private var _binding: FragmentPopularListBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: PopularViewModel by viewModels { AppViewModelFactory.makeFactory() }
+    private val viewModel: PopularViewModel by viewModels { AppViewModelFactory.getFactory(requireContext()) }
     private val parentViewModel: MainActivityViewModel by activityViewModels()
     private lateinit var movieAdapter: MovieAdapter
 
@@ -76,7 +75,7 @@ class PopularListFragment : BaseFragment() {
                 } else {
                     viewModel.saveInFavorite(
                         movie,
-                        NetworkConnection.getNetworkStatus(MovieApp.getInstance())
+                        NetworkConnection.getNetworkStatus(requireContext())
                     )
                 }
             }

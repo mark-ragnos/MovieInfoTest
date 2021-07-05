@@ -10,7 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.coroutineScope
 import androidx.navigation.fragment.NavHostFragment
 import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
-import com.example.movieinfotest.MovieApp
 import com.example.movieinfotest.databinding.FragmentRandomMovieBinding
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
@@ -25,7 +24,7 @@ import kotlinx.coroutines.launch
 
 class RandomMovieFragment : BaseFragment() {
     private lateinit var binding: FragmentRandomMovieBinding
-    private val viewModel: RandomViewModel by viewModels { AppViewModelFactory.makeFactory() }
+    private val viewModel: RandomViewModel by viewModels { AppViewModelFactory.getFactory(requireContext()) }
     private lateinit var genreAdapter: GenreAdapter
     private val parentViewModel: MainActivityViewModel by activityViewModels()
 
@@ -58,7 +57,7 @@ class RandomMovieFragment : BaseFragment() {
         binding.genInGenre.setOnSpinnerItemSelectedListener(viewModel.selectGenreListener)
         binding.genInGenre.lifecycleOwner = viewLifecycleOwner
 
-        viewModel.loadGenres(NetworkConnection.getNetworkStatus(MovieApp.getInstance()))
+        viewModel.loadGenres(NetworkConnection.getNetworkStatus(requireContext()))
     }
 
     private fun setupUI() {
@@ -107,7 +106,7 @@ class RandomMovieFragment : BaseFragment() {
     }
 
     private fun isGenerateAccess(): Boolean {
-        return NetworkConnection.isOnline()
+        return NetworkConnection.isOnline(requireContext())
     }
 
     private fun onProgressGenerator(isProgress: Boolean) {

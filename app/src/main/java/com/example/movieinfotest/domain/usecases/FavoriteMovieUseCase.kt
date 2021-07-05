@@ -7,7 +7,7 @@ import com.example.movieinfotest.utils.network.NetworkConnection
 import kotlinx.coroutines.flow.Flow
 
 class FavoriteMovieUseCase(
-    private val favoriteRepository: IFavoriteRepository<MovieDomain>
+    private val favoriteRepository: IFavoriteRepository
 ) {
 
     suspend fun isFavorite(movieId: Int): Boolean {

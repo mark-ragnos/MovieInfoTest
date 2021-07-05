@@ -11,7 +11,7 @@ import com.example.movieinfotest.utils.converters.toGenreDomain
 class GenreRepository(
     val api: ApiHelper,
     val db: DbHelper
-) : IGenreRepository<GenreDomain> {
+) : IGenreRepository {
     override suspend fun getGenres(networkStatus: NetworkConnection.STATUS): List<GenreDomain>? {
         if (!networkStatus.isOnline()) {
             return db.getAllGenres()?.toGenreDomain()

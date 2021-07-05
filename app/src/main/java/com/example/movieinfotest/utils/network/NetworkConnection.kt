@@ -6,16 +6,11 @@ import android.net.NetworkCapabilities
 import android.net.NetworkInfo
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.example.movieinfotest.MovieApp
 
 object NetworkConnection {
     enum class STATUS {
         ONLINE,
         OFFLINE
-    }
-
-    fun isOnline(): Boolean {
-        return isOnline(MovieApp.getInstance())
     }
 
     fun isOnline(context: Context): Boolean {

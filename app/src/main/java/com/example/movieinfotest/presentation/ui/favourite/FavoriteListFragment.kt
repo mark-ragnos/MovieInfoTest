@@ -28,7 +28,7 @@ import kotlinx.coroutines.launch
 class FavoriteListFragment : BaseFragment() {
     private var _binding: FragmentFavoriteListBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: FavoriteViewModel by viewModels { AppViewModelFactory.makeFactory() }
+    private val viewModel: FavoriteViewModel by viewModels { AppViewModelFactory.getFactory(requireContext()) }
     private val parentViewModel: MainActivityViewModel by activityViewModels()
     private lateinit var adapter: FavoriteAdapter
 

@@ -13,7 +13,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
-import com.example.movieinfotest.MovieApp
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentDetailsBinding
 import com.example.movieinfotest.domain.entities.actor.CastDomain
@@ -42,7 +41,7 @@ import kotlinx.coroutines.launch
 class DetailsFragment : BaseFragment() {
     private var _binding: FragmentDetailsBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: DetailsViewModel by viewModels { AppViewModelFactory.makeFactory() }
+    private val viewModel: DetailsViewModel by viewModels { AppViewModelFactory.getFactory(requireContext()) }
     private val parentViewModel: MainActivityViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,7 +57,7 @@ class DetailsFragment : BaseFragment() {
         _binding = FragmentDetailsBinding.inflate(inflater, container, false)
 
         val savedId = DetailsFragmentArgs.fromBundle(requireArguments()).id
-        viewModel.sendID(savedId, NetworkConnection.getNetworkStatus(MovieApp.getInstance()))
+        viewModel.sendID(savedId, NetworkConnection.getNetworkStatus(requireContext()))
 
         return binding.root
     }
@@ -114,7 +113,7 @@ class DetailsFragment : BaseFragment() {
 
     private fun saveDeleteMovie() {
         if (!viewModel.isFavorite.value) {
-            viewModel.saveInFavorite(NetworkConnection.getNetworkStatus(MovieApp.getInstance()))
+            viewModel.saveInFavorite(NetworkConnection.getNetworkStatus(requireContext()))
         } else {
             viewModel.deleteFromFavorite()
         }
