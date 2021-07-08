@@ -21,6 +21,7 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
     }
     buildFeatures {
         viewBinding true
@@ -28,11 +29,19 @@ android {
 
     buildTypes {
         debug {
+            buildConfigField "String", "API_URL", "\"https://api.themoviedb.org/3/\""
+            buildConfigField "String", "API_KEY", "\"393a66787ff4b601eae377e5ec8b4d36\""
+            buildConfigField "String", "DB_NAME", "\"db_movie_debug.db\""
+            buildConfigField "Boolean", "DEBUG_ENABLED", "true"
         }
 
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "API_URL", "\"https://api.themoviedb.org/3/\""
+            buildConfigField "String", "API_KEY", "\"393a66787ff4b601eae377e5ec8b4d36\""
+            buildConfigField "String", "DB_NAME", "\"db_movie.db\""
+            buildConfigField "Boolean", "DB_NAME", "false"
         }
     }
     compileOptions {

@@ -9,7 +9,7 @@ import kotlin.random.Random
 import kotlin.random.nextInt
 
 class ApiHelper(
-    private val api: TheMovieDBApi
+    private val api: ApiMovie
 ) {
 
     suspend fun getPopularList(page: Int): List<Movie>? {

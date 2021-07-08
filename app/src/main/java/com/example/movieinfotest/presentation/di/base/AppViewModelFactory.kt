@@ -3,10 +3,6 @@ package com.example.movieinfotest.presentation.di.base
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.movieinfotest.data.api.ApiHelper
-import com.example.movieinfotest.data.api.TheMovieDBApi
-import com.example.movieinfotest.data.repositories.ActorRepository
-import com.example.movieinfotest.domain.usecases.ActorUseCase
 import com.example.movieinfotest.getComponent
 import com.example.movieinfotest.presentation.di.AppComponent
 import com.example.movieinfotest.presentation.ui.details.DetailsViewModel
@@ -37,7 +33,9 @@ class AppViewModelFactory(
                 appComponent.getGenreUseCase()
             ) as T
         if (modelClass.isAssignableFrom(ActorViewModel::class.java))
-            return ActorViewModel(ActorUseCase(ActorRepository(ApiHelper(TheMovieDBApi.create())))) as T
+            return ActorViewModel(
+                appComponent.getActorUseCase()
+            ) as T
 
         throw IllegalArgumentException("Incorrect ViewModel class")
     }
