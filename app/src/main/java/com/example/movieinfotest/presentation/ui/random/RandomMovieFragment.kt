@@ -26,7 +26,9 @@ import com.example.movieinfotest.utils.listeners.NavigationListener
 import kotlinx.coroutines.flow.collectLatest
 
 class RandomMovieFragment : BaseFragment() {
-    private lateinit var binding: FragmentRandomMovieBinding
+    private var _binding: FragmentRandomMovieBinding? = null
+    private val binding get() = _binding!!
+
     private val viewModel: RandomViewModel by viewModels { AppViewModelFactory.makeFactory() }
     private val parentViewModel: MainActivityViewModel by activityViewModels()
 
@@ -40,24 +42,42 @@ class RandomMovieFragment : BaseFragment() {
     private lateinit var genreAdapter: GenreAdapter
     private val randomAdapter = RandomMoviesAdapter(navigationListener)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        subscribeOnData()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentRandomMovieBinding.inflate(inflater, container, false)
+        _binding = FragmentRandomMovieBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         initToolbar()
         initTextWatcher()
         initSpinner()
         setupUI()
-
-        return binding.root
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        subscribeOnData()
+    private fun subscribeOnData() {
+        lifecycle.coroutineScope.launchWhenResumed {
+            viewModel.genres.collectLatest {
+                it?.let { genreAdapter.setItems(it) }
+            }
+        }
+
+        lifecycleScope.launchWhenResumed {
+            viewModel.movies.collectLatest {
+                randomAdapter.addMovie(it)
+                binding.recyclerView.smoothScrollToPosition(0)
+            }
+        }
     }
 
     private fun initTextWatcher() {
@@ -78,43 +98,18 @@ class RandomMovieFragment : BaseFragment() {
 
     private fun setupUI() {
         binding.generate.setOnClickListener {
-            if (isGenerateAccess()) {
-                viewModel.generateRandom(binding.genInYear.text.toString())
-            }
+            viewModel.generateRandom(binding.genInYear.text.toString())
         }
 
         binding.recyclerView.adapter = randomAdapter
-        addDivider()
-    }
-
-    private fun subscribeOnData() {
-        lifecycle.coroutineScope.launchWhenResumed {
-            viewModel.genres.collectLatest {
-                it?.let { genreAdapter.setItems(it) }
-            }
-        }
-
-        lifecycleScope.launchWhenResumed {
-            viewModel.movies.collectLatest {
-                randomAdapter.addMovie(it)
-                binding.recyclerView.smoothScrollToPosition(0)
-            }
-        }
+        binding.recyclerView.addDefaultDivider(context, LinearLayout.VERTICAL)
     }
 
     private fun initToolbar() {
         ToolbarMaker.makeDefaultToolbar(binding.toolbar, parentViewModel, this)
     }
 
-    private fun isGenerateAccess(): Boolean {
-        return NetworkConnection.isOnline()
-    }
-
     private fun buttonEnabled(isEnabled: Boolean) {
         binding.generate.isEnabled = isEnabled
-    }
-
-    private fun addDivider() {
-        binding.recyclerView.addDefaultDivider(context, LinearLayout.VERTICAL)
     }
 }
