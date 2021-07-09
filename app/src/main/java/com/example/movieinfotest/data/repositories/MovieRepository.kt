@@ -21,7 +21,7 @@ import kotlinx.coroutines.flow.map
 class MovieRepository(
     val api: ApiHelper,
     val db: DbHelper
-) : IMovieRepository<MovieDomain> {
+) : IMovieRepository {
 
     @OptIn(ExperimentalPagingApi::class)
     override fun getMovies(): Flow<PagingData<MovieDomain>> {

@@ -7,10 +7,11 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.coroutineScope
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.NavHostFragment
 import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
-import com.example.movieinfotest.MovieApp
 import com.example.movieinfotest.databinding.FragmentPopularListBinding
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.presentation.ui.popular.adapter.MovieAdapter
@@ -21,28 +22,43 @@ import com.example.movieinfotest.utils.FirebaseLogin
 import com.example.movieinfotest.utils.ToolbarMaker
 import com.example.movieinfotest.utils.addDefaultDivider
 import com.example.movieinfotest.utils.network.NetworkConnection
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class PopularListFragment : BaseFragment() {
-    private lateinit var binding: FragmentPopularListBinding
-    private val viewModel: PopularViewModel by viewModels { AppViewModelFactory.makeFactory() }
+    private var _binding: FragmentPopularListBinding? = null
+    private val binding get() = _binding!!
+    private val viewModel: PopularViewModel by viewModels { AppViewModelFactory.getFactory(requireContext()) }
     private val parentViewModel: MainActivityViewModel by activityViewModels()
     private lateinit var movieAdapter: MovieAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        fetchData()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentPopularListBinding.inflate(inflater, container, false)
+    ): View? {
+        _binding = FragmentPopularListBinding.inflate(inflater, container, false)
+
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        if (_binding == null) return
 
         initToolbar()
         setupPopularList()
-        fetchMovies()
-
-        return binding.root
     }
 
     private fun setupPopularList() {
@@ -59,7 +75,7 @@ class PopularListFragment : BaseFragment() {
                 } else {
                     viewModel.saveInFavorite(
                         movie,
-                        NetworkConnection.getNetworkStatus(MovieApp.getInstance())
+                        NetworkConnection.getNetworkStatus(requireContext())
                     )
                 }
             }
@@ -76,10 +92,12 @@ class PopularListFragment : BaseFragment() {
         addDivider()
     }
 
-    private fun fetchMovies() {
-        lifecycle.coroutineScope.launch(Dispatchers.IO) {
-            viewModel.movies.collectLatest { pagingData ->
-                movieAdapter.submitData(pagingData)
+    private fun fetchData() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.movies.collectLatest { pagingData ->
+                    movieAdapter.submitData(pagingData)
+                }
             }
         }
     }

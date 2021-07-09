@@ -4,6 +4,9 @@ import android.content.Context
 import android.content.res.Configuration
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.view.View
+import androidx.core.view.isGone
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.movieinfotest.data.entities.details.MovieDetails
@@ -79,15 +82,15 @@ fun Context.isDarkThemeOn(): Boolean {
 }
 
 fun View.setVisible() {
-    visibility = View.VISIBLE
+    isVisible = true
 }
 
 fun View.setGone() {
-    visibility = View.GONE
+    isGone = true
 }
 
 fun View.setInvisible() {
-    visibility = View.INVISIBLE
+    isInvisible = true
 }
 
 fun FragmentManager.reRunFragment(fragment: Fragment) {

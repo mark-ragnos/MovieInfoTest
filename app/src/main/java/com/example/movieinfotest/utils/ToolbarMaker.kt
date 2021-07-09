@@ -6,7 +6,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.NavHostFragment
 import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
-import com.example.movieinfotest.MovieApp
 import com.example.movieinfotest.R
 import com.example.movieinfotest.presentation.ui.base.BaseFragment
 import com.example.movieinfotest.presentation.ui.register.RegistrationFragment
@@ -23,10 +22,10 @@ object ToolbarMaker {
             getItem(1).isVisible = FirebaseLogin.isLogin()
             if (parentViewModel.isDarkMode) {
                 getItem(2).icon =
-                    ContextCompat.getDrawable(MovieApp.getInstance(), R.drawable.ic_light_mode)
+                    ContextCompat.getDrawable(fragment.requireContext(), R.drawable.ic_light_mode)
             } else {
                 getItem(2).icon =
-                    ContextCompat.getDrawable(MovieApp.getInstance(), R.drawable.ic_dark_mode)
+                    ContextCompat.getDrawable(fragment.requireContext(), R.drawable.ic_dark_mode)
             }
 
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {

@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.map
 class FavoriteRepository(
     val api: ApiHelper,
     val db: DbHelper
-) : IFavoriteRepository<MovieDomain> {
+) : IFavoriteRepository {
 
     override suspend fun getFavorite(movieId: Int): MovieDomain? {
         return db.getDetailsFromFavorite(movieId)?.toMovieDomain()

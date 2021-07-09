@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.coroutineScope
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
@@ -20,28 +22,40 @@ import com.example.movieinfotest.presentation.ui.register.RegistrationFragment
 import com.example.movieinfotest.utils.FirebaseLogin
 import com.example.movieinfotest.utils.ToolbarMaker
 import com.example.movieinfotest.utils.addDefaultDivider
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class FavoriteListFragment : BaseFragment() {
-    private lateinit var binding: FragmentFavoriteListBinding
-    private val viewModel: FavoriteViewModel by viewModels { AppViewModelFactory.makeFactory() }
+    private var _binding: FragmentFavoriteListBinding? = null
+    private val binding get() = _binding!!
+    private val viewModel: FavoriteViewModel by viewModels { AppViewModelFactory.getFactory(requireContext()) }
     private val parentViewModel: MainActivityViewModel by activityViewModels()
     private lateinit var adapter: FavoriteAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        fetchData()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentFavoriteListBinding.inflate(inflater, container, false)
-
-        init()
-        setupFavoriteList()
-        fetchMovies()
+    ): View? {
+        _binding = FragmentFavoriteListBinding.inflate(inflater, container, false)
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupUI()
+        setupFavoriteList()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onStart() {
@@ -49,7 +63,7 @@ class FavoriteListFragment : BaseFragment() {
         displayList()
     }
 
-    private fun init() {
+    private fun setupUI() {
         binding.favoriteTextLogin.setOnClickListener {
             RegistrationFragment.navigate(NavHostFragment.findNavController(this))
         }
@@ -78,10 +92,12 @@ class FavoriteListFragment : BaseFragment() {
         addDivider()
     }
 
-    private fun fetchMovies() {
-        lifecycle.coroutineScope.launch(Dispatchers.IO) {
-            viewModel.movies.collectLatest { pagingData ->
-                adapter.submitData(pagingData)
+    private fun fetchData() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.movies.collectLatest { pageMovies ->
+                    adapter.submitData(pageMovies)
+                }
             }
         }
     }
