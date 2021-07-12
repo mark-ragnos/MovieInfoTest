@@ -23,6 +23,9 @@
 
         <item name="titleTextAppearance">@style/ToolbarColoredBackArrow</item>
 
+        <item name="circleBottomColor">@color/circleBottomColor_dark</item>
+        <item name="circleBottomCornerColor">@color/circleBottomCornerColor_dark</item>
+
     </style>
 
     <style name="ToolbarColoredBackArrow" parent="Theme.MovieInfoTest">

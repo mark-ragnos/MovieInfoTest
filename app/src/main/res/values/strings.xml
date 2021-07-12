@@ -63,6 +63,7 @@
     <string name="male">Male</string>
     <string name="unknown_gender">Unknown gender</string>
     <string name="personal_info">Personal information</string>
+
     <string name="actorInfo_birthplace">Place of Birth</string>
     <string name="actorInfo_deathday">Date of Death</string>
     <string name="actorInfo_birthday">Date of Birth</string>
@@ -76,6 +77,7 @@
     <string name="details_list_of_crew">List of $s</string>
     <string name="details_percents">%1$s%%</string>
 
-    <string name="random_year">Year</string>
     <string name="random_generate">Generate</string>
+    <string name="random_genre_hint">Genre</string>
+    <string name="random_year_hint">Year</string>
 </resources>

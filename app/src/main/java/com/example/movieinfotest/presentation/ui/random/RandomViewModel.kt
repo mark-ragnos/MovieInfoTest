@@ -14,6 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -41,6 +42,12 @@ class RandomViewModel(
                 _selectedGenreId.emit(newItem.id)
             }
         }
+
+    fun clearSelectedGenre() {
+        viewModelScope.launch {
+            _selectedGenreId.emit(NOT_SELECTED_GENRE)
+        }
+    }
 
     fun generateRandom(year: String) {
         viewModelScope.launch(Dispatchers.IO) {

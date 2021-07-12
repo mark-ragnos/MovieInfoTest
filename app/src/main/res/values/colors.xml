@@ -15,6 +15,8 @@
     <color name="surface">#FFFFFF</color>
     <color name="textOnSurface">#000000</color>
 
+    <color name="circleBottomColor">#CFCFCF</color>
+    <color name="circleBottomCornerColor">#939393</color>
 
 <!--Dark mode colors-->
     <color name="primary_dark">#00001a</color>
@@ -28,6 +30,9 @@
 
     <color name="surface_dark">#121212</color>
     <color name="textOnSurface_dark">#EEEEEE</color>
+
+    <color name="circleBottomColor_dark">#383838</color>
+    <color name="circleBottomCornerColor_dark">#626262</color>
 
 <!--Other colors-->
     <color name="error_color">#B00020</color>

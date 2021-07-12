@@ -85,7 +85,7 @@ class ActorFragment : BaseFragment() {
                     }
                 }
             }
-        }.launchIn(lifecycleScope)
+        }
     }
 
     private fun setActor(actor: ActorInfoDomain) {
