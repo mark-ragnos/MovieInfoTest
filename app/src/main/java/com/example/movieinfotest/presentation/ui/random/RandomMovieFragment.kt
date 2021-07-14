@@ -1,7 +1,6 @@
 package com.example.movieinfotest.presentation.ui.random
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,7 +25,6 @@ import com.example.movieinfotest.utils.addDefaultDivider
 import com.example.movieinfotest.utils.isPossibleYear
 import com.example.movieinfotest.utils.listeners.NavigationListener
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.toCollection
 import kotlinx.coroutines.launch
 
 class RandomMovieFragment : BaseFragment() {
@@ -86,7 +84,6 @@ class RandomMovieFragment : BaseFragment() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.movies.collect {
-                    Log.d("TEST", "Collect movie $it in $this")
                     randomAdapter.addMovie(it)
                     binding.recyclerView.smoothScrollToPosition(0)
                 }

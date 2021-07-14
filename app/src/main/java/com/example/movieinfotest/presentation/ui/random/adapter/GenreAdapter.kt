@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movieinfotest.databinding.ItemGenresBinding
 import com.example.movieinfotest.domain.entities.genre.GenreDomain
-import com.example.movieinfotest.utils.NOT_SELECTED_GENRE
 import com.skydoves.powerspinner.OnSpinnerItemSelectedListener
 import com.skydoves.powerspinner.PowerSpinnerInterface
 import com.skydoves.powerspinner.PowerSpinnerView
