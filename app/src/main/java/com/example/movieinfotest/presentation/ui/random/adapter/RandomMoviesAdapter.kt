@@ -18,9 +18,6 @@ class RandomMoviesAdapter(
     private val randomMovies = LinkedList<MovieDomain>()
 
     fun addMovie(movies: MovieDomain) {
-        if (randomMovies.contains(movies)) {
-            return
-        }
         val oldList = LinkedList(randomMovies)
         randomMovies.addFirst(movies)
         if (itemCount > RANDOM_LIST_SIZE) {

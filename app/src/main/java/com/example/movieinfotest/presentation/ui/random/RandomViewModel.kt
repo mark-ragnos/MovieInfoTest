@@ -9,7 +9,6 @@ import com.example.movieinfotest.domain.usecases.MovieUseCase
 import com.example.movieinfotest.utils.NOT_SELECTED_GENRE
 import com.example.movieinfotest.utils.RANDOM_LIST_SIZE
 import com.example.movieinfotest.utils.network.NetworkConnection
-import com.skydoves.powerspinner.OnSpinnerItemSelectedListener
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -35,12 +34,11 @@ class RandomViewModel(
     private val _selectedGenreId = MutableStateFlow(NOT_SELECTED_GENRE)
     val selectedGenreId = _selectedGenreId.asStateFlow()
 
-    val selectGenreListener =
-        OnSpinnerItemSelectedListener<GenreDomain> { _, _, _, newItem ->
-            viewModelScope.launch {
-                _selectedGenreId.emit(newItem.id)
-            }
+    fun setSelectedGenre(id: Int) {
+        viewModelScope.launch {
+            _selectedGenreId.emit(id)
         }
+    }
 
     fun clearSelectedGenre() {
         viewModelScope.launch {

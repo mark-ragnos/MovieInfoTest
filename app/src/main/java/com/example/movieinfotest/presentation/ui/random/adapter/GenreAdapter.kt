@@ -34,6 +34,10 @@ class GenreAdapter(
         return genres.size
     }
 
+    fun getItemIndex(id: Int): Int {
+        return genres.indexOfFirst { it.id == id }
+    }
+
     class ViewHolder(val binding: ItemGenresBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
