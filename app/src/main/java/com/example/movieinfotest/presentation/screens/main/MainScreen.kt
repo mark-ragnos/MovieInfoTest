@@ -7,17 +7,22 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
+import com.example.movieinfotest.presentation.screens.favorite.FavoriteScreen
 import com.example.movieinfotest.presentation.screens.navigation.NavigationItems
 import com.example.movieinfotest.presentation.screens.views.MainBottomNavigationBar
+import com.example.movieinfotest.presentation.ui.favourite.FavoriteViewModel
 import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
 
 @Composable
 fun MainScreen(
-    viewModel: MainActivityViewModel
+    activityViewModel: MainActivityViewModel,
+    factory: AppViewModelFactory? = null
 ) {
     val (bottomVisible, setBottomVisible) = remember {
         mutableStateOf(true)
@@ -50,7 +55,16 @@ fun MainScreen(
             composable(
                 route = NavigationItems.Favorite.name
             ) {
+                val favoriteViewModel: FavoriteViewModel = viewModel(
+                    factory = factory
+                )
+                FavoriteScreen(
+                    mainViewModel = activityViewModel,
+                    viewModel = favoriteViewModel,
+                    moveToDetails = {
 
+                    }
+                )
             }
 
             composable(

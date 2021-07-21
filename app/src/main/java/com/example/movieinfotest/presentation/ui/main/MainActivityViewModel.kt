@@ -2,21 +2,41 @@ package com.example.movieinfotest.presentation.ui.main
 
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseAuth
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
 class MainActivityViewModel : ViewModel() {
-    var isDarkMode: Boolean = false
-    var isDarkModeControl: Boolean? = null
-    val auth: FirebaseAuth = Firebase.auth
+    private val auth = Firebase.auth
 
-    fun changeDarkMode() {
-        if (!isDarkMode) {
+    init {
+        viewModelScope.launch {
+//            _login.emit(auth.currentUser != null)
+        }
+    }
+
+    private val _darkMode = MutableStateFlow(false)
+    val darkMode = _darkMode.asStateFlow()
+
+    private val _login = MutableStateFlow(false)
+    val login = _login.asStateFlow()
+
+    fun logout() {
+        auth.signOut()
+    }
+
+    fun changeDarkMode(currentDarkMode: Boolean) {
+        if (!currentDarkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
-        isDarkMode = !isDarkMode
+
+        viewModelScope.launch {
+            _darkMode.emit(!currentDarkMode)
+        }
     }
 }

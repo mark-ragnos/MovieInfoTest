@@ -10,11 +10,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.paging.compose.LazyPagingItems
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
 
 @Composable
 fun MovieList(
-    movies: List<MovieDomain>,
+    movies: LazyPagingItems<MovieDomain>,
     displayItem: @Composable (MovieDomain) -> Unit,
     itemPaddingHorizontal: Dp = 8.dp,
     decorator: @Composable (MovieDomain) -> Unit = {
@@ -22,22 +23,6 @@ fun MovieList(
     }
 ) {
     LazyColumn {
-
-    }
-}
-
-@Composable
-fun MovieItemFavorite(
-    movieDomain: MovieDomain,
-    onItemClick: () -> Unit
-) {
-    Card(
-        shape = RoundedCornerShape(4.dp),
-        modifier = Modifier.clickable {
-            onItemClick()
-        },
-        elevation = 2.dp,
-    ) {
 
     }
 }
