@@ -1,5 +1,6 @@
 package com.example.movieinfotest.presentation.ui.random
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movieinfotest.domain.entities.genre.GenreDomain
@@ -31,36 +32,53 @@ class RandomViewModel(
     private val _genres = MutableStateFlow<List<GenreDomain>?>(null)
     val genres = _genres.asStateFlow()
 
-    private val _selectedGenreId = MutableStateFlow(NOT_SELECTED_GENRE)
-    val selectedGenreId = _selectedGenreId.asStateFlow()
+    private val _selectedGenre = MutableStateFlow(GenreDomain(0, "Select genre"))
+    val selectedGenre = _selectedGenre.asStateFlow()
 
-    fun setSelectedGenre(id: Int) {
+    fun setGenre(genre: GenreDomain) {
         viewModelScope.launch {
-            _selectedGenreId.emit(id)
+            _selectedGenre.emit(genre)
         }
     }
 
+    private val _year = MutableStateFlow("")
+    val year = _year.asStateFlow()
+
+    fun setYear(year: String) {
+        viewModelScope.launch {
+            _year.emit(year)
+        }
+    }
+
+    //    fun setSelectedGenre(id: Int) {
+//        viewModelScope.launch {
+//            _selectedGenreId.emit(id)
+//        }
+//    }
+//
     fun clearSelectedGenre() {
         viewModelScope.launch {
-            _selectedGenreId.emit(NOT_SELECTED_GENRE)
+            _selectedGenre.emit(GenreDomain(0, "Select genre"))
+            _year.emit("")
         }
     }
+//
+//    fun generateRandom(year: String) {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            _movies.emit(
+//                movieUseCase.getRandomMovie(
+//                    genre = if (selectedGenreId.value == NOT_SELECTED_GENRE) "" else selectedGenreId.value.toString(),
+//                    year = year
+//                )
+//            )
+//        }
+//    }
 
-    fun generateRandom(year: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            _movies.emit(
-                movieUseCase.getRandomMovie(
-                    genre = if (selectedGenreId.value == NOT_SELECTED_GENRE) "" else selectedGenreId.value.toString(),
-                    year = year
-                )
-            )
-        }
-    }
-
-    fun loadGenres(networkStatus: NetworkConnection.STATUS) {
+    fun loadGenres() {
         if (genres.value.isNullOrEmpty()) {
+            Log.d("TEST", "Empty")
             viewModelScope.launch(Dispatchers.IO) {
-                _genres.value = genreUseCase.getAllGenres(networkStatus)
+                _genres.value = genreUseCase.getAllGenres(NetworkConnection.STATUS.ONLINE)
             }
         }
     }

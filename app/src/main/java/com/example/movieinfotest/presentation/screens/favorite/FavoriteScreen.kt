@@ -6,7 +6,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -19,7 +18,8 @@ import com.example.movieinfotest.R
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.presentation.screens.views.DefaultToolbarActions
 import com.example.movieinfotest.presentation.screens.views.MovieList
-import com.example.movieinfotest.presentation.screens.views.Toolbar
+import com.example.movieinfotest.presentation.screens.views.ToolbarWithBack
+import com.example.movieinfotest.presentation.screens.views.ToolbarWithoutBack
 import com.example.movieinfotest.presentation.ui.favourite.FavoriteViewModel
 import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
 import com.example.movieinfotest.utils.getYear
@@ -37,9 +37,6 @@ fun FavoriteScreen(
             FavoriteToolbar(
                 viewModel = mainViewModel,
                 goToLogin = {
-
-                },
-                goBack = {
 
                 }
             )
@@ -85,17 +82,15 @@ fun MovieItemFavorite(
 @Composable
 fun FavoriteToolbar(
     viewModel: MainActivityViewModel,
-    goToLogin: () -> Unit,
-    goBack: () -> Unit
+    goToLogin: () -> Unit
 ) {
     val login by viewModel.login.collectAsState()
     val darkMode by viewModel.darkMode.collectAsState()
 
-    Toolbar(
+    ToolbarWithoutBack(
         title = stringResource(
             id = R.string.favorite_title
-        ),
-        goBack = goBack
+        )
     ) {
         DefaultToolbarActions(
             darkModeOn = darkMode,

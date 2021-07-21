@@ -15,9 +15,11 @@ import androidx.navigation.compose.rememberNavController
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.screens.favorite.FavoriteScreen
 import com.example.movieinfotest.presentation.screens.navigation.NavigationItems
+import com.example.movieinfotest.presentation.screens.random.RandomScreen
 import com.example.movieinfotest.presentation.screens.views.MainBottomNavigationBar
 import com.example.movieinfotest.presentation.ui.favourite.FavoriteViewModel
 import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
+import com.example.movieinfotest.presentation.ui.random.RandomViewModel
 
 @Composable
 fun MainScreen(
@@ -76,7 +78,10 @@ fun MainScreen(
             composable(
                 route = NavigationItems.Random.name
             ) {
-
+                val randomViewModel: RandomViewModel = viewModel(
+                    factory = factory
+                )
+                RandomScreen(activityViewModel = activityViewModel, viewModel = randomViewModel)
             }
 
             composable(

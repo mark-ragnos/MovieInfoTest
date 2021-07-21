@@ -12,15 +12,35 @@ import androidx.compose.ui.res.vectorResource
 import com.example.movieinfotest.R
 
 @Composable
-fun Toolbar(
+fun ToolbarWithoutBack(
     title: String,
-    backVisible: Boolean = false,
-    goBack: () -> Unit = {},
     actions: @Composable RowScope.() -> Unit
 ) {
     TopAppBar(
         title = {
             Text(text = title)
+        },
+        actions = actions,
+    )
+}
+
+@Composable
+fun ToolbarWithBack(
+    title: String,
+    goBack: () -> Unit,
+    actions: @Composable RowScope.() -> Unit
+) {
+    TopAppBar(
+        title = {
+            Text(text = title)
+        },
+        navigationIcon = {
+            IconButton(onClick = { goBack() }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_arrow_back),
+                    contentDescription = "Back"
+                )
+            }
         },
         actions = actions,
     )
