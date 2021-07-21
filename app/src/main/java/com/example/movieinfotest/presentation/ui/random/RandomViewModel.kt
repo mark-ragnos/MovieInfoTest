@@ -76,7 +76,6 @@ class RandomViewModel(
 
     fun loadGenres() {
         if (genres.value.isNullOrEmpty()) {
-            Log.d("TEST", "Empty")
             viewModelScope.launch(Dispatchers.IO) {
                 _genres.value = genreUseCase.getAllGenres(NetworkConnection.STATUS.ONLINE)
             }

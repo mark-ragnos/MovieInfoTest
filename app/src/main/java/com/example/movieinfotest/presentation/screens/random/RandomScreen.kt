@@ -1,22 +1,36 @@
 package com.example.movieinfotest.presentation.screens.random
 
+import android.util.Log
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusState
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -27,6 +41,8 @@ import com.example.movieinfotest.presentation.screens.views.DefaultToolbarAction
 import com.example.movieinfotest.presentation.screens.views.ToolbarWithoutBack
 import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
 import com.example.movieinfotest.presentation.ui.random.RandomViewModel
+import com.example.movieinfotest.utils.isCorrectYear
+import com.example.movieinfotest.utils.isPossibleYear
 
 @Composable
 fun RandomScreen(
@@ -80,7 +96,6 @@ private fun EditTools(
                     bottomStartPercent = 30
                 )
             )
-//            .background(color = Color.Red)
             .padding(horizontal = 8.dp)
     ) {
         Column(
@@ -118,20 +133,29 @@ private fun YearTextField(
     year: String,
     setYear: (String) -> Unit
 ) {
+    val (error, setError) = remember {
+        mutableStateOf(false)
+    }
+
     OutlinedTextField(
         value = year,
         onValueChange = {
-            if (it.length <= 4) {
+            if (isCorrectYear(it)) {
                 setYear(it)
+                setError(!isPossibleYear(it))
             }
         },
         maxLines = 1,
         label = {
             Text(text = stringResource(id = R.string.random_year_hint))
         },
+        placeholder = {
+            Text(text = "Any year")
+        },
         keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Number
+            keyboardType = KeyboardType.NumberPassword
         ),
+        isError = error
     )
 }
 
@@ -141,7 +165,39 @@ private fun GenreSelector(
     genre: GenreDomain,
     setGenre: (GenreDomain) -> Unit
 ) {
+    val (visibleList, setVisibleList) = remember {
+        mutableStateOf(false)
+    }
 
+    TextField(
+        value = genre.name,
+        onValueChange = {},
+        readOnly = true,
+        label = {
+            Text(text = stringResource(id = R.string.random_genre_hint))
+        },
+        placeholder = {
+            Text(text = "Any genre")
+        },
+        maxLines = 1,
+        modifier = Modifier.onFocusChanged {
+            setVisibleList(it.isFocused)
+        }
+    )
+
+    DropdownMenu(
+        expanded = visibleList,
+        onDismissRequest = { setVisibleList(false) }
+    ) {
+        genres.forEach {
+            DropdownMenuItem(onClick = {
+                setGenre(it)
+                setVisibleList(false)
+            }) {
+                Text(text = it.name)
+            }
+        }
+    }
 }
 
 @Composable
