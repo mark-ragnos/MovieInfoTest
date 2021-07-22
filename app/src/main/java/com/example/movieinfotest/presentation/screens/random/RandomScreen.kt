@@ -51,15 +51,9 @@ import kotlinx.coroutines.launch
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun RandomScreen(
-    activityViewModel: MainActivityViewModel,
-    factory: AppViewModelFactory,
+    randomViewModel: RandomViewModel,
     goToDescription: (MovieDomain) -> Unit
 ) {
-    Log.d("TEST", "RandomScreen Recomposition")
-    val randomViewModel: RandomViewModel = viewModel(
-        factory = factory
-    )
-    Log.d("TEST", "RandomVM: $randomViewModel")
     randomViewModel.loadGenres()
 
     val genres by randomViewModel.genres.collectAsState()
@@ -164,7 +158,6 @@ private fun YearTextField(
     year: String,
     setYear: (String) -> Unit
 ) {
-    Log.d("TEST", "YearTextField Recomposition")
     val (error, setError) = remember {
         mutableStateOf(false)
     }
@@ -193,7 +186,6 @@ private fun GenreSelector(
     genre: GenreDomain,
     setGenre: (GenreDomain) -> Unit
 ) {
-    Log.d("TEST", "GenreSelector Recomposition")
     val (visibleList, setVisibleList) = remember {
         mutableStateOf(false)
     }

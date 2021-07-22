@@ -7,9 +7,9 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import com.example.movieinfotest.presentation.screens.navigation.NavigationItem
-import com.example.movieinfotest.presentation.screens.navigation.getIconResId
-import com.example.movieinfotest.presentation.screens.navigation.getLabelResId
+import com.example.movieinfotest.presentation.screens.utils.navigation.NavigationItem
+import com.example.movieinfotest.presentation.screens.utils.navigation.getIconResId
+import com.example.movieinfotest.presentation.screens.utils.navigation.getLabelResId
 
 @Composable
 fun MainBottomNavigationBar(

@@ -16,7 +16,6 @@ class DetailsViewModel(
     private val movieUseCase: MovieUseCase,
     private val favoriteUseCase: FavoriteMovieUseCase
 ) : ViewModel() {
-    private var movieId by Delegates.notNull<Int>()
 
     private val _isFavorite = MutableStateFlow(false)
     val isFavorite = _isFavorite.asStateFlow()
@@ -24,18 +23,12 @@ class DetailsViewModel(
     private val _movieDetails = MutableStateFlow<MovieDomain?>(null)
     val movieDetails = _movieDetails.asStateFlow()
 
-    fun sendID(id: Int, networkStatus: NetworkConnection.STATUS) {
-        movieId = id
-
-        if (movieDetails.value?.id != id) {
-            loadMovie(networkStatus)
-        }
-    }
-
-    fun loadMovie(networkStatus: NetworkConnection.STATUS) {
-        viewModelScope.launch(Dispatchers.IO) {
-            _movieDetails.value = movieUseCase.getMovieInfo(movieId, networkStatus)
-            isFavorite()
+    fun getMovieInfo(id: Int) {
+        if (id != movieDetails.value ?: 0) {
+            viewModelScope.launch(Dispatchers.IO) {
+                _movieDetails.value = movieUseCase.getMovieInfo(id, NetworkConnection.STATUS.ONLINE)
+                isFavorite()
+            }
         }
     }
 
@@ -58,6 +51,6 @@ class DetailsViewModel(
     }
 
     private suspend fun isFavorite() {
-        _isFavorite.emit(favoriteUseCase.isFavorite(movieId))
+        _isFavorite.emit(favoriteUseCase.isFavorite(_movieDetails.value?.id ?: 0))
     }
 }

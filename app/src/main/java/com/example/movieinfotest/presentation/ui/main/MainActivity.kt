@@ -30,7 +30,6 @@ class MainActivity : AppCompatActivity() {
                     activityViewModel = viewModel,
                     factory = viewModelFactory
                 )
-
             }
         }
     }

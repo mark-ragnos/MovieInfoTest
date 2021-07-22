@@ -1,6 +1,5 @@
 package com.example.movieinfotest.presentation.screens.main
 
-import android.util.Log
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
@@ -16,18 +15,22 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.compose.runtime.getValue
-import androidx.navigation.navOptions
+import androidx.navigation.NavType
+import androidx.navigation.compose.navArgument
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
+import com.example.movieinfotest.presentation.screens.details.DetailsScreen
 import com.example.movieinfotest.presentation.screens.favorite.FavoriteScreen
-import com.example.movieinfotest.presentation.screens.navigation.NavigationItem
-import com.example.movieinfotest.presentation.screens.navigation.getTitle
-import com.example.movieinfotest.presentation.screens.navigation.isStart
 import com.example.movieinfotest.presentation.screens.popular.PopularScreen
 import com.example.movieinfotest.presentation.screens.random.RandomScreen
+import com.example.movieinfotest.presentation.screens.random.RandomViewModel
+import com.example.movieinfotest.presentation.screens.utils.navigation.NavigationItem
+import com.example.movieinfotest.presentation.screens.utils.navigation.getTitle
+import com.example.movieinfotest.presentation.screens.utils.navigation.isStart
 import com.example.movieinfotest.presentation.screens.views.DefaultToolbarActions
 import com.example.movieinfotest.presentation.screens.views.MainBottomNavigationBar
 import com.example.movieinfotest.presentation.screens.views.Toolbar
 import com.example.movieinfotest.presentation.screens.views.ToolbarNavigationItem
+import com.example.movieinfotest.presentation.ui.details.DetailsViewModel
 import com.example.movieinfotest.presentation.ui.favourite.FavoriteViewModel
 import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
 import com.example.movieinfotest.presentation.ui.popular.PopularViewModel
@@ -64,9 +67,10 @@ fun MainScreen(
                 ),
                 currentScreen = currentScreen,
                 onScreenSelected = {
-                    navController.navigate(it.name, navOptions = navOptions {
+                    navController.navigate(it.name) {
+                        popUpTo(NavigationItem.Favorite.name)
                         launchSingleTop = true
-                    })
+                    }
                 },
                 visible = bottomVisible
             )
@@ -81,8 +85,6 @@ fun MainScreen(
             composable(
                 route = NavigationItem.Favorite.name
             ) {
-                Log.d("TEST", "navigate to FavoriteScreen Recomposition")
-
                 val favoriteViewModel: FavoriteViewModel = viewModel(
                     factory = factory
                 )
@@ -98,7 +100,6 @@ fun MainScreen(
             composable(
                 route = NavigationItem.Popular.name
             ) {
-                Log.d("TEST", "navigate to PopularScreen Recomposition")
                 val popularViewModel: PopularViewModel = viewModel(
                     factory = factory
                 )
@@ -108,21 +109,33 @@ fun MainScreen(
             composable(
                 route = NavigationItem.Random.name
             ) {
-                Log.d("TEST", "navigate to RandomScreen Recomposition")
+                val randomViewModel: RandomViewModel = viewModel(
+                    factory = factory
+                )
+
                 RandomScreen(
-                    activityViewModel = activityViewModel,
-                    factory = factory!!,
-                    goToDescription = {})
+                    randomViewModel = randomViewModel,
+                    goToDescription = { movie ->
+                        navController.navigate("${NavigationItem.Details.name}/${movie.id}")
+                    })
             }
 
             composable(
-                route = NavigationItem.Details.name
+                route = "${NavigationItem.Details.name}/{movieId}",
+                arguments = listOf(navArgument("movieId") { type = NavType.IntType })
             ) {
-
+                val detailsViewModel: DetailsViewModel = viewModel(
+                    factory = factory
+                )
+                DetailsScreen(
+                    detailsViewModel = detailsViewModel,
+                    movieId = backStackEntry.value?.arguments?.getInt("movieId") ?: 0
+                )
             }
 
             composable(
-                route = NavigationItem.Actor.name
+                route = "${NavigationItem.Actor.name}/{actorId}",
+                arguments = listOf(navArgument("actorId") { type = NavType.IntType })
             ) {
 
             }
