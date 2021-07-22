@@ -19,9 +19,9 @@ class PopularViewModel(
     val movies: Flow<PagingData<MovieDomain>> =
         movieUseCase.getPopularMovies().cachedIn(viewModelScope)
 
-    fun saveInFavorite(movie: MovieDomain, sourceMode: NetworkConnection.STATUS) {
+    fun saveInFavorite(movie: MovieDomain) {
         viewModelScope.launch(Dispatchers.IO) {
-            favoriteMovieUseCase.saveInFavorite(movie, sourceMode)
+            favoriteMovieUseCase.saveInFavorite(movie, NetworkConnection.STATUS.ONLINE)
         }
     }
 

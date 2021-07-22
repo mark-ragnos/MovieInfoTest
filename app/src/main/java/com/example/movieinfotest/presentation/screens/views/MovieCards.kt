@@ -2,13 +2,14 @@ package com.example.movieinfotest.presentation.screens.views
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.utils.getYear
@@ -30,6 +31,40 @@ fun ImageDescriptionMovie(
         ) {
             Text(text = "${movie.title} (${movie.releaseDate.getYear()})")
             Text(text = movie.overview, maxLines = 6)
+        }
+    }
+}
+
+@Composable
+fun PopularMovieCard(
+    movie: MovieDomain,
+    onItemClick: (MovieDomain) -> Unit = {},
+    isFavorite: suspend (MovieDomain) -> Boolean = { false },
+    onFavoriteClick: (MovieDomain, Boolean) -> Unit = { _, _ -> },
+    visibleFavorite: Boolean = false
+) {
+    Card(
+        modifier = Modifier
+            .padding(horizontal = 8.dp)
+            .fillMaxWidth()
+            .clickable {
+                onItemClick(movie)
+            },
+        elevation = 2.dp
+    ) {
+        Row {
+            Column(modifier = Modifier.padding(4.dp)) {
+                Text(text = movie.title, maxLines = 2)
+                Text(text = movie.voteAverage.toString())
+            }
+
+            if (visibleFavorite) {
+                FavoriteButton(
+                    movie = movie,
+                    isFavorite = isFavorite,
+                    onFavoriteClick = onFavoriteClick
+                )
+            }
         }
     }
 }

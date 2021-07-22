@@ -1,5 +1,6 @@
 package com.example.movieinfotest.presentation.screens.views
 
+import android.util.Log
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -10,19 +11,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.items
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
 
 @Composable
 fun LazyMovieList(
     movies: LazyPagingItems<MovieDomain>,
     displayItem: @Composable (MovieDomain) -> Unit,
-    itemPaddingHorizontal: Dp = 8.dp,
     decorator: @Composable (MovieDomain) -> Unit = {
         Spacer(Modifier.padding(4.dp))
     }
 ) {
     LazyColumn {
-
+        items(
+            lazyPagingItems = movies
+        ) { item ->
+            if (item != null) {
+                displayItem(item)
+                decorator(item)
+            }
+        }
     }
 }
 
@@ -30,7 +38,6 @@ fun LazyMovieList(
 fun MovieList(
     movies: List<MovieDomain>,
     displayItem: @Composable (MovieDomain) -> Unit,
-    itemPaddingHorizontal: Dp = 8.dp,
     decorator: @Composable (MovieDomain) -> Unit = {
         Spacer(Modifier.padding(4.dp))
     }
