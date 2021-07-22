@@ -17,8 +17,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.movieinfotest.R
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.presentation.screens.views.DefaultToolbarActions
-import com.example.movieinfotest.presentation.screens.views.MovieList
-import com.example.movieinfotest.presentation.screens.views.ToolbarWithBack
+import com.example.movieinfotest.presentation.screens.views.LazyMovieList
 import com.example.movieinfotest.presentation.screens.views.ToolbarWithoutBack
 import com.example.movieinfotest.presentation.ui.favourite.FavoriteViewModel
 import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
@@ -42,7 +41,7 @@ fun FavoriteScreen(
             )
         }
     ) {
-        MovieList(
+        LazyMovieList(
             movies = movies,
             displayItem = {
                 MovieItemFavorite(

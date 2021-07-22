@@ -32,7 +32,7 @@ class RandomViewModel(
     private val _genres = MutableStateFlow<List<GenreDomain>?>(null)
     val genres = _genres.asStateFlow()
 
-    private val _selectedGenre = MutableStateFlow(GenreDomain(0, "Select genre"))
+    private val _selectedGenre = MutableStateFlow(GenreDomain(0, ""))
     val selectedGenre = _selectedGenre.asStateFlow()
 
     fun setGenre(genre: GenreDomain) {
@@ -50,29 +50,23 @@ class RandomViewModel(
         }
     }
 
-    //    fun setSelectedGenre(id: Int) {
-//        viewModelScope.launch {
-//            _selectedGenreId.emit(id)
-//        }
-//    }
-//
     fun clearSelectedGenre() {
         viewModelScope.launch {
-            _selectedGenre.emit(GenreDomain(0, "Select genre"))
+            _selectedGenre.emit(GenreDomain(0, ""))
             _year.emit("")
         }
     }
-//
-//    fun generateRandom(year: String) {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            _movies.emit(
-//                movieUseCase.getRandomMovie(
-//                    genre = if (selectedGenreId.value == NOT_SELECTED_GENRE) "" else selectedGenreId.value.toString(),
-//                    year = year
-//                )
-//            )
-//        }
-//    }
+
+    fun generateRandom(genre: GenreDomain, year: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _movies.emit(
+                movieUseCase.getRandomMovie(
+                    genre = if (genre.id == 0) "" else genre.id.toString(),
+                    year = year
+                )
+            )
+        }
+    }
 
     fun loadGenres() {
         if (genres.value.isNullOrEmpty()) {

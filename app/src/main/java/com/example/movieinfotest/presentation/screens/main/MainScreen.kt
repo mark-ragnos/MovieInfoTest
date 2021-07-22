@@ -1,5 +1,6 @@
 package com.example.movieinfotest.presentation.screens.main
 
+import android.util.Log
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
@@ -15,11 +16,12 @@ import androidx.navigation.compose.rememberNavController
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.screens.favorite.FavoriteScreen
 import com.example.movieinfotest.presentation.screens.navigation.NavigationItems
+import com.example.movieinfotest.presentation.screens.popular.PopularScreen
 import com.example.movieinfotest.presentation.screens.random.RandomScreen
 import com.example.movieinfotest.presentation.screens.views.MainBottomNavigationBar
 import com.example.movieinfotest.presentation.ui.favourite.FavoriteViewModel
 import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
-import com.example.movieinfotest.presentation.ui.random.RandomViewModel
+import com.example.movieinfotest.presentation.ui.popular.PopularViewModel
 
 @Composable
 fun MainScreen(
@@ -57,6 +59,8 @@ fun MainScreen(
             composable(
                 route = NavigationItems.Favorite.name
             ) {
+                Log.d("TEST", "navigate to FavoriteScreen Recomposition")
+
                 val favoriteViewModel: FavoriteViewModel = viewModel(
                     factory = factory
                 )
@@ -72,16 +76,21 @@ fun MainScreen(
             composable(
                 route = NavigationItems.Popular.name
             ) {
-
+                Log.d("TEST", "navigate to PopularScreen Recomposition")
+                val popularViewModel: PopularViewModel = viewModel(
+                    factory = factory
+                )
+                PopularScreen(popularViewModel = popularViewModel)
             }
 
             composable(
                 route = NavigationItems.Random.name
             ) {
-                val randomViewModel: RandomViewModel = viewModel(
-                    factory = factory
-                )
-                RandomScreen(activityViewModel = activityViewModel, viewModel = randomViewModel)
+                Log.d("TEST", "navigate to RandomScreen Recomposition")
+                RandomScreen(
+                    activityViewModel = activityViewModel,
+                    factory = factory!!,
+                    goToDescription = {})
             }
 
             composable(
