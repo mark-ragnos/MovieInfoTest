@@ -8,6 +8,7 @@ import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.utils.getYear

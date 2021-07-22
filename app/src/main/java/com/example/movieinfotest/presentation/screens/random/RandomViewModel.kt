@@ -1,13 +1,11 @@
-package com.example.movieinfotest.presentation.ui.random
+package com.example.movieinfotest.presentation.screens.random
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movieinfotest.domain.entities.genre.GenreDomain
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.domain.usecases.GenreUseCase
 import com.example.movieinfotest.domain.usecases.MovieUseCase
-import com.example.movieinfotest.utils.NOT_SELECTED_GENRE
 import com.example.movieinfotest.utils.RANDOM_LIST_SIZE
 import com.example.movieinfotest.utils.network.NetworkConnection
 import kotlinx.coroutines.Dispatchers
@@ -22,12 +20,8 @@ class RandomViewModel(
     private val movieUseCase: MovieUseCase,
     private val genreUseCase: GenreUseCase
 ) : ViewModel() {
-    private val _movies = MutableSharedFlow<MovieDomain>(
-        extraBufferCapacity = RANDOM_LIST_SIZE,
-        onBufferOverflow = BufferOverflow.DROP_OLDEST,
-        replay = RANDOM_LIST_SIZE
-    )
-    val movies = _movies.asSharedFlow()
+    private val _movies = MutableStateFlow<List<MovieDomain>>(listOf())
+    val movies = _movies.asStateFlow()
 
     private val _genres = MutableStateFlow<List<GenreDomain>?>(null)
     val genres = _genres.asStateFlow()
@@ -59,12 +53,11 @@ class RandomViewModel(
 
     fun generateRandom(genre: GenreDomain, year: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            _movies.emit(
-                movieUseCase.getRandomMovie(
-                    genre = if (genre.id == 0) "" else genre.id.toString(),
-                    year = year
-                )
+            val movie = movieUseCase.getRandomMovie(
+                genre = if (genre.id == 0) "" else genre.id.toString(),
+                year = year
             )
+            _movies.emit(listOf(movie) + movies.value)
         }
     }
 

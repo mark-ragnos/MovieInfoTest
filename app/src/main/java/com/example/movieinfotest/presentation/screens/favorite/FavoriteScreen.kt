@@ -18,7 +18,7 @@ import com.example.movieinfotest.R
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.presentation.screens.views.DefaultToolbarActions
 import com.example.movieinfotest.presentation.screens.views.LazyMovieList
-import com.example.movieinfotest.presentation.screens.views.ToolbarWithoutBack
+import com.example.movieinfotest.presentation.screens.views.Toolbar
 import com.example.movieinfotest.presentation.ui.favourite.FavoriteViewModel
 import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
 import com.example.movieinfotest.utils.getYear
@@ -30,29 +30,18 @@ fun FavoriteScreen(
     moveToDetails: (MovieDomain) -> Unit
 ) {
     val movies = viewModel.movies.collectAsLazyPagingItems()
-
-    Scaffold(
-        topBar = {
-            FavoriteToolbar(
-                viewModel = mainViewModel,
-                goToLogin = {
-
+    LazyMovieList(
+        movies = movies,
+        displayItem = {
+            MovieItemFavorite(
+                movieDomain = it,
+                onItemClick = {
+                    moveToDetails(it)
                 }
             )
         }
-    ) {
-        LazyMovieList(
-            movies = movies,
-            displayItem = {
-                MovieItemFavorite(
-                    movieDomain = it,
-                    onItemClick = {
-                        moveToDetails(it)
-                    }
-                )
-            }
-        )
-    }
+    )
+
 }
 
 @Composable
@@ -78,32 +67,6 @@ fun MovieItemFavorite(
     }
 }
 
-@Composable
-fun FavoriteToolbar(
-    viewModel: MainActivityViewModel,
-    goToLogin: () -> Unit
-) {
-    val login by viewModel.login.collectAsState()
-    val darkMode by viewModel.darkMode.collectAsState()
-
-    ToolbarWithoutBack(
-        title = stringResource(
-            id = R.string.favorite_title
-        )
-    ) {
-        DefaultToolbarActions(
-            darkModeOn = darkMode,
-            changeDarkMode = {
-                viewModel.changeDarkMode(it)
-            },
-            isLogin = login,
-            logout = {
-                viewModel.logout()
-            },
-            login = goToLogin,
-        )
-    }
-}
 
 @Preview
 @Composable

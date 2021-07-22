@@ -4,21 +4,30 @@ import android.util.Log
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.compose.runtime.getValue
+import androidx.navigation.navOptions
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.screens.favorite.FavoriteScreen
-import com.example.movieinfotest.presentation.screens.navigation.NavigationItems
+import com.example.movieinfotest.presentation.screens.navigation.NavigationItem
+import com.example.movieinfotest.presentation.screens.navigation.getTitle
+import com.example.movieinfotest.presentation.screens.navigation.isStart
 import com.example.movieinfotest.presentation.screens.popular.PopularScreen
 import com.example.movieinfotest.presentation.screens.random.RandomScreen
+import com.example.movieinfotest.presentation.screens.views.DefaultToolbarActions
 import com.example.movieinfotest.presentation.screens.views.MainBottomNavigationBar
+import com.example.movieinfotest.presentation.screens.views.Toolbar
+import com.example.movieinfotest.presentation.screens.views.ToolbarNavigationItem
 import com.example.movieinfotest.presentation.ui.favourite.FavoriteViewModel
 import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
 import com.example.movieinfotest.presentation.ui.popular.PopularViewModel
@@ -34,18 +43,31 @@ fun MainScreen(
 
     val navController = rememberNavController()
     val backStackEntry = navController.currentBackStackEntryAsState()
-    val currentScreen = NavigationItems.fromRoute(backStackEntry.value?.destination?.route)
+    val currentScreen = NavigationItem.fromRoute(backStackEntry.value?.destination?.route)
 
     Scaffold(
+        topBar = {
+            MainToolbar(
+                activityViewModel = activityViewModel,
+                currentScreen = currentScreen,
+                goBack = {
+                    navController.popBackStack()
+                }
+            )
+        },
         bottomBar = {
             MainBottomNavigationBar(
                 bottomScreens = listOf(
-                    NavigationItems.Favorite,
-                    NavigationItems.Popular,
-                    NavigationItems.Random
+                    NavigationItem.Favorite,
+                    NavigationItem.Popular,
+                    NavigationItem.Random
                 ),
                 currentScreen = currentScreen,
-                onScreenSelected = { navController.navigate(it.name) },
+                onScreenSelected = {
+                    navController.navigate(it.name, navOptions = navOptions {
+                        launchSingleTop = true
+                    })
+                },
                 visible = bottomVisible
             )
         }
@@ -53,11 +75,11 @@ fun MainScreen(
     {
         NavHost(
             navController = navController,
-            startDestination = NavigationItems.Favorite.name,
+            startDestination = NavigationItem.Favorite.name,
             modifier = Modifier.padding(it)
         ) {
             composable(
-                route = NavigationItems.Favorite.name
+                route = NavigationItem.Favorite.name
             ) {
                 Log.d("TEST", "navigate to FavoriteScreen Recomposition")
 
@@ -74,17 +96,17 @@ fun MainScreen(
             }
 
             composable(
-                route = NavigationItems.Popular.name
+                route = NavigationItem.Popular.name
             ) {
                 Log.d("TEST", "navigate to PopularScreen Recomposition")
                 val popularViewModel: PopularViewModel = viewModel(
                     factory = factory
                 )
-                PopularScreen(popularViewModel = popularViewModel)
+                PopularScreen(popularViewModel)
             }
 
             composable(
-                route = NavigationItems.Random.name
+                route = NavigationItem.Random.name
             ) {
                 Log.d("TEST", "navigate to RandomScreen Recomposition")
                 RandomScreen(
@@ -94,17 +116,45 @@ fun MainScreen(
             }
 
             composable(
-                route = NavigationItems.Details.name
+                route = NavigationItem.Details.name
             ) {
 
             }
 
             composable(
-                route = NavigationItems.Actor.name
+                route = NavigationItem.Actor.name
             ) {
 
             }
         }
+    }
+}
+
+@Composable
+fun MainToolbar(
+    activityViewModel: MainActivityViewModel,
+    currentScreen: NavigationItem,
+    goBack: () -> Unit,
+    visible: Boolean = true,
+) {
+    val darkMode by activityViewModel.darkMode.collectAsState()
+    val login by activityViewModel.login.collectAsState()
+    if (visible) {
+        Toolbar(
+            title = stringResource(id = currentScreen.getTitle()),
+            navigationItem = if (!currentScreen.isStart()) {
+                { ToolbarNavigationItem(goBack = goBack) }
+            } else null,
+            actions = {
+                DefaultToolbarActions(
+                    darkModeOn = darkMode,
+                    changeDarkMode = { activityViewModel.changeDarkMode(it) },
+                    isLogin = login,
+                    login = {},
+                    logout = { activityViewModel.logout() }
+                )
+            }
+        )
     }
 }
 

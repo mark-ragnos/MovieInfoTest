@@ -3,7 +3,6 @@ package com.example.movieinfotest.presentation.screens.random
 import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -19,7 +18,6 @@ import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -42,13 +40,9 @@ import com.example.movieinfotest.R
 import com.example.movieinfotest.domain.entities.genre.GenreDomain
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
-import com.example.movieinfotest.presentation.screens.views.DefaultToolbarActions
 import com.example.movieinfotest.presentation.screens.views.ImageDescriptionMovie
-import com.example.movieinfotest.presentation.screens.views.LazyMovieList
 import com.example.movieinfotest.presentation.screens.views.MovieList
-import com.example.movieinfotest.presentation.screens.views.ToolbarWithoutBack
 import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
-import com.example.movieinfotest.presentation.ui.random.RandomViewModel
 import com.example.movieinfotest.utils.isCorrectYear
 import com.example.movieinfotest.utils.isPossibleYear
 import kotlinx.coroutines.flow.collect
@@ -71,53 +65,37 @@ fun RandomScreen(
     val genres by randomViewModel.genres.collectAsState()
     val year by randomViewModel.year.collectAsState()
     val selectedGenre by randomViewModel.selectedGenre.collectAsState()
+    val movies by randomViewModel.movies.collectAsState()
 
-    val movies = remember {
-        mutableStateListOf<MovieDomain>()
-    }
+    Column {
+        EditTools(
+            genres = genres ?: listOf(),
+            year = year,
+            setYear = { randomViewModel.setYear(it) },
+            genre = selectedGenre,
+            setGenre = { randomViewModel.setGenre(it) },
+            generateMovie = { year, genre ->
+                randomViewModel.generateRandom(genre, year)
+            },
+            clearFilter = {
+                randomViewModel.clearSelectedGenre()
+            }
+        )
 
-    val coroutineScope = rememberCoroutineScope()
-    coroutineScope.launch {
-        randomViewModel.movies.collect() {
-            movies.add(it)
-        }
-    }
+        Spacer(
+            modifier = Modifier
+                .padding(top = 8.dp, bottom = 8.dp)
+                .fillMaxWidth()
+                .background(Color.Black)
+        )
 
-    Scaffold(
-        topBar = {
-            RandomToolbar(viewModel = activityViewModel)
-        }
-    ) {
-        Column {
-            EditTools(
-                genres = genres ?: listOf(),
-                year = year,
-                setYear = { randomViewModel.setYear(it) },
-                genre = selectedGenre,
-                setGenre = { randomViewModel.setGenre(it) },
-                generateMovie = { year, genre ->
-                    randomViewModel.generateRandom(genre, year)
-                },
-                clearFilter = {
-                    randomViewModel.clearSelectedGenre()
-                }
-            )
+        MovieList(
+            movies = movies,
+            displayItem = {
+                ImageDescriptionMovie(movie = it, onItemClick = goToDescription)
+            }
+        )
 
-            Spacer(
-                modifier = Modifier
-                    .padding(top = 8.dp, bottom = 8.dp)
-                    .fillMaxWidth()
-                    .background(Color.Black)
-            )
-
-            MovieList(
-                movies = movies,
-                displayItem = {
-                    ImageDescriptionMovie(movie = it, onItemClick = goToDescription)
-                }
-            )
-
-        }
     }
 }
 
@@ -257,22 +235,5 @@ private fun GenreSelector(
             }
         }
 
-    }
-}
-
-@Composable
-fun RandomToolbar(viewModel: MainActivityViewModel) {
-    Log.d("TEST", "RandomToolbar Recomposition")
-    val login by viewModel.login.collectAsState()
-    val darkMode by viewModel.darkMode.collectAsState()
-
-    ToolbarWithoutBack(title = stringResource(id = R.string.random_title)) {
-        DefaultToolbarActions(
-            darkModeOn = darkMode,
-            changeDarkMode = { viewModel.changeDarkMode(it) },
-            isLogin = login,
-            login = {},
-            logout = { viewModel.logout() }
-        )
     }
 }

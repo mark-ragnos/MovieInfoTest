@@ -2,7 +2,7 @@ package com.example.movieinfotest.presentation.screens.navigation
 
 import com.example.movieinfotest.R
 
-enum class NavigationItems {
+enum class NavigationItem {
     Favorite,
     Popular,
     Random,
@@ -24,14 +24,14 @@ enum class NavigationItems {
     }
 }
 
-fun NavigationItems.getIconResId(): Int = when (this) {
-    NavigationItems.Favorite -> {
+fun NavigationItem.getIconResId(): Int = when (this) {
+    NavigationItem.Favorite -> {
         R.drawable.ic_favorite
     }
-    NavigationItems.Popular -> {
+    NavigationItem.Popular -> {
         R.drawable.ic_popular
     }
-    NavigationItems.Random -> {
+    NavigationItem.Random -> {
         R.drawable.ic_dice
     }
     else -> {
@@ -39,17 +39,53 @@ fun NavigationItems.getIconResId(): Int = when (this) {
     }
 }
 
-fun NavigationItems.getLabelResId(): Int = when (this) {
-    NavigationItems.Favorite -> {
+fun NavigationItem.getLabelResId(): Int = when (this) {
+    NavigationItem.Favorite -> {
         R.string.favorite
     }
-    NavigationItems.Popular -> {
+    NavigationItem.Popular -> {
         R.string.popular
     }
-    NavigationItems.Random -> {
+    NavigationItem.Random -> {
         R.string.random
     }
     else -> {
         throw IllegalArgumentException("This item is not bottomNavigation item")
+    }
+}
+
+fun NavigationItem.getTitle(): Int = when (this) {
+    NavigationItem.Favorite -> {
+        R.string.favorite_title
+    }
+    NavigationItem.Popular -> {
+        R.string.popular_title
+    }
+    NavigationItem.Random -> {
+        R.string.random_title
+    }
+    NavigationItem.Details -> {
+        R.string.details_title
+    }
+    NavigationItem.Actor -> {
+        R.string.actorInfo_title
+    }
+    else -> {
+        throw IllegalArgumentException("This item is not bottomNavigation item")
+    }
+}
+
+fun NavigationItem.isStart() = when (this) {
+    NavigationItem.Favorite -> {
+        true
+    }
+    NavigationItem.Popular -> {
+        true
+    }
+    NavigationItem.Random -> {
+        true
+    }
+    else -> {
+        false
     }
 }
