@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.screens.main.MainScreen
+import com.example.movieinfotest.presentation.screens.utils.theme.MovieDBTheme
 import com.google.firebase.FirebaseApp
 
 class MainActivity : AppCompatActivity() {
@@ -20,7 +22,10 @@ class MainActivity : AppCompatActivity() {
         viewModelFactory = AppViewModelFactory.getFactory(baseContext)
 
         setContent {
-            MaterialTheme() {
+            val darkMode by viewModel.darkMode.collectAsState()
+            MovieDBTheme(
+                darkMode
+            ) {
                 MainScreen(
                     activityViewModel = viewModel,
                     factory = viewModelFactory

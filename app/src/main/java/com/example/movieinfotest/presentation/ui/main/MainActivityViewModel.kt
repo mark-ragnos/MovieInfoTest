@@ -14,7 +14,6 @@ class MainActivityViewModel : ViewModel() {
 
     init {
         viewModelScope.launch {
-//            _login.emit(auth.currentUser != null)
         }
     }
 
@@ -29,12 +28,6 @@ class MainActivityViewModel : ViewModel() {
     }
 
     fun changeDarkMode(currentDarkMode: Boolean) {
-        if (!currentDarkMode) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        }
-
         viewModelScope.launch {
             _darkMode.emit(!currentDarkMode)
         }
