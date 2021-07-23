@@ -36,7 +36,7 @@ fun LazyMovieList(
     movies: LazyPagingItems<MovieDomain>,
     displayItem: @Composable (MovieDomain) -> Unit,
     decorator: @Composable (MovieDomain) -> Unit = {
-        Spacer(Modifier.padding(4.dp))
+        Spacer(Modifier.padding(3.dp))
     }
 ) {
     LazyColumn {
@@ -44,11 +44,11 @@ fun LazyMovieList(
             lazyPagingItems = movies
         ) { item ->
             if (item != null) {
+                decorator(item)
                 displayItem(item)
                 decorator(item)
             }
         }
-
         observePagingState(items = movies)
     }
 }
