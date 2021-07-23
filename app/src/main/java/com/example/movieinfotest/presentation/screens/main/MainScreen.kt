@@ -103,7 +103,9 @@ fun MainScreen(
                 val popularViewModel: PopularViewModel = viewModel(
                     factory = factory
                 )
-                PopularScreen(popularViewModel)
+                PopularScreen(
+                    popularViewModel
+                ) { movie -> navController.navigate("${NavigationItem.Details.name}/${movie.id}") }
             }
 
             composable(
