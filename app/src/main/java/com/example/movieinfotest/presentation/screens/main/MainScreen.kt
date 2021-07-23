@@ -131,7 +131,10 @@ fun MainScreen(
                 )
                 DetailsScreen(
                     detailsViewModel = detailsViewModel,
-                    movieId = backStackEntry.value?.arguments?.getInt("movieId") ?: 0
+                    movieId = backStackEntry.value?.arguments?.getInt("movieId") ?: 0,
+                    moveToActor = { id ->
+                        navController.navigate("${NavigationItem.Actor.name}/${id}")
+                    }
                 )
             }
 

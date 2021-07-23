@@ -32,10 +32,10 @@ class DetailsViewModel(
         }
     }
 
-    fun saveInFavorite(sourceMode: NetworkConnection.STATUS) {
+    fun saveInFavorite() {
         viewModelScope.launch(Dispatchers.IO) {
             movieDetails.value?.let {
-                favoriteUseCase.saveInFavorite(it, sourceMode)
+                favoriteUseCase.saveInFavorite(it, NetworkConnection.STATUS.ONLINE)
             }
             isFavorite()
         }
