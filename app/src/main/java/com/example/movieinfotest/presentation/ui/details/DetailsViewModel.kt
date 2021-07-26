@@ -1,5 +1,6 @@
 package com.example.movieinfotest.presentation.ui.details
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
@@ -24,7 +25,7 @@ class DetailsViewModel(
     val movieDetails = _movieDetails.asStateFlow()
 
     fun getMovieInfo(id: Int) {
-        if (id != movieDetails.value ?: 0) {
+        if (id != movieDetails.value?.id ?: 0) {
             viewModelScope.launch(Dispatchers.IO) {
                 _movieDetails.value = movieUseCase.getMovieInfo(id, NetworkConnection.STATUS.ONLINE)
                 isFavorite()
