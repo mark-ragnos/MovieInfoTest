@@ -17,28 +17,21 @@ import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Switch
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.movieinfotest.R
-import com.example.movieinfotest.domain.entities.actor.CastDomain
-import com.example.movieinfotest.domain.entities.actor.CrewDomain
 import com.example.movieinfotest.domain.entities.genre.GenreDomain
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
-import com.example.movieinfotest.presentation.ui.composite.layouts.LazyRowWithDecorators
 import com.example.movieinfotest.presentation.ui.utils.POSTER_IMAGE_SIZE_DETAILS
 import com.example.movieinfotest.presentation.ui.utils.RATIO_BACKDROP
 import com.example.movieinfotest.presentation.ui.views.GenreList
@@ -77,7 +70,7 @@ fun DetailsScreen(
 }
 
 @Composable
-fun MovieDetailsContent(
+private fun MovieDetailsContent(
     movie: MovieDomain,
     favoriteVisible: Boolean = true,
     isFavorite: Boolean = false,
@@ -119,7 +112,7 @@ fun MovieDetailsContent(
 }
 
 @Composable
-fun BackdropPosterPlace(
+private fun BackdropPosterPlace(
     modifier: Modifier = Modifier,
     backdropPath: String?,
     posterPath: String?,
@@ -172,7 +165,7 @@ fun BackdropPosterPlace(
 }
 
 @Composable
-fun MovieDescription(
+private fun MovieDescription(
     title: String,
     overview: String,
     releaseDate: String?,
@@ -209,7 +202,7 @@ fun MovieDescription(
 }
 
 @Composable
-fun RatingAndGenres(
+private fun RatingAndGenres(
     modifier: Modifier = Modifier,
     voteAverage: Double,
     genres: List<GenreDomain>?

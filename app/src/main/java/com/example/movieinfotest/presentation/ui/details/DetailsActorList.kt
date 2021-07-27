@@ -40,7 +40,7 @@ fun ActorContent(
         mutableStateOf(false)
     }
 
-    if (cast != null && crew != null) {
+    if (!cast.isNullOrEmpty() && !crew.isNullOrEmpty()) {
         TextedSwitch(
             modifier = Modifier.padding(horizontal = 8.dp),
             leftItem = stringResource(id = R.string.cast),
