@@ -150,7 +150,7 @@ dependencies {
     // compose navigation
     implementation "androidx.navigation:navigation-compose:2.4.0-alpha04"
 
-    implementation "androidx.compose.ui:ui-tooling:1.0.0-beta09"
+    implementation "androidx.compose.ui:ui-tooling:$compose_version"
 
     //material
     implementation "androidx.compose.material:material:$compose_version"

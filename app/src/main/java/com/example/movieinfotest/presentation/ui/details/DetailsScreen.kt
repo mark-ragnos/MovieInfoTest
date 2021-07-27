@@ -32,6 +32,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.movieinfotest.R
 import com.example.movieinfotest.domain.entities.genre.GenreDomain
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
+import com.example.movieinfotest.presentation.ui.composite.layouts.RoundedCenterScreenPlaceholder
 import com.example.movieinfotest.presentation.ui.utils.POSTER_IMAGE_SIZE_DETAILS
 import com.example.movieinfotest.presentation.ui.utils.RATIO_BACKDROP
 import com.example.movieinfotest.presentation.ui.views.GenreList
@@ -52,7 +53,7 @@ fun DetailsScreen(
     val isFavorite by detailsViewModel.isFavorite.collectAsState()
 
     if (movie == null) {
-        DetailsScreenPlaceholder()
+        RoundedCenterScreenPlaceholder()
     } else {
         MovieDetailsContent(
             movie = movie!!,
@@ -222,12 +223,5 @@ private fun RatingAndGenres(
             Spacer(modifier = Modifier.padding(horizontal = 8.dp))
             GenreList(genres = genres)
         }
-    }
-}
-
-@Composable
-private fun DetailsScreenPlaceholder() {
-    Box(Modifier.fillMaxSize()) {
-        LoadingStatus(modifier = Modifier.align(Alignment.Center))
     }
 }

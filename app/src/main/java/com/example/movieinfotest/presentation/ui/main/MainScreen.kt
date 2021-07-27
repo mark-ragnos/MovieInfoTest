@@ -30,7 +30,9 @@ import com.example.movieinfotest.presentation.ui.views.MainBottomNavigationBar
 import com.example.movieinfotest.presentation.ui.views.Toolbar
 import com.example.movieinfotest.presentation.ui.views.ToolbarNavigationItem
 import com.example.movieinfotest.presentation.ui.details.DetailsViewModel
+import com.example.movieinfotest.presentation.ui.details.actors.ActorViewModel
 import com.example.movieinfotest.presentation.ui.favorite.FavoriteViewModel
+import com.example.movieinfotest.presentation.ui.favorite.actors.ActorScreen
 import com.example.movieinfotest.presentation.ui.popular.PopularViewModel
 
 @Composable
@@ -139,7 +141,12 @@ fun MainScreen(
                 route = "${NavigationItem.Actor.name}/{actorId}",
                 arguments = listOf(navArgument("actorId") { type = NavType.IntType })
             ) {
+                val actorViewModel: ActorViewModel = viewModel(factory = factory)
 
+                ActorScreen(
+                    actorId = backStackEntry.value?.arguments?.getInt("actorId") ?: 0,
+                    actorViewModel = actorViewModel
+                )
             }
         }
     }

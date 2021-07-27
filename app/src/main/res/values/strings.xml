@@ -62,8 +62,8 @@
     <string name="female">Female</string>
     <string name="male">Male</string>
     <string name="unknown_gender">Unknown gender</string>
-    <string name="personal_info">Personal information</string>
 
+    <string name="actorInfo_personal_info">Personal information</string>
     <string name="actorInfo_birthplace">Place of Birth</string>
     <string name="actorInfo_deathday">Date of Death</string>
     <string name="actorInfo_birthday">Date of Birth</string>
