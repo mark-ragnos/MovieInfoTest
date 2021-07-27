@@ -1,6 +1,5 @@
 package com.example.movieinfotest.presentation.ui.details
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
@@ -11,7 +10,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlin.properties.Delegates
 
 class DetailsViewModel(
     private val movieUseCase: MovieUseCase,

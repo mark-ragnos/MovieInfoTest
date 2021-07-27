@@ -7,8 +7,7 @@ import androidx.activity.viewModels
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
-import com.example.movieinfotest.presentation.screens.main.MainScreen
-import com.example.movieinfotest.presentation.screens.utils.theme.MovieDBTheme
+import com.example.movieinfotest.presentation.ui.utils.theme.MovieDBTheme
 import com.google.firebase.FirebaseApp
 
 class MainActivity : AppCompatActivity() {

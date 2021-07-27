@@ -7,9 +7,9 @@ import com.example.movieinfotest.getComponent
 import com.example.movieinfotest.presentation.di.AppComponent
 import com.example.movieinfotest.presentation.ui.details.DetailsViewModel
 import com.example.movieinfotest.presentation.ui.details.actors.ActorViewModel
-import com.example.movieinfotest.presentation.ui.favourite.FavoriteViewModel
+import com.example.movieinfotest.presentation.ui.favorite.FavoriteViewModel
 import com.example.movieinfotest.presentation.ui.popular.PopularViewModel
-import com.example.movieinfotest.presentation.screens.random.RandomViewModel
+import com.example.movieinfotest.presentation.ui.random.RandomViewModel
 
 class AppViewModelFactory(
     private val appComponent: AppComponent

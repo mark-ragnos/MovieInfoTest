@@ -1,6 +1,5 @@
 package com.example.movieinfotest.presentation.ui.main
 
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.ktx.auth
