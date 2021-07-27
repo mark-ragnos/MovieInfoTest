@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.painter.Painter
 @Composable
 fun SimpleIconButton(
     modifier: Modifier = Modifier,
+    imageModifier: Modifier = Modifier,
     enabled: Boolean = true,
     tint: Color = LocalContentColor.current.copy(alpha = LocalContentAlpha.current),
     onCLick: () -> Unit,
@@ -23,6 +24,7 @@ fun SimpleIconButton(
     enabled = enabled
 ) {
     Icon(
+        modifier = imageModifier,
         painter = painter,
         contentDescription = contentDescription,
         tint = tint

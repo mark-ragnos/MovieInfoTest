@@ -1,9 +1,7 @@
 package com.example.movieinfotest.presentation.ui.random
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.runtime.getValue
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,11 +10,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.Divider
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -28,18 +25,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.movieinfotest.R
 import com.example.movieinfotest.domain.entities.genre.GenreDomain
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.presentation.ui.composite.layouts.LazyColumnWithDecorators
+import com.example.movieinfotest.presentation.ui.composite.widgets.SimpleIconButton
+import com.example.movieinfotest.presentation.ui.composite.widgets.YearInputTextField
 import com.example.movieinfotest.presentation.ui.views.ImageDescriptionMovie
-import com.example.movieinfotest.utils.isCorrectYear
-import com.example.movieinfotest.utils.isPossibleYear
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
@@ -69,12 +64,7 @@ fun RandomScreen(
             }
         )
 
-        Spacer(
-            modifier = Modifier
-                .padding(top = 8.dp, bottom = 8.dp)
-                .fillMaxWidth()
-                .background(Color.Black)
-        )
+        Divider(modifier = Modifier.padding(top = 8.dp))
 
         LazyColumnWithDecorators(items = movies) {
             ImageDescriptionMovie(movie = it, onItemClick = goToDescription)
@@ -92,7 +82,6 @@ private fun EditTools(
     generateMovie: (String, GenreDomain) -> Unit,
     clearFilter: () -> Unit
 ) {
-    Log.d("TEST", "EditTools Recomposition")
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -109,64 +98,27 @@ private fun EditTools(
             modifier = Modifier
                 .padding(vertical = 8.dp, horizontal = 8.dp)
         ) {
-            YearTextField(year = year, setYear = setYear)
+            YearInputTextField(year = year, setYear = setYear)
             Spacer(modifier = Modifier.padding(bottom = 8.dp))
             GenreSelector(genres = genres, genre = genre, setGenre = setGenre)
         }
 
-        IconButton(
-            onClick = { clearFilter() },
-            modifier = Modifier.padding(end = 8.dp, start = 8.dp)
-        ) {
-            Icon(
-                painter = painterResource(
-                    id = R.drawable.ic_clear
-                ),
-                contentDescription = "Clear",
-                modifier = Modifier.scale(2f)
-            )
-        }
+        SimpleIconButton(
+            modifier = Modifier.padding(end = 8.dp, start = 8.dp),
+            imageModifier = Modifier.scale(2f),
+            onCLick = { clearFilter() },
+            painter = painterResource(id = R.drawable.ic_clear),
+            contentDescription = "Clear"
+        )
 
-        IconButton(
-            onClick = { generateMovie(year, genre) },
-            modifier = Modifier.padding(end = 8.dp)
-        ) {
-            Icon(
-                painter = painterResource(
-                    id = R.drawable.ic_dice
-                ),
-                contentDescription = "Generate",
-                modifier = Modifier.scale(1.4f)
-            )
-        }
+        SimpleIconButton(
+            modifier = Modifier.padding(end = 8.dp),
+            imageModifier = Modifier.scale(1.4f),
+            onCLick = { generateMovie(year, genre) },
+            painter = painterResource(id = R.drawable.ic_dice),
+            contentDescription = "Generate"
+        )
     }
-}
-
-@Composable
-private fun YearTextField(
-    year: String,
-    setYear: (String) -> Unit
-) {
-    val (error, setError) = remember {
-        mutableStateOf(false)
-    }
-
-    OutlinedTextField(
-        value = year,
-        onValueChange = {
-            if (isCorrectYear(it)) {
-                setYear(it)
-                setError(!isPossibleYear(it))
-            }
-        },
-        label = {
-            Text(text = stringResource(id = R.string.random_year_hint))
-        },
-        keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.NumberPassword
-        ),
-        isError = error
-    )
 }
 
 @Composable
@@ -215,6 +167,5 @@ private fun GenreSelector(
                 }
             }
         }
-
     }
 }

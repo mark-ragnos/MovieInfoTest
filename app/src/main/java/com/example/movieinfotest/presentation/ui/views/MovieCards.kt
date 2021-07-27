@@ -11,6 +11,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.presentation.ui.utils.POSTER_IMAGE_SIZE
@@ -23,10 +24,9 @@ fun ImageDescriptionMovie(
     onItemClick: (MovieDomain) -> Unit
 ) {
     Card(
-        elevation = 2.dp,
-        shape = RoundedCornerShape(16.dp),
         modifier = Modifier
             .padding(horizontal = 8.dp)
+            .shadow(elevation = 2.dp, shape = RoundedCornerShape(16.dp), clip = true)
             .clickable { onItemClick(movie) }
     ) {
         Row() {
@@ -53,12 +53,11 @@ fun PopularMovieCard(
     Card(
         modifier = Modifier
             .padding(horizontal = 8.dp)
+            .shadow(elevation = 2.dp, shape = RoundedCornerShape(16.dp), clip = true)
             .fillMaxWidth()
             .clickable {
                 onItemClick(movie)
-            },
-        elevation = 2.dp,
-        shape = RoundedCornerShape(16.dp)
+            }
     ) {
         Row {
             ImageLoader(
