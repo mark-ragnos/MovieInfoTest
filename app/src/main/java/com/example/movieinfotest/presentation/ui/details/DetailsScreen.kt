@@ -30,12 +30,15 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.movieinfotest.R
 import com.example.movieinfotest.domain.entities.actor.CastDomain
 import com.example.movieinfotest.domain.entities.actor.CrewDomain
 import com.example.movieinfotest.domain.entities.genre.GenreDomain
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
+import com.example.movieinfotest.presentation.ui.composite.layouts.LazyRowWithDecorators
 import com.example.movieinfotest.presentation.ui.utils.POSTER_IMAGE_SIZE_DETAILS
 import com.example.movieinfotest.presentation.ui.utils.RATIO_BACKDROP
 import com.example.movieinfotest.presentation.ui.views.GenreList
@@ -46,9 +49,9 @@ import com.example.movieinfotest.utils.FLAG_BACKDROP_W780
 
 @Composable
 fun DetailsScreen(
-    detailsViewModel: DetailsViewModel,
-    movieId: Int,
-    moveToActor: (Int) -> Unit
+    detailsViewModel: DetailsViewModel = viewModel(),
+    movieId: Int = 0,
+    moveToActor: (Int) -> Unit = {}
 ) {
     detailsViewModel.getMovieInfo(movieId)
 
@@ -103,7 +106,14 @@ fun MovieDetailsContent(
             movie.genres
         )
 
-        ActorContent(cast = movie.casts, crew = movie.crews, onItemClick = actorClick)
+        Divider(modifier = Modifier.padding(vertical = 8.dp))
+
+        ActorContent(
+            cast = movie.casts,
+            crew = movie.crews,
+            onItemClick = actorClick
+        )
+
         Spacer(modifier = Modifier.padding(bottom = 4.dp))
     }
 }
@@ -174,6 +184,7 @@ fun MovieDescription(
         modifier = Modifier
     ) {
         Text(
+            modifier = Modifier.padding(horizontal = 8.dp),
             text = "$title ($releaseDate)",
             style = MaterialTheme.typography.h5,
             textAlign = TextAlign.Center
@@ -189,7 +200,10 @@ fun MovieDescription(
 
         Divider(Modifier.padding(vertical = 8.dp))
 
-        Text(text = overview)
+        Text(
+            text = overview,
+            modifier = Modifier.padding(horizontal = 8.dp)
+        )
 
     }
 }
@@ -216,51 +230,6 @@ fun RatingAndGenres(
             GenreList(genres = genres)
         }
     }
-}
-
-@Composable
-fun ActorContent(
-    cast: List<CastDomain>?,
-    crew: List<CrewDomain>?,
-    onItemClick: (Int) -> Unit = {}
-) {
-    val (checked, setChecked) = remember {
-        mutableStateOf(false)
-    }
-
-    if (cast != null && crew != null) {
-        Switch(checked = checked, onCheckedChange = setChecked)
-    }
-
-    val visible = cast != null || crew != null
-
-    if (visible)
-        if (checked) {
-            ActorList(
-                actors = cast!!, displayItem = {
-                    ActorCard(
-                        id = it.id,
-                        name = it.name,
-                        role = it.character,
-                        profilePath = it.profilePath,
-                        gender = it.gender,
-                        onCardClick = onItemClick
-                    )
-                }
-            )
-        } else {
-            ActorList(
-                actors = crew!!, displayItem = {
-                    ActorCard(
-                        id = it.id,
-                        name = it.name,
-                        role = it.job,
-                        profilePath = it.profilePath,
-                        gender = it.gender
-                    )
-                }
-            )
-        }
 }
 
 @Composable
