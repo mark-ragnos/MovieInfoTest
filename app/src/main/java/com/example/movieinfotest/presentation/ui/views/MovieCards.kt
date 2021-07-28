@@ -43,21 +43,15 @@ fun ImageDescriptionMovie(
 }
 
 @Composable
-fun PopularMovieCard(
+fun MovieCardItem(
+    modifier: Modifier = Modifier,
     movie: MovieDomain,
-    onItemClick: (MovieDomain) -> Unit = {},
     isFavorite: suspend (MovieDomain) -> Boolean = { false },
     onFavoriteClick: (MovieDomain, Boolean) -> Unit = { _, _ -> },
     visibleFavorite: Boolean = false
 ) {
     Card(
-        modifier = Modifier
-            .padding(horizontal = 8.dp)
-            .shadow(elevation = 2.dp, shape = RoundedCornerShape(16.dp), clip = true)
-            .fillMaxWidth()
-            .clickable {
-                onItemClick(movie)
-            }
+        modifier = modifier
     ) {
         Row {
             ImageLoader(

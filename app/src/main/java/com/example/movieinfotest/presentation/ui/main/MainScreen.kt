@@ -89,8 +89,8 @@ fun MainScreen(
                     factory = factory
                 )
                 FavoriteScreen(
-                    viewModel = favoriteViewModel,
-                    moveToDetails = { movie ->
+                    favoriteViewModel = favoriteViewModel,
+                    goToDetails = { movie ->
                         navController.navigate("${NavigationItem.Details.name}/${movie.id}")
                     }
                 )
