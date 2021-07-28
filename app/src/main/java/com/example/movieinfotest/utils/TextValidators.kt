@@ -10,9 +10,13 @@ fun isCorrectEmail(email: String): Boolean {
     return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
 }
 
+fun isCorrectEmailInput(email: String): Boolean = email.length <= 256
+
 fun isCorrectPassword(password: String): Boolean {
-    return password.length >= 8
+    return password.length in 8..32
 }
+
+fun isCorrectPasswordInput(password: String) = password.length <= 32
 
 /**
  * Check input string correct length

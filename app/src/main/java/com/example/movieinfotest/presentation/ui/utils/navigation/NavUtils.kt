@@ -48,6 +48,12 @@ fun NavigationItem.getTitle(): Int = when (this) {
     NavigationItem.Actor -> {
         R.string.actorInfo_title
     }
+    NavigationItem.SignIn -> {
+        R.string.signin_title
+    }
+    NavigationItem.LogIn -> {
+        R.string.login_title
+    }
     else -> {
         throw IllegalArgumentException("This item is not bottomNavigation item")
     }

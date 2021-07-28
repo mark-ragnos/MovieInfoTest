@@ -34,6 +34,7 @@ import com.example.movieinfotest.presentation.ui.details.actors.ActorViewModel
 import com.example.movieinfotest.presentation.ui.favorite.FavoriteViewModel
 import com.example.movieinfotest.presentation.ui.favorite.actors.ActorScreen
 import com.example.movieinfotest.presentation.ui.popular.PopularViewModel
+import com.example.movieinfotest.presentation.ui.signIn.SignInScreen
 
 @Composable
 fun MainScreen(
@@ -55,6 +56,9 @@ fun MainScreen(
                 currentScreen = currentScreen,
                 goBack = {
                     navController.popBackStack()
+                },
+                goToLogin = {
+                    navController.navigate(NavigationItem.SignIn.name)
                 }
             )
         },
@@ -148,6 +152,18 @@ fun MainScreen(
                     actorViewModel = actorViewModel
                 )
             }
+
+            composable(
+                route = NavigationItem.SignIn.name
+            ) {
+                SignInScreen(mainActivityViewModel = activityViewModel)
+            }
+
+            composable(
+                route = NavigationItem.LogIn.name
+            ) {
+                SignInScreen(mainActivityViewModel = activityViewModel)
+            }
         }
     }
 }
@@ -156,7 +172,8 @@ fun MainScreen(
 fun MainToolbar(
     activityViewModel: MainActivityViewModel,
     currentScreen: NavigationItem,
-    goBack: () -> Unit,
+    goBack: () -> Unit = {},
+    goToLogin: () -> Unit = {},
     visible: Boolean = true,
 ) {
     val darkMode by activityViewModel.darkMode.collectAsState()
@@ -172,7 +189,7 @@ fun MainToolbar(
                     darkModeOn = darkMode,
                     changeDarkMode = { activityViewModel.changeDarkMode(it) },
                     isLogin = login,
-                    login = {},
+                    login = goToLogin,
                     logout = { activityViewModel.logout() }
                 )
             }

@@ -80,4 +80,12 @@
     <string name="random_generate">Generate</string>
     <string name="random_genre_hint">Genre</string>
     <string name="random_year_hint">Year</string>
+
+    <string name="signin_password">Password</string>
+    <string name="signin_email">Email</string>
+    <string name="signin_title">Registration</string>
+    <string name="signin_register">Register</string>
+
+    <string name="login_title">Login</string>
+
 </resources>
