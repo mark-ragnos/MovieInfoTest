@@ -25,6 +25,9 @@ class RandomViewModel(
     private val _selectedGenre = MutableStateFlow(GenreDomain(0, ""))
     val selectedGenre = _selectedGenre.asStateFlow()
 
+    private val _progressAdded = MutableStateFlow(false)
+    val progressAdded = _progressAdded.asStateFlow()
+
     fun setGenre(genre: GenreDomain) {
         viewModelScope.launch {
             _selectedGenre.emit(genre)
@@ -49,11 +52,13 @@ class RandomViewModel(
 
     fun generateRandom(genre: GenreDomain, year: String) {
         viewModelScope.launch(Dispatchers.IO) {
+            _progressAdded.emit(true)
             val movie = movieUseCase.getRandomMovie(
                 genre = if (genre.id == 0) "" else genre.id.toString(),
                 year = year
             )
-            _movies.emit(listOf(movie) + movies.value)
+            _movies.emit(movies.value + listOf(movie))
+            _progressAdded.emit(false)
         }
     }
 

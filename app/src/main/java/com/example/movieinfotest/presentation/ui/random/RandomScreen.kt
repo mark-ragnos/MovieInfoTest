@@ -48,6 +48,7 @@ fun RandomScreen(
     val year by randomViewModel.year.collectAsState()
     val selectedGenre by randomViewModel.selectedGenre.collectAsState()
     val movies by randomViewModel.movies.collectAsState()
+    val generateProgress by randomViewModel.progressAdded.collectAsState()
 
     Column {
         EditTools(
@@ -66,7 +67,7 @@ fun RandomScreen(
 
         Divider(modifier = Modifier.padding(top = 8.dp))
 
-        LazyColumnWithDecorators(items = movies) {
+        LazyColumnWithDecorators(items = movies, addInProgress = generateProgress) {
             ImageDescriptionMovie(movie = it, onItemClick = goToDescription)
         }
     }

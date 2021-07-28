@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -37,7 +36,6 @@ import com.example.movieinfotest.presentation.ui.utils.POSTER_IMAGE_SIZE_DETAILS
 import com.example.movieinfotest.presentation.ui.utils.RATIO_BACKDROP
 import com.example.movieinfotest.presentation.ui.views.GenreList
 import com.example.movieinfotest.presentation.ui.views.ImageLoader
-import com.example.movieinfotest.presentation.ui.composite.pagination.LoadingStatus
 import com.example.movieinfotest.presentation.ui.views.RatingBarWithTextPercents
 import com.example.movieinfotest.utils.FLAG_BACKDROP_W780
 
