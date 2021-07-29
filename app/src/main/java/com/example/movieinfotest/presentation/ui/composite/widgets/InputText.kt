@@ -70,15 +70,17 @@ fun PasswordInputTextField(
         onValueChange = {
             if (isCorrectPasswordInput(it)) {
                 setPassword(it)
-                setError(!isCorrectPassword(password))
+                setError(!isCorrectPassword(it))
             }
         },
         label = {
             Text(text = stringResource(id = R.string.signin_password))
         },
         trailingIcon = {
-            val icon =
-                if (visiblePassword) R.drawable.ic_visibility else R.drawable.ic_visibility_off
+            val icon = when {
+                visiblePassword -> R.drawable.ic_visibility
+                else -> R.drawable.ic_visibility_off
+            }
 
             SimpleIconButton(
                 onCLick = {
@@ -112,7 +114,7 @@ fun EmailInputTextField(
         onValueChange = {
             if (isCorrectEmailInput(it)) {
                 setEmail(it)
-                setError(!isCorrectEmail(email))
+                setError(!isCorrectEmail(it))
             }
         },
         label = {
