@@ -24,8 +24,8 @@ import com.example.movieinfotest.domain.entities.actor.ActorInfoDomain
 import com.example.movieinfotest.presentation.ui.composite.layouts.RoundedCenterScreenPlaceholder
 import com.example.movieinfotest.presentation.ui.composite.widgets.ImageLoader
 import com.example.movieinfotest.presentation.ui.details.actors.ActorViewModel
-import com.example.movieinfotest.presentation.ui.utils.POSTER_IMAGE_SIZE_BIG
 import com.example.movieinfotest.utils.FLAG_PROFILE_W185
+import com.example.movieinfotest.utils.POSTER_IMAGE_SIZE_BIG
 import com.example.movieinfotest.utils.moviedbSpecificUtils.MALE
 import com.example.movieinfotest.utils.moviedbSpecificUtils.getGenderText
 

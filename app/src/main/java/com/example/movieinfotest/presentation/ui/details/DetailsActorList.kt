@@ -24,9 +24,9 @@ import com.example.movieinfotest.R
 import com.example.movieinfotest.domain.entities.actor.CastDomain
 import com.example.movieinfotest.domain.entities.actor.CrewDomain
 import com.example.movieinfotest.presentation.ui.composite.layouts.LazyRowWithDecorators
-import com.example.movieinfotest.presentation.ui.utils.PROFILE_FACE
 import com.example.movieinfotest.presentation.ui.views.ImageLoader
 import com.example.movieinfotest.utils.FLAG_PROFILE_FACE
+import com.example.movieinfotest.utils.PROFILE_FACE
 import com.example.movieinfotest.utils.moviedbSpecificUtils.MALE
 
 @Composable

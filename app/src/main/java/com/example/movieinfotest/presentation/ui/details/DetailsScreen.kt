@@ -32,12 +32,12 @@ import com.example.movieinfotest.R
 import com.example.movieinfotest.domain.entities.genre.GenreDomain
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.presentation.ui.composite.layouts.RoundedCenterScreenPlaceholder
-import com.example.movieinfotest.presentation.ui.utils.POSTER_IMAGE_SIZE_DETAILS
-import com.example.movieinfotest.presentation.ui.utils.RATIO_BACKDROP
 import com.example.movieinfotest.presentation.ui.views.GenreList
 import com.example.movieinfotest.presentation.ui.views.ImageLoader
 import com.example.movieinfotest.presentation.ui.views.RatingBarWithTextPercents
 import com.example.movieinfotest.utils.FLAG_BACKDROP_W780
+import com.example.movieinfotest.utils.POSTER_IMAGE_SIZE_DETAILS
+import com.example.movieinfotest.utils.RATIO_BACKDROP
 
 @Composable
 fun DetailsScreen(

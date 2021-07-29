@@ -15,9 +15,9 @@ import androidx.compose.ui.res.painterResource
 import coil.compose.rememberImagePainter
 import com.example.movieinfotest.R
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
-import com.example.movieinfotest.presentation.ui.utils.ImageSize
-import com.example.movieinfotest.presentation.ui.utils.POSTER_IMAGE_SIZE
 import com.example.movieinfotest.utils.FLAG_POSTER_W154
+import com.example.movieinfotest.utils.ImageSize
+import com.example.movieinfotest.utils.POSTER_IMAGE_SIZE
 import kotlinx.coroutines.launch
 
 @SuppressLint("CoroutineCreationDuringComposition")

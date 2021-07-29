@@ -20,7 +20,7 @@ fun <T : Any> PagingLazyColumn(
     content: @Composable (T) -> Unit
 ) {
     LazyColumn(modifier = modifier) {
-        items(lazyPagingItems = items) { item ->
+        items(items = items) { item ->
             item?.let {
                 beforeItemDecorator(item)
                 content(item)

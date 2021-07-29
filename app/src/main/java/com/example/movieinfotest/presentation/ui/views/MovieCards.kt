@@ -14,8 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
-import com.example.movieinfotest.presentation.ui.utils.POSTER_IMAGE_SIZE
-import com.example.movieinfotest.presentation.ui.utils.POSTER_IMAGE_SIZE_BIG
+import com.example.movieinfotest.utils.POSTER_IMAGE_SIZE
+import com.example.movieinfotest.utils.POSTER_IMAGE_SIZE_BIG
 import com.example.movieinfotest.utils.getYear
 
 @Composable
