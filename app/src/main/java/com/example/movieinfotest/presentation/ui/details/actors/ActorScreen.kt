@@ -1,4 +1,4 @@
-package com.example.movieinfotest.presentation.ui.favorite.actors
+package com.example.movieinfotest.presentation.ui.details.actors
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,7 +23,6 @@ import com.example.movieinfotest.R
 import com.example.movieinfotest.domain.entities.actor.ActorInfoDomain
 import com.example.movieinfotest.presentation.ui.composite.layouts.RoundedCenterScreenPlaceholder
 import com.example.movieinfotest.presentation.ui.composite.widgets.ImageLoader
-import com.example.movieinfotest.presentation.ui.details.actors.ActorViewModel
 import com.example.movieinfotest.utils.FLAG_PROFILE_W185
 import com.example.movieinfotest.utils.POSTER_IMAGE_SIZE_BIG
 import com.example.movieinfotest.utils.moviedbSpecificUtils.MALE
@@ -144,11 +143,13 @@ fun PersonalInfo(
         )
     }
 
-    TitledText(
-        title = stringResource(id = R.string.actorInfo_biography),
-        modifier = Modifier.padding(top = 8.dp),
-        text = biography
-    )
+    if (biography.isNotBlank()) {
+        TitledText(
+            title = stringResource(id = R.string.actorInfo_biography),
+            modifier = Modifier.padding(top = 8.dp),
+            text = biography
+        )
+    }
 }
 
 @Composable

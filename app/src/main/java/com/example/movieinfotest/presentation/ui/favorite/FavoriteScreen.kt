@@ -9,7 +9,6 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
-import com.example.movieinfotest.presentation.ui.composite.modifier.swipeToDismiss
 import com.example.movieinfotest.presentation.ui.composite.pagination.PagingLazyColumn
 import com.example.movieinfotest.presentation.ui.views.MovieCardItem
 

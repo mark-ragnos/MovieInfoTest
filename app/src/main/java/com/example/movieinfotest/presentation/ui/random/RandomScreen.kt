@@ -35,6 +35,8 @@ import com.example.movieinfotest.presentation.ui.composite.layouts.LazyColumnWit
 import com.example.movieinfotest.presentation.ui.composite.widgets.SimpleIconButton
 import com.example.movieinfotest.presentation.ui.composite.widgets.YearInputTextField
 import com.example.movieinfotest.presentation.ui.views.ImageDescriptionMovie
+import com.example.movieinfotest.utils.SCALE_CLEAR
+import com.example.movieinfotest.utils.SCALE_DICE
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
@@ -106,7 +108,7 @@ private fun EditTools(
 
         SimpleIconButton(
             modifier = Modifier.padding(end = 8.dp, start = 8.dp),
-            imageModifier = Modifier.scale(2f),
+            imageModifier = Modifier.scale(SCALE_CLEAR),
             onCLick = { clearFilter() },
             painter = painterResource(id = R.drawable.ic_clear),
             contentDescription = "Clear"
@@ -114,7 +116,7 @@ private fun EditTools(
 
         SimpleIconButton(
             modifier = Modifier.padding(end = 8.dp),
-            imageModifier = Modifier.scale(1.4f),
+            imageModifier = Modifier.scale(SCALE_DICE),
             onCLick = { generateMovie(year, genre) },
             painter = painterResource(id = R.drawable.ic_dice),
             contentDescription = "Generate"

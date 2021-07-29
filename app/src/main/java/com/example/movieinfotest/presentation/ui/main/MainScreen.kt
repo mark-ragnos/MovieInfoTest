@@ -32,7 +32,7 @@ import com.example.movieinfotest.presentation.ui.views.ToolbarNavigationItem
 import com.example.movieinfotest.presentation.ui.details.DetailsViewModel
 import com.example.movieinfotest.presentation.ui.details.actors.ActorViewModel
 import com.example.movieinfotest.presentation.ui.favorite.FavoriteViewModel
-import com.example.movieinfotest.presentation.ui.favorite.actors.ActorScreen
+import com.example.movieinfotest.presentation.ui.details.actors.ActorScreen
 import com.example.movieinfotest.presentation.ui.popular.PopularViewModel
 import com.example.movieinfotest.presentation.ui.signIn.SignInScreen
 
@@ -79,8 +79,7 @@ fun MainScreen(
                 visible = bottomVisible
             )
         }
-    )
-    {
+    ) {
         NavHost(
             navController = navController,
             startDestination = NavigationItem.Favorite.name,

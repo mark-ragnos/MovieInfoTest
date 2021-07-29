@@ -64,7 +64,6 @@ fun ActorContent(
                     onCardClick = onItemClick
                 )
             }
-
         } else {
             LazyRowWithDecorators(items = crew!!) {
                 ActorCard(

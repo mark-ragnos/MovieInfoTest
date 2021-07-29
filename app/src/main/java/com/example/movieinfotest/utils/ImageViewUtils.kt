@@ -13,6 +13,9 @@ const val FLAG_PROFILE_W154 = "w154"
 const val FLAG_PROFILE_W185 = "w185"
 const val FLAG_PROFILE_FACE = "w240_and_h266_face"
 
+const val SCALE_CLEAR = 2f
+const val SCALE_DICE = 1.4f
+
 data class ImageSize(
     val width: Dp,
     val height: Dp

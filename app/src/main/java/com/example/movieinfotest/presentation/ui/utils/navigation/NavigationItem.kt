@@ -21,7 +21,6 @@ enum class NavigationItem {
                 LogIn.name -> LogIn
                 null -> Favorite
                 else -> throw IllegalArgumentException("Route $route is not recognized.")
-
             }
     }
 }
