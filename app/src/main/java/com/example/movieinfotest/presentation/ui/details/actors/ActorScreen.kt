@@ -66,7 +66,8 @@ private fun ActorContent(
             .padding(top = 8.dp)
             .size(POSTER_IMAGE_SIZE_BIG.width, POSTER_IMAGE_SIZE_BIG.height)
             .clip(RoundedCornerShape(8.dp)),
-        placeholder = if (actor.gender == MALE) R.drawable.ic_placeholder_male else R.drawable.ic_placeholder_female
+        placeholder = if (actor.gender == MALE) R.drawable.ic_placeholder_male else R.drawable.ic_placeholder_female,
+        contentDescription = actor.name
     )
 
     Text(

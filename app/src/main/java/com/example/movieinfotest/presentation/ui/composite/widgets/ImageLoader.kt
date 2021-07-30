@@ -14,12 +14,13 @@ fun ImageLoader(
     path: String?,
     imageResolution: String = FLAG_POSTER_W154,
     imageUri: String = "https://www.themoviedb.org/t/p/$imageResolution",
-    @DrawableRes placeholder: Int = R.drawable.ic_placeholder_movie
+    @DrawableRes placeholder: Int = R.drawable.ic_placeholder_movie,
+    contentDescription: String
 ) = Image(
     painter = rememberImagePainter(data = imageUri + path) {
         placeholder(placeholder)
         error(placeholder)
     },
-    contentDescription = "Poster",
+    contentDescription = contentDescription,
     modifier = modifier
 )

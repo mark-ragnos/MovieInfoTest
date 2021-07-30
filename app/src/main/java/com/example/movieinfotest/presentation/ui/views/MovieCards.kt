@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
@@ -13,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
+import com.example.movieinfotest.presentation.ui.composite.widgets.ImageLoader
 import com.example.movieinfotest.utils.POSTER_IMAGE_SIZE
 import com.example.movieinfotest.utils.POSTER_IMAGE_SIZE_BIG
 import com.example.movieinfotest.utils.getYear
@@ -28,8 +30,13 @@ fun ImageDescriptionMovie(
             .shadow(elevation = 2.dp, shape = RoundedCornerShape(16.dp), clip = true)
             .clickable { onItemClick(movie) }
     ) {
-        Row() {
-            ImageLoader(path = movie.posterPath, imageSize = POSTER_IMAGE_SIZE_BIG)
+        Row {
+            ImageLoader(
+                path = movie.posterPath,
+                contentDescription = movie.title,
+                modifier = Modifier
+                    .size(POSTER_IMAGE_SIZE_BIG.width, POSTER_IMAGE_SIZE_BIG.height)
+            )
 
             Column(
                 modifier = Modifier.padding(8.dp)
@@ -55,7 +62,9 @@ fun MovieCardItem(
         Row {
             ImageLoader(
                 path = movie.posterPath,
-                imageSize = POSTER_IMAGE_SIZE
+                contentDescription = movie.title,
+                modifier = Modifier
+                    .size(POSTER_IMAGE_SIZE.width, POSTER_IMAGE_SIZE.height)
             )
 
             Column(

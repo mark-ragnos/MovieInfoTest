@@ -12,6 +12,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import coil.compose.rememberImagePainter
 import com.example.movieinfotest.R
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
@@ -44,44 +45,7 @@ fun FavoriteButton(
     }, modifier = modifier) {
         Icon(
             painter = painterResource(id = favoriteButton),
-            contentDescription = "Favorite"
+            contentDescription = stringResource(id = R.string.cd_details_add_in_favorite)
         )
     }
-}
-
-@Composable
-fun ImageLoader(
-    modifier: Modifier,
-    path: String?,
-    imageResolution: String = FLAG_POSTER_W154,
-    imageUri: String = "https://www.themoviedb.org/t/p/$imageResolution",
-    @DrawableRes placeholder: Int = R.drawable.ic_placeholder_movie
-) {
-    Image(
-        painter = rememberImagePainter(data = imageUri + path) {
-            placeholder(placeholder)
-            error(placeholder)
-        },
-        contentDescription = "Poster",
-        modifier = modifier
-    )
-}
-
-@Composable
-fun ImageLoader(
-    path: String?,
-    imageSize: ImageSize = POSTER_IMAGE_SIZE,
-    imageResolution: String = FLAG_POSTER_W154,
-    imageUri: String = "https://www.themoviedb.org/t/p/$imageResolution",
-    @DrawableRes placeholder: Int = R.drawable.ic_placeholder_movie
-) {
-
-    Image(
-        painter = rememberImagePainter(data = imageUri + path) {
-            placeholder(placeholder)
-            error(placeholder)
-        },
-        contentDescription = "Poster",
-        modifier = Modifier.size(imageSize.width, imageSize.height)
-    )
 }

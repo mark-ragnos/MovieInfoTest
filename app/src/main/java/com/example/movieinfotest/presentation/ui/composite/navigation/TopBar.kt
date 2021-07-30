@@ -8,6 +8,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import com.example.movieinfotest.R
 import com.example.movieinfotest.presentation.ui.composite.widgets.SimpleIconButton
 
@@ -33,7 +34,7 @@ fun ToolbarNavigationItem(
     IconButton(onClick = { goBack() }) {
         Icon(
             painter = painterResource(id = R.drawable.ic_arrow_back),
-            contentDescription = "Back"
+            contentDescription = stringResource(id = R.string.cd_navigation_go_back)
         )
     }
 }
@@ -54,9 +55,8 @@ fun DefaultToolbarActions(
     SimpleIconButton(
         onCLick = { changeDarkMode(darkModeOn) },
         painter = darkModeIcon,
-        contentDescription = "DarkMode"
+        contentDescription = stringResource(id = R.string.cd_change_darkmode)
     )
-    Log.d("TEST", "$isLogin")
     if (visibleLogin) {
         val loginIcon =
             if (isLogin) painterResource(id = R.drawable.ic_logout)
@@ -71,7 +71,7 @@ fun DefaultToolbarActions(
                 }
             },
             painter = loginIcon,
-            contentDescription = "Login"
+            contentDescription = stringResource(id = R.string.cd_navigation_go_login)
         )
     }
 }

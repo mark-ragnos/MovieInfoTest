@@ -24,7 +24,7 @@ import com.example.movieinfotest.R
 import com.example.movieinfotest.domain.entities.actor.CastDomain
 import com.example.movieinfotest.domain.entities.actor.CrewDomain
 import com.example.movieinfotest.presentation.ui.composite.layouts.LazyRowWithDecorators
-import com.example.movieinfotest.presentation.ui.views.ImageLoader
+import com.example.movieinfotest.presentation.ui.composite.widgets.ImageLoader
 import com.example.movieinfotest.utils.FLAG_PROFILE_FACE
 import com.example.movieinfotest.utils.PROFILE_FACE
 import com.example.movieinfotest.utils.moviedbSpecificUtils.MALE
@@ -118,7 +118,8 @@ fun ActorCard(
                 path = profilePath,
                 placeholder = placeholder,
                 imageResolution = FLAG_PROFILE_FACE,
-                modifier = Modifier.size(PROFILE_FACE.width, PROFILE_FACE.height)
+                modifier = Modifier.size(PROFILE_FACE.width, PROFILE_FACE.height),
+                contentDescription = name
             )
 
             Text(

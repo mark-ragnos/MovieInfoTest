@@ -39,7 +39,6 @@ import com.example.movieinfotest.utils.SCALE_CLEAR
 import com.example.movieinfotest.utils.SCALE_DICE
 import com.example.movieinfotest.utils.isCorrectYear
 
-@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun RandomScreen(
     randomViewModel: RandomViewModel,
@@ -119,7 +118,7 @@ private fun EditTools(
             imageModifier = Modifier.scale(SCALE_CLEAR),
             onCLick = { clearFilter() },
             painter = painterResource(id = R.drawable.ic_clear),
-            contentDescription = "Clear"
+            contentDescription = stringResource(id = R.string.cd_random_clear_filters)
         )
 
         SimpleIconButton(
@@ -128,7 +127,7 @@ private fun EditTools(
             imageModifier = Modifier.scale(SCALE_DICE),
             onCLick = { generateMovie(year, genre) },
             painter = painterResource(id = R.drawable.ic_dice),
-            contentDescription = "Generate"
+            contentDescription = stringResource(id = R.string.cd_random_generate)
         )
     }
 }
@@ -153,7 +152,7 @@ private fun GenreSelector(
             trailingIcon = {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_dropdown_arrow),
-                    contentDescription = "Show",
+                    contentDescription = stringResource(id = R.string.cd_random_show_genres),
                     modifier = Modifier
                         .rotate(0f)
                         .clickable {

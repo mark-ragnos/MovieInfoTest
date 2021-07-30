@@ -1,52 +1,12 @@
 <resources>
     <string name="app_name">MovieInfoTest</string>
-    <string name="in_role">in role</string>
     <string name="retry">Retry</string>
-    <string name="gen_year">Year:</string>
-    <string name="gen_genre">Genre:</string>
-    <string name="title">Title:</string>
-    <string name="description">Description: </string>
-    <string name="film_release">Film release: </string>
-    <string name="rating">Rating:</string>
-    <string name="favorite">Favorite</string>
-    <string name="random">Random</string>
-    <string name="popular">Popular</string>
-    <string name="get_random">Get random</string>
-    <string name="actor_list">List of the </string>
-    <string name="genres">Genres:</string>
-    <string name="popular_title">Populars</string>
-    <string name="random_title">Generator</string>
-    <string name="favorite_title">Favorites</string>
-    <string name="details_title">Movie details</string>
-    <string name="save_as_favorite">Save in favorite</string>
-    <string name="delete_from_favorite">Delete from favorite</string>
-    <string name="movie_deleted_from_favorite">Movie was deleted from favorite</string>
-    <string name="movie_added_to_favorite">Movie was added to favorite</string>
-    <string name="select_genre">Select genre</string>
-    <string name="dark_mode">DarkMode</string>
     <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome!"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
-
-    <string name="not_sign_in">You are not authorized. Please <u>log in</u> to access add and view in your favorite list</string>
-    <string name="empty_list">Your favorite list is empty. Add some moves for see your favorite movies</string>
 
     <string name="autentification_failed">Authentication failed.</string>
     <string name="incorrect_user_data">Incorrect input values</string>
     <string name="internet_not_found">Please turn on the Internet</string>
     <string name="year_incorrect">Incorrect year.</string>
-
-    <string name="cast">Cast</string>
-    <string name="crew">Crew</string>
-
-    <string name="title_with_date">%1$s (%2$s)</string>
-    <string name="actorInfo_title">Actor information</string>
 
     <string name="not_specified">Not specified</string>
     <string name="non_binary">Non-binary</string>
@@ -54,6 +14,15 @@
     <string name="male">Male</string>
     <string name="unknown_gender">Unknown gender</string>
 
+    <string name="popular_title">Populars</string>
+    <string name="popular">Popular</string>
+    <!--Favorite-->
+    <string name="favorite">Favorite</string>
+    <string name="favorite_title">Favorites</string>
+    <string name="favorite_not_sign_in">You are not authorized. Please <u>log in</u> to access add and view in your favorite list</string>
+    <string name="favorite_empty_list">Your favorite list is empty. Add some moves for see your favorite movies</string>
+    <!--Actor-->
+    <string name="actorInfo_title">Actor information</string>
     <string name="actorInfo_personal_info">Personal information</string>
     <string name="actorInfo_birthplace">Place of Birth</string>
     <string name="actorInfo_deathday">Date of Death</string>
@@ -61,20 +30,26 @@
     <string name="actorInfo_gender">Gender</string>
     <string name="actorInfo_notable_for">Notable for</string>
     <string name="actorInfo_biography">Biography</string>
-
+    <!--Details-->
     <string name="details_overview">Overview</string>
     <string name="details_user_rating">User\nScore</string>
     <string name="details_list_of_cast">List of $s</string>
     <string name="details_list_of_crew">List of $s</string>
     <string name="details_percents">%1$s%%</string>
-
+    <string name="details_title">Movie details</string>
+    <string name="cast">Cast</string>
+    <string name="crew">Crew</string>
+    <!--Random-->
+    <string name="random">Random</string>
+    <string name="random_title">Generator</string>
     <string name="random_generate">Generate</string>
     <string name="random_genre_hint">Genre</string>
     <string name="random_year_hint">Year</string>
 
-    <!--    Registration and Login  -->
+    <!--Registration and Login-->
     <string name="password">Password</string>
     <string name="email">Email</string>
+    <string name="logout">Logout</string>
 
     <string name="register_title">Registration</string>
     <string name="register_register">Register</string>
@@ -84,6 +59,17 @@
     <string name="login_title">Login</string>
     <string name="login_login">Login</string>
 
-    <string name="logout">Logout</string>
+
+    <!--ContentDescriptions-->
+    <string name="cd_details_add_in_favorite">Add movie in favorite</string>
+    <string name="cd_details_remove_from_favorite">Remove movie from favorite</string>
+    <string name="cd_random_generate">Generate movie</string>
+    <string name="cd_random_clear_filters">Clear filters</string>
+    <string name="cd_random_show_genres">Show genres</string>
+    <string name="cd_navigation_go_back">Go back</string>
+    <string name="cd_navigation_go_login">Go to login</string>
+    <string name="cd_change_darkmode">Change dark theme</string>
+    <string name="cd_change_password_visibility">Change password visibility</string>
+    <string name="cd_details_poster">Poster</string>
 
 </resources>

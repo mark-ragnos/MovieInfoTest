@@ -32,8 +32,8 @@ import com.example.movieinfotest.R
 import com.example.movieinfotest.domain.entities.genre.GenreDomain
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.presentation.ui.composite.layouts.RoundedCenterScreenPlaceholder
+import com.example.movieinfotest.presentation.ui.composite.widgets.ImageLoader
 import com.example.movieinfotest.presentation.ui.views.GenreList
-import com.example.movieinfotest.presentation.ui.views.ImageLoader
 import com.example.movieinfotest.presentation.ui.composite.widgets.RatingBarWithTextPercents
 import com.example.movieinfotest.utils.FLAG_BACKDROP_W780
 import com.example.movieinfotest.utils.POSTER_IMAGE_SIZE_DETAILS
@@ -122,10 +122,12 @@ private fun BackdropPosterPlace(
 ) {
     Box(modifier = modifier) {
         ImageLoader(
-            path = backdropPath, imageResolution = FLAG_BACKDROP_W780,
+            path = backdropPath,
+            imageResolution = FLAG_BACKDROP_W780,
             modifier = Modifier
                 .fillMaxWidth()
-                .aspectRatio(RATIO_BACKDROP)
+                .aspectRatio(RATIO_BACKDROP),
+            contentDescription = stringResource(id = R.string.cd_details_poster)
         )
 
         ImageLoader(
@@ -139,7 +141,8 @@ private fun BackdropPosterPlace(
                     width = 1.dp,
                     color = MaterialTheme.colors.secondary,
                     shape = RoundedCornerShape(8.dp)
-                )
+                ),
+            contentDescription = stringResource(id = R.string.cd_details_poster)
         )
 
         if (favoriteVisible) {
@@ -156,7 +159,7 @@ private fun BackdropPosterPlace(
             ) {
                 Icon(
                     painter = painterResource(id = icon),
-                    contentDescription = "Favorite",
+                    contentDescription = stringResource(id = if (!isFavorite) R.string.cd_details_add_in_favorite else R.string.cd_details_remove_from_favorite),
                     tint = MaterialTheme.colors.secondary
                 )
             }

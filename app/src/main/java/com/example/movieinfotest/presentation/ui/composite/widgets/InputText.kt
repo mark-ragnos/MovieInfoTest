@@ -87,7 +87,7 @@ fun PasswordInputTextField(
                     setVisiblePassword(!visiblePassword)
                 },
                 painter = painterResource(id = icon),
-                contentDescription = "Visible password"
+                contentDescription = stringResource(id = R.string.cd_change_password_visibility)
             )
         },
         keyboardOptions = KeyboardOptions(
