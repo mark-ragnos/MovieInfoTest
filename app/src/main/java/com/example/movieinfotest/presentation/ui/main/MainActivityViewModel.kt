@@ -14,22 +14,18 @@ import kotlinx.coroutines.launch
 class MainActivityViewModel : ViewModel() {
     private val auth = Firebase.auth
 
-    init {
-        viewModelScope.launch {
-        }
-    }
-
     private val _darkMode = MutableStateFlow(false)
     val darkMode = _darkMode.asStateFlow()
 
-    private val _login = MutableStateFlow(false)
+    private val _login = MutableStateFlow(auth.currentUser != null)
     val login = _login.asStateFlow()
 
     private val _firebaseEventBus = MutableSharedFlow<FirebaseEvent>(extraBufferCapacity = 0)
     val firebaseEventBus = _firebaseEventBus.asSharedFlow()
 
-    fun logout() {
+    fun logout() = viewModelScope.launch {
         auth.signOut()
+        _login.emit(auth.currentUser != null)
     }
 
     fun register(email: String, password: String) = viewModelScope.launch {
@@ -38,6 +34,7 @@ class MainActivityViewModel : ViewModel() {
             viewModelScope.launch {
                 if (it.isSuccessful) {
                     _firebaseEventBus.emit(FirebaseEvent.Success)
+                    _login.emit(auth.currentUser != null)
                 } else {
                     _firebaseEventBus.emit(FirebaseEvent.Error)
                 }
@@ -51,6 +48,7 @@ class MainActivityViewModel : ViewModel() {
             viewModelScope.launch {
                 if (it.isSuccessful) {
                     _firebaseEventBus.emit(FirebaseEvent.Success)
+                    _login.emit(auth.currentUser != null)
                 } else {
                     _firebaseEventBus.emit(FirebaseEvent.Error)
                 }

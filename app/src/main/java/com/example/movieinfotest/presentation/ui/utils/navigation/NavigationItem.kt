@@ -6,8 +6,8 @@ enum class NavigationItem {
     Random,
     Details,
     Actor,
-    SignIn,
-    LogIn;
+    Registration,
+    Login;
 
     companion object {
         fun fromRoute(route: String?) =
@@ -17,8 +17,8 @@ enum class NavigationItem {
                 Random.name -> Random
                 Details.name -> Details
                 Actor.name -> Actor
-                SignIn.name -> SignIn
-                LogIn.name -> LogIn
+                Registration.name -> Registration
+                Login.name -> Login
                 null -> Favorite
                 else -> throw IllegalArgumentException("Route $route is not recognized.")
             }

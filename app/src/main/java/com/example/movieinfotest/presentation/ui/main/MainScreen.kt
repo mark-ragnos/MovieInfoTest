@@ -34,7 +34,9 @@ import com.example.movieinfotest.presentation.ui.details.actors.ActorViewModel
 import com.example.movieinfotest.presentation.ui.favorite.FavoriteViewModel
 import com.example.movieinfotest.presentation.ui.details.actors.ActorScreen
 import com.example.movieinfotest.presentation.ui.popular.PopularViewModel
-import com.example.movieinfotest.presentation.ui.signIn.SignInScreen
+import com.example.movieinfotest.presentation.ui.signIn.LoginScreen
+import com.example.movieinfotest.presentation.ui.signIn.RegistrationScreen
+import com.example.movieinfotest.presentation.ui.utils.navigation.isVisibleLoginButton
 
 @Composable
 fun MainScreen(
@@ -58,7 +60,9 @@ fun MainScreen(
                     navController.popBackStack()
                 },
                 goToLogin = {
-                    navController.navigate(NavigationItem.SignIn.name)
+                    navController.navigate(NavigationItem.Login.name) {
+                        launchSingleTop = true
+                    }
                 }
             )
         },
@@ -153,15 +157,30 @@ fun MainScreen(
             }
 
             composable(
-                route = NavigationItem.SignIn.name
+                route = NavigationItem.Registration.name
             ) {
-                SignInScreen(mainActivityViewModel = activityViewModel)
+                RegistrationScreen(
+                    activityViewModel = activityViewModel,
+                    goToLogin = {
+                        navController.popBackStack()
+                    }
+                )
             }
 
             composable(
-                route = NavigationItem.LogIn.name
+                route = NavigationItem.Login.name
             ) {
-                SignInScreen(mainActivityViewModel = activityViewModel)
+                LoginScreen(
+                    activityViewModel = activityViewModel,
+                    goToRegistration = {
+                        navController.navigate(NavigationItem.Registration.name) {
+                            launchSingleTop = true
+                        }
+                    },
+                    goBack = {
+                        navController.popBackStack()
+                    }
+                )
             }
         }
     }
@@ -188,8 +207,9 @@ fun MainToolbar(
                     darkModeOn = darkMode,
                     changeDarkMode = { activityViewModel.changeDarkMode(it) },
                     isLogin = login,
-                    login = goToLogin,
-                    logout = { activityViewModel.logout() }
+                    doLogin = goToLogin,
+                    doLogout = { activityViewModel.logout() },
+                    visibleLogin = currentScreen.isVisibleLoginButton()
                 )
             }
         )

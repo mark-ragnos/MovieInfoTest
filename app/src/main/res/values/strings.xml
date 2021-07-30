@@ -34,15 +34,6 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="email_example">Press email</string>
-    <string name="register_help">No account yet? <u>Create one</u></string>
-    <string name="login">Login</string>
-    <string name="press_passwor">Press password</string>
-    <string name="register">Create account</string>
-    <string name="login_help">Already a member? <u>Login</u></string>
-    <string name="logout">Logout</string>
-
     <string name="not_sign_in">You are not authorized. Please <u>log in</u> to access add and view in your favorite list</string>
     <string name="empty_list">Your favorite list is empty. Add some moves for see your favorite movies</string>
 
@@ -81,11 +72,18 @@
     <string name="random_genre_hint">Genre</string>
     <string name="random_year_hint">Year</string>
 
-    <string name="signin_password">Password</string>
-    <string name="signin_email">Email</string>
-    <string name="signin_title">Registration</string>
-    <string name="signin_register">Register</string>
+    <!--    Registration and Login  -->
+    <string name="password">Password</string>
+    <string name="email">Email</string>
 
+    <string name="register_title">Registration</string>
+    <string name="register_register">Register</string>
+    <string name="register_help">Already a member? <u>Login</u></string>
+
+    <string name="login_help">No account yet? <u>Create one</u></string>
     <string name="login_title">Login</string>
+    <string name="login_login">Login</string>
+
+    <string name="logout">Logout</string>
 
 </resources>

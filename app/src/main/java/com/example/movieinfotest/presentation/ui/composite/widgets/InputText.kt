@@ -74,7 +74,7 @@ fun PasswordInputTextField(
             }
         },
         label = {
-            Text(text = stringResource(id = R.string.signin_password))
+            Text(text = stringResource(id = R.string.password))
         },
         trailingIcon = {
             val icon = when {
@@ -118,7 +118,7 @@ fun EmailInputTextField(
             }
         },
         label = {
-            Text(text = stringResource(id = R.string.signin_email))
+            Text(text = stringResource(id = R.string.email))
         },
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Email,

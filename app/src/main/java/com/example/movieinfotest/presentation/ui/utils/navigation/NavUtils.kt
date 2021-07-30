@@ -48,10 +48,10 @@ fun NavigationItem.getTitle(): Int = when (this) {
     NavigationItem.Actor -> {
         R.string.actorInfo_title
     }
-    NavigationItem.SignIn -> {
-        R.string.signin_title
+    NavigationItem.Registration -> {
+        R.string.register_title
     }
-    NavigationItem.LogIn -> {
+    NavigationItem.Login -> {
         R.string.login_title
     }
     else -> {
@@ -71,5 +71,17 @@ fun NavigationItem.isStart() = when (this) {
     }
     else -> {
         false
+    }
+}
+
+fun NavigationItem.isVisibleLoginButton() = when (this) {
+    NavigationItem.Registration -> {
+        false
+    }
+    NavigationItem.Login -> {
+        false
+    }
+    else -> {
+        true
     }
 }

@@ -21,7 +21,7 @@ fun EmailAndPasswordBox(
     setEmail: (String) -> Unit,
     password: String,
     setPassword: (String) -> Unit,
-    setCorrectEmailAndPassword: (Boolean) -> Unit = {},
+    isCorrectDataInput: (Boolean) -> Unit = {},
 ) {
     val emailError = remember {
         mutableStateOf(false)
@@ -30,7 +30,7 @@ fun EmailAndPasswordBox(
         mutableStateOf(false)
     }
 
-    setCorrectEmailAndPassword(!emailError.value && !passwordError.value)
+    isCorrectDataInput(!emailError.value && !passwordError.value)
 
     Column(
         modifier = modifier
@@ -59,7 +59,8 @@ fun EmailAndPasswordBox(
 
 @Composable
 fun FirebaseStatusDisplay(
-    status: FirebaseEvent
+    status: FirebaseEvent,
+    onSuccessAction: () -> Unit
 ) {
     when (status) {
         FirebaseEvent.Error -> {
@@ -67,6 +68,9 @@ fun FirebaseStatusDisplay(
         }
         FirebaseEvent.Progress -> {
             CircularProgressIndicator()
+        }
+        FirebaseEvent.Success -> {
+            onSuccessAction()
         }
         else -> {
         }
