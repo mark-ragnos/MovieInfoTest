@@ -48,7 +48,6 @@ fun LoginScreen(
     }
     val status by activityViewModel.firebaseEventBus.collectAsState(initial = FirebaseEvent.Nothing)
 
-
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier

@@ -2,10 +2,6 @@ package com.example.movieinfotest.utils
 
 import java.util.Calendar
 
-fun isCorrectUserData(email: String, password: String): Boolean {
-    return (isCorrectEmail(email) && isCorrectPassword(password))
-}
-
 fun isCorrectEmail(email: String): Boolean {
     return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
 }
@@ -23,11 +19,11 @@ fun isCorrectPasswordInput(password: String) = password.length <= 32
  * @param year String param of year
  * @return Boolean, what = length <= 4
  */
-fun isCorrectYear(year: String): Boolean {
+fun isCorrectYearInput(year: String): Boolean {
     return (year.length <= 4)
 }
 
-fun isPossibleYear(inputYear: String): Boolean {
+fun isCorrectYear(inputYear: String): Boolean {
     val currentYear = Calendar.getInstance().get(Calendar.YEAR)
 
     if (inputYear == "") {

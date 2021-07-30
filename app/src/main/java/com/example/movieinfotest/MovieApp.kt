@@ -17,26 +17,7 @@ class MovieApp : Application() {
                     this
                 )
             ).build()
-//        appComponent = DaggerAppComponent.create()
     }
-//    override fun onCreate() {
-//        super.onCreate()
-//        instance = this
-//        database = Room.databaseBuilder(instance, MovieDatabase::class.java, "db_movie.db").build()
-//    }
-//
-//    fun getDatabase(): MovieDatabase {
-//        return database
-//    }
-//
-//    companion object {
-//        private lateinit var database: MovieDatabase
-//        private lateinit var instance: MovieApp
-//
-//        fun getInstance(): MovieApp {
-//            return instance
-//        }
-//    }
 }
 
 fun Context.getComponent(): AppComponent {

@@ -16,7 +16,7 @@ fun MainBottomNavigationBar(
     bottomScreens: List<NavigationItem>,
     currentScreen: NavigationItem,
     onScreenSelected: (NavigationItem) -> Unit,
-    visible: Boolean
+    visible: Boolean = true
 ) {
     if (visible) {
         BottomNavigation {

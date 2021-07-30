@@ -6,7 +6,7 @@ import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -19,26 +19,24 @@ import com.example.movieinfotest.utils.isCorrectEmail
 import com.example.movieinfotest.utils.isCorrectEmailInput
 import com.example.movieinfotest.utils.isCorrectPassword
 import com.example.movieinfotest.utils.isCorrectPasswordInput
+import com.example.movieinfotest.utils.isCorrectYearInput
 import com.example.movieinfotest.utils.isCorrectYear
-import com.example.movieinfotest.utils.isPossibleYear
 
 @Composable
 fun YearInputTextField(
     modifier: Modifier = Modifier,
     year: String,
-    setYear: (String) -> Unit
+    setYear: (String) -> Unit,
+    error: Boolean,
+    setError: (Boolean) -> Unit
 ) {
-    val (error, setError) = remember {
-        mutableStateOf(false)
-    }
-
     OutlinedTextField(
         modifier = modifier,
         value = year,
         onValueChange = {
-            if (isCorrectYear(it)) {
+            if (isCorrectYearInput(it)) {
                 setYear(it)
-                setError(!isPossibleYear(it))
+                setError(!isCorrectYear(it))
             }
         },
         label = {
@@ -58,9 +56,11 @@ fun PasswordInputTextField(
     password: String,
     setPassword: (String) -> Unit,
     error: Boolean,
-    setError: (Boolean) -> Unit
+    setError: (Boolean) -> Unit,
+    imeAction: ImeAction = ImeAction.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default
 ) {
-    val (visiblePassword, setVisiblePassword) = remember {
+    val (visiblePassword, setVisiblePassword) = rememberSaveable {
         mutableStateOf(false)
     }
 
@@ -92,8 +92,9 @@ fun PasswordInputTextField(
         },
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Password,
-            imeAction = ImeAction.Done
+            imeAction = imeAction
         ),
+        keyboardActions = keyboardActions,
         isError = error,
         visualTransformation = if (!visiblePassword) PasswordVisualTransformation() else VisualTransformation.None,
         singleLine = true
@@ -106,7 +107,9 @@ fun EmailInputTextField(
     email: String,
     setEmail: (String) -> Unit,
     error: Boolean,
-    setError: (Boolean) -> Unit
+    setError: (Boolean) -> Unit,
+    imeAction: ImeAction = ImeAction.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default
 ) {
     OutlinedTextField(
         modifier = modifier,
@@ -122,9 +125,9 @@ fun EmailInputTextField(
         },
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Email,
-            imeAction = ImeAction.Go
+            imeAction = imeAction
         ),
-        keyboardActions = KeyboardActions(),
+        keyboardActions = keyboardActions,
         isError = error,
         singleLine = true
     )

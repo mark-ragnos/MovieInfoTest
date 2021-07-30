@@ -37,6 +37,7 @@ import com.example.movieinfotest.presentation.ui.composite.widgets.YearInputText
 import com.example.movieinfotest.presentation.ui.views.ImageDescriptionMovie
 import com.example.movieinfotest.utils.SCALE_CLEAR
 import com.example.movieinfotest.utils.SCALE_DICE
+import com.example.movieinfotest.utils.isCorrectYear
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
@@ -85,6 +86,8 @@ private fun EditTools(
     generateMovie: (String, GenreDomain) -> Unit,
     clearFilter: () -> Unit
 ) {
+    val errorYear = remember { mutableStateOf(!isCorrectYear(year)) }
+
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -101,7 +104,12 @@ private fun EditTools(
             modifier = Modifier
                 .padding(vertical = 8.dp, horizontal = 8.dp)
         ) {
-            YearInputTextField(year = year, setYear = setYear)
+            YearInputTextField(
+                year = year,
+                setYear = setYear,
+                error = errorYear.value,
+                setError = { errorYear.value = it }
+            )
             Spacer(modifier = Modifier.padding(bottom = 8.dp))
             GenreSelector(genres = genres, genre = genre, setGenre = setGenre)
         }
@@ -116,6 +124,7 @@ private fun EditTools(
 
         SimpleIconButton(
             modifier = Modifier.padding(end = 8.dp),
+            enabled = !errorYear.value,
             imageModifier = Modifier.scale(SCALE_DICE),
             onCLick = { generateMovie(year, genre) },
             painter = painterResource(id = R.drawable.ic_dice),
