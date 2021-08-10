@@ -24,13 +24,14 @@ fun isCorrectYearInput(year: String): Boolean {
 }
 
 fun isCorrectYear(inputYear: String): Boolean {
-    val currentYear = Calendar.getInstance().get(Calendar.YEAR)
-
-    if (inputYear == "") {
+    if (inputYear.isEmpty()) {
         return true
     }
 
-    if (inputYear.toInt() !in 1895..currentYear) {
+    val currentYear = Calendar.getInstance().get(Calendar.YEAR)
+    val realYear = inputYear.toIntOrNull() ?: return false
+
+    if (realYear !in 1895..currentYear) {
         return false
     }
 
