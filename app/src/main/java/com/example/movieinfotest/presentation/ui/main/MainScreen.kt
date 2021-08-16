@@ -103,7 +103,8 @@ fun MainScreen(
                     factory = factory
                 )
                 PopularScreen(
-                    popularViewModel
+                    popularViewModel,
+                    activityViewModel
                 ) { movie -> navController.navigate("${NavigationItem.Details.name}/${movie.id}") }
             }
 

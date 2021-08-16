@@ -14,4 +14,6 @@ interface IFavoriteRepository {
     suspend fun saveInFavorite(movie: MovieDomain, sourceMode: NetworkConnection.STATUS)
 
     suspend fun deleteFromFavorite(movieId: Int)
+
+    fun getFavoriteIds(): Flow<List<Int>>
 }

@@ -19,6 +19,8 @@ class PopularViewModel(
     val movies: Flow<PagingData<MovieDomain>> =
         movieUseCase.getPopularMovies().cachedIn(viewModelScope)
 
+    val favoriteMoviesIdsFlow = favoriteMovieUseCase.getAllFavoriteIds()
+
     fun saveInFavorite(movie: MovieDomain) {
         viewModelScope.launch(Dispatchers.IO) {
             favoriteMovieUseCase.saveInFavorite(movie, NetworkConnection.STATUS.ONLINE)
@@ -29,9 +31,5 @@ class PopularViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             favoriteMovieUseCase.deleteFromFavorite(movie.id)
         }
-    }
-
-    suspend fun isFavorite(id: Int): Boolean {
-        return favoriteMovieUseCase.isFavorite(id)
     }
 }

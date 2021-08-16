@@ -25,4 +25,8 @@ class FavoriteMovieUseCase(
     suspend fun deleteFromFavorite(movieId: Int) {
         favoriteRepository.deleteFromFavorite(movieId)
     }
+
+    fun getAllFavoriteIds(): Flow<List<Int>> {
+        return favoriteRepository.getFavoriteIds()
+    }
 }

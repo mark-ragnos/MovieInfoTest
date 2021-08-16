@@ -14,6 +14,7 @@ import com.example.movieinfotest.data.entities.details.MovieDetailsDB
 import com.example.movieinfotest.data.entities.genre.GenreMovieDB
 import com.example.movieinfotest.utils.converters.toGenreDB
 import com.example.movieinfotest.utils.toMovieDetailsDB
+import kotlinx.coroutines.flow.Flow
 import java.util.Calendar
 
 @Dao
@@ -84,4 +85,7 @@ interface FavoriteDao {
 
     @Query("DELETE FROM genremoviedb WHERE movieId LIKE :movieId")
     suspend fun deleteGenres(movieId: Int)
+
+    @Query("SELECT id FROM moviedetailsdb")
+    fun getAllFavoriteIds(): Flow<List<Int>>
 }

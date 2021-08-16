@@ -8,6 +8,7 @@ import com.example.movieinfotest.data.entities.details.MovieDetails
 import com.example.movieinfotest.data.entities.details.MovieDetailsDB
 import com.example.movieinfotest.data.entities.genre.Genre
 import com.example.movieinfotest.data.entities.popular.Movie
+import kotlinx.coroutines.flow.Flow
 
 class DbHelper(
     private val database: MovieDatabase
@@ -47,5 +48,9 @@ class DbHelper(
 
     fun loadMovies(): PagingSource<Int, Movie> {
         return database.movieDao().loadMovies()
+    }
+
+    fun getAllFavoriteIds(): Flow<List<Int>> {
+        return database.favoriteDao().getAllFavoriteIds()
     }
 }

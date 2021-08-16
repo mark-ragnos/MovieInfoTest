@@ -51,10 +51,7 @@ fun ImageDescriptionMovie(
 @Composable
 fun MovieCardItem(
     modifier: Modifier = Modifier,
-    movie: MovieDomain,
-    isFavorite: suspend (MovieDomain) -> Boolean = { false },
-    onFavoriteClick: (MovieDomain, Boolean) -> Unit = { _, _ -> },
-    visibleFavorite: Boolean = false
+    movie: MovieDomain
 ) {
     Card(
         modifier = modifier
@@ -74,17 +71,6 @@ fun MovieCardItem(
             ) {
                 Text(text = movie.title, maxLines = 2)
                 Text(text = movie.voteAverage.toString())
-            }
-
-            if (visibleFavorite) {
-                FavoriteButton(
-                    movie = movie,
-                    isFavorite = isFavorite,
-                    onFavoriteClick = onFavoriteClick,
-                    modifier = Modifier
-                        .align(Alignment.CenterVertically)
-                        .padding(horizontal = 4.dp)
-                )
             }
         }
     }

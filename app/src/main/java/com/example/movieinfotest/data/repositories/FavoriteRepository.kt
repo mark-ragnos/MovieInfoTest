@@ -72,4 +72,8 @@ class FavoriteRepository(
     override suspend fun deleteFromFavorite(movieId: Int) {
         db.removeFromFavorite(movieId)
     }
+
+    override fun getFavoriteIds(): Flow<List<Int>> {
+        return db.getAllFavoriteIds()
+    }
 }
