@@ -1,15 +1,38 @@
-package com.example.movieinfotest
+package com.example.movieinfotest.utils
 
-import com.example.movieinfotest.utils.isCorrectEmailInput
-import com.example.movieinfotest.utils.isCorrectPassword
-import com.example.movieinfotest.utils.isCorrectPasswordInput
-import com.example.movieinfotest.utils.isCorrectYear
-import com.example.movieinfotest.utils.isCorrectYearInput
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
+import org.junit.runner.RunWith
 import java.util.*
 
+@RunWith(AndroidJUnit4::class)
 class TextValidatorsTest {
+
+    //Email
+    @Test
+    fun isCorrectEmailTestWork() {
+        val email = "example@example.com"
+        assertEquals(isCorrectEmail(email), true)
+    }
+
+    @Test
+    fun isCorrectEmailTestWithoutDot() {
+        val email = "example@examplecom"
+        assertEquals(isCorrectEmail(email), false)
+    }
+
+    @Test
+    fun isCorrectEmailTestBeforeEmail() {
+        val email = "example"
+        assertEquals(isCorrectEmail(email), false)
+    }
+
+    @Test
+    fun isCorrectEmailTestEmpty() {
+        val email = ""
+        assertEquals(isCorrectEmail(email), false)
+    }
 
     //Email input
     @Test
