@@ -1,6 +1,5 @@
 package com.example.movieinfotest.presentation.ui.random
 
-import android.annotation.SuppressLint
 import androidx.compose.runtime.getValue
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column

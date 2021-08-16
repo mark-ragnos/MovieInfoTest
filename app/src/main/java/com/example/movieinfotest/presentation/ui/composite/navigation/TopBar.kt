@@ -1,6 +1,5 @@
-package com.example.movieinfotest.presentation.ui.views
+package com.example.movieinfotest.presentation.ui.composite.navigation
 
-import android.util.Log
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton

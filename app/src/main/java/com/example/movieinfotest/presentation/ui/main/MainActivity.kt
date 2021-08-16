@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
             ) {
                 MainScreen(
                     activityViewModel = viewModel,
-                    factory = viewModelFactory
+                    factory = viewModelFactory!!
                 )
             }
         }
