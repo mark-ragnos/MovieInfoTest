@@ -1,7 +1,9 @@
 # MovieInfoTest
+This application based on [The Movie DB](https://www.themoviedb.org) public [API](https://www.themoviedb.org/documentation/api).
 ### Architecture
 * [MVVM](https://developer.android.com/jetpack/guide)
-* Clear Architecture (most of)
+* Clean Architecture (most of)
+* Single Activity
 * [Kotlin](https://kotlinlang.org/), [Coroutines](https://github.com/Kotlin/kotlinx.coroutines),
   [Flow](https://kotlinlang.org/docs/flow.html)
 ### Libraries
