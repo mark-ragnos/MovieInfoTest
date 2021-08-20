@@ -30,3 +30,6 @@ This application based on [The Movie DB](https://www.themoviedb.org) public [API
   * [Paging](https://developer.android.com/jetpack/androidx/releases/paging)
   * [Navigation](https://developer.android.com/jetpack/androidx/releases/navigation)
   * [Spinner](https://github.com/skydoves/PowerSpinner)
+### Jetpack Compose
+Also you can see at the Jetpack Compose version of this application (at this time containt some bugs)
+[LINK](https://github.com/mark-ragnos/MovieInfoTest/tree/version/composeVersion)
