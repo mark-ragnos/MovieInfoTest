@@ -113,7 +113,7 @@ private fun EditTools(
         }
 
         SimpleIconButton(
-            modifier = Modifier.padding(end = 8.dp, start = 8.dp),
+            modifier = Modifier.weight(1f).padding(end = 8.dp, start = 8.dp),
             imageModifier = Modifier.scale(SCALE_CLEAR),
             onCLick = { clearFilter() },
             painter = painterResource(id = R.drawable.ic_clear),
@@ -121,7 +121,7 @@ private fun EditTools(
         )
 
         SimpleIconButton(
-            modifier = Modifier.padding(end = 8.dp),
+            modifier = Modifier.weight(1f).padding(end = 8.dp),
             enabled = !errorYear.value,
             imageModifier = Modifier.scale(SCALE_DICE),
             onCLick = { generateMovie(year, genre) },
