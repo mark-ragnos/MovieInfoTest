@@ -1,5 +1,6 @@
 package com.example.movieinfotest.presentation.ui.main
 
+import androidx.compose.runtime.State
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
@@ -24,7 +25,7 @@ import com.example.movieinfotest.presentation.ui.utils.navigation.NavigationItem
 
 fun NavGraphBuilder.registerScreenNavigation(
     navController: NavController,
-    backStackEntry: NavBackStackEntry?,
+    backStackEntry: State<NavBackStackEntry?>,
     factory: AppViewModelFactory,
     activityViewModel: MainActivityViewModel
 ) {
@@ -71,7 +72,7 @@ private fun NavGraphBuilder.registerRegistrationDestination(
 }
 
 private fun NavGraphBuilder.registerActorDestination(
-    backStackEntry: NavBackStackEntry?,
+    backStackEntry: State<NavBackStackEntry?>,
     factory: AppViewModelFactory
 ) = composable(
     route = "${NavigationItem.Actor.name}/{actorId}",
@@ -80,14 +81,14 @@ private fun NavGraphBuilder.registerActorDestination(
     val actorViewModel: ActorViewModel = viewModel(factory = factory)
 
     ActorScreen(
-        actorId = backStackEntry?.arguments?.getInt("actorId") ?: 0,
+        actorId = backStackEntry.value?.arguments?.getInt("actorId") ?: 0,
         actorViewModel = actorViewModel
     )
 }
 
 private fun NavGraphBuilder.registerDetailsDestination(
     navController: NavController,
-    backStackEntry: NavBackStackEntry?,
+    backStackEntry: State<NavBackStackEntry?>,
     factory: AppViewModelFactory
 ) = composable(
     route = "${NavigationItem.Details.name}/{movieId}",
@@ -98,7 +99,7 @@ private fun NavGraphBuilder.registerDetailsDestination(
     )
     DetailsScreen(
         detailsViewModel = detailsViewModel,
-        movieId = backStackEntry?.arguments?.getInt("movieId") ?: 0,
+        movieId = backStackEntry.value?.arguments?.getInt("movieId") ?: 0,
         moveToActor = { id ->
             navController.navigate("${NavigationItem.Actor.name}/${id}")
         }

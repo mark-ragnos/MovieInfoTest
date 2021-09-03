@@ -68,7 +68,7 @@ fun MainScreen(
         ) {
             registerScreenNavigation(
                 navController,
-                backStackEntry.value,
+                backStackEntry,
                 factory,
                 activityViewModel
             )
