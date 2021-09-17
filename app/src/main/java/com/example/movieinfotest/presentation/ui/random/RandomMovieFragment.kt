@@ -9,9 +9,6 @@ import android.widget.LinearLayout
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.NavHostFragment
 import com.example.movieinfotest.R
 import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
@@ -23,10 +20,10 @@ import com.example.movieinfotest.utils.network.NetworkConnection
 import com.example.movieinfotest.utils.ToolbarMaker
 import com.example.movieinfotest.utils.addDefaultDivider
 import com.example.movieinfotest.utils.isPossibleYear
+import com.example.movieinfotest.utils.launchAndRepeatOnLifecycle
 import com.example.movieinfotest.utils.listeners.NavigationListener
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 class RandomMovieFragment : BaseFragment() {
     private var _binding: FragmentRandomMovieBinding? = null
@@ -68,17 +65,15 @@ class RandomMovieFragment : BaseFragment() {
     }
 
     private fun setupGenres() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.genres.collectLatest { genres ->
-                    if (genres.isNullOrEmpty()) {
-                        return@collectLatest
-                    }
-
-                    val genresText = genres.map { it.name }
-                    val adapter = ArrayAdapter(requireContext(), R.layout.item_genres, genresText)
-                    binding.genreSelected.setAdapter(adapter)
+        launchAndRepeatOnLifecycle {
+            viewModel.genres.collectLatest { genres ->
+                if (genres.isNullOrEmpty()) {
+                    return@collectLatest
                 }
+
+                val genresText = genres.map { it.name }
+                val adapter = ArrayAdapter(requireContext(), R.layout.item_genres, genresText)
+                binding.genreSelected.setAdapter(adapter)
             }
         }
     }
@@ -91,11 +86,9 @@ class RandomMovieFragment : BaseFragment() {
             }
         })
 
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.movies.collect {
-                    adapter.addMovie(it)
-                }
+        launchAndRepeatOnLifecycle {
+            viewModel.movies.collect {
+                adapter.addMovie(it)
             }
         }
 
@@ -105,7 +98,10 @@ class RandomMovieFragment : BaseFragment() {
 
     private fun setupButtons() {
         binding.generate.setOnClickListener {
-            viewModel.generateRandom(binding.genInYear.text.toString(), binding.genreSelected.text.toString())
+            viewModel.generateRandom(
+                binding.genInYear.text.toString(),
+                binding.genreSelected.text.toString()
+            )
         }
 
         binding.clearFilter.setOnClickListener {

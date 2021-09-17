@@ -6,9 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.example.movieinfotest.databinding.FragmentActorBinding
 import com.example.movieinfotest.domain.entities.actor.ActorInfoDomain
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
@@ -16,12 +13,12 @@ import com.example.movieinfotest.presentation.ui.base.BaseFragment
 import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
 import com.example.movieinfotest.utils.ToolbarMaker
 import com.example.movieinfotest.utils.displayActorPicture
+import com.example.movieinfotest.utils.launchAndRepeatOnLifecycle
 import com.example.movieinfotest.utils.moviedbSpecificUtils.getGenderText
 import com.example.movieinfotest.utils.network.NetworkConnection
 import com.example.movieinfotest.utils.setInvisible
 import com.example.movieinfotest.utils.setVisible
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 class ActorFragment : BaseFragment() {
     private var _binding: FragmentActorBinding? = null
@@ -42,7 +39,7 @@ class ActorFragment : BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentActorBinding.inflate(inflater, container, false)
 
         getActorId()
@@ -76,13 +73,11 @@ class ActorFragment : BaseFragment() {
     }
 
     private fun fetchData() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.actorInfo.collectLatest { actor ->
-                    actor?.let {
-                        setActor(it)
-                        progress(false)
-                    }
+        launchAndRepeatOnLifecycle {
+            viewModel.actorInfo.collectLatest { actor ->
+                actor?.let {
+                    setActor(it)
+                    progress(false)
                 }
             }
         }

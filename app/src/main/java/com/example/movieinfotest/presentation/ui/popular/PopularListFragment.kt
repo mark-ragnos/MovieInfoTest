@@ -7,28 +7,29 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.NavHostFragment
-import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
 import com.example.movieinfotest.databinding.FragmentPopularListBinding
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
-import com.example.movieinfotest.presentation.ui.popular.adapter.MovieAdapter
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.base.BaseFragment
+import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
+import com.example.movieinfotest.presentation.ui.popular.adapter.MovieAdapter
 import com.example.movieinfotest.presentation.ui.popular.adapter.MovieLoadingStateAdapter
 import com.example.movieinfotest.utils.FirebaseLogin
 import com.example.movieinfotest.utils.ToolbarMaker
 import com.example.movieinfotest.utils.addDefaultDivider
+import com.example.movieinfotest.utils.launchAndRepeatOnLifecycle
 import com.example.movieinfotest.utils.network.NetworkConnection
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 class PopularListFragment : BaseFragment() {
     private var _binding: FragmentPopularListBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: PopularViewModel by viewModels { AppViewModelFactory.getFactory(requireContext()) }
+    private val viewModel: PopularViewModel by viewModels {
+        AppViewModelFactory.getFactory(
+            requireContext()
+        )
+    }
     private val parentViewModel: MainActivityViewModel by activityViewModels()
     private lateinit var movieAdapter: MovieAdapter
 
@@ -41,9 +42,8 @@ class PopularListFragment : BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentPopularListBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
@@ -93,11 +93,9 @@ class PopularListFragment : BaseFragment() {
     }
 
     private fun fetchData() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.movies.collectLatest { pagingData ->
-                    movieAdapter.submitData(pagingData)
-                }
+        launchAndRepeatOnLifecycle {
+            viewModel.movies.collectLatest { pagingData ->
+                movieAdapter.submitData(pagingData)
             }
         }
     }

@@ -7,28 +7,29 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.ItemTouchHelper
-import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
 import com.example.movieinfotest.databinding.FragmentFavoriteListBinding
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.base.BaseFragment
 import com.example.movieinfotest.presentation.ui.favourite.adapter.FavoriteAdapter
 import com.example.movieinfotest.presentation.ui.favourite.adapter.FavoriteItemTouchCallback
+import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
 import com.example.movieinfotest.presentation.ui.register.RegistrationFragment
 import com.example.movieinfotest.utils.FirebaseLogin
 import com.example.movieinfotest.utils.ToolbarMaker
 import com.example.movieinfotest.utils.addDefaultDivider
+import com.example.movieinfotest.utils.launchAndRepeatOnLifecycle
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 class FavoriteListFragment : BaseFragment() {
     private var _binding: FragmentFavoriteListBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: FavoriteViewModel by viewModels { AppViewModelFactory.getFactory(requireContext()) }
+    private val viewModel: FavoriteViewModel by viewModels {
+        AppViewModelFactory.getFactory(
+            requireContext()
+        )
+    }
     private val parentViewModel: MainActivityViewModel by activityViewModels()
     private lateinit var adapter: FavoriteAdapter
 
@@ -41,9 +42,8 @@ class FavoriteListFragment : BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentFavoriteListBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
@@ -93,11 +93,9 @@ class FavoriteListFragment : BaseFragment() {
     }
 
     private fun fetchData() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.movies.collectLatest { pageMovies ->
-                    adapter.submitData(pageMovies)
-                }
+        launchAndRepeatOnLifecycle {
+            viewModel.movies.collectLatest { pageMovies ->
+                adapter.submitData(pageMovies)
             }
         }
     }

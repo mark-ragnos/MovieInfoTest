@@ -7,12 +7,8 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.RecyclerView
-import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
 import com.example.movieinfotest.R
 import com.example.movieinfotest.databinding.FragmentDetailsBinding
 import com.example.movieinfotest.domain.entities.actor.CastDomain
@@ -21,27 +17,32 @@ import com.example.movieinfotest.domain.entities.actor.asCast
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.base.BaseFragment
+import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
 import com.example.movieinfotest.presentation.ui.register.RegistrationFragment
 import com.example.movieinfotest.utils.FirebaseLogin
 import com.example.movieinfotest.utils.RATING_MULT
 import com.example.movieinfotest.utils.ToolbarMaker
-import com.example.movieinfotest.utils.getGenreList
-import com.example.movieinfotest.utils.getYear
-import com.example.movieinfotest.utils.displayMoviePoster
-import com.example.movieinfotest.utils.network.NetworkConnection
-import com.example.movieinfotest.utils.setVisible
-import com.example.movieinfotest.utils.setGone
 import com.example.movieinfotest.utils.addDefaultDivider
 import com.example.movieinfotest.utils.displayBackdrop
+import com.example.movieinfotest.utils.displayMoviePoster
+import com.example.movieinfotest.utils.getGenreList
+import com.example.movieinfotest.utils.getYear
+import com.example.movieinfotest.utils.launchAndRepeatOnLifecycle
 import com.example.movieinfotest.utils.listeners.NavigationListener
+import com.example.movieinfotest.utils.network.NetworkConnection
+import com.example.movieinfotest.utils.setGone
 import com.example.movieinfotest.utils.setInvisible
+import com.example.movieinfotest.utils.setVisible
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 class DetailsFragment : BaseFragment() {
     private var _binding: FragmentDetailsBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: DetailsViewModel by viewModels { AppViewModelFactory.getFactory(requireContext()) }
+    private val viewModel: DetailsViewModel by viewModels {
+        AppViewModelFactory.getFactory(
+            requireContext()
+        )
+    }
     private val parentViewModel: MainActivityViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,7 +54,7 @@ class DetailsFragment : BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentDetailsBinding.inflate(inflater, container, false)
 
         val savedId = DetailsFragmentArgs.fromBundle(requireArguments()).id
@@ -91,22 +92,18 @@ class DetailsFragment : BaseFragment() {
     }
 
     private fun fetchData() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.movieDetails.collectLatest { movie ->
-                    movie?.let {
-                        setMovie(movie)
-                        progress(false)
-                    }
+        launchAndRepeatOnLifecycle {
+            viewModel.movieDetails.collectLatest { movie ->
+                movie?.let {
+                    setMovie(movie)
+                    progress(false)
                 }
             }
         }
 
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.isFavorite.collectLatest { isFavorite ->
-                    changeFavoriteBtn(isInFavorite = isFavorite)
-                }
+        launchAndRepeatOnLifecycle {
+            viewModel.isFavorite.collectLatest { isFavorite ->
+                changeFavoriteBtn(isInFavorite = isFavorite)
             }
         }
     }
