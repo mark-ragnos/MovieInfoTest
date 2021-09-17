@@ -41,7 +41,7 @@ android {
             buildConfigField "String", "API_URL", "\"https://api.themoviedb.org/3/\""
             buildConfigField "String", "API_KEY", "\"393a66787ff4b601eae377e5ec8b4d36\""
             buildConfigField "String", "DB_NAME", "\"db_movie.db\""
-            buildConfigField "Boolean", "DB_NAME", "false"
+            buildConfigField "Boolean", "DEBUG_ENABLED", "false"
         }
     }
     compileOptions {
@@ -120,8 +120,5 @@ dependencies {
     detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:1.17.0"
 
     //shimmer
-    implementation "com.facebook.shimmer:shimmer:0.5.0"
-
-    //spinner
-    implementation "com.github.skydoves:powerspinner:1.1.7"
+    //implementation "com.facebook.shimmer:shimmer:0.5.0"
 }

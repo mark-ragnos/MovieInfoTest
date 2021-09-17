@@ -55,31 +55,26 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="1998" />
 
-            <com.skydoves.powerspinner.PowerSpinnerView
-                android:id="@+id/gen_in_genre"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/genre_text_layout"
+                android:background="@android:color/transparent"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:gravity="center_vertical"
-                android:hint="@string/random_genre_hint"
-                android:paddingStart="4dp"
-                android:paddingEnd="4dp"
-                app:spinner_preference_name="genre"
-                android:textColor="?attr/colorOnSurface"
-                android:textColorHint="?attr/colorOnSurface"
-                android:textSize="@dimen/def_item_size"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/clear_filter"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/gen_in_year"
+                app:layout_constraintStart_toStartOf="@+id/gen_in_year"
                 app:layout_constraintTop_toBottomOf="@+id/gen_in_year"
-                app:spinner_arrow_gravity="end"
-                app:spinner_arrow_show="true"
-                app:spinner_arrow_tint="?attr/colorSecondary"
-                app:spinner_divider_color="@color/secondary_dark"
-                app:spinner_popup_background="?attr/colorSurface" />
+                android:hint="@string/random_genre_hint"
+                android:labelFor="@+id/genre_selected">
+
+                <AutoCompleteTextView
+                    android:id="@+id/genre_selected"
+                    android:textColor="?attr/colorOnSurface"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <ImageButton
                 android:id="@+id/clear_filter"
@@ -105,7 +100,7 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_dice"
                 android:text="@string/random_generate"
-                app:layout_constraintBottom_toBottomOf="@+id/gen_in_genre"
+                app:layout_constraintBottom_toBottomOf="@+id/genre_text_layout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/gen_in_year"
                 app:tint="?attr/colorSecondary" />

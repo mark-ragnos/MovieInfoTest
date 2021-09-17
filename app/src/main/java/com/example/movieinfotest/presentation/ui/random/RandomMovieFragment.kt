@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
@@ -12,13 +13,12 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.NavHostFragment
+import com.example.movieinfotest.R
 import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
 import com.example.movieinfotest.databinding.FragmentRandomMovieBinding
 import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.base.BaseFragment
-import com.example.movieinfotest.presentation.ui.random.adapter.GenreAdapter
 import com.example.movieinfotest.presentation.ui.random.adapter.RandomMoviesAdapter
-import com.example.movieinfotest.utils.NOT_SELECTED_GENRE
 import com.example.movieinfotest.utils.network.NetworkConnection
 import com.example.movieinfotest.utils.ToolbarMaker
 import com.example.movieinfotest.utils.addDefaultDivider
@@ -68,22 +68,16 @@ class RandomMovieFragment : BaseFragment() {
     }
 
     private fun setupGenres() {
-        val genreAdapter = GenreAdapter(
-            index = if (NOT_SELECTED_GENRE == viewModel.selectedGenreId.value) 0 else viewModel.selectedGenreId.value,
-            onSpinnerItemSelectedListener = { _, _, _, newItem ->
-                viewModel.setSelectedGenre(newItem.id)
-            },
-            spinnerView = binding.genInGenre
-        )
-        binding.genInGenre.setSpinnerAdapter(genreAdapter)
-
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.genres.collectLatest { genres ->
                     if (genres.isNullOrEmpty()) {
                         return@collectLatest
                     }
-                    genreAdapter.setItems(genres)
+
+                    val genresText = genres.map { it.name }
+                    val adapter = ArrayAdapter(requireContext(), R.layout.item_genres, genresText)
+                    binding.genreSelected.setAdapter(adapter)
                 }
             }
         }
@@ -111,11 +105,12 @@ class RandomMovieFragment : BaseFragment() {
 
     private fun setupButtons() {
         binding.generate.setOnClickListener {
-            viewModel.generateRandom(binding.genInYear.text.toString())
+            viewModel.generateRandom(binding.genInYear.text.toString(), binding.genreSelected.text.toString())
         }
 
         binding.clearFilter.setOnClickListener {
-            viewModel.clearSelectedGenre()
+            binding.genreSelected.setText("")
+            binding.genInYear.setText("")
         }
     }
 

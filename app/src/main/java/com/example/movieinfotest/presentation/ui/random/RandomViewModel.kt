@@ -6,7 +6,6 @@ import com.example.movieinfotest.domain.entities.genre.GenreDomain
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.domain.usecases.GenreUseCase
 import com.example.movieinfotest.domain.usecases.MovieUseCase
-import com.example.movieinfotest.utils.NOT_SELECTED_GENRE
 import com.example.movieinfotest.utils.RANDOM_LIST_SIZE
 import com.example.movieinfotest.utils.network.NetworkConnection
 import kotlinx.coroutines.Dispatchers
@@ -31,26 +30,13 @@ class RandomViewModel(
     private val _genres = MutableStateFlow<List<GenreDomain>?>(null)
     val genres = _genres.asStateFlow()
 
-    private val _selectedGenreId = MutableStateFlow(NOT_SELECTED_GENRE)
-    val selectedGenreId = _selectedGenreId.asStateFlow()
-
-    fun setSelectedGenre(id: Int) {
-        viewModelScope.launch {
-            _selectedGenreId.emit(id)
-        }
-    }
-
-    fun clearSelectedGenre() {
-        viewModelScope.launch {
-            _selectedGenreId.emit(NOT_SELECTED_GENRE)
-        }
-    }
-
-    fun generateRandom(year: String) {
+    fun generateRandom(year: String, genre: String) {
         viewModelScope.launch(Dispatchers.IO) {
+            val genId = genres.value?.find { it.name == genre }?.id
+
             _movies.emit(
                 movieUseCase.getRandomMovie(
-                    genre = if (selectedGenreId.value == NOT_SELECTED_GENRE) "" else selectedGenreId.value.toString(),
+                    genre = genId?.toString() ?: "",
                     year = year
                 )
             )
