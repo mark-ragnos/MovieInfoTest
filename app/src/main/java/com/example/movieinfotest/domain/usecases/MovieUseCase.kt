@@ -5,8 +5,9 @@ import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.domain.repositories.IMovieRepository
 import com.example.movieinfotest.utils.network.NetworkConnection
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class MovieUseCase(
+class MovieUseCase @Inject constructor(
     private val movieRepository: IMovieRepository
 ) {
     fun getPopularMovies(): Flow<PagingData<MovieDomain>> {

@@ -5,8 +5,9 @@ import com.example.movieinfotest.domain.entities.movie.MovieDomain
 import com.example.movieinfotest.domain.repositories.IFavoriteRepository
 import com.example.movieinfotest.utils.network.NetworkConnection
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class FavoriteMovieUseCase(
+class FavoriteMovieUseCase @Inject constructor(
     private val favoriteRepository: IFavoriteRepository
 ) {
 

@@ -8,7 +8,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.movieinfotest.databinding.FragmentActorBinding
 import com.example.movieinfotest.domain.entities.actor.ActorInfoDomain
-import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.base.BaseFragment
 import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
 import com.example.movieinfotest.utils.ToolbarMaker
@@ -18,16 +17,15 @@ import com.example.movieinfotest.utils.moviedbSpecificUtils.getGenderText
 import com.example.movieinfotest.utils.network.NetworkConnection
 import com.example.movieinfotest.utils.setInvisible
 import com.example.movieinfotest.utils.setVisible
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
+@AndroidEntryPoint
 class ActorFragment : BaseFragment() {
     private var _binding: FragmentActorBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: ActorViewModel by viewModels {
-        AppViewModelFactory.getFactory(
-            requireContext()
-        )
-    }
+
+    private val viewModel: ActorViewModel by viewModels()
     private val parentViewModel: MainActivityViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {

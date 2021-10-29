@@ -13,7 +13,6 @@ import androidx.navigation.fragment.NavHostFragment
 import com.example.movieinfotest.R
 import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
 import com.example.movieinfotest.databinding.FragmentRandomMovieBinding
-import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.base.BaseFragment
 import com.example.movieinfotest.presentation.ui.random.adapter.RandomMoviesAdapter
 import com.example.movieinfotest.utils.network.NetworkConnection
@@ -22,17 +21,16 @@ import com.example.movieinfotest.utils.addDefaultDivider
 import com.example.movieinfotest.utils.isPossibleYear
 import com.example.movieinfotest.utils.launchAndRepeatOnLifecycle
 import com.example.movieinfotest.utils.listeners.NavigationListener
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 
+@AndroidEntryPoint
 class RandomMovieFragment : BaseFragment() {
     private var _binding: FragmentRandomMovieBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: RandomViewModel by viewModels {
-        AppViewModelFactory.getFactory(
-            requireContext()
-        )
-    }
+
+    private val viewModel: RandomViewModel by viewModels()
     private val parentViewModel: MainActivityViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {

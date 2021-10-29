@@ -10,7 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import com.example.movieinfotest.databinding.FragmentPopularListBinding
 import com.example.movieinfotest.domain.entities.movie.MovieDomain
-import com.example.movieinfotest.presentation.di.base.AppViewModelFactory
 import com.example.movieinfotest.presentation.ui.base.BaseFragment
 import com.example.movieinfotest.presentation.ui.main.MainActivityViewModel
 import com.example.movieinfotest.presentation.ui.popular.adapter.MovieAdapter
@@ -20,17 +19,17 @@ import com.example.movieinfotest.utils.ToolbarMaker
 import com.example.movieinfotest.utils.addDefaultDivider
 import com.example.movieinfotest.utils.launchAndRepeatOnLifecycle
 import com.example.movieinfotest.utils.network.NetworkConnection
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
+@AndroidEntryPoint
 class PopularListFragment : BaseFragment() {
     private var _binding: FragmentPopularListBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: PopularViewModel by viewModels {
-        AppViewModelFactory.getFactory(
-            requireContext()
-        )
-    }
+
+    private val viewModel: PopularViewModel by viewModels()
     private val parentViewModel: MainActivityViewModel by activityViewModels()
+
     private lateinit var movieAdapter: MovieAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {

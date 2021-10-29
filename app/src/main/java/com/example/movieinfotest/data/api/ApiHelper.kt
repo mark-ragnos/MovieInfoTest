@@ -5,10 +5,11 @@ import com.example.movieinfotest.data.entities.api.actor.ActorInfo
 import com.example.movieinfotest.data.entities.genre.Genre
 import com.example.movieinfotest.data.entities.details.MovieDetails
 import com.example.movieinfotest.data.entities.popular.Movie
+import javax.inject.Inject
 import kotlin.random.Random
 import kotlin.random.nextInt
 
-class ApiHelper(
+class ApiHelper @Inject constructor(
     private val api: ApiMovie
 ) {
 

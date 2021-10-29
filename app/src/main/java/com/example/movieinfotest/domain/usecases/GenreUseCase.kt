@@ -3,8 +3,9 @@ package com.example.movieinfotest.domain.usecases
 import com.example.movieinfotest.domain.entities.genre.GenreDomain
 import com.example.movieinfotest.domain.repositories.IGenreRepository
 import com.example.movieinfotest.utils.network.NetworkConnection
+import javax.inject.Inject
 
-class GenreUseCase(
+class GenreUseCase @Inject constructor(
     private val genreRepository: IGenreRepository
 ) {
     suspend fun getAllGenres(networkStatus: NetworkConnection.STATUS): List<GenreDomain>? {

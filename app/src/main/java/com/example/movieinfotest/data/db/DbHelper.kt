@@ -8,8 +8,9 @@ import com.example.movieinfotest.data.entities.details.MovieDetails
 import com.example.movieinfotest.data.entities.details.MovieDetailsDB
 import com.example.movieinfotest.data.entities.genre.Genre
 import com.example.movieinfotest.data.entities.popular.Movie
+import javax.inject.Inject
 
-class DbHelper(
+class DbHelper @Inject constructor(
     private val database: MovieDatabase
 ) {
 

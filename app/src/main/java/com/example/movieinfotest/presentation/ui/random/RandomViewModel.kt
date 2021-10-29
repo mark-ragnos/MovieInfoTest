@@ -8,6 +8,7 @@ import com.example.movieinfotest.domain.usecases.GenreUseCase
 import com.example.movieinfotest.domain.usecases.MovieUseCase
 import com.example.movieinfotest.utils.RANDOM_LIST_SIZE
 import com.example.movieinfotest.utils.network.NetworkConnection
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -15,8 +16,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class RandomViewModel(
+@HiltViewModel
+class RandomViewModel @Inject constructor(
     private val movieUseCase: MovieUseCase,
     private val genreUseCase: GenreUseCase
 ) : ViewModel() {

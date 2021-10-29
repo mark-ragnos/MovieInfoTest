@@ -12,7 +12,9 @@ import com.example.movieinfotest.utils.isDarkThemeOn
 import com.example.movieinfotest.utils.setGone
 import com.example.movieinfotest.utils.setVisible
 import com.google.firebase.FirebaseApp
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private val viewModel: MainActivityViewModel by viewModels()
     private var _binding: ActivityMainBinding? = null
